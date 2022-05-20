@@ -1,17 +1,17 @@
-import FlySpace from "./FlySpace";
-async function handleFlySpace(event) {
+import Space from "./Space";
+async function handleSpace(event) {
   try {
-    let router = new FlySpace.helpers.Router(event);
+    let router = new Space.helpers.Router(event);
     // 以下非鉴权路由
     /////////////////////////////////////////////////////////////////////
-    router.get("/robots.txt").action(FlySpace.actions.Robots);
-    router.get("/12138").action(FlySpace.actions.Auth.AuthPage);
-    router.post("/flyspace/auth").action(FlySpace.actions.Auth.CheckAuth);
+    router.get("/robots.txt").action(Space.actions.Robots);
+    router.get("/"+START).action(Space.actions.Auth.AuthPage);
+    router.post("/space/auth").action(Space.actions.Auth.CheckAuth);
     /////////////////////////////////////////////////////////////////////
     // 以上非鉴权路由
     // Cookie 鉴权
     if (!router.status.action) {
-      let res = await FlySpace.actions.Auth.CheckCookieAuth(event);
+      let res = await Space.actions.Auth.CheckCookieAuth(event);
       if (res != "PASS") {
         return res;
       } else {
@@ -20,7 +20,7 @@ async function handleFlySpace(event) {
     }
     // 以下鉴权路由
     /////////////////////////////////////////////////////////////////////
-    router.get("/flyspace/dash").action(FlySpace.actions.Dash.PageDashIndex);
+    router.get("/space/dash").action(Space.actions.Dash.PageDashIndex);
     /////////////////////////////////////////////////////////////////////
     // 启动 action
     if (router.status.action) {
@@ -29,18 +29,18 @@ async function handleFlySpace(event) {
       if (router.status.auth) {
         if (
           event.request.url !=
-          `https://${event.request.url.split("/")[2]}/flyspace/dash`
+          `https://${event.request.url.split("/")[2]}/space/dash`
         ) {
           return Response.redirect(
-            `https://${event.request.url.split("/")[2]}/flyspace/dash`,
+            `https://${event.request.url.split("/")[2]}/space/dash`,
             302
           );
         }
       }
-      return await FlySpace.helpers.ErrorResponse("Ooops...");
+      return await Space.helpers.ErrorResponse("Ooops...");
     }
   } catch (error) {
-    return await FlySpace.helpers.ErrorResponse(error);
+    return await Space.helpers.ErrorResponse(error);
   }
 }
-export default handleFlySpace;
+export default handleSpace;

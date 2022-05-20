@@ -1,5 +1,5 @@
-import handleFlySpace from "./FlySpace";
+import handleSpace from "./Space";
 
 addEventListener("fetch", (event) => {
-  event.respondWith(handleFlySpace(event));
+  event.respondWith(handleSpace(event));
 });

@@ -1,9 +1,9 @@
-import FlySpace from "../../FlySpace";
+import Space from "../../Space";
 
 async function PageDashIndex(that) {
   return new Response(
-    FlySpace.renderers.dash.index,
-    FlySpace.helpers.headers.html
+    Space.renderers.dash.index,
+    Space.helpers.headers.html
   );
 }
 
