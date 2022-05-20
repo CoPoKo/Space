@@ -4,19 +4,22 @@
   "description": "CoPoKo Space",
   "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CoPoKo/space.git"
+    "url": "git+https://github.com/CoPoKo/Space.git"
   },
   "author": "CoPoKo Team",
-  "keywords": ["CoPoKo", "Space"],
+  "keywords": [
+    "CoPoKo",
+    "Space"
+  ],
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/CoPoKo/space/issues"
+    "url": "https://github.com/CoPoKo/Space/issues"
   },
-  "homepage": "https://github.com/CoPoKo/space#readme",
+  "homepage": "https://github.com/CoPoKo/Space#readme",
   "dependencies": {
     "crypto-js": "^4.1.1",
     "html-loader": "^0.5.5",
