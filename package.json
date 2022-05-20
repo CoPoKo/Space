@@ -4,6 +4,7 @@
   "description": "CoPoKo Space",
   "main": "./src/index.js",
   "scripts": {
+    "pub": "wrangler publish",
     "build": "webpack"
   },
   "repository": {
