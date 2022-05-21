@@ -25,6 +25,8 @@ async function handleSpace(event) {
     dash_nav.forEach(e => {
       router.get("/space/dash/"+e).action(Space.actions.Dash[e]);
     });
+    // api
+    // router.get("/space/api/").action(Space.actions.API);
     /////////////////////////////////////////////////////////////////////
     // 启动 action
     if (router.status.action) {
