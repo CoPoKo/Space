@@ -20,7 +20,11 @@ async function handleSpace(event) {
     }
     // 以下鉴权路由
     /////////////////////////////////////////////////////////////////////
-    router.get("/space/dash/home").action(Space.actions.Dash.home);
+    // dashboard
+    const { dash_nav } = require("./renderers/pages/dash/dash_nav.js");
+    dash_nav.forEach(e => {
+      router.get("/space/dash/"+e).action(Space.actions.Dash[e]);
+    });
     /////////////////////////////////////////////////////////////////////
     // 启动 action
     if (router.status.action) {
