@@ -13,6 +13,7 @@ class Router {
       action: 0,
       filterPath: 0,
       auth: 0,
+      path: 0,
     };
     this.setStatus = (key, value) => {
       this.status[key] = value;
@@ -27,6 +28,7 @@ class Router {
       if (this.method == "GET") {
         if (this.pathname.startsWith(path)) {
           this.status.filterPath = 1;
+          this.status.path = path;
         }
       }
       return this;
@@ -37,6 +39,7 @@ class Router {
       if (this.method == "POST") {
         if (this.pathname.startsWith(path)) {
           this.status.filterPath = 1;
+          this.status.path = path;
         }
       }
       return this;

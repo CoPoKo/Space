@@ -2,7 +2,7 @@ const { space_static_version, space_cdn, space_dns_prefetch } = require("../conf
 import erorr from 'html-loader!./pages/error.html'
 import auth from 'html-loader!./pages/auth.html'
 import robots from 'html-loader!./pages/robots.txt'
-import dash_index from 'html-loader!./pages/dash/dash.html'
+import dash_father from 'html-loader!./pages/dash/dash.html'
 
 function cdn(page) {
   page = page.replace(/::CDN::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
@@ -10,9 +10,24 @@ function cdn(page) {
   return page
 }
 
-let dash={
-  index: cdn(dash_index),
+const { dash_nav } = require("./pages/dash/dash_nav.js")
+
+let dash_nav_html = ""
+dash_nav.forEach(item => {
+  dash_nav_html += require(`html-loader!./pages/dash/${item}/nav-item.html`)
+})
+
+function DashPage(nav) {
+  let page = dash_father.replace(/::DASH_NAV::/g, dash_nav_html)
+  page = page.replace(/::DASH_CONTENT::/g, require(`html-loader!./pages/dash/${nav}/content.html`))
+  return page
 }
+
+let dash={}
+dash_nav.forEach(item => {
+  dash[item] = DashPage(item)
+})
+
 let renderers = {
   erorr: cdn(erorr),
   auth: cdn(auth),

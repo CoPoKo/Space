@@ -20,7 +20,7 @@ async function handleSpace(event) {
     }
     // 以下鉴权路由
     /////////////////////////////////////////////////////////////////////
-    router.get("/space/dash/home").action(Space.actions.Dash.PageDashIndex);
+    router.get("/space/dash/home").action(Space.actions.Dash.home);
     /////////////////////////////////////////////////////////////////////
     // 启动 action
     if (router.status.action) {
