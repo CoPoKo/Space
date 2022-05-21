@@ -20,7 +20,7 @@ async function handleSpace(event) {
     }
     // 以下鉴权路由
     /////////////////////////////////////////////////////////////////////
-    router.get("/space/dash").action(Space.actions.Dash.PageDashIndex);
+    router.get("/space/dash/home").action(Space.actions.Dash.PageDashIndex);
     /////////////////////////////////////////////////////////////////////
     // 启动 action
     if (router.status.action) {
@@ -29,10 +29,10 @@ async function handleSpace(event) {
       if (router.status.auth) {
         if (
           event.request.url !=
-          `https://${event.request.url.split("/")[2]}/space/dash`
+          `https://${event.request.url.split("/")[2]}/space/dash/home`
         ) {
           return Response.redirect(
-            `https://${event.request.url.split("/")[2]}/space/dash`,
+            `https://${event.request.url.split("/")[2]}/space/dash/home`,
             302
           );
         }
