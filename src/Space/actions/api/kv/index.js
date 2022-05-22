@@ -10,6 +10,7 @@ async function Get(that) {
     return new Response(
       JSON.stringify({
         sucess: 1,
+        key: key,
         value: value,
       }),
       Space.helpers.headers.json
@@ -20,7 +21,10 @@ async function Get(that) {
         sucess: 0,
         error: error,
       }),
-      Space.helpers.headers.json
+      {
+        status:500,
+        headers: Space.helpers.headers.json
+      }
     );
   }
 }
@@ -34,6 +38,8 @@ async function Put(that) {
     return new Response(
       JSON.stringify({
         sucess: 1,
+        key: key,
+        value: value,
       }),
       Space.helpers.headers.json
     );
@@ -43,7 +49,10 @@ async function Put(that) {
         sucess: 0,
         error: error,
       }),
-      Space.helpers.headers.json
+      {
+        status:500,
+        headers: Space.helpers.headers.json
+      }
     );
   }
 
@@ -57,6 +66,7 @@ async function Delete(that) {
     return new Response(
       JSON.stringify({
         sucess: 1,
+        key: key,
       }),
       Space.helpers.headers.json
     );
@@ -66,7 +76,10 @@ async function Delete(that) {
         sucess: 0,
         error: error,
       }),
-      Space.helpers.headers.json
+      {
+        status:500,
+        headers: Space.helpers.headers.json
+      }
     );
   }
 }

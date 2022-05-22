@@ -20,12 +20,14 @@ dash_nav.forEach(item => {
 function DashPage(nav) {
   let page = dash_father.replace(/::DASH_NAV::/g, dash_nav_html)
   page = page.replace(/::DASH_CONTENT::/g, require(`html-loader!./pages/dash/${nav}/content.html`))
+  page = page.replace(/::DASH_BODYEND::/g, require(`html-loader!./pages/dash/${nav}/bodyend.html`))
+  page = page.replace(/::DASH_UTIL::/g, require(`html-loader!./pages/dash/dash_util.html`))
   return page
 }
 
 let dash={}
 dash_nav.forEach(item => {
-  dash[item] = DashPage(item)
+  dash[item] = cdn(DashPage(item))
 })
 
 let renderers = {

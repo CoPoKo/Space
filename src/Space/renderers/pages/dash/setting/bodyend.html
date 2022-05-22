@@ -1,0 +1,64 @@
+<script>
+Space.KV.Get("setting").then(function (response) {
+  console.log(response);
+  Space.Setting=JSON.parse(response.value);
+  if (response.sucess&&!response.value) {
+    Space.KV.Put("setting","{}")
+    Space.Setting={};
+  }
+});
+// const { value: formValues } = await Swal.fire({
+//   title: 'Multiple inputs',
+//   html:
+//     '<input id="swal-input1" class="swal2-input">' +
+//     '<input id="swal-input2" class="swal2-input">',
+//   focusConfirm: false,
+//   preConfirm: () => {
+//     return [
+//       document.getElementById('swal-input1').value,
+//       document.getElementById('swal-input2').value
+//     ]
+//   }
+// })
+
+// if (formValues) {
+//   Swal.fire(JSON.stringify(formValues))
+// }
+$("#add-project").click((e)=>{
+  Swal.fire({
+    title: 'Type your project name',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Add',
+    showLoaderOnConfirm: true,
+    preConfirm: (key) => {
+      Space.Setting[key]={}
+      return Space.KV.Put("setting",JSON.stringify(Space.Setting)).then(function (response) {
+          console.log(response);
+          return response;
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    console.log(result);
+    if (result.isConfirmed) {
+      if (result.value.sucess) {
+        Toast.fire({
+          icon: 'success',
+          title: `Add Project ${result.value.key}`
+        })
+      }
+    }
+  })
+})
+
+
+</script>
