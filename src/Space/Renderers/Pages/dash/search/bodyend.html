@@ -1,0 +1,50 @@
+<script>
+  function SpaceSearch(){
+    let search_input = document.getElementById("search-input").value;
+    if(search_input.length>0){
+      Space.WolframAlpha(search_input).then(function(result){
+        if(result){
+          let wolframalpha_search_result = document.getElementById("wolframalpha-search-result");
+          wolframalpha_search_result.innerHTML = "";
+          let html = `<div class="list-group-item">
+            <div class="row">
+              <div class="col px-4">
+                <div>
+                  <h3>Answer from WolframAlpha</h3>
+                  <p class="mb-0">${result.cn}</p>
+                  <p class="mb-0">${result.en}</p>
+                </div>
+              </div>
+            </div>
+          </div>`;
+          wolframalpha_search_result.innerHTML = html;
+        }
+      })
+      Space.GoogleSearch(search_input).then(function(response){
+        let result = response.ans;
+        let html = "";
+        document.getElementById("google-search-result").innerHTML = "";
+        for(let i=0;i<result.length;i++){
+          html += `<div class="list-group-item">
+            <div class="row">
+              <div class="col px-4">
+                <div>
+                  <a href="${result[i].link}" target="_blank" rel="noopener noreferrer"><h3>${result[i].htmlTitle}</h3></a>
+                  <span class="text-muted">${result[i].htmlFormattedUrl}</span>
+                  <p class="mb-0">${result[i].htmlSnippet}</p>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }
+        document.getElementById("google-search-result").innerHTML = html;
+      });
+    }
+  }
+  document.querySelector("#search-input").onkeydown = function() {
+  if (13 == window.event.keyCode){
+    console.log("Enter");
+    SpaceSearch();
+  }
+};
+</script>

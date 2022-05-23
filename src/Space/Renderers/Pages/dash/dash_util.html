@@ -47,4 +47,20 @@ var Toast = Swal.mixin({
   showConfirmButton: false,
   timer: 3000
 });
+Space.GoogleSearch=(question)=>{
+  return fetch("/space/api/GoogleSearch?s="+question,{
+    method:"Get",
+    headers: Space.helper.headers_json,
+  }).then(function(response){
+    return response.json();
+  })
+}
+Space.WolframAlpha=(question)=>{
+  return fetch("/space/api/WolframAlpha?s="+question,{
+    method:"Get",
+    headers: Space.helper.headers_json,
+  }).then(function(response){
+    return response.json();
+  })
+}
 </script>
