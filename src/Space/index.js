@@ -37,6 +37,8 @@ async function handleSpace(event) {
     router.post("/space/api/kv/delete").action(Space.Actions.API.KV.Delete);
     // Google Translate
     router.get("/space/api/GoogleTranslate").action(Space.Actions.API.GoogleTranslate);
+    // Google Search
+    router.get("/space/api/GoogleSearch").action(Space.Actions.API.GoogleSearch);
     // WolframAlpha
     router.get("/space/api/WolframAlpha").action(Space.Actions.API.WolframAlpha);
     /////////////////////////////////////////////////////////////////////
