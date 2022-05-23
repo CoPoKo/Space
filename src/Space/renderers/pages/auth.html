@@ -93,7 +93,6 @@
             if (res.success) {
               document.getElementById("auth-block").innerHTML =
                 "<h1>登录成功，即将跳转！</h1>";
-              document.cookie = res.cookie;
               document.location.href = `${document.location.origin}/space/dash`;
             } else {
               document.getElementById("auth-block").innerHTML =

@@ -24,9 +24,14 @@ async function CheckAuth(that) {
       return new Response(
         JSON.stringify({
           success: 1,
-          cookie: "_copoko_space_cookie_auth=" + TestAuth,
         }),
-        Space.helpers.headers.json
+        {
+          headers: {
+            "content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth+";HttpOnly;Secure;SameSite=Strict",
+          },
+        }
       );
     }
   }
