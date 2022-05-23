@@ -5,7 +5,8 @@ import robots from 'html-loader!./pages/robots.txt'
 import dash_father from 'html-loader!./pages/dash/dash.html'
 
 function cdn(page) {
-  page = page.replace(/::CDN::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
+  page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
+  page = page.replace(/::CDN::/g, space_cdn)
   page = page.replace(/::PRECONNECT::/g, space_dns_prefetch)
   return page
 }
