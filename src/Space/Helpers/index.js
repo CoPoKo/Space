@@ -6,6 +6,7 @@ import ReadRequest from './ReadRequest';
 import Captcha from './Captcha';
 import Setting from './Setting';
 import Fetch from './Fetch';
+import Security from './Security';
 
 let Helpers = {
   Headers: Headers,
@@ -16,6 +17,7 @@ let Helpers = {
   Captcha: Captcha,
   Setting: Setting,
   Fetch: Fetch,
+  Security: Security,
 };
 
 export default Helpers;
