@@ -35,6 +35,7 @@ async function handleSpace(event) {
     router.post("/space/api/kv/get").action(Space.Actions.API.KV.Get);
     router.post("/space/api/kv/put").action(Space.Actions.API.KV.Put);
     router.post("/space/api/kv/delete").action(Space.Actions.API.KV.Delete);
+    router.get("/space/api/GoogleTranslate").action(Space.Actions.API.GoogleTranslate);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 启动 action
