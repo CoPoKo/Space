@@ -8,6 +8,8 @@ async function handleSpace(event) {
     router.get("/robots.txt").action(Space.Actions.Robots);
     router.get("/"+START).action(Space.Actions.Auth.AuthPage);
     router.post("/space/auth").action(Space.Actions.Auth.CheckAuth);
+    // 安全跳转
+    // router.get("/link").action(Space.Actions.Link);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 以上非鉴权路由
