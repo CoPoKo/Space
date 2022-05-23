@@ -1,0 +1,50 @@
+<script>
+Space={}
+Space.helper={
+  headers_json: {
+    "content-type": "application/json",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36",
+  }
+}
+Space.KV={}
+Space.KV.Get=(key)=>{
+  return fetch("/space/api/kv/get",{
+    method:"POST",
+    headers: Space.helper.headers_json,
+    body: JSON.stringify({
+      "key": key,
+    })
+  }).then(function(response){
+    return response.json();
+  })
+}
+Space.KV.Delete=(key)=>{
+  return fetch("/space/api/kv/delete",{
+    method:"POST",
+    headers: Space.helper.headers_json,
+    body: JSON.stringify({
+      "key": key,
+    })
+  }).then(function(response){
+    return response.json();
+  })
+}
+Space.KV.Put=(key,value)=>{
+  return fetch("/space/api/kv/put",{
+    method:"POST",
+    headers: Space.helper.headers_json,
+    body: JSON.stringify({
+      "key": key,
+      "value": value,
+    })
+  }).then(function(response){
+    return response.json();
+  })
+}
+var Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+</script>
