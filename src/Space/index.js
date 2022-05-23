@@ -1,19 +1,19 @@
 import Space from "./Space";
 async function handleSpace(event) {
   try {
-    let router = new Space.helpers.Router(event);
+    let router = new Space.Helpers.Router(event);
     // 以下非鉴权路由
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
-    router.get("/robots.txt").action(Space.actions.Robots);
-    router.get("/"+START).action(Space.actions.Auth.AuthPage);
-    router.post("/space/auth").action(Space.actions.Auth.CheckAuth);
+    router.get("/robots.txt").action(Space.Actions.Robots);
+    router.get("/"+START).action(Space.Actions.Auth.AuthPage);
+    router.post("/space/auth").action(Space.Actions.Auth.CheckAuth);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 以上非鉴权路由
     // Cookie 鉴权
     if (!router.status.action) {
-      let res = await Space.actions.Auth.CheckCookieAuth(event);
+      let res = await Space.Actions.Auth.CheckCookieAuth(event);
       if (res != "PASS") {
         return res;
       } else {
@@ -26,15 +26,15 @@ async function handleSpace(event) {
     // dashboard
     const { dash_nav } = require("./renderers/pages/dash/dash_nav.js");
     dash_nav.forEach(e => {
-      router.get("/space/dash/"+e).action(Space.actions.Dash[e]);
+      router.get("/space/dash/"+e).action(Space.Actions.Dash[e]);
     });
     /////////////////////////////////////////////////////////////////////
     // api
     /////////////////////////////////////////////////////////////////////
     // kv
-    router.post("/space/api/kv/get").action(Space.actions.api.kv.get);
-    router.post("/space/api/kv/put").action(Space.actions.api.kv.put);
-    router.post("/space/api/kv/delete").action(Space.actions.api.kv.delete);
+    router.post("/space/api/kv/get").action(Space.Actions.API.KV.Get);
+    router.post("/space/api/kv/put").action(Space.Actions.API.KV.Put);
+    router.post("/space/api/kv/delete").action(Space.Actions.API.KV.Delete);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 启动 action
@@ -52,10 +52,10 @@ async function handleSpace(event) {
           );
         }
       }
-      return await Space.helpers.ErrorResponse("Ooops...");
+      return await Space.Helpers.ErrorResponse("Ooops...");
     }
   } catch (error) {
-    return await Space.helpers.ErrorResponse(error);
+    return await Space.Helpers.ErrorResponse(error);
   }
 }
 export default handleSpace;
