@@ -22,6 +22,7 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     // OPEN API
     router.get("/api/bing").action(Space.Actions.API.BingImgInfo);
+    router.get("/api/sitich").action(Space.Actions.API.Sitich);
     /////////////////////////////////////////////////////////////////////
     // 以上非鉴权路由
     // Cookie 鉴权

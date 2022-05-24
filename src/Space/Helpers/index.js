@@ -7,6 +7,7 @@ import Captcha from './Captcha';
 import Setting from './Setting';
 import Fetch from './Fetch';
 import Security from './Security';
+import RandomNum from './RandomNum';
 
 let Helpers = {
   Headers,
@@ -18,6 +19,7 @@ let Helpers = {
   Setting,
   Fetch,
   Security,
+  RandomNum,
 };
 
 export default Helpers;

@@ -15,6 +15,6 @@ async function BingImgInfo(that) {
     }
     return new Response(JSON.stringify({ "copyright": ans.copyright }), Space.Helpers.Headers.json)
   }
-  return fetch(await ans.url)
+  return fetch(ans.url)
 }
 export default BingImgInfo;
