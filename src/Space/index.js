@@ -23,6 +23,8 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     // OPEN Pages
     router.get("/github-event").action(Space.Actions.Pages.GithubEvent);
+    router.get("/pdf").action(Space.Actions.Pages.PDF);
+    router.get("/color").action(Space.Actions.Pages.Color);
     // OPEN API
     router.get("/bing").action(Space.Actions.API.BingImgInfo);
     router.get("/sitich").action(Space.Actions.API.Sitich);
