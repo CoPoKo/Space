@@ -5,6 +5,7 @@ import WolframAlpha from "./WolframAlpha"
 import BingImgInfo from "./BingImgInfo"
 import Sitich from "./Sitich"
 import Soul from "./Soul"
+import Hitokoto from "./Hitokoto"
 
 let API = {
   KV,
@@ -14,6 +15,7 @@ let API = {
   BingImgInfo,
   Sitich,
   Soul,
+  Hitokoto,
 };
 
 export default API;

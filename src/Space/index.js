@@ -27,6 +27,7 @@ async function handleSpace(event) {
     router.get("/bing").action(Space.Actions.API.BingImgInfo);
     router.get("/sitich").action(Space.Actions.API.Sitich);
     router.get("/soul").action(Space.Actions.API.Soul);
+    router.get("/hitokoto").action(Space.Actions.API.Hitokoto);
     /////////////////////////////////////////////////////////////////////
     // 以上非鉴权路由
     // Cookie 鉴权
