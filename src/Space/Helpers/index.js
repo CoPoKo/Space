@@ -9,15 +9,15 @@ import Fetch from './Fetch';
 import Security from './Security';
 
 let Helpers = {
-  Headers: Headers,
-  ErrorResponse: ErrorResponse,
-  Router: Router,
-  Cookie: Cookie,
-  ReadRequest: ReadRequest,
-  Captcha: Captcha,
-  Setting: Setting,
-  Fetch: Fetch,
-  Security: Security,
+  Headers,
+  ErrorResponse,
+  Router,
+  Cookie,
+  ReadRequest,
+  Captcha,
+  Setting,
+  Fetch,
+  Security,
 };
 
 export default Helpers;

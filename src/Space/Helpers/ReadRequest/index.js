@@ -36,7 +36,7 @@ function URLParameters(request) {
 
 
 let ReadRequest = {
-  Body: Body,
-  URLParameters: URLParameters,
+  Body,
+  URLParameters,
 };
 export default ReadRequest;

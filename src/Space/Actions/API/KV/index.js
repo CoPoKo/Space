@@ -85,8 +85,8 @@ async function Delete(that) {
 }
 
 let KV = {
-  Get: Get,
-  Put: Put,
-  Delete: Delete,
+  Get,
+  Put,
+  Delete,
 };
 export default KV;

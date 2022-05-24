@@ -62,8 +62,8 @@ async function CheckCookieAuth(that) {
     });
 }
 let Auth = {
-  CheckAuth: CheckAuth,
-  CheckCookieAuth: CheckCookieAuth,
-  AuthPage: AuthPage,
+  CheckAuth,
+  CheckCookieAuth,
+  AuthPage,
 };
 export default Auth;

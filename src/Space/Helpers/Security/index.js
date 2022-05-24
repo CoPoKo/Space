@@ -10,6 +10,6 @@ function checkReferer(event) {
 }
 
 let Security = {
-  checkReferer:checkReferer,
+  checkReferer,
 };
 export default Security;

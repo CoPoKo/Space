@@ -2,12 +2,14 @@ import KV from "./KV"
 import GoogleTranslate from "./GoogleTranslate"
 import GoogleSearch from "./GoogleSearch"
 import WolframAlpha from "./WolframAlpha"
+import BingImgInfo from "./BingImgInfo"
 
 let API = {
-  KV: KV,
-  GoogleTranslate: GoogleTranslate,
-  GoogleSearch: GoogleSearch,
-  WolframAlpha: WolframAlpha,
+  KV,
+  GoogleTranslate,
+  GoogleSearch,
+  WolframAlpha,
+  BingImgInfo,
 };
 
 export default API;
