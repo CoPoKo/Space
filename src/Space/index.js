@@ -14,7 +14,7 @@ async function handleSpace(event) {
     // 以下非鉴权路由
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
-    // router.get("/favicon.ico").action(Space.Actions.Favicon);
+    router.get("/favicon.ico").action(Space.Actions.Favicon);
     router.get("/robots.txt").action(Space.Actions.Robots);
     router.get("/" + START).action(Space.Actions.Auth.AuthPage);
     router.post("/space/auth").action(Space.Actions.Auth.CheckAuth);
