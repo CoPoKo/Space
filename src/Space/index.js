@@ -15,7 +15,7 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     router.get("/robots.txt").action(Space.Actions.Robots);
-    router.get("/"+START).action(Space.Actions.Auth.AuthPage);
+    router.get("/" + START).action(Space.Actions.Auth.AuthPage);
     router.post("/space/auth").action(Space.Actions.Auth.CheckAuth);
     // 安全跳转
     router.get("/link").action(Space.Actions.Link);
@@ -23,6 +23,7 @@ async function handleSpace(event) {
     // OPEN API
     router.get("/api/bing").action(Space.Actions.API.BingImgInfo);
     router.get("/api/sitich").action(Space.Actions.API.Sitich);
+    router.get("/api/soul").action(Space.Actions.API.Soul);
     /////////////////////////////////////////////////////////////////////
     // 以上非鉴权路由
     // Cookie 鉴权
@@ -40,7 +41,7 @@ async function handleSpace(event) {
     // dashboard
     const { dash_nav } = require("./renderers/pages/dash/dash_nav.js");
     dash_nav.forEach(e => {
-      router.get("/space/dash/"+e).action(Space.Actions.Dash[e]);
+      router.get("/space/dash/" + e).action(Space.Actions.Dash[e]);
     });
     /////////////////////////////////////////////////////////////////////
     // api

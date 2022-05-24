@@ -4,6 +4,7 @@ import GoogleSearch from "./GoogleSearch"
 import WolframAlpha from "./WolframAlpha"
 import BingImgInfo from "./BingImgInfo"
 import Sitich from "./Sitich"
+import Soul from "./Soul"
 
 let API = {
   KV,
@@ -12,6 +13,7 @@ let API = {
   WolframAlpha,
   BingImgInfo,
   Sitich,
+  Soul,
 };
 
 export default API;
