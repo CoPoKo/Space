@@ -29,7 +29,7 @@ async function CheckAuth(that) {
           headers: {
             "content-type": "application/json; charset=utf-8",
             "Access-Control-Allow-Origin": "*",
-            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth+";HttpOnly;Secure;SameSite=Strict",
+            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth + ";HttpOnly;Secure;SameSite=Strict",
           },
         }
       );
@@ -56,9 +56,7 @@ async function CheckCookieAuth(that) {
           return "PASS";
         }
       }
-      return await Space.Helpers.ErrorResponse(
-        "NO PERMISSION TO ACCESS THE SERVICE"
-      );
+      return await Space.Helpers.ErrorResponse("NO PERMISSION TO ACCESS THE SERVICE", 403);
     });
 }
 let Auth = {

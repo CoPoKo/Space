@@ -6,7 +6,7 @@ async function handleSpace(event) {
     // 安全检查
     let checkRefererStatus = Space.Helpers.Security.checkReferer(event);
     if (!checkRefererStatus) {
-      return await Space.Helpers.ErrorResponse("Ooops...");
+      return await Space.Helpers.ErrorResponse("Ooops...", 403);
     }
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
@@ -20,6 +20,7 @@ async function handleSpace(event) {
     // 安全跳转
     router.get("/link").action(Space.Actions.Link);
     /////////////////////////////////////////////////////////////////////
+    // OPEN Pages
     // OPEN API
     router.get("/api/bing").action(Space.Actions.API.BingImgInfo);
     router.get("/api/sitich").action(Space.Actions.API.Sitich);
@@ -73,10 +74,10 @@ async function handleSpace(event) {
           );
         }
       }
-      return await Space.Helpers.ErrorResponse("Ooops...");
+      return await Space.Helpers.ErrorResponse("Ooops...", 403);
     }
   } catch (error) {
-    return await Space.Helpers.ErrorResponse(error);
+    return await Space.Helpers.ErrorResponse(error, 500);
   }
 }
 export default handleSpace;

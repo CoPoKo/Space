@@ -1,8 +1,11 @@
 import Space from "../../Space";
-async function ErrorResponse(msg) {
+async function ErrorResponse(msg, status = 500) {
   return new Response(
     Space.Renderers.erorr.replace(/::ErrorInfo::/g, msg),
-    Space.Helpers.Headers.html
+    {
+      status: status,
+      headers: Space.Helpers.Headers.html,
+    }
   );
 }
 export default ErrorResponse;
