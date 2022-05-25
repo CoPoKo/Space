@@ -6,6 +6,8 @@ import BingImgInfo from "./BingImgInfo"
 import Sitich from "./Sitich"
 import Soul from "./Soul"
 import Hitokoto from "./Hitokoto"
+import Unsplash from "./Unsplash"
+import ACG from "./ACG"
 
 let API = {
   KV,
@@ -16,6 +18,8 @@ let API = {
   Sitich,
   Soul,
   Hitokoto,
+  Unsplash,
+  ACG,
 };
 
 export default API;

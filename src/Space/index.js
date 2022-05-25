@@ -30,6 +30,8 @@ async function handleSpace(event) {
     router.get("/sitich").action(Space.Actions.API.Sitich);
     router.get("/soul").action(Space.Actions.API.Soul);
     router.get("/hitokoto").action(Space.Actions.API.Hitokoto);
+    router.get("/unsplash").action(Space.Actions.API.Unsplash);
+    router.get("/acg").action(Space.Actions.API.ACG);
     /////////////////////////////////////////////////////////////////////
     // 以上非鉴权路由
     // Cookie 鉴权
