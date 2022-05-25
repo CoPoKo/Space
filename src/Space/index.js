@@ -33,7 +33,7 @@ async function handleSpace(event) {
     router.get("/unsplash").action(Space.Actions.API.Unsplash);
     router.get("/acg").action(Space.Actions.API.ACG);
     /////////////////////////////////////////////////////////////////////
-    // 以上非鉴权路由
+    // 以上非 Cookie 鉴权路由
     // Cookie 鉴权
     if (!router.status.action) {
       let res = await Space.Actions.Auth.CheckCookieAuth(event);
@@ -43,11 +43,11 @@ async function handleSpace(event) {
         router.setStatus("auth", 1);
       }
     }
-    // 以下鉴权路由
+    // 以下 Cookie 鉴权路由
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // dashboard
-    const { dash_nav } = require("./renderers/pages/dash/dash_nav.js");
+    const { dash_nav } = require("./Renderers/Pages/dash/dash_nav.js");
     dash_nav.forEach(e => {
       router.get("/space/dash/" + e).action(Space.Actions.Dash[e]);
     });
