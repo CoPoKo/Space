@@ -8,7 +8,7 @@ bot.start(async ctx => {
   ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA')
 });
 bot.help(async ctx => {
-  ctx.reply("HelpInfo19");
+  ctx.reply("HelpInfo114514");
 });
 
 
