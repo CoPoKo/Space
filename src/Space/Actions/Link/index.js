@@ -1,5 +1,5 @@
-async function Link(that) {
-  let url=that.getParam("url")
+async function Link(ctx) {
+  let url = ctx.getParam("url")
   return Response.redirect(url, 302);
 }
 export default Link;

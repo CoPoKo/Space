@@ -1,17 +1,17 @@
 import Space from "../../Space";
 let SHA256 = require("crypto-js/sha256");
-async function AuthPage(that) {
+async function AuthPage(ctx) {
   return new Response(
     Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT),
     Space.Helpers.Headers.html
   );
 }
-async function CheckAuth(that) {
-  let auth = await Space.Helpers.ReadRequest.Body(that.request);
+async function CheckAuth(ctx) {
+  let auth = await Space.Helpers.ReadRequest.Body(ctx.request);
   auth = JSON.parse(auth);
   let token = auth.token;
   let secret = reCAPTCHA_SERVER;
-  let ip = that.ip;
+  let ip = ctx.ip;
   let recaptcha = await Space.Helpers.Captcha.recaptcha(secret, token, ip);
   if (recaptcha) {
     let TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(
@@ -43,9 +43,9 @@ async function CheckAuth(that) {
     Space.Helpers.Headers.json
   );
 }
-async function CheckCookieAuth(that) {
+async function CheckCookieAuth(ctx) {
   return Space.Helpers.Cookie
-    .get(that.request, "_copoko_space_cookie_auth")
+    .get(ctx.request, "_copoko_space_cookie_auth")
     .then(async (_copoko_space_cookie_auth) => {
       if (_copoko_space_cookie_auth) {
         let TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(

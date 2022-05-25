@@ -26,7 +26,7 @@ function DashPage(nav) {
   return page
 }
 
-let dash={}
+let dash = {}
 dash_nav.forEach(item => {
   dash[item] = cdn(DashPage(item))
 })

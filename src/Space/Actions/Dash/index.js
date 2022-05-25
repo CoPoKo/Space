@@ -1,8 +1,8 @@
 import Space from "../../Space";
 
-function BuildPageDash(that) {
+function BuildPageDash(ctx) {
   return new Response(
-    Space.Renderers.dash[that.status.path.replace("/space/dash/", "")],
+    Space.Renderers.dash[ctx.status.path.replace("/space/dash/", "")],
     Space.Helpers.Headers.html
   );
 }

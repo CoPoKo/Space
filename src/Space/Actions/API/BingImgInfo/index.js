@@ -1,8 +1,8 @@
 import Space from "../../../Space"
 
-async function BingImgInfo(that) {
-  let URLParameters = Space.Helpers.ReadRequest.URLParameters(that.request)
-  let path = that.pathname
+async function BingImgInfo(ctx) {
+  let URLParameters = Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  let path = ctx.pathname
   let day = URLParameters.day
   let ans = await Space.API.BingImgInfo(day)
 
