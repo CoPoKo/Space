@@ -1,15 +1,7 @@
-import Space from "../Space";
-
+import BotCreate from "./Bot/index";
 const { Telegraf } = require('telegraf');
 const bot = new Telegraf(Telegraf_BOT_TOKEN);
 
-
-bot.start(async ctx => {
-  ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA')
-});
-bot.help(async ctx => {
-  ctx.reply("HelpInfo114514");
-});
-
+BotCreate(bot);
 
 export default bot;
