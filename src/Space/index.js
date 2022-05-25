@@ -16,10 +16,12 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     router.get("/favicon.ico").action(Space.Actions.Favicon);
     router.get("/robots.txt").action(Space.Actions.Robots);
-    router.get("/" + START).action(Space.Actions.Auth.AuthPage);
+    router.get(AUTH_PAGE).action(Space.Actions.Auth.AuthPage);
     router.post("/space/auth").action(Space.Actions.Auth.CheckAuth);
     // 安全跳转
     router.get("/link").action(Space.Actions.Link);
+    // Telegraf Webhook
+    router.post(Telegraf_BOT_WEBHOOK).action(Space.Actions.TelegrafWebhook);
     /////////////////////////////////////////////////////////////////////
     // OPEN Pages
     router.get("/github-event").action(Space.Actions.Pages.GithubEvent);
