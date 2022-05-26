@@ -60956,7 +60956,171 @@ const ZH = {
 }
 /* harmony default export */ const API_ZH = (ZH);
 
+;// CONCATENATED MODULE: ./src/Space/API/thispersondoesnotexist/index.js
+
+
+async function thispersondoesnotexist() {
+  return "https://thispersondoesnotexist.com/image";
+}
+/* harmony default export */ const API_thispersondoesnotexist = (thispersondoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/API/thiswaifudoesnotexist/index.js
+
+
+async function thiswaifudoesnotexist(id) {
+  return `https://www.thiswaifudoesnotexist.net/example-${id != undefined ? id : Math.floor(Math.random() * (100000) + 1)}.jpg`;
+}
+/* harmony default export */ const API_thiswaifudoesnotexist = (thiswaifudoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/API/thisanimedoesnotexist/index.js
+
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+async function thisanimedoesnotexist(creativity, seed) {
+  return `https://thisanimedoesnotexist.ai/results/psi-${creativity != undefined ? creativity : (Space_Space.Helpers.RandomNum(3, 20) / 10)}/seed${seed != undefined ? seed : pad((Math.floor(Math.random() * Math.floor(100000))), 5)}.png`;
+}
+/* harmony default export */ const API_thisanimedoesnotexist = (thisanimedoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/API/Poet/index.js
+
+/**
+ * https://github.com/chinese-poetry/chinese-poetry/issues/245
+ * /poet
+ */
+/**
+    参数名      参数作用	                                                      参数值
+    type    选择唐诗还是宋词，留空唐诗	                                     tang or song
+    from	  从第几个诗词样本开始取，留空随机        	                   tang：1~254 song：1~57
+    with	  该样本中的第with首诗,留空随机	                                       0~999
+    limit	  获取句数限制,留空为99即所有,超过原来诗词长度则按原来长度计算	            99
+    start	  从第start句诗开始获取,留空为0	                                         0
+    tran	  是否进行翻译,为true则翻译,默认为true	                            true or false
+    author	是否显示作者,为true则显示,默认为true	                            true or false
+ */
+async function Poet(opt = {}) {
+  opt.type = opt.type == "song" ? "song" : "tang"
+  opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * (254) + 1) : Math.floor(Math.random() * (57) + 1))
+  opt.with = opt.with || Math.floor(Math.random() * (100))
+  opt.limit = opt.limit || 100
+  opt.start = opt.start || 0
+  opt.tran = opt.tran || "true"
+  opt.author = opt.author || "true"
+  const all = await Space_Space.Helpers.Fetch.JSON(`https://raw.githubusercontent.com/chinese-poetry/chinese-poetry/master/json/poet.${opt.type}.${opt.from}000.json`)
+  const poet_all = all[opt.with]
+  let poet = ""
+  for (let i = opt.start; i < poet_all["paragraphs"].length & i < opt.limit; i++) {
+    poet += poet_all["paragraphs"][i]
+  }
+  if (opt.author == "true") {
+    poet += `  --${poet_all["author"]}`
+  }
+  if (opt.tran == "true") {
+    poet = await Space_Space.API.ZH.Simplized(poet)
+  }
+  return poet
+}
+/* harmony default export */ const API_Poet = (Poet);
+
+;// CONCATENATED MODULE: ./src/Space/API/Happypic/index.js
+
+
+async function Happypic() {
+  return "https://cdn.jsdelivr.net/npm/chenyfan-happypic@0.0." + Space_Space.Helpers.RandomNum(1, 33) + "/" + Space_Space.Helpers.RandomNum(1, 99) + ".jpg"
+}
+/* harmony default export */ const API_Happypic = (Happypic);
+
+;// CONCATENATED MODULE: ./src/Space/API/DNS/index.js
+
+/**
+ * DNS查询
+ * /dns/:upstream:/:way:/:host:?name=xxx&type=xxx&edns_client_subnet=x.x.x.x
+ * /dns
+ * /dns/get
+ * /dns/ali/get/host
+ * 
+  参数	                    参数用途
+  name	                需要解析的域名
+  type                	解析形式,A or AAAA or CNAME等等
+  edns_client_subnet	  EDNS的ip,默认开启为本机ip,开启此项功能可提高解析精准度.注:此功能在upstream为CloudFlare的情况下失效,因为CloudFlare为了用户隐私关闭此功能.
+  way                   获取方式，默认doh方式，可使用以下参数: doh get
+  host	                是否转化为host格式[仅在type为A或AAAA格式下生效]
+  upstream	            上游DNS解析,默认为CloudFlare 回源<1ms
+                        可使用以下参数:
+                        google使用谷歌DNS,回源1~10ms
+                        ali使用阿里CDN,回源50~150ms
+                        dnspod使用腾讯云DNSPODCDN,回源10~80ms
+  注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
+ */
+async function DNS(opt = {}) {
+  opt.type = opt.type || "A"
+  opt.name = opt.name || "mhuig.top"
+  opt.edns_client_subnet = opt.edns_client_subnet || `1.0.0.1`
+  opt.upstream = opt.upstream || "cloudflare"
+  opt.way = opt.way || "doh"
+  opt.host = opt.host || "false"
+  let FetchURL = ""
+  // POST
+  const DoH_Set = {
+    "cloudflare": "https://cloudflare-dns.com/dns-query",
+    "google": "https://dns.google/dns-query",
+    "ali": "https://dns.alidns.com/dns-query",
+    "dnspod": "https://doh.pub/dns-query",
+    "rubyfish": "https://dns.rubyfish.cn/dns-query",
+  }
+  // GET
+  const Get_Set = {
+    "cloudflare": "https://cloudflare-dns.com/dns-query",
+    "google": "https://dns.google/resolve",
+    "ali": "https://dns.alidns.com/resolve",
+    "dnspod": "https://doh.pub/dns-query",
+    "rubyfish": "https://dns.rubyfish.cn/dns-query",
+  }
+  if (opt.way == "doh") {
+    FetchURL = DoH_Set[opt.upstream]
+    return FetchURL
+  } else {
+    FetchURL = Get_Set[opt.upstream]
+  }
+
+  if (opt.way == "get") {
+    FetchURL += `?name=${opt.name}&type=${opt.type}&edns_client_subnet=${opt.edns_client_subnet}`
+    let _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
+    const _text = await _fetch.text()
+    if (opt.host == "true") {
+      if ((opt.type == "A" || opt.type == "AAAA")) {
+        const _Answer = await JSON.parse(_text)["Answer"]
+        let _hosts = ""
+        for (let i = 0; i < _Answer.length; i++) {
+          if (checkipv4(_Answer[i]["data"]) || checkipv6(_Answer[i]["data"])) {
+            _hosts += `${_Answer[i]["data"]} ${opt.name}\n`
+          }
+        }
+        return _hosts
+      }
+    }
+    return _text
+  }
+
+
+}
+function checkipv4(ip) {
+  return ip.match(/^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/) != null ? true : false
+}
+function checkipv6(ip) {
+  return ip.match(/^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/) != null ? true : false
+}
+/* harmony default export */ const API_DNS = (DNS);
+
 ;// CONCATENATED MODULE: ./src/Space/API/index.js
+
+
+
+
+
+
 
 
 
@@ -60985,6 +61149,12 @@ let API = {
   Niubi: API_Niubi,
   DeMD5: API_DeMD5,
   ZH: API_ZH,
+  thispersondoesnotexist: API_thispersondoesnotexist,
+  thiswaifudoesnotexist: API_thiswaifudoesnotexist,
+  thisanimedoesnotexist: API_thisanimedoesnotexist,
+  Poet: API_Poet,
+  Happypic: API_Happypic,
+  DNS: API_DNS,
 };
 
 /* harmony default export */ const Space_API = (API);
@@ -61693,10 +61863,139 @@ async function ZH_ZH(ctx) {
       return new Response(ans, Space_Space.Helpers.Headers.json)
     }
   }
+  return new Response("null", Space_Space.Helpers.Headers.json)
 }
 /* harmony default export */ const Actions_API_ZH = (ZH_ZH);
 
+;// CONCATENATED MODULE: ./src/Space/Actions/API/thispersondoesnotexist/index.js
+
+
+async function thispersondoesnotexist_thispersondoesnotexist(ctx) {
+  let ans = await Space_Space.API.thispersondoesnotexist()
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_thispersondoesnotexist = (thispersondoesnotexist_thispersondoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/thiswaifudoesnotexist/index.js
+
+
+async function thiswaifudoesnotexist_thiswaifudoesnotexist(ctx) {
+  let id = ctx.getParam("id");
+  let ans = await Space_Space.API.thiswaifudoesnotexist(id)
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_thiswaifudoesnotexist = (thiswaifudoesnotexist_thiswaifudoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/thisanimedoesnotexist/index.js
+
+
+async function thisanimedoesnotexist_thisanimedoesnotexist(ctx) {
+  let creativity = ctx.getParam("creativity");
+  let seed = ctx.getParam("seed");
+  let ans = await Space_Space.API.thisanimedoesnotexist(creativity,seed)
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_thisanimedoesnotexist = (thisanimedoesnotexist_thisanimedoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Poet/index.js
+
+
+async function Poet_Poet(ctx) {
+  let opt = {}
+  opt.type = ctx.getParam("type")
+  opt.from = ctx.getParam("from")
+  opt.with = ctx.getParam("with")
+  opt.limit = ctx.getParam("limit")
+  opt.start = ctx.getParam("start")
+  opt.tran = ctx.getParam("tran")
+  opt.author = ctx.getParam("author")
+
+  let ans = await Space_Space.API.Poet(opt)
+  return new Response(ans, Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_Poet = (Poet_Poet);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Happypic/index.js
+
+
+async function Happypic_Happypic(ctx) {
+  let ans = await Space_Space.API.Happypic()
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_Happypic = (Happypic_Happypic);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/DNS/index.js
+
+/**
+ * DNS查询
+ * /dns/:upstream:/:way:/:host:?name=xxx&type=xxx&edns_client_subnet=x.x.x.x
+ * /dns
+ * /dns/get
+ * /dns/ali/get/host
+ * 
+  参数	                    参数用途
+  name	                需要解析的域名
+  type                	解析形式,A or AAAA or CNAME等等
+  edns_client_subnet	  EDNS的ip,默认开启为本机ip,开启此项功能可提高解析精准度.注:此功能在upstream为CloudFlare的情况下失效,因为CloudFlare为了用户隐私关闭此功能.
+  way                   获取方式，默认doh方式，可使用以下参数: doh get
+  host	                是否转化为host格式[仅在type为A或AAAA格式下生效]
+  upstream	            上游DNS解析,默认为CloudFlare 回源<1ms
+                        可使用以下参数:
+                        google使用谷歌DNS,回源1~10ms
+                        ali使用阿里CDN,回源50~150ms
+                        dnspod使用腾讯云DNSPODCDN,回源10~80ms
+  注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
+ */
+async function DNS_DNS(ctx) {
+  let path = ctx.pathname
+  let opt = {}
+  opt.type = ctx.getParam("type")
+  opt.name = ctx.getParam("name")
+  opt.edns_client_subnet = ctx.getParam("edns_client_subnet")|| new Map(ctx.request.headers).get('x-real-ip') || `1.0.0.1`
+
+  if (path.indexOf("host") != -1) {
+    opt.host = "true"
+  }
+  if (path.indexOf("get") != -1) {
+    opt.way = "get"
+  }
+  if (path.indexOf("google") != -1) {
+    opt.upstream = "google"
+  }
+  if (path.indexOf("ali") != -1) {
+    opt.upstream = "ali"
+  }
+  if (path.indexOf("dnspod") != -1) {
+    opt.upstream = "dnspod"
+  }
+  if (path.indexOf("rubyfish") != -1) {
+    opt.upstream = "rubyfish"
+  }
+
+  let ans = await Space_Space.API.DNS(opt)
+
+  if (opt.way == "get") {
+    return new Response(ans, Space_Space.Helpers.Headers.js)
+  } else {
+    return fetch(new Request(ans, {
+      method: "POST",
+      redirect: 'manual',
+      headers: ctx.request.headers,
+      body: ctx.request.body
+    }));
+  }
+
+
+}
+/* harmony default export */ const Actions_API_DNS = (DNS_DNS);
+
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/index.js
+
+
+
+
+
+
 
 
 
@@ -61727,6 +62026,12 @@ let API_API = {
   IP: API_IP,
   DeMD5: Actions_API_DeMD5,
   ZH: Actions_API_ZH,
+  thispersondoesnotexist: Actions_API_thispersondoesnotexist,
+  thiswaifudoesnotexist: Actions_API_thiswaifudoesnotexist,
+  thisanimedoesnotexist: Actions_API_thisanimedoesnotexist,
+  Poet: Actions_API_Poet,
+  Happypic: Actions_API_Happypic,
+  DNS: Actions_API_DNS,
 };
 
 /* harmony default export */ const Actions_API = (API_API);
@@ -62459,6 +62764,12 @@ async function handleSpace(event) {
     router.get("/ip").action(Space_Space.Actions.API.IP);
     router.get("/decrypt").action(Space_Space.Actions.API.DeMD5);
     router.get("/zh").action(Space_Space.Actions.API.ZH);
+    router.get("/person").action(Space_Space.Actions.API.thispersondoesnotexist);
+    router.get("/waifu").action(Space_Space.Actions.API.thiswaifudoesnotexist);
+    router.get("/anime").action(Space_Space.Actions.API.thisanimedoesnotexist);
+    router.get("/poet").action(Space_Space.Actions.API.Poet);
+    router.get("/happypic").action(Space_Space.Actions.API.Happypic);
+    router.get("/dns").action(Space_Space.Actions.API.DNS);
     /////////////////////////////////////////////////////////////////////
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权

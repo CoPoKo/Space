@@ -12,6 +12,12 @@ import Niubi from "./Niubi"
 import IP from "./IP"
 import DeMD5 from "./DeMD5"
 import ZH from "./ZH"
+import thispersondoesnotexist from "./thispersondoesnotexist"
+import thiswaifudoesnotexist from "./thiswaifudoesnotexist"
+import thisanimedoesnotexist from "./thisanimedoesnotexist"
+import Poet from "./Poet"
+import Happypic from "./Happypic"
+import DNS from "./DNS"
 
 let API = {
   KV,
@@ -28,6 +34,12 @@ let API = {
   IP,
   DeMD5,
   ZH,
+  thispersondoesnotexist,
+  thiswaifudoesnotexist,
+  thisanimedoesnotexist,
+  Poet,
+  Happypic,
+  DNS,
 };
 
 export default API;
