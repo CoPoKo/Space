@@ -34,6 +34,7 @@ async function handleSpace(event) {
     router.get("/hitokoto").action(Space.Actions.API.Hitokoto);
     router.get("/unsplash").action(Space.Actions.API.Unsplash);
     router.get("/acg").action(Space.Actions.API.ACG);
+    router.get("/niubi").action(Space.Actions.API.Niubi);
     /////////////////////////////////////////////////////////////////////
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权

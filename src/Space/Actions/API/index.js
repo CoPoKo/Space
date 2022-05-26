@@ -8,6 +8,7 @@ import Soul from "./Soul"
 import Hitokoto from "./Hitokoto"
 import Unsplash from "./Unsplash"
 import ACG from "./ACG"
+import Niubi from "./Niubi"
 
 let API = {
   KV,
@@ -20,6 +21,7 @@ let API = {
   Hitokoto,
   Unsplash,
   ACG,
+  Niubi,
 };
 
 export default API;
