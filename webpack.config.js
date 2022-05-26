@@ -14,6 +14,9 @@ module.exports = {
       fs: false,
     },
   },
+  optimization: {
+    minimize: false,
+  },
   plugins: [new NodePolyfillPlugin()],
   performance: {
     hints: false,

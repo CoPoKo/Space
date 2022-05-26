@@ -1,7 +1,7 @@
-import BotCreate from "./Bot/index";
+import BotModel from "./BotModel";
 const { Telegraf } = require('telegraf');
 const bot = new Telegraf(Telegraf_BOT_TOKEN);
 
-BotCreate(bot);
+BotModel(bot);
 
 export default bot;
