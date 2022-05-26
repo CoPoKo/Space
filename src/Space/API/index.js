@@ -19,6 +19,7 @@ import Happypic from "./Happypic"
 import Setu from "./Setu"
 import DNS from "./DNS"
 import Thum from "./Thum"
+import Nbnhhsh from "./Nbnhhsh"
 
 let API = {
   KV,
@@ -42,6 +43,7 @@ let API = {
   Setu,
   DNS,
   Thum,
+  Nbnhhsh,
 };
 
 export default API;

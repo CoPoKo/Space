@@ -73,6 +73,18 @@ async function Text(ctx) {
       return that.cmd('hitokoto').action(TGBot.Actions.Hitokoto)
     })
     .then(that => {
+      return that.cmd('acg').action(TGBot.Actions.Happypic)
+    })
+    .then(that => {
+      return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.cmd('nbnhhsh').setArg('k', 'nb').action(TGBot.Actions.Nbnhhsh)
+    })
+    .then(that => {
+      return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
+    })
+    .then(that => {
       return that.reg(/你好/).reply(`Hello!`)
     })
     .then(that => {

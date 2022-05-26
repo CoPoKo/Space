@@ -61178,7 +61178,39 @@ async function Thum(opt = {}) {
 }
 /* harmony default export */ const API_Thum = (Thum);
 
+;// CONCATENATED MODULE: ./src/Space/API/Nbnhhsh/index.js
+
+
+async function Nbnhhsh(key) {
+  if (!key)
+    key = "nb"
+
+  let res = await fetch(new Request("https://lab.magiconch.com/api/nbnhhsh/guess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ text: key }),
+  }));
+  let data = await res.json()
+  let ans = []
+  if (data.length) {
+    data.forEach((result) => {
+      let content = `${result.name} 理解不能`;
+      if (result.trans && result.trans.length > 0) {
+        content = `${result.name} 的含义：${result.trans.join("，")}`;
+      } else if (result.inputting && result.inputting.length > 0) {
+        content = `${result.name} 有可能是：${result.inputting.join(
+          "，"
+        )}`;
+      }
+      ans.push(content);
+    });
+  }
+  return ans.join("\n");
+}
+/* harmony default export */ const API_Nbnhhsh = (Nbnhhsh);
+
 ;// CONCATENATED MODULE: ./src/Space/API/index.js
+
 
 
 
@@ -61223,6 +61255,7 @@ let API = {
   Setu: API_Setu,
   DNS: API_DNS,
   Thum: API_Thum,
+  Nbnhhsh: API_Nbnhhsh,
 };
 
 /* harmony default export */ const Space_API = (API);
@@ -62628,7 +62661,93 @@ const SearchEngineLink = async that => {
 
 /* harmony default export */ const Actions_SearchEngineLink = (SearchEngineLink);
 
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Happypic/index.js
+
+
+const Actions_Happypic_Happypic = async that => {
+  let ans = await Space_Space.API.Happypic();
+  return that.ctx.replyWithPhoto(ans);
+};
+
+/* harmony default export */ const Actions_Happypic = (Actions_Happypic_Happypic);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Setu/index.js
+
+
+const Setu_Setu = async that => {
+  if (that.args.k == "p") {
+    let ans = await Space_Space.API.Setu.HappypicSex();
+    return that.ctx.replyWithPhoto(ans);
+  }
+  if (that.args.k == "t") {
+    let res = await Space_Space.API.Setu.Tui();
+    res = await res.arrayBuffer()
+    let form = new FormData();
+    form.append('chat_id', that.ctx.chat.id);
+    form.append('photo', new Blob([res], { type: "image/jpg" }));
+    return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendPhoto", {
+      method: 'post',
+      body: form
+    })
+  }
+  if (that.args.k == "s") {
+    let res = await Space_Space.API.Setu.SJMM();
+    res = await res.arrayBuffer();
+    let form = new FormData();
+    form.append('chat_id', that.ctx.chat.id);
+    form.append('animation', new Blob([res], { type: "image/gif" }));
+    form.append('width', 500);
+    form.append('height', 500);
+    return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendAnimation", {
+      method: 'post',
+      body: form
+    })
+  }
+  let ans = await Space_Space.API.Setu.El();
+  return that.ctx.replyWithPhoto(ans);
+};
+
+/* harmony default export */ const Actions_Setu = (Setu_Setu);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Nbnhhsh/index.js
+
+
+const Nbnhhsh_Nbnhhsh = async that => {
+  let ans = await Space_Space.API.Nbnhhsh(that.args.k);
+  return that.ctx.reply(ans);;
+};
+
+/* harmony default export */ const Actions_Nbnhhsh = (Nbnhhsh_Nbnhhsh);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Thum/index.js
+
+
+const Actions_Thum_Thum = async that => {
+  if (that.type == 'reg') {
+    let arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text)
+    if (arr && Array.isArray(arr) && arr[1]) {
+      that.args.u = arr[0];
+    }
+  }
+  let opt = {};
+  opt.url = that.args.u;
+  opt.width = that.args.w;
+  opt.height = that.args.h;
+  opt.wait = that.args.t;
+  let ans = await Space_Space.API.Thum(opt);
+  // await that.ctx.reply(JSON.stringify(ans));
+  await fetch(ans).then(async (res) => {
+    return await that.ctx.replyWithPhoto(ans);
+  }).catch(err => { });
+};
+
+/* harmony default export */ const Actions_Thum = (Actions_Thum_Thum);
+
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/index.js
+
+
+
+
 
 
 
@@ -62643,6 +62762,10 @@ let Actions = {
   Soul: Actions_Soul,
   Hitokoto: Actions_Hitokoto,
   SearchEngineLink: Actions_SearchEngineLink,
+  Happypic: Actions_Happypic,
+  Setu: Actions_Setu,
+  Nbnhhsh: Actions_Nbnhhsh,
+  Thum: Actions_Thum,
 };
 
 /* harmony default export */ const TGBot_Actions = (Actions);
@@ -62758,6 +62881,18 @@ async function Text(ctx) {
     })
     .then(that => {
       return that.cmd('hitokoto').action(TelegrafBot_TGBot.Actions.Hitokoto)
+    })
+    .then(that => {
+      return that.cmd('acg').action(TelegrafBot_TGBot.Actions.Happypic)
+    })
+    .then(that => {
+      return that.cmd('setu').setArg('k', 0).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.cmd('nbnhhsh').setArg('k', 'nb').action(TelegrafBot_TGBot.Actions.Nbnhhsh)
+    })
+    .then(that => {
+      return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
     })
     .then(that => {
       return that.reg(/你好/).reply(`Hello!`)
