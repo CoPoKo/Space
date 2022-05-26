@@ -50,6 +50,24 @@ async function Text(ctx) {
       return that.ctx.reply("no help");
     })
     .then(that => {
+      return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TGBot.Actions.Unsplash)
+    })
+    .then(that=> {
+      return that.cmd('cat').setArg('k', 'cat').action(TGBot.Actions.Unsplash)
+    })
+    .then(that=> {
+      return that.cmd('dog').setArg('k', 'dog').action(TGBot.Actions.Unsplash)
+    })
+    .then(that=> {
+      return that.cmd('bing').setArg('d', '0').action(TGBot.Actions.Bing)
+    })
+    .then(that=> {
+      return that.cmd('soul').action(TGBot.Actions.Soul)
+    })
+    .then(that=> {
+      return that.cmd('hitokoto').action(TGBot.Actions.Hitokoto)
+    })
+    .then(that => {
       return that.reg(/你好/).reply(`Hello!`)
     })
     .then(that => {

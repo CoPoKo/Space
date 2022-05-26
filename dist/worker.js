@@ -60861,7 +60861,7 @@ async function Unsplash(keywords) {
   if (!keywords) {
     keywords = "nature,water,sky,blue,sea"
   }
-  return "https://source.unsplash.com/1600x900/?" + keywords
+  return "https://source.unsplash.com/1600x900/?" + keywords + '&t=' + new Date().getTime()
 }
 /* harmony default export */ const API_Unsplash = (Unsplash);
 
@@ -62009,11 +62009,59 @@ const Actions_Niubi_Niubi = async that => {
 
 /* harmony default export */ const Actions_Niubi = (Actions_Niubi_Niubi);
 
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Unsplash/index.js
+
+
+const Actions_Unsplash_Unsplash = async that => {
+  let ans = await Space_Space.API.Unsplash(that.args.k)
+  return that.ctx.replyWithPhoto(ans);
+};
+
+/* harmony default export */ const Actions_Unsplash = (Actions_Unsplash_Unsplash);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Bing/index.js
+
+
+const Bing = async that => {
+  let ans = await Space_Space.API.BingImgInfo(that.args.d);
+  return that.ctx.replyWithPhoto(ans.url, { "caption": ans.copyright });
+};
+
+/* harmony default export */ const Actions_Bing = (Bing);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Soul/index.js
+
+
+const Actions_Soul_Soul = async that => {
+  let ans = await Space_Space.API.Soul();
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_Soul = (Actions_Soul_Soul);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Hitokoto/index.js
+
+
+const Actions_Hitokoto_Hitokoto = async that => {
+  let ans = await Space_Space.API.Hitokoto();
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_Hitokoto = (Actions_Hitokoto_Hitokoto);
+
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/index.js
+
+
+
+
 
 
 let Actions = {
   Niubi: Actions_Niubi,
+  Unsplash: Actions_Unsplash,
+  Bing: Actions_Bing,
+  Soul: Actions_Soul,
+  Hitokoto: Actions_Hitokoto,
 };
 
 /* harmony default export */ const TGBot_Actions = (Actions);
@@ -62106,6 +62154,24 @@ async function Text(ctx) {
   await new TelegrafBot_TGBot.HandleMessage(ctx)
     .cmd('help').action((that) => {
       return that.ctx.reply("no help");
+    })
+    .then(that => {
+      return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TelegrafBot_TGBot.Actions.Unsplash)
+    })
+    .then(that=> {
+      return that.cmd('cat').setArg('k', 'cat').action(TelegrafBot_TGBot.Actions.Unsplash)
+    })
+    .then(that=> {
+      return that.cmd('dog').setArg('k', 'dog').action(TelegrafBot_TGBot.Actions.Unsplash)
+    })
+    .then(that=> {
+      return that.cmd('bing').setArg('d', '0').action(TelegrafBot_TGBot.Actions.Bing)
+    })
+    .then(that=> {
+      return that.cmd('soul').action(TelegrafBot_TGBot.Actions.Soul)
+    })
+    .then(that=> {
+      return that.cmd('hitokoto').action(TelegrafBot_TGBot.Actions.Hitokoto)
     })
     .then(that => {
       return that.reg(/你好/).reply(`Hello!`)
