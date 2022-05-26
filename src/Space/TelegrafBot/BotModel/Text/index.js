@@ -46,6 +46,11 @@ async function Text(ctx) {
       return that.run()
     })
   await new TGBot.HandleMessage(ctx)
+    .reg(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot.Actions.SearchEngineLink)
+    .then(that => {
+      return that.run()
+    })
+  await new TGBot.HandleMessage(ctx)
     .cmd('help').action((that) => {
       return that.ctx.reply("no help");
     })
