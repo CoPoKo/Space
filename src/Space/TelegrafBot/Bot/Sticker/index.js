@@ -1,6 +1,6 @@
 import Space from "../../../Space"
 async function Sticker(ctx) {
-  if (Space.Helpers.RandomNum(1, 100) <= 150) {
+  if (Space.Helpers.RandomNum(1, 100) <= 15) {
     if (ctx.message.sticker.emoji in MyStickerSet) {
       return ctx.replyWithSticker(MyStickerSet[ctx.message.sticker.emoji]);
     } else if (ctx.message.sticker.emoji in CatStickerSet) {
