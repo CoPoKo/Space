@@ -1,7 +1,5 @@
 import Setting from "../../../Helpers/Setting"
 import RandomNum from "../../../Helpers/RandomNum"
-let set = Setting("TelegrafBot")
-let ADMIN_NAME = set.ADMIN_NAME
 
 class Shell {
   constructor(shell) {
@@ -61,10 +59,9 @@ class HandleMessage {
       this.type = 'block';
       return this;
     }
-    this.admin = function (adminUsername = ADMIN_NAME) {
+    this.admin = function () {
       if (this.status) return this;
       this.type = 'admin';
-      this.adminUsername = adminUsername
       return this;
     };
     this.reg = function (reg) {
@@ -162,6 +159,11 @@ class HandleMessage {
         }
       }
       if (this.type == 'admin') {
+        if (!this.adminUsername) {
+          const set = await Setting("TelegrafBot")
+          const ADMIN_NAME = set.ADMIN_NAME
+          this.adminUsername = ADMIN_NAME
+        }
         if (this.username == this.adminUsername) {
           this.status = 1;
           this.fun = async () => {

@@ -61755,11 +61755,12 @@ let MyStickerSet = {
 }
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Catch/index.js
 
+
 async function Catch(err, ctx) {
-  ctx.reply(`Ooops...`);
-  let set = Space_Space.Helpers.Setting("TelegrafBot")
-  let ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
-  ctx.telegram.sendMessage(ADMIN_GROUP_ID, `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx))
+  await ctx.reply(`Ooops...`);
+  const set = await Helpers_Setting("TelegrafBot")
+  const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
+  await ctx.telegram.sendMessage(ADMIN_GROUP_ID, `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx))
   // ctx.reply(`Ooops, encountered an error for ${ctx.updateType}:\n` + err+`\n  ctx:\n`+JSON.stringify(ctx));
 }
 
@@ -61768,8 +61769,6 @@ async function Catch(err, ctx) {
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/HandleMessage/index.js
 
 
-let HandleMessage_set = Helpers_Setting("TelegrafBot")
-let ADMIN_NAME = HandleMessage_set.ADMIN_NAME
 
 class Shell {
   constructor(shell) {
@@ -61829,10 +61828,9 @@ class HandleMessage {
       this.type = 'block';
       return this;
     }
-    this.admin = function (adminUsername = ADMIN_NAME) {
+    this.admin = function () {
       if (this.status) return this;
       this.type = 'admin';
-      this.adminUsername = adminUsername
       return this;
     };
     this.reg = function (reg) {
@@ -61930,6 +61928,11 @@ class HandleMessage {
         }
       }
       if (this.type == 'admin') {
+        if (!this.adminUsername) {
+          const set = await Helpers_Setting("TelegrafBot")
+          const ADMIN_NAME = set.ADMIN_NAME
+          this.adminUsername = ADMIN_NAME
+        }
         if (this.username == this.adminUsername) {
           this.status = 1;
           this.fun = async () => {
@@ -62052,7 +62055,76 @@ async function Mention(ctx) {
 
 /* harmony default export */ const BotModel_Mention = (Mention);
 
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Text/index.js
+
+
+
+async function Text(ctx) {
+  // return ctx.reply(ctx.message)
+  await new TelegrafBot_TGBot.HandleMessage(ctx)
+    .admin().action(async () => {
+      return await new TelegrafBot_TGBot.HandleMessage(ctx)
+        .cmd('WebhookInfo').action(async () => {
+          return ctx.telegram.getWebhookInfo().then(data => {
+            return ctx.reply(JSON.stringify(data));
+          })
+        })
+        .then(that => {
+          return that.cmd('ChatID').action(async () => {
+            return ctx.reply(ctx.chat.id);
+          })
+        })
+        .then(that => {
+          return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that) => {
+            let q = []
+            if (that.args.q) {
+              q = that.args.q.split(",")
+            }
+            return ctx.telegram[that.args.p](...q).then(data => {
+              return ctx.reply(JSON.stringify(data));
+            })
+          })
+        })
+        .then(that => {
+          return that.reg(/test/).action(() => {
+            return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
+          })
+        })
+        .then(that => {
+          return that.reg(/在吗/).reply(`主人我在`)
+        })
+        .then(that => {
+          return that.run()
+        })
+    })
+    .then(that => {
+      return that.reg(/在吗/).reply(`爪巴`)
+    })
+    .then(that => {
+      return that.run()
+    })
+  await new TelegrafBot_TGBot.HandleMessage(ctx)
+    .cmd('help').action((that) => {
+      return that.ctx.reply("no help");
+    })
+    .then(that => {
+      return that.reg(/你好/).reply(`Hello!`)
+    })
+    .then(that => {
+      return that.reg(/在？|在\?/).reply(`有事？`)
+    }).then(async (that) => {
+      const set = await Helpers_Setting("TelegrafBot")
+      const ADMIN_NAME = set.ADMIN_NAME
+      return that.reg(/你的主人|your master/).reply(`@${ADMIN_NAME}`)
+    }).then(that => {
+      return that.run()
+    })
+}
+
+/* harmony default export */ const BotModel_Text = (Text);
+
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/index.js
+
 
 
 
@@ -62064,7 +62136,8 @@ function BotModel(bot) {
   bot.start(BotModel_Start);
   bot.help(BotModel_Help);
   bot.on("sticker", BotModel_Sticker);
-  bot.mention(/.*/, BotModel_Mention)
+  bot.mention(/.*/, BotModel_Mention);
+  bot.on("text", BotModel_Text);
   bot.on("message", BotModel_Message);
   bot.catch(BotModel_Catch);
 }
