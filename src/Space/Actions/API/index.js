@@ -18,6 +18,7 @@ import thisanimedoesnotexist from "./thisanimedoesnotexist"
 import Poet from "./Poet"
 import Happypic from "./Happypic"
 import DNS from "./DNS"
+import Thum from "./Thum"
 
 let API = {
   KV,
@@ -40,6 +41,7 @@ let API = {
   Poet,
   Happypic,
   DNS,
+  Thum,
 };
 
 export default API;

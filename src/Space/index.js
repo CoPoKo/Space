@@ -44,6 +44,10 @@ async function handleSpace(event) {
     router.get("/poet").action(Space.Actions.API.Poet);
     router.get("/happypic").action(Space.Actions.API.Happypic);
     router.get("/dns").action(Space.Actions.API.DNS);
+    router.get("/thum").action(Space.Actions.API.Thum);
+    /////////////////////////////////////////////////////////////////////
+    // Header Auth
+    router.get("/Admin").action(Space.Actions.Admin);
     /////////////////////////////////////////////////////////////////////
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权

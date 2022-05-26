@@ -6,6 +6,7 @@ import Link from "./Link"
 import Pages from "./Pages"
 import Favicon from "./Favicon"
 import TelegrafWebhook from "./TelegrafWebhook"
+import Admin from "./Admin"
 
 let Actions = {
   Auth,
@@ -16,6 +17,7 @@ let Actions = {
   Pages,
   Favicon,
   TelegrafWebhook,
+  Admin,
 };
 
 export default Actions;

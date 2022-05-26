@@ -34836,7 +34836,7 @@ var ThrowTypeError = $gOPD
 	}())
 	: throwTypeError;
 
-var hasSymbols = __webpack_require__(1405)();
+var hasSymbols = __webpack_require__(5295)();
 
 var getProto = Object.getPrototypeOf || function (x) { return x.__proto__; }; // eslint-disable-line no-proto
 
@@ -35167,7 +35167,7 @@ module.exports = hasPropertyDescriptors;
 
 /***/ }),
 
-/***/ 1405:
+/***/ 5295:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -61032,6 +61032,50 @@ async function Happypic() {
 }
 /* harmony default export */ const API_Happypic = (Happypic);
 
+;// CONCATENATED MODULE: ./src/Space/API/Setu/index.js
+
+
+async function HappypicSex() {
+  return "https://cdn.jsdelivr.net/npm/chenyfan-happypic-sex@0.0." + Space_Space.Helpers.RandomNum(1, 19) + "/" + Space_Space.Helpers.RandomNum(1, 99) + ".jpg"
+}
+
+async function SJMM(id) {
+  id = id || Space_Space.Helpers.RandomNum(1, 35)
+  let set = await Space_Space.Helpers.Setting("GitHub");
+  let BOT_TOKEN = set.BOT_TOKEN;
+  return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/gif/" + id + ".gif", {
+    headers: {
+      Accept: "application/vnd.github.v3.raw",
+      Authorization: "token " + BOT_TOKEN
+    }
+  })
+}
+async function Tui(id) {
+  id = id || Space_Space.Helpers.RandomNum(1, 557)
+  let set = await Space_Space.Helpers.Setting("GitHub");
+  let BOT_TOKEN = set.BOT_TOKEN;
+  return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/tui/" + id + ".jpg", {
+    headers: {
+      Accept: "application/vnd.github.v3.raw",
+      Authorization: "token " + BOT_TOKEN
+    }
+  })
+}
+async function El() {
+  let FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
+  let SetuInfo = (await Space_Space.Helpers.Fetch.JSON(FetchUrl)).image
+  let url = SetuInfo[Space_Space.Helpers.RandomNum(0, SetuInfo.length - 1)].url
+  return url
+}
+
+let Setu = {
+  HappypicSex,
+  SJMM,
+  Tui,
+  El,
+}
+/* harmony default export */ const API_Setu = (Setu);
+
 ;// CONCATENATED MODULE: ./src/Space/API/DNS/index.js
 
 /**
@@ -61114,7 +61158,29 @@ function checkipv6(ip) {
 }
 /* harmony default export */ const API_DNS = (DNS);
 
+;// CONCATENATED MODULE: ./src/Space/API/Thum/index.js
+
+
+async function Thum(opt = {}) {
+  if (!opt.url) {
+    opt.url = "https://www.google.com"
+  }
+  if (!opt.width) {
+    opt.width = "1024"
+  }
+  if (!opt.height) {
+    opt.height = "1200"
+  }
+  if (!opt.wait) {
+    opt.wait = "2"
+  }
+  return "https://image.thum.io/get/width/" + opt.width + "/crop/" + opt.height + "/wait/" + opt.wait + "/" + opt.url
+}
+/* harmony default export */ const API_Thum = (Thum);
+
 ;// CONCATENATED MODULE: ./src/Space/API/index.js
+
+
 
 
 
@@ -61154,7 +61220,9 @@ let API = {
   thisanimedoesnotexist: API_thisanimedoesnotexist,
   Poet: API_Poet,
   Happypic: API_Happypic,
+  Setu: API_Setu,
   DNS: API_DNS,
+  Thum: API_Thum,
 };
 
 /* harmony default export */ const Space_API = (API);
@@ -61208,12 +61276,15 @@ let Headers = {
 
 ;// CONCATENATED MODULE: ./src/Space/Helpers/ErrorResponse/index.js
 
-async function ErrorResponse(msg, status = 500) {
+async function ErrorResponse(msg, status = 500, headers = false) {
+  if (!headers) {
+    headers = Space_Space.Helpers.Headers.html
+  }
   return new Response(
     Space_Space.Renderers.erorr.replace(/::ErrorInfo::/g, msg),
     Object.assign({
       status: status,
-    }, Space_Space.Helpers.Headers.html)
+    }, headers)
   );
 }
 /* harmony default export */ const Helpers_ErrorResponse = (ErrorResponse);
@@ -61951,7 +62022,7 @@ async function DNS_DNS(ctx) {
   let opt = {}
   opt.type = ctx.getParam("type")
   opt.name = ctx.getParam("name")
-  opt.edns_client_subnet = ctx.getParam("edns_client_subnet")|| new Map(ctx.request.headers).get('x-real-ip') || `1.0.0.1`
+  opt.edns_client_subnet = ctx.getParam("edns_client_subnet") || new Map(ctx.request.headers).get('x-real-ip') || `1.0.0.1`
 
   if (path.indexOf("host") != -1) {
     opt.host = "true"
@@ -61989,7 +62060,23 @@ async function DNS_DNS(ctx) {
 }
 /* harmony default export */ const Actions_API_DNS = (DNS_DNS);
 
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Thum/index.js
+
+
+async function Thum_Thum(ctx) {
+  let opt = {}
+  opt.url = ctx.getParam("url")
+  opt.width = ctx.getParam("width")
+  opt.height = ctx.getParam("height")
+  opt.wait = ctx.getParam("wait")
+
+  let ans = await Space_Space.API.Thum(opt)
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_Thum = (Thum_Thum);
+
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/index.js
+
 
 
 
@@ -62032,6 +62119,7 @@ let API_API = {
   Poet: Actions_API_Poet,
   Happypic: Actions_API_Happypic,
   DNS: Actions_API_DNS,
+  Thum: Actions_API_Thum,
 };
 
 /* harmony default export */ const Actions_API = (API_API);
@@ -62685,7 +62773,75 @@ async function invokeMiddleware(context, middleware) {
 
 /* harmony default export */ const Actions_TelegrafWebhook = (TelegrafWebhook);
 
+;// CONCATENATED MODULE: ./src/Space/Actions/Admin/index.js
+
+
+async function Admin(ctx) {
+  // Auth
+  if (!doBasicAuth(ctx.request)) {
+    return unauthorized();
+  }
+  let path = ctx.pathname
+  if (path.startsWith('/Admin/happypic-sex')) {
+    let ans = await Space_Space.API.Setu.HappypicSex()
+    return fetch(ans)
+  }
+  if (path.startsWith('/Admin/setu/gif')) {
+    let id = ctx.getParam('id') || Space_Space.Helpers.RandomNum(1, 35)
+    return new Response('<html style="height: 100%;"><head><meta name="viewport" content="width=device-width, minimum-scale=0.1"><title>404</title></head><body style="text-align: center;margin: 0px; background: #0e0e0e; height: 100%"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="/Admin/setu/api/gif?id=' + id + '"></body></html>'
+      , Space_Space.Helpers.Headers.html);
+  }
+  if (path.startsWith('/Admin/setu/api/gif')) {
+    let id = ctx.getParam('id')
+    return Space_Space.API.Setu.SJMM(id)
+  }
+  if (path.startsWith('/Admin/setu/tui')) {
+    let id = ctx.getParam('id')
+    return Space_Space.API.Setu.Tui(id)
+  }
+  if (path.startsWith('/Admin/setu/el')) {
+    let ans = await Space_Space.API.Setu.El()
+    return fetch(ans)
+  }
+
+
+  return Space_Space.Helpers.ErrorResponse("Opps...", 403);
+}
+
+/* harmony default export */ const Actions_Admin = (Admin);
+
+/**
+ * 简单鉴权
+ */
+function doBasicAuth(request) {
+  const auth = request.headers.get('Authorization');
+  if (!auth || !/^Basic [A-Za-z0-9._~+/-]+=*$/i.test(auth)) {
+    return false;
+  }
+  const [user, pass] = parseBasicAuth(auth);
+  return user === SpaceName && pass === SpacePassword;
+}
+function parseBasicAuth(auth) {
+  try {
+    return atob(auth.split(' ').pop()).split(':');
+  } catch (e) {
+    return [];
+  }
+}
+/**
+ * 未鉴权 401
+ */
+function unauthorized() {
+  return Space_Space.Helpers.ErrorResponse("您的权限不足，请不要再发送此请求", 401, {
+    headers: {
+      "content-type": "text/html; charset=utf-8",
+      'WWW-Authenticate': 'Basic realm="MyAPI"',
+      'Access-Control-Allow-Origin': '*'
+    },
+  });
+}
 ;// CONCATENATED MODULE: ./src/Space/Actions/index.js
+
 
 
 
@@ -62704,6 +62860,7 @@ let Actions_Actions = {
   Pages: Actions_Pages,
   Favicon: Actions_Favicon,
   TelegrafWebhook: Actions_TelegrafWebhook,
+  Admin: Actions_Admin,
 };
 
 /* harmony default export */ const Space_Actions = (Actions_Actions);
@@ -62770,6 +62927,10 @@ async function handleSpace(event) {
     router.get("/poet").action(Space_Space.Actions.API.Poet);
     router.get("/happypic").action(Space_Space.Actions.API.Happypic);
     router.get("/dns").action(Space_Space.Actions.API.DNS);
+    router.get("/thum").action(Space_Space.Actions.API.Thum);
+    /////////////////////////////////////////////////////////////////////
+    // Header Auth
+    router.get("/Admin").action(Space_Space.Actions.Admin);
     /////////////////////////////////////////////////////////////////////
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权
