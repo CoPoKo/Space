@@ -52,19 +52,19 @@ async function Text(ctx) {
     .then(that => {
       return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TGBot.Actions.Unsplash)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('cat').setArg('k', 'cat').action(TGBot.Actions.Unsplash)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('dog').setArg('k', 'dog').action(TGBot.Actions.Unsplash)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('bing').setArg('d', '0').action(TGBot.Actions.Bing)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('soul').action(TGBot.Actions.Soul)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('hitokoto').action(TGBot.Actions.Hitokoto)
     })
     .then(that => {

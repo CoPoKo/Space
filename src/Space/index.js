@@ -35,6 +35,9 @@ async function handleSpace(event) {
     router.get("/unsplash").action(Space.Actions.API.Unsplash);
     router.get("/acg").action(Space.Actions.API.ACG);
     router.get("/niubi").action(Space.Actions.API.Niubi);
+    router.get("/ip").action(Space.Actions.API.IP);
+    router.get("/decrypt").action(Space.Actions.API.DeMD5);
+    router.get("/zh").action(Space.Actions.API.ZH);
     /////////////////////////////////////////////////////////////////////
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权

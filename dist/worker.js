@@ -60887,7 +60887,78 @@ async function Niubi(name) {
 }
 /* harmony default export */ const API_Niubi = (Niubi);
 
+;// CONCATENATED MODULE: ./src/Space/API/DeMD5/index.js
+
+
+async function DeMD5(md5) {
+  let data = {}
+  if (md5) {
+    // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
+    let MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5
+    let rs = await (await fetch(MD5FetchURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
+        "X-Forwarded-For": "192.168.1.1"
+      }
+    })).text()
+    rs = /<em class=\"long-content\ string\">(.*)<\/em>/.exec(rs)
+    if (rs) rs = rs[1]
+    data['ans'] = rs
+  }
+  return data
+}
+/* harmony default export */ const API_DeMD5 = (DeMD5);
+
+;// CONCATENATED MODULE: ./src/Space/API/ZH/index.js
+
+
+async function GetJTPYStr() {
+  let FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/JTPY.txt";
+  let str = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  return str;
+}
+async function GetFTPYStr() {
+  let FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/FTPY.txt";
+  let str = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  return str;
+}
+// 简=>繁
+async function Traditionalized(cc) {
+  var str = '';
+  var JTPYStr = await GetJTPYStr()
+  var FTPYStr = await GetFTPYStr()
+  for (var i = 0; i < cc.length; i++) {
+    if (JTPYStr.indexOf(cc.charAt(i)) != -1)
+      str += FTPYStr.charAt(JTPYStr.indexOf(cc.charAt(i)));
+    else
+      str += cc.charAt(i);
+  }
+  return str;
+}
+// 繁=>简
+async function Simplized(cc) {
+  var str = '';
+  var JTPYStr = await GetJTPYStr()
+  var FTPYStr = await GetFTPYStr()
+  for (var i = 0; i < cc.length; i++) {
+    if (FTPYStr.indexOf(cc.charAt(i)) != -1)
+      str += JTPYStr.charAt(FTPYStr.indexOf(cc.charAt(i)));
+    else
+      str += cc.charAt(i);
+  }
+  return str;
+}
+const ZH = {
+  Simplized,
+  Traditionalized,
+}
+/* harmony default export */ const API_ZH = (ZH);
+
 ;// CONCATENATED MODULE: ./src/Space/API/index.js
+
+
 
 
 
@@ -60912,6 +60983,8 @@ let API = {
   Unsplash: API_Unsplash,
   ACG: API_ACG,
   Niubi: API_Niubi,
+  DeMD5: API_DeMD5,
+  ZH: API_ZH,
 };
 
 /* harmony default export */ const Space_API = (API);
@@ -61579,7 +61652,54 @@ async function Niubi_Niubi(ctx) {
 }
 /* harmony default export */ const Actions_API_Niubi = (Niubi_Niubi);
 
+;// CONCATENATED MODULE: ./src/Space/Actions/API/IP/index.js
+
+
+async function IP(ctx) {
+  let request = ctx.request
+  return new Response(JSON.stringify({
+    "CF-Connecting-IP": request.headers.get("CF-Connecting-IP"),
+    "X-Forwarded-For": request.headers.get("X-Forwarded-For"),
+    "Cf-Ipcountry": request.headers.get("Cf-Ipcountry"),
+    "X-Real-IP": new Map(request.headers).get('x-real-ip')
+  }), Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const API_IP = (IP);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/DeMD5/index.js
+
+
+async function DeMD5_DeMD5(ctx) {
+  let md5 = ctx.getParam("md5");
+  let ans = await Space_Space.API.DeMD5(md5);
+  return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_DeMD5 = (DeMD5_DeMD5);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/ZH/index.js
+
+
+async function ZH_ZH(ctx) {
+  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  let s = URLParameters.s
+  let path = ctx.pathname
+  if (s) {
+    if (path.startsWith('/zh/s')) {
+      let ans = await Space_Space.API.ZH.Simplized(s)
+      return new Response(ans, Space_Space.Helpers.Headers.json)
+    }
+    if (path.startsWith('/zh/t')) {
+      let ans = await Space_Space.API.ZH.Traditionalized(s)
+      return new Response(ans, Space_Space.Helpers.Headers.json)
+    }
+  }
+}
+/* harmony default export */ const Actions_API_ZH = (ZH_ZH);
+
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/index.js
+
+
+
 
 
 
@@ -61604,6 +61724,9 @@ let API_API = {
   Unsplash: Actions_API_Unsplash,
   ACG: Actions_API_ACG,
   Niubi: Actions_API_Niubi,
+  IP: API_IP,
+  DeMD5: Actions_API_DeMD5,
+  ZH: Actions_API_ZH,
 };
 
 /* harmony default export */ const Actions_API = (API_API);
@@ -61978,7 +62101,14 @@ class HandleMessage {
     };
   }
 }
-
+function isInArray(arr, value) {
+  for (var i = 0; i < arr.length; i++) {
+    if (value === arr[i]) {
+      return true;
+    }
+  }
+  return false;
+}
 /* harmony default export */ const TGBot_HandleMessage = (HandleMessage);
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Niubi/index.js
 
@@ -62158,19 +62288,19 @@ async function Text(ctx) {
     .then(that => {
       return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TelegrafBot_TGBot.Actions.Unsplash)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('cat').setArg('k', 'cat').action(TelegrafBot_TGBot.Actions.Unsplash)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('dog').setArg('k', 'dog').action(TelegrafBot_TGBot.Actions.Unsplash)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('bing').setArg('d', '0').action(TelegrafBot_TGBot.Actions.Bing)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('soul').action(TelegrafBot_TGBot.Actions.Soul)
     })
-    .then(that=> {
+    .then(that => {
       return that.cmd('hitokoto').action(TelegrafBot_TGBot.Actions.Hitokoto)
     })
     .then(that => {
@@ -62326,6 +62456,9 @@ async function handleSpace(event) {
     router.get("/unsplash").action(Space_Space.Actions.API.Unsplash);
     router.get("/acg").action(Space_Space.Actions.API.ACG);
     router.get("/niubi").action(Space_Space.Actions.API.Niubi);
+    router.get("/ip").action(Space_Space.Actions.API.IP);
+    router.get("/decrypt").action(Space_Space.Actions.API.DeMD5);
+    router.get("/zh").action(Space_Space.Actions.API.ZH);
     /////////////////////////////////////////////////////////////////////
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权

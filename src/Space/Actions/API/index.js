@@ -9,6 +9,9 @@ import Hitokoto from "./Hitokoto"
 import Unsplash from "./Unsplash"
 import ACG from "./ACG"
 import Niubi from "./Niubi"
+import IP from "./IP"
+import DeMD5 from "./DeMD5"
+import ZH from "./ZH"
 
 let API = {
   KV,
@@ -22,6 +25,9 @@ let API = {
   Unsplash,
   ACG,
   Niubi,
+  IP,
+  DeMD5,
+  ZH,
 };
 
 export default API;
