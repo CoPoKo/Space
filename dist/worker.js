@@ -63303,6 +63303,18 @@ TelegrafBot_BotModel(bot);
 
 /* harmony default export */ const TelegrafBot = (bot);
 
+// Your code here, but do not `bot.launch()`
+
+// https://telegrafjs.org/
+
+// bot.start((ctx) => ctx.reply('Welcome'))
+// bot.help((ctx) => ctx.reply('Send me a sticker'))
+// bot.on('sticker', (ctx) => ctx.reply('👍'))
+// bot.hears('hi', (ctx) => ctx.reply('Hey there'))
+// bot.command('oldschool', (ctx) => ctx.reply('Hello'))
+// bot.command('modern', ({ reply }) => reply('Yo'))
+// bot.command('hipster', Telegraf.reply('λ'))
+// bot.on('text', (ctx) => ctx.reply('Hello World'))
 ;// CONCATENATED MODULE: ./src/Space/Actions/TelegrafWebhook/index.js
 
 const { Context } = __webpack_require__(2112);
@@ -63550,7 +63562,27 @@ async function handleSpace(event) {
 }
 /* harmony default export */ const src_Space = (handleSpace);
 
+;// CONCATENATED MODULE: ./src/Space/Scheduled.js
+
+
+
+async function handleScheduled(event) {
+  let Hours = new Date(event.scheduledTime).getHours()
+  let Minutes = new Date(event.scheduledTime).getMinutes()
+  let nowTime = `${Hours}:${Minutes}`
+  let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+  if (Hours == 22 && Minutes == 0) { // 6:00
+    let ans = await Space_Space.API.BingImgInfo();
+    // chattitle: "喵喵喵" chatid: -1001531720445
+    await TelegrafBot.telegram.sendPhoto("-1001531720445", ans.url, { "caption": ans.copyright });
+  }
+}
+
+/* harmony default export */ const Scheduled = (handleScheduled);
+
 ;// CONCATENATED MODULE: ./src/index.js
+
 
 
 addEventListener("fetch", (event) => {
@@ -63561,6 +63593,9 @@ addEventListener("fetch", (event) => {
   );
 });
 
+addEventListener('scheduled', async event => {
+  event.waitUntil(Scheduled(event))
+})
 })();
 
 /******/ })()
