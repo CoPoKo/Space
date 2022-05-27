@@ -14,7 +14,7 @@ const Thum = async that => {
   opt.wait = that.args.t;
   let ans = await Space.API.Thum(opt);
   await fetch(ans).then(async (res) => {
-    return await that.ctx.replyWithPhoto(ans);
+    return await that.ctx.replyWithPhoto(ans, { "caption": opt.url });
   }).catch(err => { });
 };
 

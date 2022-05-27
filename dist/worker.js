@@ -62672,7 +62672,7 @@ const Actions_Thum_Thum = async that => {
   opt.wait = that.args.t;
   let ans = await Space_Space.API.Thum(opt);
   await fetch(ans).then(async (res) => {
-    return await that.ctx.replyWithPhoto(ans);
+    return await that.ctx.replyWithPhoto(ans, { "caption": opt.url });
   }).catch(err => { });
 };
 
@@ -63109,6 +63109,9 @@ async function Text(ctx) {
     })
     .then(that => {
       return that.reg(/来点(\S*)笑话/).action(TelegrafBot_TGBot.Actions.Niubi)
+    })
+    .then(that=> {
+      return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
     })
     .then(that => {
       return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
