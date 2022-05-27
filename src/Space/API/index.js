@@ -20,6 +20,7 @@ import Setu from "./Setu"
 import DNSQuery from "./DNSQuery"
 import Thum from "./Thum"
 import Nbnhhsh from "./Nbnhhsh"
+import IPFS from "./IPFS"
 
 let API = {
   KV,
@@ -44,6 +45,7 @@ let API = {
   DNSQuery,
   Thum,
   Nbnhhsh,
+  IPFS,
 };
 
 export default API;

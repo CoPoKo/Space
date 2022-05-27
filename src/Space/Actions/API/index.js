@@ -20,6 +20,7 @@ import Happypic from "./Happypic"
 import DNSQuery from "./DNSQuery"
 import Thum from "./Thum"
 import NPMUpload from "./NPMUpload"
+import IPFS from "./IPFS"
 
 let API = {
   KV,
@@ -44,6 +45,7 @@ let API = {
   DNSQuery,
   Thum,
   NPMUpload,
+  IPFS,
 };
 
 export default API;

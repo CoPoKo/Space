@@ -61254,7 +61254,37 @@ async function Nbnhhsh(key) {
 }
 /* harmony default export */ const API_Nbnhhsh = (Nbnhhsh);
 
+;// CONCATENATED MODULE: ./src/Space/API/IPFS/index.js
+
+
+const IPFS = {
+  Put: async (s) => {
+    if (!s) {
+      s = "Hello World!"
+    }
+    const set = await Space_Space.Helpers.Setting("IPFS");
+    const API = set.API;
+    return await fetch(new Request(API + "/api/v0/add", {
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "Content-Type": 'multipart/form-data; boundary=----IPFS20363.283362394857.60938.67369538564',
+      },
+      body: `------IPFS20363.283362394857.60938.67369538564\r\n` +
+        `Content-Disposition: form-data; name="path"\r\n` +
+        `Content-Type: application/octet-stream\r\n\r\n` +
+        s +
+        `\r\n------IPFS20363.283362394857.60938.67369538564--`
+    }));
+  },
+  Get: async (hash) => {
+    return await fetch("https://cloudflare-ipfs.com/ipfs/" + hash);
+  }
+};
+/* harmony default export */ const API_IPFS = (IPFS);
+
 ;// CONCATENATED MODULE: ./src/Space/API/index.js
+
 
 
 
@@ -61301,6 +61331,7 @@ let API = {
   DNSQuery: API_DNSQuery,
   Thum: API_Thum,
   Nbnhhsh: API_Nbnhhsh,
+  IPFS: API_IPFS,
 };
 
 /* harmony default export */ const Space_API = (API);
@@ -62192,7 +62223,36 @@ async function NPMUpload(ctx) {
 }
 /* harmony default export */ const API_NPMUpload = (NPMUpload);
 
+;// CONCATENATED MODULE: ./src/Space/Actions/API/IPFS/index.js
+
+
+async function IPFS_Get(ctx) {
+  const request = ctx.request
+  const path = ctx.pathname
+  if (path == "/ipfs/") {
+    const set = await Space_Space.Helpers.Setting("IPFS");
+    const API = set.API;
+    return await fetch(API)
+  }
+  const url = new URL(request.url)
+  url.hostname = "cloudflare-ipfs.com"
+  return await fetch(url.toString(), request)
+}
+async function IPFS_Put(ctx) {
+  const s = ctx.getParam("s")
+  const ans = await Space_Space.API.IPFS.Put(s)
+  const sc = await ans.text()
+  return new Response(sc, Space_Space.Helpers.Headers.js);
+}
+
+const IPFS_IPFS = {
+  Get: IPFS_Get,
+  Put: IPFS_Put,
+};
+/* harmony default export */ const Actions_API_IPFS = (IPFS_IPFS);
+
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/index.js
+
 
 
 
@@ -62239,6 +62299,7 @@ let API_API = {
   DNSQuery: Actions_API_DNSQuery,
   Thum: Actions_API_Thum,
   NPMUpload: API_NPMUpload,
+  IPFS: Actions_API_IPFS,
 };
 
 /* harmony default export */ const Actions_API = (API_API);
@@ -63557,7 +63618,7 @@ async function handleSpace(event) {
     router.get("/unsplash").action(Space_Space.Actions.API.Unsplash);
     router.get("/acg").action(Space_Space.Actions.API.ACG);
     router.get("/niubi").action(Space_Space.Actions.API.Niubi);
-    router.get("/ip").action(Space_Space.Actions.API.IP);
+    router.get("/ipinfo").action(Space_Space.Actions.API.IP);
     router.get("/decrypt").action(Space_Space.Actions.API.DecryptMd5);
     router.get("/zh").action(Space_Space.Actions.API.ZH);
     router.get("/person").action(Space_Space.Actions.API.thispersondoesnotexist);
@@ -63567,6 +63628,8 @@ async function handleSpace(event) {
     router.get("/happypic").action(Space_Space.Actions.API.Happypic);
     router.get("/dns").action(Space_Space.Actions.API.DNSQuery);
     router.get("/thum").action(Space_Space.Actions.API.Thum);
+    router.get("/ipfs/api/add").action(Space_Space.Actions.API.IPFS.Put);
+    router.get("/ipfs/").action(Space_Space.Actions.API.IPFS.Get);
     /////////////////////////////////////////////////////////////////////
     // Header Auth
     router.get("/Admin").action(Space_Space.Actions.Admin);

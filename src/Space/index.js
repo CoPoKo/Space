@@ -35,7 +35,7 @@ async function handleSpace(event) {
     router.get("/unsplash").action(Space.Actions.API.Unsplash);
     router.get("/acg").action(Space.Actions.API.ACG);
     router.get("/niubi").action(Space.Actions.API.Niubi);
-    router.get("/ip").action(Space.Actions.API.IP);
+    router.get("/ipinfo").action(Space.Actions.API.IP);
     router.get("/decrypt").action(Space.Actions.API.DecryptMd5);
     router.get("/zh").action(Space.Actions.API.ZH);
     router.get("/person").action(Space.Actions.API.thispersondoesnotexist);
@@ -45,6 +45,8 @@ async function handleSpace(event) {
     router.get("/happypic").action(Space.Actions.API.Happypic);
     router.get("/dns").action(Space.Actions.API.DNSQuery);
     router.get("/thum").action(Space.Actions.API.Thum);
+    router.get("/ipfs/api/add").action(Space.Actions.API.IPFS.Put);
+    router.get("/ipfs/").action(Space.Actions.API.IPFS.Get);
     /////////////////////////////////////////////////////////////////////
     // Header Auth
     router.get("/Admin").action(Space.Actions.Admin);
