@@ -13897,7 +13897,7 @@ module.exports = function xor (a, b) {
 
 
 const base64 = __webpack_require__(9742)
-const ieee754 = __webpack_require__(241)
+const ieee754 = __webpack_require__(645)
 const customInspectSymbol =
   (typeof Symbol === 'function' && typeof Symbol['for'] === 'function') // eslint-disable-line dot-notation
     ? Symbol['for']('nodejs.util.inspect.custom') // eslint-disable-line dot-notation
@@ -36835,7 +36835,7 @@ module.exports = "";
 
 /***/ }),
 
-/***/ 645:
+/***/ 6080:
 /***/ ((module) => {
 
 module.exports = "<script src=\"::CDN::/bs-custom-file-input/dist/bs-custom-file-input.js\"></script>\r\n<script>\r\n  bsCustomFileInput.init();\r\n\r\n  function mySubmit(form) {\r\n    let formData = new FormData(form);\r\n    let file = formData.getAll('file');\r\n    console.log(file);\r\n    var reader = new FileReader();\r\n    reader.readAsDataURL(file[0]);\r\n    reader.onload = function (e) {\r\n      let bd = this.result.substring(this.result.indexOf(',') + 1);\r\n      fetch('/space/api/NPMUpload/' + file[0].name, {\r\n        method: 'POST',\r\n        body: bd,\r\n        headers: {\r\n          'Content-Type': 'text/plain'\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (data) {\r\n        console.log(data);\r\n        let s = `/mhgoos@0.0.${data.commit.message.replace(\"Update:\", \"\")}/` + file[0].name;\r\n        document.querySelector(\"#message\").innerHTML = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`;\r\n      }).catch(function (err) {\r\n        document.querySelector(\"#message\").innerHTML = err;\r\n        console.error(err);\r\n      });\r\n    }\r\n    return false;\r\n  }\r\n</script>";
@@ -36950,7 +36950,7 @@ function validateParams (params) {
 
 /***/ }),
 
-/***/ 241:
+/***/ 645:
 /***/ ((__unused_webpack_module, exports) => {
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
@@ -56626,7 +56626,7 @@ const dash_nav = ["home","search","npm","setting"]
 
 var map = {
 	"./home/bodyend.html": 6450,
-	"./npm/bodyend.html": 645,
+	"./npm/bodyend.html": 6080,
 	"./search/bodyend.html": 6581,
 	"./setting/bodyend.html": 3015
 };
@@ -61255,6 +61255,7 @@ async function Nbnhhsh(key) {
 /* harmony default export */ const API_Nbnhhsh = (Nbnhhsh);
 
 ;// CONCATENATED MODULE: ./src/Space/API/IPFS/index.js
+/* provided dependency */ var Buffer = __webpack_require__(8764)["Buffer"];
 
 
 const IPFS = {
@@ -61264,17 +61265,14 @@ const IPFS = {
     }
     const set = await Space_Space.Helpers.Setting("IPFS");
     const API = set.API;
+    let formdata = new FormData();
+    formdata.append("file", Buffer.from(s));
     return await fetch(new Request(API + "/api/v0/add", {
       method: "POST",
       headers: {
         "accept": "application/json",
-        "Content-Type": 'multipart/form-data; boundary=----IPFS20363.283362394857.60938.67369538564',
       },
-      body: `------IPFS20363.283362394857.60938.67369538564\r\n` +
-        `Content-Disposition: form-data; name="path"\r\n` +
-        `Content-Type: application/octet-stream\r\n\r\n` +
-        s +
-        `\r\n------IPFS20363.283362394857.60938.67369538564--`
+      body: formdata,
     }));
   },
   Get: async (hash) => {
