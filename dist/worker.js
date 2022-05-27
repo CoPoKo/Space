@@ -13897,7 +13897,7 @@ module.exports = function xor (a, b) {
 
 
 const base64 = __webpack_require__(9742)
-const ieee754 = __webpack_require__(645)
+const ieee754 = __webpack_require__(241)
 const customInspectSymbol =
   (typeof Symbol === 'function' && typeof Symbol['for'] === 'function') // eslint-disable-line dot-notation
     ? Symbol['for']('nodejs.util.inspect.custom') // eslint-disable-line dot-notation
@@ -36835,6 +36835,27 @@ module.exports = "";
 
 /***/ }),
 
+/***/ 645:
+/***/ ((module) => {
+
+module.exports = "<script src=\"::CDN::/bs-custom-file-input/dist/bs-custom-file-input.js\"></script>\r\n<script>\r\n  bsCustomFileInput.init();\r\n\r\n  function mySubmit(form) {\r\n    let formData = new FormData(form);\r\n    let file = formData.getAll('file');\r\n    console.log(file);\r\n    var reader = new FileReader();\r\n    reader.readAsDataURL(file[0]);\r\n    reader.onload = function (e) {\r\n      let bd = this.result.substring(this.result.indexOf(',') + 1);\r\n      fetch('/space/api/NPMUpload/' + file[0].name, {\r\n        method: 'POST',\r\n        body: bd,\r\n        headers: {\r\n          'Content-Type': 'text/plain'\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (data) {\r\n        console.log(data);\r\n        let s = `/mhgoos@0.0.${data.commit.message.replace(\"Update:\", \"\")}/` + file[0].name;\r\n        document.querySelector(\"#message\").innerHTML = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`;\r\n      }).catch(function (err) {\r\n        document.querySelector(\"#message\").innerHTML = err;\r\n        console.error(err);\r\n      });\r\n    }\r\n    return false;\r\n  }\r\n</script>";
+
+/***/ }),
+
+/***/ 7558:
+/***/ ((module) => {
+
+module.exports = "<!-- Content Header (Page header) -->\r\n<section class=\"content-header\">\r\n  <div class=\"container-fluid\">\r\n    <h2 class=\"text-center display-4\">NPM Upload</h2>\r\n  </div>\r\n</section>\r\n\r\n<!-- Main content -->\r\n<section class=\"content\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"card card-primary\">\r\n      <form action=\"\" onsubmit=\"return mySubmit(this)\">\r\n        <div class=\"card-body\">\r\n          <div class=\"form-group\">\r\n            <label for=\"InputFile\">File input</label>\r\n            <div class=\"input-group\">\r\n              <div class=\"custom-file\">\r\n                <input type=\"file\" name=\"file\" class=\"custom-file-input\" id=\"InputFile\">\r\n                <label class=\"custom-file-label\" for=\"InputFile\">Choose file</label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" name=\"submit\" class=\"btn btn-primary\">Submit</button>\r\n        </div>\r\n      </form>\r\n    </div>\r\n    <div class=\"card card-primary\">\r\n      <div class=\"card-body\">\r\n        <p id=\"message\"></p>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</section>";
+
+/***/ }),
+
+/***/ 2532:
+/***/ ((module) => {
+
+module.exports = "<li class=\"nav-item\">\r\n  <a href=\"/space/dash/npm\" class=\"nav-link\">\r\n    <i class=\"nav-icon fa-brands fa-npm\"></i>\r\n    <p>\r\n      NPM Upload\r\n    </p>\r\n  </a>\r\n</li>";
+
+/***/ }),
+
 /***/ 6581:
 /***/ ((module) => {
 
@@ -36929,7 +36950,7 @@ function validateParams (params) {
 
 /***/ }),
 
-/***/ 645:
+/***/ 241:
 /***/ ((__unused_webpack_module, exports) => {
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
@@ -56596,7 +56617,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "dash_nav": () => (/* binding */ dash_nav)
 /* harmony export */ });
-const dash_nav = ["home","search","setting"]
+const dash_nav = ["home","search","npm","setting"]
 
 /***/ }),
 
@@ -56605,6 +56626,7 @@ const dash_nav = ["home","search","setting"]
 
 var map = {
 	"./home/bodyend.html": 6450,
+	"./npm/bodyend.html": 645,
 	"./search/bodyend.html": 6581,
 	"./setting/bodyend.html": 3015
 };
@@ -56636,6 +56658,7 @@ webpackContext.id = 4535;
 
 var map = {
 	"./home/content.html": 5698,
+	"./npm/content.html": 7558,
 	"./search/content.html": 7676,
 	"./setting/content.html": 6724
 };
@@ -56667,6 +56690,7 @@ webpackContext.id = 7832;
 
 var map = {
 	"./home/nav-item.html": 1418,
+	"./npm/nav-item.html": 2532,
 	"./search/nav-item.html": 5436,
 	"./setting/nav-item.html": 8697
 };
@@ -62129,7 +62153,47 @@ async function Thum_Thum(ctx) {
 }
 /* harmony default export */ const Actions_API_Thum = (Thum_Thum);
 
+;// CONCATENATED MODULE: ./src/Space/Actions/API/NPMUpload/index.js
+
+
+async function NPMUpload(ctx) {
+  const set = await Space_Space.Helpers.Setting("GitHub");
+  const BOT_TOKEN = set.BOT_TOKEN;
+  const path = ctx.pathname
+  const message = Date.now()
+  const file = await ctx.request.text()
+  const filename = path.substr(("/space/api/NPMUpload/").length)
+  const url = `https://api.github.com/repos/MHG-LAB/git2npm/contents/${filename}?ref=main`
+  const f_sha = await fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "user-agent": "copoko.npm.git/0.0.1",
+      "Authorization": "token " + BOT_TOKEN
+    },
+  }).then(e => {
+    return e.text()
+  }).then(e => {
+    return (JSON.parse(e)).sha
+  })
+
+  const r = await fetch(url, {
+    body: JSON.stringify({
+      branch: "main", message: `Update:` + message, content: file, sha: f_sha
+    }),
+    method: "PUT",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "user-agent": "copoko.npm.git/0.0.1",
+      "Authorization": "token " + BOT_TOKEN
+    }
+  })
+  return new Response(await r.text(), { status: r.status })
+}
+/* harmony default export */ const API_NPMUpload = (NPMUpload);
+
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/index.js
+
 
 
 
@@ -62174,6 +62238,7 @@ let API_API = {
   Happypic: Actions_API_Happypic,
   DNSQuery: Actions_API_DNSQuery,
   Thum: Actions_API_Thum,
+  NPMUpload: API_NPMUpload,
 };
 
 /* harmony default export */ const Actions_API = (API_API);
@@ -63527,16 +63592,13 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     // api
     /////////////////////////////////////////////////////////////////////
-    // kv
     router.post("/space/api/kv/get").action(Space_Space.Actions.API.KV.Get);
     router.post("/space/api/kv/put").action(Space_Space.Actions.API.KV.Put);
     router.post("/space/api/kv/delete").action(Space_Space.Actions.API.KV.Delete);
-    // Google Translate
     router.get("/space/api/GoogleTranslate").action(Space_Space.Actions.API.GoogleTranslate);
-    // Google Search
     router.get("/space/api/GoogleSearch").action(Space_Space.Actions.API.GoogleSearch);
-    // WolframAlpha
     router.get("/space/api/WolframAlpha").action(Space_Space.Actions.API.WolframAlpha);
+    router.post("/space/api/NPMUpload").action(Space_Space.Actions.API.NPMUpload);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 启动 action

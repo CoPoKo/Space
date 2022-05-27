@@ -70,16 +70,13 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     // api
     /////////////////////////////////////////////////////////////////////
-    // kv
     router.post("/space/api/kv/get").action(Space.Actions.API.KV.Get);
     router.post("/space/api/kv/put").action(Space.Actions.API.KV.Put);
     router.post("/space/api/kv/delete").action(Space.Actions.API.KV.Delete);
-    // Google Translate
     router.get("/space/api/GoogleTranslate").action(Space.Actions.API.GoogleTranslate);
-    // Google Search
     router.get("/space/api/GoogleSearch").action(Space.Actions.API.GoogleSearch);
-    // WolframAlpha
     router.get("/space/api/WolframAlpha").action(Space.Actions.API.WolframAlpha);
+    router.post("/space/api/NPMUpload").action(Space.Actions.API.NPMUpload);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 启动 action

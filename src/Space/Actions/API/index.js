@@ -19,6 +19,7 @@ import Poet from "./Poet"
 import Happypic from "./Happypic"
 import DNSQuery from "./DNSQuery"
 import Thum from "./Thum"
+import NPMUpload from "./NPMUpload"
 
 let API = {
   KV,
@@ -42,6 +43,7 @@ let API = {
   Happypic,
   DNSQuery,
   Thum,
+  NPMUpload,
 };
 
 export default API;
