@@ -19,7 +19,7 @@ import Space from "../../../Space"
                         dnspod使用腾讯云DNSPODCDN,回源10~80ms
   注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
  */
-async function DNS(ctx) {
+async function DNSQuery(ctx) {
   let path = ctx.pathname
   let opt = {}
   opt.type = ctx.getParam("type")
@@ -45,7 +45,7 @@ async function DNS(ctx) {
     opt.upstream = "rubyfish"
   }
 
-  let ans = await Space.API.DNS(opt)
+  let ans = await Space.API.DNSQuery(opt)
 
   if (opt.way == "get") {
     return new Response(ans, Space.Helpers.Headers.js)
@@ -60,4 +60,4 @@ async function DNS(ctx) {
 
 
 }
-export default DNS;
+export default DNSQuery;

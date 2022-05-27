@@ -1,6 +1,6 @@
 import Space from "../../Space"
 
-async function DeMD5(md5) {
+async function DecryptMd5(md5) {
   let data = {}
   if (md5) {
     // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
@@ -19,4 +19,4 @@ async function DeMD5(md5) {
   }
   return data
 }
-export default DeMD5;
+export default DecryptMd5;

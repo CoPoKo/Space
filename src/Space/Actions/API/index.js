@@ -10,14 +10,14 @@ import Unsplash from "./Unsplash"
 import ACG from "./ACG"
 import Niubi from "./Niubi"
 import IP from "./IP"
-import DeMD5 from "./DeMD5"
+import DecryptMd5 from "./DecryptMd5"
 import ZH from "./ZH"
 import thispersondoesnotexist from "./thispersondoesnotexist"
 import thiswaifudoesnotexist from "./thiswaifudoesnotexist"
 import thisanimedoesnotexist from "./thisanimedoesnotexist"
 import Poet from "./Poet"
 import Happypic from "./Happypic"
-import DNS from "./DNS"
+import DNSQuery from "./DNSQuery"
 import Thum from "./Thum"
 
 let API = {
@@ -33,14 +33,14 @@ let API = {
   ACG,
   Niubi,
   IP,
-  DeMD5,
+  DecryptMd5,
   ZH,
   thispersondoesnotexist,
   thiswaifudoesnotexist,
   thisanimedoesnotexist,
   Poet,
   Happypic,
-  DNS,
+  DNSQuery,
   Thum,
 };
 

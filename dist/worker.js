@@ -60786,17 +60786,31 @@ async function GoogleSearch(question){
 ;// CONCATENATED MODULE: ./src/Space/API/WolframAlpha/index.js
 
 
-async function WolframAlpha(question){
+async function WolframAlpha(question) {
   let set = await Space_Space.Helpers.Setting("WolframAlpha");
   let APPID = set.APPID;
-  let s_en = await Space_Space.API.GoogleTranslate(question,{
+  let s_en = await Space_Space.API.GoogleTranslate(question, {
     "to": "en",
     "domain": "com"
   });
   let FetchURL = "https://api.wolframalpha.com/v1/spoken?appid=" + APPID + "&i=" + s_en.text
   let ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
-  ans = ans.replace(/No spoken result available/g,"I don't know.")
-  let ans_cn = await Space_Space.API.GoogleTranslate(ans,{
+  if (!/wolfram/g.test(question.toLowerCase())) {
+    ans = ans.replace(/WolframAlpha/g, "Coco")
+    ans = ans.replace(/Wolfram Alpha/g, "Coco")
+    ans = ans.replace(/Wolfram/g, "Coco")
+  }
+  if (/mhuig/g.test(question.toLowerCase())) {
+    ans = "Fun fact: @iMHuiG is the Big Fan of the 🤣 emoji."
+  }
+  if (/coco/g.test(question.toLowerCase())) {
+    ans = "Coco is The Cat of MHuiG, Coco is also a computational knowledge engine or answer engine."
+  }
+  if (/^我是谁$/g.test(question.toLowerCase())) {
+    ans = "You appear to be a human seeking computational knowledge."
+  }
+  ans = ans.replace(/No spoken result available/g, "I don't know.")
+  let ans_cn = await Space_Space.API.GoogleTranslate(ans, {
     "to": "zh-cn",
     "domain": "com"
   });
@@ -60887,10 +60901,10 @@ async function Niubi(name) {
 }
 /* harmony default export */ const API_Niubi = (Niubi);
 
-;// CONCATENATED MODULE: ./src/Space/API/DeMD5/index.js
+;// CONCATENATED MODULE: ./src/Space/API/DecryptMd5/index.js
 
 
-async function DeMD5(md5) {
+async function DecryptMd5(md5) {
   let data = {}
   if (md5) {
     // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
@@ -60909,7 +60923,7 @@ async function DeMD5(md5) {
   }
   return data
 }
-/* harmony default export */ const API_DeMD5 = (DeMD5);
+/* harmony default export */ const API_DecryptMd5 = (DecryptMd5);
 
 ;// CONCATENATED MODULE: ./src/Space/API/ZH/index.js
 
@@ -61076,7 +61090,7 @@ let Setu = {
 }
 /* harmony default export */ const API_Setu = (Setu);
 
-;// CONCATENATED MODULE: ./src/Space/API/DNS/index.js
+;// CONCATENATED MODULE: ./src/Space/API/DNSQuery/index.js
 
 /**
  * DNS查询
@@ -61098,7 +61112,7 @@ let Setu = {
                         dnspod使用腾讯云DNSPODCDN,回源10~80ms
   注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
  */
-async function DNS(opt = {}) {
+async function DNSQuery(opt = {}) {
   opt.type = opt.type || "A"
   opt.name = opt.name || "mhuig.top"
   opt.edns_client_subnet = opt.edns_client_subnet || `1.0.0.1`
@@ -61134,9 +61148,15 @@ async function DNS(opt = {}) {
     let _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
     const _text = await _fetch.text()
     if (opt.host == "true") {
+      const _Answer = await JSON.parse(_text)["Answer"]
+      let _hosts = ""
+      if (opt.parse && opt.parse == "info") {
+        for (let i = 0; i < _Answer.length; i++) {
+          _hosts += `${_Answer[i]["name"]} => ${_Answer[i]["data"]}\n`
+        }
+        return _hosts
+      }
       if ((opt.type == "A" || opt.type == "AAAA")) {
-        const _Answer = await JSON.parse(_text)["Answer"]
-        let _hosts = ""
         for (let i = 0; i < _Answer.length; i++) {
           if (checkipv4(_Answer[i]["data"]) || checkipv6(_Answer[i]["data"])) {
             _hosts += `${_Answer[i]["data"]} ${opt.name}\n`
@@ -61145,6 +61165,7 @@ async function DNS(opt = {}) {
         return _hosts
       }
     }
+    // opt.type == "CNAME"
     return _text
   }
 
@@ -61156,7 +61177,7 @@ function checkipv4(ip) {
 function checkipv6(ip) {
   return ip.match(/^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/) != null ? true : false
 }
-/* harmony default export */ const API_DNS = (DNS);
+/* harmony default export */ const API_DNSQuery = (DNSQuery);
 
 ;// CONCATENATED MODULE: ./src/Space/API/Thum/index.js
 
@@ -61245,7 +61266,7 @@ let API = {
   Unsplash: API_Unsplash,
   ACG: API_ACG,
   Niubi: API_Niubi,
-  DeMD5: API_DeMD5,
+  DecryptMd5: API_DecryptMd5,
   ZH: API_ZH,
   thispersondoesnotexist: API_thispersondoesnotexist,
   thiswaifudoesnotexist: API_thiswaifudoesnotexist,
@@ -61253,7 +61274,7 @@ let API = {
   Poet: API_Poet,
   Happypic: API_Happypic,
   Setu: API_Setu,
-  DNS: API_DNS,
+  DNSQuery: API_DNSQuery,
   Thum: API_Thum,
   Nbnhhsh: API_Nbnhhsh,
 };
@@ -61940,15 +61961,15 @@ async function IP(ctx) {
 }
 /* harmony default export */ const API_IP = (IP);
 
-;// CONCATENATED MODULE: ./src/Space/Actions/API/DeMD5/index.js
+;// CONCATENATED MODULE: ./src/Space/Actions/API/DecryptMd5/index.js
 
 
-async function DeMD5_DeMD5(ctx) {
+async function DecryptMd5_DecryptMd5(ctx) {
   let md5 = ctx.getParam("md5");
-  let ans = await Space_Space.API.DeMD5(md5);
+  let ans = await Space_Space.API.DecryptMd5(md5);
   return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
 }
-/* harmony default export */ const Actions_API_DeMD5 = (DeMD5_DeMD5);
+/* harmony default export */ const Actions_API_DecryptMd5 = (DecryptMd5_DecryptMd5);
 
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/ZH/index.js
 
@@ -62028,7 +62049,7 @@ async function Happypic_Happypic(ctx) {
 }
 /* harmony default export */ const Actions_API_Happypic = (Happypic_Happypic);
 
-;// CONCATENATED MODULE: ./src/Space/Actions/API/DNS/index.js
+;// CONCATENATED MODULE: ./src/Space/Actions/API/DNSQuery/index.js
 
 /**
  * DNS查询
@@ -62050,7 +62071,7 @@ async function Happypic_Happypic(ctx) {
                         dnspod使用腾讯云DNSPODCDN,回源10~80ms
   注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
  */
-async function DNS_DNS(ctx) {
+async function DNSQuery_DNSQuery(ctx) {
   let path = ctx.pathname
   let opt = {}
   opt.type = ctx.getParam("type")
@@ -62076,7 +62097,7 @@ async function DNS_DNS(ctx) {
     opt.upstream = "rubyfish"
   }
 
-  let ans = await Space_Space.API.DNS(opt)
+  let ans = await Space_Space.API.DNSQuery(opt)
 
   if (opt.way == "get") {
     return new Response(ans, Space_Space.Helpers.Headers.js)
@@ -62091,7 +62112,7 @@ async function DNS_DNS(ctx) {
 
 
 }
-/* harmony default export */ const Actions_API_DNS = (DNS_DNS);
+/* harmony default export */ const Actions_API_DNSQuery = (DNSQuery_DNSQuery);
 
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/Thum/index.js
 
@@ -62144,14 +62165,14 @@ let API_API = {
   ACG: Actions_API_ACG,
   Niubi: Actions_API_Niubi,
   IP: API_IP,
-  DeMD5: Actions_API_DeMD5,
+  DecryptMd5: Actions_API_DecryptMd5,
   ZH: Actions_API_ZH,
   thispersondoesnotexist: Actions_API_thispersondoesnotexist,
   thiswaifudoesnotexist: Actions_API_thiswaifudoesnotexist,
   thisanimedoesnotexist: Actions_API_thisanimedoesnotexist,
   Poet: Actions_API_Poet,
   Happypic: Actions_API_Happypic,
-  DNS: Actions_API_DNS,
+  DNSQuery: Actions_API_DNSQuery,
   Thum: Actions_API_Thum,
 };
 
@@ -62229,91 +62250,6 @@ async function Help(ctx) {
 }
 
 /* harmony default export */ const BotModel_Help = (Help);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Sticker/index.js
-
-async function Sticker(ctx) {
-  if (Space_Space.Helpers.RandomNum(1, 100) <= 15) {
-    if (ctx.message.sticker.emoji in MyStickerSet) {
-      return ctx.replyWithSticker(MyStickerSet[ctx.message.sticker.emoji]);
-    } else if (ctx.message.sticker.emoji in CatStickerSet) {
-      return ctx.replyWithSticker(CatStickerSet[ctx.message.sticker.emoji]);
-    }
-  }
-}
-
-/* harmony default export */ const BotModel_Sticker = (Sticker);
-
-let CatStickerSet = {
-  "😂": "CAACAgIAAxkBAAIDwmECSdghggbmH3T5MVEB-VqNrslNAAJuDAAC32wZSkdZVXyKLr_DIAQ",
-  "😘": "CAACAgIAAxkBAAIDxGECSiFHUGhrFDiKhwUCqs87PdOPAAK7EgACaBDZSfrl-N3-SLTXIAQ",
-  "👍": "CAACAgIAAxkBAAIDxmECSmc35-732rax0IVhzd4dk1lHAAJ1DwACvScRSgNCdFZ_RgthIAQ",
-  "😨": "CAACAgIAAxkBAAIDyGECSoz67eslcCcIPFud5KSv14lOAAJzEAACqOgRSmKIrKBCdwtTIAQ",
-  "👋": "CAACAgIAAxkBAAIDymECSqgn-nb4AAGvk3BETtk2qaHTkAACsAwAAtXO2EkYBH8D8PsM3yAE",
-  "☺️": "CAACAgIAAxkBAAIDzGECSt2o_VYqi7fpUTuedsTN2vfBAAIGDQACXicZSiFZnpokFU0ZIAQ",
-  "⏰": "CAACAgIAAxkBAAIDzmECSwABA7BZusAX7VDE5arqsdAEYwACSg8AAmCm0EndM-7edjWcqyAE",
-  "❓": "CAACAgIAAxkBAAID0GECSyQyPuaguDq2iwkDY4pd03KRAAI6DwACbKXZSQ009lztSI28IAQ",
-  "❤️": "CAACAgIAAxkBAAID0mECS0eP51eJIwQyZhDX_w8QN5t7AAIvDwACQK7RSenf83DveI7CIAQ",
-  "✨": "CAACAgIAAxkBAAID1GECS2Jf58rtbHdO3MbrznVaMjYcAAL1DAACt1zZSR8FnNZCmxcqIAQ",
-  "🥳": "CAACAgIAAxkBAAID1mECS3mmS9H8Jh0zFGx6IOVglE7pAAIbDAAC9HEYSnK9-WcXPPVOIAQ",
-  "😴": "CAACAgIAAxkBAAID2GECS61jqMvmXRW1AAHNgqD9SNnpmwACygoAAlc5GUp5BxzBROgsySAE",
-  "💐": "CAACAgIAAxkBAAID2mECS8czsf9hm7C_9BIn2fmwG3-nAAKaDgACczkQSlbFLctyG1jRIAQ",
-  "🤡": "CAACAgIAAxkBAAID3GECS_Np8sjymAwgvQFqaJfM21RSAAL9DQACNqwRSp0c2t2iUz8kIAQ",
-  "💪": "CAACAgIAAxkBAAID32ECTBc8Q2TB5WCGf0BLJKDliYaAAAIeDwAC3L8RSi_XlinDNYQAASAE",
-  "😠": "CAACAgIAAxkBAAID4WECTCxlXMChklpwWuWjQ_ohwOh_AALaEAAC96sYSrPsgGDfs6wlIAQ",
-  "🚶‍♂️": "CAACAgIAAxkBAAID42ECTEPp2BWkXqvIporrov5HeOImAAIKCgACnhIZSlUq1Ym0T3kYIAQ",
-  "🥵": "CAACAgIAAxkBAAID5WECTFfbH3p4jhiZY_sabsQDU333AAJcCwACqBUYShcj0M67Mj6nIAQ",
-  "😟": "CAACAgIAAxkBAAID52ECTG4lCQdAifGUeCOU8wABh9hNHAACnA0AAj3FGEp68CI2ZWSumCAE",
-  "😡": "CAACAgIAAxkBAAID6WECTIecya51n-V3s0VphLCySCKFAAJdEAACqoYRSnLCLNZ2_FluIAQ",
-  "🍿": "CAACAgIAAxkBAAID62ECTKl84_vrpinrBkQ-obVlvh_uAAJGDQAC3MRpStjhudGyNjNwIAQ",
-  "😑": "CAACAgIAAxkBAAID7WECTLw4PD3qPL2nsXHTZS8PN36MAALUDwAC2WZpSgVriX5OZGvqIAQ",
-  "😭": "CAACAgIAAxkBAAID72ECTNFRX23u08brUxT8-lpE6ApRAAJsDgACe1NoStT3thanGmnIIAQ",
-  "🤯": "CAACAgIAAxkBAAID82ECTQABqhsjlOQE1Q9444xn6BrRVgAC2xMAAghcaUrxIfu233UEHSAE",
-  "🤷": "CAACAgIAAxkBAAID9WECTS4ybWydHinFkfsHns8jT7c_AALRDAACovthSgcRPxdEzhvCIAQ",
-}
-
-let MyStickerSet = {
-  "😶": "CAACAgUAAxkBAAPMYXNjdyQUv1J8MG6Wd-O2it7HBy4AAiADAAL9RkFW04AtW309YokhBA",
-  "😴": "CAACAgUAAxkBAAPGYXNjSeAhycXOF1KnpWlkZ8fPaRwAAgoEAAJos0hWiy9SKdJOSpkhBA",
-  "😭": "CAACAgUAAxkBAAOyYXNiUitDBD6cZYTD2uGwtWLlHwoAAhUEAAIfTUhWbjPffbd8cBIhBA",
-  "😀": "CAACAgUAAxkBAAO0YXNiYqRUYc_Yo_jn5V5mq59xWecAAuICAAJrZaFWci91HAmEn60hBA",
-  "🥰": "CAACAgUAAxkBAAPiYXNkdPyLi7NOMdlLthkpT7mLUp4AAtYDAAJSZ0BWv-rBVNx5iv4hBA",
-  "😊": "CAACAgUAAxkBAAO6YXNirbUQh0QV2QOhZIu5cukVe-IAAr0DAALQakhWUC1VhoPd69YhBA",
-  "😝": "CAACAgUAAxkBAAO8YXNixmd5SlulzQYVzVE_3XPVcIQAAqEDAAKPI0FWnW_zfo9HTMAhBA",
-  "😨": "CAACAgUAAxkBAAO-YXNi4SATu2VxctJfK9pvdjv7ZhUAAkgCAAJunUlWZ-aA3J1PTiohBA",
-  "🥱": "CAACAgUAAxkBAAPCYXNjF4kUnELcOiidMEgn6boGfJIAAqYEAAJbcElWX_bcDvIs9b0hBA",
-  "😮": "CAACAgUAAxkBAAIBIGFzZ0Te3xWXD33zwVWdeXoTzPrOAAJwAwACK89IVrPDNLIDjsApIQQ",
-  "❓": "CAACAgUAAxkBAAPQYXNjtmU30EdEjgYiG9gHdJ7yxPsAArkDAAIgJUlWl6E79EKHkVkhBA",
-  "😕": "CAACAgUAAxkBAAPSYXNjzTYDwEts1Bp-_06Af7LpfLgAArMDAAI9tklWzb0xi7RWqechBA",
-  "😚": "CAACAgUAAxkBAAPYYXNkBnUrwRmwA0e48XaJ6DrA6JAAAg8EAALRM0hWajsHUbAl4ikhBA",
-  "😠": "CAACAgUAAxkBAAPcYXNkL4hdkNhJogUcU-TF06rTlJ0AAmsEAAKZV0hWz6LeUsId15ohBA",
-  "🤤": "CAACAgUAAxkBAAPeYXNkQjqhDY0-5zPr0mv6epO9f24AAjEFAAJnZUhWnOehqdPHJtUhBA",
-  "😥": "CAACAgUAAxkBAAPgYXNkWbYC5YnV-B7jIpb6KiFD1hEAArYCAALLVkhWPMcSedmEDZQhBA",
-  "🤔": "CAACAgUAAxkBAAIBEGFzZnj3jU9xUPYUCg7WbmbHG93FAAK3AgACfC-hVpwxpRV__Tz0IQQ",
-  "😑": "CAACAgUAAxkBAAPsYXNk_7UOB6ZnIxsXNkHCxk7bf1QAAsADAAJeEkFWmVWdWxT0OxEhBA",
-  "🥺": "CAACAgUAAxkBAAP-YXNleH5BGMybgpwvyc0QFJfUw2IAAlcDAAJEo0BWFri4bZOIYi8hBA",
-  "🤗": "CAACAgUAAxkBAAIBAAFhc2WNDJrpRfZkTpdvxf4SGTyzbAACGQQAApVCQVYFN1P7SibLzCEE",
-  "😛": "CAACAgUAAxkBAAIBBGFzZapqhPvxKQABek3z2hAn39IeJQACRwIAAibfSFYcqKsbfJkCqiEE",
-  "❌": "CAACAgUAAxkBAAIBBmFzZcyG6uY5BSsMHEd9PL2OgjvnAAIkAwACLktIVs3dvlFpLJb3IQQ",
-  "❗️": "CAACAgUAAxkBAAIBHGFzZx7XCokhKzuYw7Y6MmL1wxBJAAKgBAACmzNIVrN8dCkbl9rAIQQ",
-  "😓": "CAACAgUAAxkBAAIBDmFzZjaVuULtDrHPnmmei9dnlCIyAAKQAgACUgehVv_O-x1lV-ceIQQ",
-  "👍": "CAACAgUAAxkBAAIBR2FzbhpaTZ2wxEyZuoR-I_bYrn4VAAKoAANs66IracjsD1fCdqshBA",
-  "😱": "CAACAgUAAxkBAAIBS2FzblHUKPgoaL7ojfAXK91-qH0SAALgAANs66IrF2XcMo56ztshBA",
-  "🐟": "CAACAgUAAxkBAAIBT2FzbrWHWep67c3jcstCCD1Em1MtAALLAANs66IrPo3FOfRCtzohBA",
-  "😁": "CAACAgUAAxkBAAIBUWFzbxN2k0ItxgEeIUyFgRTdqhGvAALxAANs66Irz8uvoLTV5FkhBA",
-}
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Catch/index.js
-
-
-async function Catch(err, ctx) {
-  await ctx.reply(`Ooops...`);
-  const set = await Helpers_Setting("TelegrafBot")
-  const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
-  await ctx.telegram.sendMessage(ADMIN_GROUP_ID, `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx))
-  // ctx.reply(`Ooops, encountered an error for ${ctx.updateType}:\n` + err+`\n  ctx:\n`+JSON.stringify(ctx));
-}
-
-/* harmony default export */ const BotModel_Catch = (Catch);
 
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/HandleMessage/index.js
 
@@ -62735,7 +62671,6 @@ const Actions_Thum_Thum = async that => {
   opt.height = that.args.h;
   opt.wait = that.args.t;
   let ans = await Space_Space.API.Thum(opt);
-  // await that.ctx.reply(JSON.stringify(ans));
   await fetch(ans).then(async (res) => {
     return await that.ctx.replyWithPhoto(ans);
   }).catch(err => { });
@@ -62743,7 +62678,162 @@ const Actions_Thum_Thum = async that => {
 
 /* harmony default export */ const Actions_Thum = (Actions_Thum_Thum);
 
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/GoogleTranslate/index.js
+
+
+const Actions_GoogleTranslate_GoogleTranslate = async that => {
+  let conf = {
+    "to": that.args.t,
+    "domain": "com"
+  }
+  let ans = await Space_Space.API.GoogleTranslate(that.args.k, conf)
+  return that.ctx.reply(ans.text);
+};
+
+/* harmony default export */ const Actions_GoogleTranslate = (Actions_GoogleTranslate_GoogleTranslate);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/DecryptMd5/index.js
+
+
+const Actions_DecryptMd5_DecryptMd5 = async that => {
+  const md5 = that.args.k
+  const ans = await Space_Space.API.DeMD5(md5)
+  if (ans.ans)
+    return that.ctx.reply(ans.ans);
+  else
+    return that.ctx.reply("Not Found.");
+};
+
+/* harmony default export */ const Actions_DecryptMd5 = (Actions_DecryptMd5_DecryptMd5);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/DNSQuery/index.js
+
+
+const Actions_DNSQuery_DNSQuery = async that => {
+  let opt = {}
+  opt.type = that.args.t || "A"
+  opt.name = that.args.n || "github.com"
+  opt.edns_client_subnet = that.args.et || `1.0.0.1`
+  opt.upstream = that.args.u || "cloudflare"
+  opt.way = "get"
+  opt.host = "true"
+  opt.parse = "info"
+  const ans = await Space_Space.API.DNSQuery(opt);
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_DNSQuery = (Actions_DNSQuery_DNSQuery);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Poet/index.js
+
+
+const Actions_Poet_Poet = async that => {
+  const ans = await Space_Space.API.Poet()
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_Poet = (Actions_Poet_Poet);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/InterruptRepetition/index.js
+
+
+const InterruptRepetition = async that => {
+  let ctx = that.ctx
+  if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
+    if (ctx.message.text) {
+      if (!ctx.session.messageList) {
+        ctx.session.messageList = []
+      }
+      ctx.session.messageList.push(ctx.message.text)
+      let messageList = ctx.session.messageList
+      let length = messageList.length
+      if (length >= 4) {
+        let myset = [...new Set(ctx.session.messageList)]
+        if (myset.length == 1) {
+          if (myset[0] == `打断复读!`) {
+            ctx.reply(`我生气了!`)
+            ctx.session.messageList.push(`我生气了!`)
+            ctx.session.messageList.shift()
+          } else {
+            ctx.reply(`打断复读!`)
+            ctx.session.messageList.push(`打断复读!`)
+            ctx.session.messageList.shift()
+          }
+        }
+        ctx.session.messageList.shift()
+      }
+    }
+  }
+};
+
+/* harmony default export */ const Actions_InterruptRepetition = (InterruptRepetition);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/WolframAlpha/index.js
+
+
+const Actions_WolframAlpha_WolframAlpha = async that => {
+  const q = that.ctx.message.text.replace(/^:/, "").trim()
+  let ans = await Space_Space.API.WolframAlpha(q)
+  ans = JSON.parse(ans)
+  if (ans.en == ans.cn)
+    return that.ctx.reply(ans.en);
+  return that.ctx.reply(ans.cn + "\n" + ans.en);
+};
+
+/* harmony default export */ const Actions_WolframAlpha = (Actions_WolframAlpha_WolframAlpha);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Balloon/index.js
+
+
+const Balloon = async that => {
+  let ctx = that.ctx
+  let num = ctx.message.text.split("。").length - 1
+  if (num <= 5) {
+    ctx.reply(ctx.message.text.replace(/。/g, "喵~"))
+  } else {
+    ctx.reply(`汪汪汪~`)
+  }
+};
+
+/* harmony default export */ const Actions_Balloon = (Balloon);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/EmojiToSticker/index.js
+
+
+const EmojiToSticker = async that => {
+  const MyStickerSet = TelegrafBot_TGBot.StickerSet.My;
+  for (const key in MyStickerSet) {
+    if (Object.hasOwnProperty.call(MyStickerSet, key)) {
+      const element = MyStickerSet[key];
+      let Reg = new RegExp(key)
+      if (Reg.test(that.ctx.message.text))
+        return that.ctx.replyWithSticker(element);
+    }
+  }
+};
+
+/* harmony default export */ const Actions_EmojiToSticker = (EmojiToSticker);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/ReplaceMa/index.js
+
+
+const ReplaceMa = async that => {
+  if (!/在吗/.test(that.ctx.message.text) && /吗/.test(that.ctx.message.text))
+    return that.ctx.reply(that.ctx.message.text.replace('吗', '').replace('？', '！').replace('?', '!'));
+};
+
+/* harmony default export */ const Actions_ReplaceMa = (ReplaceMa);
+
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/index.js
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62766,20 +62856,122 @@ let Actions = {
   Setu: Actions_Setu,
   Nbnhhsh: Actions_Nbnhhsh,
   Thum: Actions_Thum,
+  GoogleTranslate: Actions_GoogleTranslate,
+  DecryptMd5: Actions_DecryptMd5,
+  DNSQuery: Actions_DNSQuery,
+  Poet: Actions_Poet,
+  InterruptRepetition: Actions_InterruptRepetition,
+  WolframAlpha: Actions_WolframAlpha,
+  Balloon: Actions_Balloon,
+  EmojiToSticker: Actions_EmojiToSticker,
+  ReplaceMa: Actions_ReplaceMa,
 };
 
 /* harmony default export */ const TGBot_Actions = (Actions);
 
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/StickerSet/index.js
+let Cat = {
+  "😂": "CAACAgIAAxkBAAIDwmECSdghggbmH3T5MVEB-VqNrslNAAJuDAAC32wZSkdZVXyKLr_DIAQ",
+  "😘": "CAACAgIAAxkBAAIDxGECSiFHUGhrFDiKhwUCqs87PdOPAAK7EgACaBDZSfrl-N3-SLTXIAQ",
+  "👍": "CAACAgIAAxkBAAIDxmECSmc35-732rax0IVhzd4dk1lHAAJ1DwACvScRSgNCdFZ_RgthIAQ",
+  "😨": "CAACAgIAAxkBAAIDyGECSoz67eslcCcIPFud5KSv14lOAAJzEAACqOgRSmKIrKBCdwtTIAQ",
+  "👋": "CAACAgIAAxkBAAIDymECSqgn-nb4AAGvk3BETtk2qaHTkAACsAwAAtXO2EkYBH8D8PsM3yAE",
+  "☺️": "CAACAgIAAxkBAAIDzGECSt2o_VYqi7fpUTuedsTN2vfBAAIGDQACXicZSiFZnpokFU0ZIAQ",
+  "⏰": "CAACAgIAAxkBAAIDzmECSwABA7BZusAX7VDE5arqsdAEYwACSg8AAmCm0EndM-7edjWcqyAE",
+  "❓": "CAACAgIAAxkBAAID0GECSyQyPuaguDq2iwkDY4pd03KRAAI6DwACbKXZSQ009lztSI28IAQ",
+  "❤️": "CAACAgIAAxkBAAID0mECS0eP51eJIwQyZhDX_w8QN5t7AAIvDwACQK7RSenf83DveI7CIAQ",
+  "✨": "CAACAgIAAxkBAAID1GECS2Jf58rtbHdO3MbrznVaMjYcAAL1DAACt1zZSR8FnNZCmxcqIAQ",
+  "🥳": "CAACAgIAAxkBAAID1mECS3mmS9H8Jh0zFGx6IOVglE7pAAIbDAAC9HEYSnK9-WcXPPVOIAQ",
+  "😴": "CAACAgIAAxkBAAID2GECS61jqMvmXRW1AAHNgqD9SNnpmwACygoAAlc5GUp5BxzBROgsySAE",
+  "💐": "CAACAgIAAxkBAAID2mECS8czsf9hm7C_9BIn2fmwG3-nAAKaDgACczkQSlbFLctyG1jRIAQ",
+  "🤡": "CAACAgIAAxkBAAID3GECS_Np8sjymAwgvQFqaJfM21RSAAL9DQACNqwRSp0c2t2iUz8kIAQ",
+  "💪": "CAACAgIAAxkBAAID32ECTBc8Q2TB5WCGf0BLJKDliYaAAAIeDwAC3L8RSi_XlinDNYQAASAE",
+  "😠": "CAACAgIAAxkBAAID4WECTCxlXMChklpwWuWjQ_ohwOh_AALaEAAC96sYSrPsgGDfs6wlIAQ",
+  "🚶‍♂️": "CAACAgIAAxkBAAID42ECTEPp2BWkXqvIporrov5HeOImAAIKCgACnhIZSlUq1Ym0T3kYIAQ",
+  "🥵": "CAACAgIAAxkBAAID5WECTFfbH3p4jhiZY_sabsQDU333AAJcCwACqBUYShcj0M67Mj6nIAQ",
+  "😟": "CAACAgIAAxkBAAID52ECTG4lCQdAifGUeCOU8wABh9hNHAACnA0AAj3FGEp68CI2ZWSumCAE",
+  "😡": "CAACAgIAAxkBAAID6WECTIecya51n-V3s0VphLCySCKFAAJdEAACqoYRSnLCLNZ2_FluIAQ",
+  "🍿": "CAACAgIAAxkBAAID62ECTKl84_vrpinrBkQ-obVlvh_uAAJGDQAC3MRpStjhudGyNjNwIAQ",
+  "😑": "CAACAgIAAxkBAAID7WECTLw4PD3qPL2nsXHTZS8PN36MAALUDwAC2WZpSgVriX5OZGvqIAQ",
+  "😭": "CAACAgIAAxkBAAID72ECTNFRX23u08brUxT8-lpE6ApRAAJsDgACe1NoStT3thanGmnIIAQ",
+  "🤯": "CAACAgIAAxkBAAID82ECTQABqhsjlOQE1Q9444xn6BrRVgAC2xMAAghcaUrxIfu233UEHSAE",
+  "🤷": "CAACAgIAAxkBAAID9WECTS4ybWydHinFkfsHns8jT7c_AALRDAACovthSgcRPxdEzhvCIAQ",
+}
+
+let My = {
+  "😶": "CAACAgUAAxkBAAPMYXNjdyQUv1J8MG6Wd-O2it7HBy4AAiADAAL9RkFW04AtW309YokhBA",
+  "😴": "CAACAgUAAxkBAAPGYXNjSeAhycXOF1KnpWlkZ8fPaRwAAgoEAAJos0hWiy9SKdJOSpkhBA",
+  "😭": "CAACAgUAAxkBAAOyYXNiUitDBD6cZYTD2uGwtWLlHwoAAhUEAAIfTUhWbjPffbd8cBIhBA",
+  "😀": "CAACAgUAAxkBAAO0YXNiYqRUYc_Yo_jn5V5mq59xWecAAuICAAJrZaFWci91HAmEn60hBA",
+  "🥰": "CAACAgUAAxkBAAPiYXNkdPyLi7NOMdlLthkpT7mLUp4AAtYDAAJSZ0BWv-rBVNx5iv4hBA",
+  "😊": "CAACAgUAAxkBAAO6YXNirbUQh0QV2QOhZIu5cukVe-IAAr0DAALQakhWUC1VhoPd69YhBA",
+  "😝": "CAACAgUAAxkBAAO8YXNixmd5SlulzQYVzVE_3XPVcIQAAqEDAAKPI0FWnW_zfo9HTMAhBA",
+  "😨": "CAACAgUAAxkBAAO-YXNi4SATu2VxctJfK9pvdjv7ZhUAAkgCAAJunUlWZ-aA3J1PTiohBA",
+  "🥱": "CAACAgUAAxkBAAPCYXNjF4kUnELcOiidMEgn6boGfJIAAqYEAAJbcElWX_bcDvIs9b0hBA",
+  "😮": "CAACAgUAAxkBAAIBIGFzZ0Te3xWXD33zwVWdeXoTzPrOAAJwAwACK89IVrPDNLIDjsApIQQ",
+  "❓": "CAACAgUAAxkBAAPQYXNjtmU30EdEjgYiG9gHdJ7yxPsAArkDAAIgJUlWl6E79EKHkVkhBA",
+  "😕": "CAACAgUAAxkBAAPSYXNjzTYDwEts1Bp-_06Af7LpfLgAArMDAAI9tklWzb0xi7RWqechBA",
+  "😚": "CAACAgUAAxkBAAPYYXNkBnUrwRmwA0e48XaJ6DrA6JAAAg8EAALRM0hWajsHUbAl4ikhBA",
+  "😠": "CAACAgUAAxkBAAPcYXNkL4hdkNhJogUcU-TF06rTlJ0AAmsEAAKZV0hWz6LeUsId15ohBA",
+  "🤤": "CAACAgUAAxkBAAPeYXNkQjqhDY0-5zPr0mv6epO9f24AAjEFAAJnZUhWnOehqdPHJtUhBA",
+  "😥": "CAACAgUAAxkBAAPgYXNkWbYC5YnV-B7jIpb6KiFD1hEAArYCAALLVkhWPMcSedmEDZQhBA",
+  "🤔": "CAACAgUAAxkBAAIBEGFzZnj3jU9xUPYUCg7WbmbHG93FAAK3AgACfC-hVpwxpRV__Tz0IQQ",
+  "😑": "CAACAgUAAxkBAAPsYXNk_7UOB6ZnIxsXNkHCxk7bf1QAAsADAAJeEkFWmVWdWxT0OxEhBA",
+  "🥺": "CAACAgUAAxkBAAP-YXNleH5BGMybgpwvyc0QFJfUw2IAAlcDAAJEo0BWFri4bZOIYi8hBA",
+  "🤗": "CAACAgUAAxkBAAIBAAFhc2WNDJrpRfZkTpdvxf4SGTyzbAACGQQAApVCQVYFN1P7SibLzCEE",
+  "😛": "CAACAgUAAxkBAAIBBGFzZapqhPvxKQABek3z2hAn39IeJQACRwIAAibfSFYcqKsbfJkCqiEE",
+  "❌": "CAACAgUAAxkBAAIBBmFzZcyG6uY5BSsMHEd9PL2OgjvnAAIkAwACLktIVs3dvlFpLJb3IQQ",
+  "❗️": "CAACAgUAAxkBAAIBHGFzZx7XCokhKzuYw7Y6MmL1wxBJAAKgBAACmzNIVrN8dCkbl9rAIQQ",
+  "😓": "CAACAgUAAxkBAAIBDmFzZjaVuULtDrHPnmmei9dnlCIyAAKQAgACUgehVv_O-x1lV-ceIQQ",
+  "👍": "CAACAgUAAxkBAAIBR2FzbhpaTZ2wxEyZuoR-I_bYrn4VAAKoAANs66IracjsD1fCdqshBA",
+  "😱": "CAACAgUAAxkBAAIBS2FzblHUKPgoaL7ojfAXK91-qH0SAALgAANs66IrF2XcMo56ztshBA",
+  "🐟": "CAACAgUAAxkBAAIBT2FzbrWHWep67c3jcstCCD1Em1MtAALLAANs66IrPo3FOfRCtzohBA",
+  "😁": "CAACAgUAAxkBAAIBUWFzbxN2k0ItxgEeIUyFgRTdqhGvAALxAANs66Irz8uvoLTV5FkhBA",
+}
+let StickerSet = {
+  Cat,
+  My,
+}
+/* harmony default export */ const TGBot_StickerSet = (StickerSet);
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/index.js
+
 
 
 
 let TGBot = {
   HandleMessage: TGBot_HandleMessage,
   Actions: TGBot_Actions,
+  StickerSet: TGBot_StickerSet,
 };
 
 /* harmony default export */ const TelegrafBot_TGBot = (TGBot);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Sticker/index.js
+
+
+async function Sticker(ctx) {
+  if (Space_Space.Helpers.RandomNum(1, 100) <= 10) {
+    if (ctx.message.sticker.emoji in TelegrafBot_TGBot.StickerSet.My) {
+      return ctx.replyWithSticker(TelegrafBot_TGBot.StickerSet.My[ctx.message.sticker.emoji]);
+    } else if (ctx.message.sticker.emoji in TelegrafBot_TGBot.StickerSet.Cat) {
+      return ctx.replyWithSticker(TelegrafBot_TGBot.StickerSet.Cat[ctx.message.sticker.emoji]);
+    }
+  }
+}
+
+/* harmony default export */ const BotModel_Sticker = (Sticker);
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Catch/index.js
+
+
+async function Catch(err, ctx) {
+  await ctx.reply(`Ooops...`);
+  const set = await Helpers_Setting("TelegrafBot")
+  const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
+  await ctx.telegram.sendMessage(ADMIN_GROUP_ID, `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx))
+  // ctx.reply(`Ooops, encountered an error for ${ctx.updateType}:\n` + err+`\n  ctx:\n`+JSON.stringify(ctx));
+}
+
+/* harmony default export */ const BotModel_Catch = (Catch);
 
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Message/index.js
 
@@ -62895,15 +63087,146 @@ async function Text(ctx) {
       return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
     })
     .then(that => {
+      return that.cmd('translate').setArg('k', 'CoCo').setArg('t', 'zh-cn').action(TelegrafBot_TGBot.Actions.GoogleTranslate)
+    })
+    .then(that => {
+      return that.cmd('demd5').setArg('k', 'eb62f6b9306db575c2d596b1279627a4').action(TelegrafBot_TGBot.Actions.DecryptMd5)
+    })
+    .then(that => {
+      return that.cmd('dns').setArg('n', 'github.com').setArg('t', 'A').setArg('u', 'cloudflare').setArg('e', '1.0.0.1').action(TelegrafBot_TGBot.Actions.DNSQuery)
+    })
+    .then(that => {
+      return that.cmd('poet').action(TelegrafBot_TGBot.Actions.Poet)
+    })
+    .then(that => {
+      return that.pass().action(TelegrafBot_TGBot.Actions.InterruptRepetition)
+    })
+    .then(that => {
+      return that.reg(/^:/).action(TelegrafBot_TGBot.Actions.WolframAlpha)
+    })
+    .then(that => {
+      return that.reg(/^。{1,}$/).action(TelegrafBot_TGBot.Actions.Balloon)
+    })
+    .then(that => {
+      return that.reg(/来点(\S*)笑话/).action(TelegrafBot_TGBot.Actions.Niubi)
+    })
+    .then(that => {
+      return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
+    })
+    .then(that => {
+      return that.reg(/^\?$/).reply(`???`)
+    })
+    .then(that => {
+      return that.reg(/^？$/).reply(`？？？`)
+    })
+    .then(that => {
       return that.reg(/你好/).reply(`Hello!`)
     })
     .then(that => {
       return that.reg(/在？|在\?/).reply(`有事？`)
-    }).then(async (that) => {
+    })
+    .then(async (that) => {
       const set = await Helpers_Setting("TelegrafBot")
       const ADMIN_NAME = set.ADMIN_NAME
       return that.reg(/你的主人|your master/).reply(`@${ADMIN_NAME}`)
-    }).then(that => {
+    })
+    .then(that => {
+      return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
+    })
+    .then(that => {
+      return that.reg(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
+    })
+    .then(that => {
+      return that.includes(["怎么", "啊"]).reply(`不告诉你`)
+    })
+    .then(that => {
+      return that.includes(["发", "色图"]).reply(`有色图？`)
+    })
+    .then(that => {
+      return that.includes(["看", "色图"]).reply(`色图在哪儿？`)
+    })
+    .then(that => {
+      return that.includes(["发", "涩图"]).reply(`有涩图？`)
+    })
+    .then(that => {
+      return that.includes(["发", "涩图"]).reply(`有涩图？`)
+    })
+    .then(that => {
+      return that.includes(["来点", "色图"]).reply(`让我找找`)
+    })
+    .then(that => {
+      return that.includes(["来点", "涩图"]).reply(`让我找找`)
+    })
+    .then(that => {
+      return that.reg(/^不够(色)|(涩)$/).reply(`让我找找`)
+    })
+    .then(that => {
+      return that.includes(["我", "应该"]).reply(`确实`)
+    })
+    .then(that => {
+      return that.includes(["不舒服"]).reply(`多喝热水`)
+    })
+    .then(that => {
+      return that.includes(["你", "怎么"]).reply(`你在教我做事？`)
+    })
+    .then(that => {
+      return that.includes(["你", "去"]).reply(`你在教我做事？`)
+    })
+    .then(that => {
+      return that.includes(["变成", "了", "光"]).reply(`我也想要变成光`)
+    })
+    .then(that => {
+      return that.includes(["明明是我先来的"]).reply(`为什么会变成这样呢……`)
+    })
+    .then(that => {
+      return that.includes(["怎么样"]).reply(`就这？`)
+    })
+    .then(that => {
+      return that.includes(["其实"]).reply(`真的吗？我不信。`)
+    })
+    .then(that => {
+      return that.includes(["厉害"]).reply(`腻害`)
+    })
+    .then(that => {
+      return that.includes(["恭喜"]).reply(`恭喜`)
+    })
+    .then(that => {
+      return that.includes(["bing", "壁纸"]).setArg('d', '0').action(TelegrafBot_TGBot.Actions.Bing)
+    })
+    .then(that => {
+      return that.run()
+    })
+    .then(that => {
+      return that.cleanStatus()
+    })
+    .then(that => {
+      return that.includes(["来点", "色图"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来点", "涩图"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来点", "色色"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来点", "涩涩"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.reg(/^不够(色)|(涩)$/).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来", "诗"]).action(TelegrafBot_TGBot.Actions.Poet)
+    })
+    .then(that => {
+      return that.pass().action(TelegrafBot_TGBot.Actions.EmojiToSticker)
+    })
+    .then(that => {
+      return that.setRandom(50).action(TelegrafBot_TGBot.Actions.ReplaceMa)
+    })
+    .then(that => {
+      return that.setRandom(1).reply(`然后呢?`)
+    })
+    .then(that => {
       return that.run()
     })
 }
@@ -62930,10 +63253,48 @@ function BotModel(bot) {
 }
 /* harmony default export */ const TelegrafBot_BotModel = (BotModel);
 
+;// CONCATENATED MODULE: ./node_modules/@telegraf/session/index.js
+function TelegrafSession (opts) {
+  const options = {
+    property: 'session',
+    store: new Map(),
+    getSessionKey: (ctx) => ctx.from && ctx.chat && `${ctx.from.id}:${ctx.chat.id}`,
+    ...opts
+  }
+
+  const ttlMs = options.ttl && options.ttl * 1000
+
+  return (ctx, next) => {
+    const key = options.getSessionKey(ctx)
+    if (!key) {
+      return next(ctx)
+    }
+    const now = new Date().getTime()
+    return Promise.resolve(options.store.get(key))
+      .then((state) => state || { session: {} })
+      .then(({ session, expires }) => {
+        if (expires && expires < now) {
+          session = {}
+        }
+        Object.defineProperty(ctx, options.property, {
+          get: function () { return session },
+          set: function (newValue) { session = { ...newValue } }
+        })
+        return next(ctx).then(() => options.store.set(key, {
+          session,
+          expires: ttlMs ? now + ttlMs : null
+        }))
+      })
+  }
+}
+
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/index.js
 
 const { Telegraf } = __webpack_require__(9061);
 const bot = new Telegraf(Telegraf_BOT_TOKEN);
+
+
+bot.use(TelegrafSession())
 
 TelegrafBot_BotModel(bot);
 
@@ -63117,14 +63478,14 @@ async function handleSpace(event) {
     router.get("/acg").action(Space_Space.Actions.API.ACG);
     router.get("/niubi").action(Space_Space.Actions.API.Niubi);
     router.get("/ip").action(Space_Space.Actions.API.IP);
-    router.get("/decrypt").action(Space_Space.Actions.API.DeMD5);
+    router.get("/decrypt").action(Space_Space.Actions.API.DecryptMd5);
     router.get("/zh").action(Space_Space.Actions.API.ZH);
     router.get("/person").action(Space_Space.Actions.API.thispersondoesnotexist);
     router.get("/waifu").action(Space_Space.Actions.API.thiswaifudoesnotexist);
     router.get("/anime").action(Space_Space.Actions.API.thisanimedoesnotexist);
     router.get("/poet").action(Space_Space.Actions.API.Poet);
     router.get("/happypic").action(Space_Space.Actions.API.Happypic);
-    router.get("/dns").action(Space_Space.Actions.API.DNS);
+    router.get("/dns").action(Space_Space.Actions.API.DNSQuery);
     router.get("/thum").action(Space_Space.Actions.API.Thum);
     /////////////////////////////////////////////////////////////////////
     // Header Auth

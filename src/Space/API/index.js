@@ -9,7 +9,7 @@ import Hitokoto from "./Hitokoto"
 import Unsplash from "./Unsplash"
 import ACG from "./ACG"
 import Niubi from "./Niubi"
-import DeMD5 from "./DeMD5"
+import DecryptMd5 from "./DecryptMd5"
 import ZH from "./ZH"
 import thispersondoesnotexist from "./thispersondoesnotexist"
 import thiswaifudoesnotexist from "./thiswaifudoesnotexist"
@@ -17,7 +17,7 @@ import thisanimedoesnotexist from "./thisanimedoesnotexist"
 import Poet from "./Poet"
 import Happypic from "./Happypic"
 import Setu from "./Setu"
-import DNS from "./DNS"
+import DNSQuery from "./DNSQuery"
 import Thum from "./Thum"
 import Nbnhhsh from "./Nbnhhsh"
 
@@ -33,7 +33,7 @@ let API = {
   Unsplash,
   ACG,
   Niubi,
-  DeMD5,
+  DecryptMd5,
   ZH,
   thispersondoesnotexist,
   thiswaifudoesnotexist,
@@ -41,7 +41,7 @@ let API = {
   Poet,
   Happypic,
   Setu,
-  DNS,
+  DNSQuery,
   Thum,
   Nbnhhsh,
 };

@@ -19,7 +19,7 @@ import Space from "../../Space"
                         dnspod使用腾讯云DNSPODCDN,回源10~80ms
   注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
  */
-async function DNS(opt = {}) {
+async function DNSQuery(opt = {}) {
   opt.type = opt.type || "A"
   opt.name = opt.name || "mhuig.top"
   opt.edns_client_subnet = opt.edns_client_subnet || `1.0.0.1`
@@ -55,9 +55,15 @@ async function DNS(opt = {}) {
     let _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
     const _text = await _fetch.text()
     if (opt.host == "true") {
+      const _Answer = await JSON.parse(_text)["Answer"]
+      let _hosts = ""
+      if (opt.parse && opt.parse == "info") {
+        for (let i = 0; i < _Answer.length; i++) {
+          _hosts += `${_Answer[i]["name"]} => ${_Answer[i]["data"]}\n`
+        }
+        return _hosts
+      }
       if ((opt.type == "A" || opt.type == "AAAA")) {
-        const _Answer = await JSON.parse(_text)["Answer"]
-        let _hosts = ""
         for (let i = 0; i < _Answer.length; i++) {
           if (checkipv4(_Answer[i]["data"]) || checkipv6(_Answer[i]["data"])) {
             _hosts += `${_Answer[i]["data"]} ${opt.name}\n`
@@ -66,6 +72,7 @@ async function DNS(opt = {}) {
         return _hosts
       }
     }
+    // opt.type == "CNAME"
     return _text
   }
 
@@ -77,4 +84,4 @@ function checkipv4(ip) {
 function checkipv6(ip) {
   return ip.match(/^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/) != null ? true : false
 }
-export default DNS;
+export default DNSQuery;

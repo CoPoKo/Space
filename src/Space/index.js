@@ -36,14 +36,14 @@ async function handleSpace(event) {
     router.get("/acg").action(Space.Actions.API.ACG);
     router.get("/niubi").action(Space.Actions.API.Niubi);
     router.get("/ip").action(Space.Actions.API.IP);
-    router.get("/decrypt").action(Space.Actions.API.DeMD5);
+    router.get("/decrypt").action(Space.Actions.API.DecryptMd5);
     router.get("/zh").action(Space.Actions.API.ZH);
     router.get("/person").action(Space.Actions.API.thispersondoesnotexist);
     router.get("/waifu").action(Space.Actions.API.thiswaifudoesnotexist);
     router.get("/anime").action(Space.Actions.API.thisanimedoesnotexist);
     router.get("/poet").action(Space.Actions.API.Poet);
     router.get("/happypic").action(Space.Actions.API.Happypic);
-    router.get("/dns").action(Space.Actions.API.DNS);
+    router.get("/dns").action(Space.Actions.API.DNSQuery);
     router.get("/thum").action(Space.Actions.API.Thum);
     /////////////////////////////////////////////////////////////////////
     // Header Auth
