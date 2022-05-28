@@ -7,7 +7,7 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     // IP-Time-Times
     const request = event.request;
-    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get("X-Forwarded-For") || request.headers.get('x-real-ip');
+    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get('x-real-ip') || request.headers.get("X-Forwarded-For");
     if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 0.25) && IPTimes[ip].times >= 300) {
       return await Space.Helpers.ErrorResponse("Too Many Requests", 403);
     }
