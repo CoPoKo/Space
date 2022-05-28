@@ -22,6 +22,7 @@ import Thum from "./Thum"
 import Nbnhhsh from "./Nbnhhsh"
 import IPFS from "./IPFS"
 import NPMUpload from "./NPMUpload"
+import CF from "./CF"
 
 let API = {
   KV,
@@ -48,6 +49,7 @@ let API = {
   Nbnhhsh,
   IPFS,
   NPMUpload,
+  CF,
 };
 
 export default API;

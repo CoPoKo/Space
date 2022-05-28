@@ -1,8 +1,8 @@
 # https://developers.cloudflare.com/workers/wrangler/configuration/
-account_id = "00000000000000000000000000000000"
+account_id = "xxxxxxxxxxxxxxxxxxxxxxxxx"
 compatibility_date = "2022-05-20"
 kv_namespaces = [
-  {binding = "SpaceKV", id = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"},
+  {binding = "SpaceKV", id = "xxxxxxxxxxxxxxxxxxxxxxxxxx"},
 ]
 main = "./dist/worker.js"
 name = "space"
@@ -16,11 +16,23 @@ command = "npm run build"
 crons = ["* * * * *"]
 
 [vars]
-AUTH_PAGE = "/xxxxxxxxxx"
-MY_REFERER = "xxxxxxx"
-SpaceName = "xxxxxxxx"
-SpacePassword = "xxxxxxxxx"
-Telegraf_BOT_TOKEN = "111111111:AAAAAAAAAA_BBBBBBB-CCCCCCCCCCC"
-Telegraf_BOT_WEBHOOK = "/xxxxxxxxxxxxxxxxx"
-reCAPTCHA_CLIENT = "xxxxxxxxxxxx__xxxxxxxxxxxxxxxx"
-reCAPTCHA_SERVER = "xxxxxxxxxxxx-xxxxxxxxxxxxxxxxx"
+AUTH_PAGE = "/xxxxx"
+MY_REFERER = "xxxxxxxx"
+
+SpaceName = "xxxxxxxxxxx"
+SpacePassword = "xxxxxxxxxxxxxxx"
+
+Telegraf_BOT_TOKEN = "xxxxxxxxxxxxxxxxxxxxx"
+Telegraf_BOT_WEBHOOK = "/xxxxxxxxxxxxxxx"
+
+reCAPTCHA_CLIENT = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+reCAPTCHA_SERVER = "xxxxxxxxxxxxxxxxxxxxxxxxx"
+
+ACCOUNTID = "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+ZONEID = "xxxxxxxxxxxxxxxxxxxxxxxx"
+
+AUTHEMAIL = "xxxxxxxxxxxxxx@xxxxxxxxxxxxx"
+AUTHKEY = "xxxxxxxxxxxxxxxxxxxxxxxxx"
+
+WORKERNAME = "space"
+WORKERROUTE = "space.example.com/*"
