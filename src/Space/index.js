@@ -10,7 +10,7 @@ async function handleSpace(event) {
         return await Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
-    event.waitUntil(Space.Helpers.Security.securityCheckAnalytics());
+    event.waitUntil(Space.Helpers.Security.securityCheckAnalytics(event));
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     let router = new Space.Helpers.Router(event);

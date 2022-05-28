@@ -9,7 +9,7 @@ function checkReferer(event) {
   }
   return false
 }
-async function securityCheckAnalytics() {
+async function securityCheckAnalytics(event) {
   // Workers KV 免费包含
   // 1 GB - 键值存储空间
   // 100,000 - 每日键值读取*
@@ -18,12 +18,18 @@ async function securityCheckAnalytics() {
   // 1,000 - 每日键值列表
   // 支持最大 512 Bytes 的键
   // 支持最大 25 MB 的值
-  const read = await Space.API.CF.getWorkersKVRequestAnalytics("read").then(e => e.json()).then(e => e.result)
-  await setUnderAttack(read.totals.requests, 30000, 35000)
-  const write = await Space.API.CF.getWorkersKVRequestAnalytics("write").then(e => e.json()).then(e => e.result)
-  await setUnderAttack(write.totals.requests, 250, 350)
+  const kv_read = await Space.API.CF.getWorkersKVRequestAnalytics("read").then(e => e.json()).then(e => e.result)
+  await setUnderAttack(kv_read?.totals?.requests, 30000, 35000)
+  const kv_write = await Space.API.CF.getWorkersKVRequestAnalytics("write").then(e => e.json()).then(e => e.result)
+  await setUnderAttack(kv_write?.totals?.requests, 250, 350)
+  // Workers 每日 100,000 Request
+  const workers = await Space.API.CF.getWorkersRequestAnalytics().then(e => e.json()).then(e => e.data).then(e => e?.viewer?.accounts[0]?.workersInvocationsAdaptive[0]?.sum?.requests)
+  await setUnderAttack(workers, 35000, 40000)
 }
 async function setUnderAttack(a, b, c) {
+  if (!a) {
+    return
+  }
   if (a > b) {
     await Space.API.CF.setSecurityLevel("under_attack")
   }

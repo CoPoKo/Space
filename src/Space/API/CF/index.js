@@ -44,6 +44,26 @@ const CF = {
       headers: header_cf
     }));
   },
+  getWorkersRequestAnalytics: function () {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/graphql/", {
+      method: "POST",
+      headers: header_cf,
+      body: JSON.stringify({
+        "query": `{
+          viewer {
+            accounts(filter: {accountTag: "${ACCOUNTID}"}) {
+              workersInvocationsAdaptive(filter: {datetime_gt: "${new Date(new Date().getTime() - (24 * 60 * 60 * 1000)).toISOString()}"}, limit: 2) {
+                sum {
+                  requests
+                  subrequests
+                }
+              }
+            }
+          }
+        }`,
+      })
+    }));
+  },
   getFilters: function () {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/filters", {
       method: "GET",
