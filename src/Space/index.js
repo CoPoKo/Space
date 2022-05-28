@@ -5,6 +5,8 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     // 安全检查
     /////////////////////////////////////////////////////////////////////
+    // Analytics
+    event.waitUntil(Space.Helpers.Security.securityCheckAnalytics(event));
     // IP-Time-Times
     const request = event.request;
     const ip = request.headers.get("CF-Connecting-IP") || request.headers.get('x-real-ip') || request.headers.get("X-Forwarded-For");
@@ -25,8 +27,6 @@ async function handleSpace(event) {
         return await Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
-    // Analytics
-    event.waitUntil(Space.Helpers.Security.securityCheckAnalytics(event));
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     let router = new Space.Helpers.Router(event);

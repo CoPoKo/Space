@@ -63749,9 +63749,11 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     // 安全检查
     /////////////////////////////////////////////////////////////////////
-    // IPTimes
+    // Analytics
+    event.waitUntil(Space_Space.Helpers.Security.securityCheckAnalytics(event));
+    // IP-Time-Times
     const request = event.request;
-    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get("X-Forwarded-For") || request.headers.get('x-real-ip');
+    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get('x-real-ip') || request.headers.get("X-Forwarded-For");
     if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 0.25) && IPTimes[ip].times >= 300) {
       return await Space_Space.Helpers.ErrorResponse("Too Many Requests", 403);
     }
@@ -63769,8 +63771,6 @@ async function handleSpace(event) {
         return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
-    // Analytics
-    event.waitUntil(Space_Space.Helpers.Security.securityCheckAnalytics(event));
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     let router = new Space_Space.Helpers.Router(event);
