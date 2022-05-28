@@ -61387,8 +61387,8 @@ const CF = {
       body: '{"pattern":"' + WORKERROUTE + '","script":"' + WORKERNAME + '"}'
     }));
   },
-  getWorkersKVRequestAnalytics: function () {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics", {
+  getWorkersKVRequestAnalytics: function (type = "read") {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics?metrics=requests&filters=requestType==" + type, {
       method: "GET",
       headers: header_cf
     }));
@@ -61709,11 +61709,24 @@ function checkReferer(event) {
   return false
 }
 async function securityCheckAnalytics() {
-  const result = await Space_Space.API.CF.getWorkersKVRequestAnalytics().then(e => e.json()).then(e => e.result)
-  if (result.totals.requests > 30000) {
+  // Workers KV 免费包含
+  // 1 GB - 键值存储空间
+  // 100,000 - 每日键值读取*
+  // 1,000 - 每日键值写入*
+  // 1,000 - 每日键值删除
+  // 1,000 - 每日键值列表
+  // 支持最大 512 Bytes 的键
+  // 支持最大 25 MB 的值
+  const read = await Space_Space.API.CF.getWorkersKVRequestAnalytics("read").then(e => e.json()).then(e => e.result)
+  await setUnderAttack(read.totals.requests, 30000, 35000)
+  const write = await Space_Space.API.CF.getWorkersKVRequestAnalytics("write").then(e => e.json()).then(e => e.result)
+  await setUnderAttack(write.totals.requests, 250, 350)
+}
+async function setUnderAttack(a, b, c) {
+  if (a > b) {
     await Space_Space.API.CF.setSecurityLevel("under_attack")
   }
-  if (result.totals.requests > 35000) {
+  if (a > c) {
     const routesresult = await Space_Space.API.CF.getRoutes().then(e => e.json()).then(e => e.result)
     const routeid = routesresult.find(e => e.script == WORKERNAME)?.id
     if (routeid) {
@@ -61721,6 +61734,7 @@ async function securityCheckAnalytics() {
     }
   }
 }
+
 let Security = {
   checkReferer,
   securityCheckAnalytics,

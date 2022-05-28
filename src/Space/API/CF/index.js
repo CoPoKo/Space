@@ -38,8 +38,8 @@ const CF = {
       body: '{"pattern":"' + WORKERROUTE + '","script":"' + WORKERNAME + '"}'
     }));
   },
-  getWorkersKVRequestAnalytics: function () {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics", {
+  getWorkersKVRequestAnalytics: function (type = "read") {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics?metrics=requests&filters=requestType==" + type, {
       method: "GET",
       headers: header_cf
     }));
