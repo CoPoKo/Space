@@ -61644,7 +61644,7 @@ function checkReferer(event) {
   if (referer == null) {
     return true
   }
-  if (referer && (referer.includes("mhuig") || referer.includes("localhost") || referer.includes("127"))) {
+  if (referer && (referer.includes(MY_REFERER) || referer.includes("localhost") || referer.includes("127"))) {
     return true
   }
   return false
@@ -63635,9 +63635,11 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 安全检查
-    let checkRefererStatus = Space_Space.Helpers.Security.checkReferer(event);
-    if (!checkRefererStatus) {
-      return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
+    if (typeof MY_REFERER != "undefined") {
+      let checkRefererStatus = Space_Space.Helpers.Security.checkReferer(event);
+      if (!checkRefererStatus) {
+        return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
+      }
     }
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////

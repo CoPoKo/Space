@@ -4,9 +4,11 @@ async function handleSpace(event) {
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 安全检查
-    let checkRefererStatus = Space.Helpers.Security.checkReferer(event);
-    if (!checkRefererStatus) {
-      return await Space.Helpers.ErrorResponse("Ooops...", 403);
+    if (typeof MY_REFERER != "undefined") {
+      let checkRefererStatus = Space.Helpers.Security.checkReferer(event);
+      if (!checkRefererStatus) {
+        return await Space.Helpers.ErrorResponse("Ooops...", 403);
+      }
     }
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////

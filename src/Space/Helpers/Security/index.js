@@ -3,7 +3,7 @@ function checkReferer(event) {
   if (referer == null) {
     return true
   }
-  if (referer && (referer.includes("mhuig") || referer.includes("localhost") || referer.includes("127"))) {
+  if (referer && (referer.includes(MY_REFERER) || referer.includes("localhost") || referer.includes("127"))) {
     return true
   }
   return false
