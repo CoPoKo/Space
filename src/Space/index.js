@@ -46,7 +46,8 @@ async function handleSpace(event) {
     router.get("/dns").action(Space.Actions.API.DNSQuery);
     router.get("/thum").action(Space.Actions.API.Thum);
     router.get("/ipfs/api/add").action(Space.Actions.API.IPFS.Put);
-    router.get("/ipfs/").action(Space.Actions.API.IPFS.Get);
+    router.get("/ipfs").action(Space.Actions.API.IPFS.Get);
+    router.post("/api/v0/").action(Space.Actions.API.IPFS.Put);
     /////////////////////////////////////////////////////////////////////
     // Header Auth
     router.get("/Admin").action(Space.Actions.Admin);

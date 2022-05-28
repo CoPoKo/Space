@@ -3,6 +3,7 @@ import erorr from 'html-loader!./Pages/error.html'
 import auth from 'html-loader!./Pages/auth.html'
 import robots from 'html-loader!./Pages/robots.txt'
 import dash_father from 'html-loader!./Pages/dash/dash.html'
+import ipfs from 'html-loader!./Pages/ipfs.html'
 
 function cdn(page) {
   page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
@@ -34,6 +35,7 @@ dash_nav.forEach(item => {
 let Renderers = {
   erorr: cdn(erorr),
   auth: cdn(auth),
+  ipfs: cdn(ipfs),
   robots: robots,
   dash: dash,
 };
