@@ -61387,7 +61387,7 @@ const CF = {
       body: '{"pattern":"' + WORKERROUTE + '","script":"' + WORKERNAME + '"}'
     }));
   },
-  getAnalytics: function () {
+  getWorkersKVRequestAnalytics: function () {
     return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics", {
       method: "GET",
       headers: header_cf
@@ -61697,6 +61697,7 @@ let Fetch = {
 /* harmony default export */ const Helpers_Fetch = (Fetch);
 
 ;// CONCATENATED MODULE: ./src/Space/Helpers/Security/index.js
+
 function checkReferer(event) {
   let referer = event.request.headers.get('referer');
   if (referer == null) {
@@ -61707,9 +61708,22 @@ function checkReferer(event) {
   }
   return false
 }
-
+async function securityCheckAnalytics() {
+  const result = await Space_Space.API.CF.getWorkersKVRequestAnalytics().then(e => e.json()).then(e => e.result)
+  if (result.totals.requests > 30000) {
+    await Space_Space.API.CF.setSecurityLevel("under_attack")
+  }
+  if (result.totals.requests > 35000) {
+    const routesresult = await Space_Space.API.CF.getRoutes().then(e => e.json()).then(e => e.result)
+    const routeid = routesresult.find(e => e.script == WORKERNAME)?.id
+    if (routeid) {
+      await Space_Space.API.CF.deleteRouteById(routeid)
+    }
+  }
+}
 let Security = {
   checkReferer,
+  securityCheckAnalytics,
 };
 /* harmony default export */ const Helpers_Security = (Security);
 
@@ -63699,6 +63713,7 @@ async function handleSpace(event) {
         return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
+    event.waitUntil(Space_Space.Helpers.Security.securityCheckAnalytics());
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     let router = new Space_Space.Helpers.Router(event);
@@ -63804,6 +63819,10 @@ async function handleScheduled(event) {
   let Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
   let Minutes = new Date(event.scheduledTime).getMinutes()
 
+  if (Hours == 2 && Minutes == 0) {
+    await Space_Space.API.CF.createRoute();
+    await Space_Space.API.CF.setSecurityLevel("essentially_off")
+  }
   if (Hours == 6 && Minutes == 0) {
     let ans = await Space_Space.API.BingImgInfo();
     // chattitle: "喵喵喵" chatid: -1001531720445

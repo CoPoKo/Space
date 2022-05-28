@@ -38,7 +38,7 @@ const CF = {
       body: '{"pattern":"' + WORKERROUTE + '","script":"' + WORKERNAME + '"}'
     }));
   },
-  getAnalytics: function () {
+  getWorkersKVRequestAnalytics: function () {
     return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics", {
       method: "GET",
       headers: header_cf

@@ -5,6 +5,10 @@ async function handleScheduled(event) {
   let Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
   let Minutes = new Date(event.scheduledTime).getMinutes()
 
+  if (Hours == 2 && Minutes == 0) {
+    await Space.API.CF.createRoute();
+    await Space.API.CF.setSecurityLevel("essentially_off")
+  }
   if (Hours == 6 && Minutes == 0) {
     let ans = await Space.API.BingImgInfo();
     // chattitle: "喵喵喵" chatid: -1001531720445
