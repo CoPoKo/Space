@@ -36838,7 +36838,7 @@ module.exports = "";
 /***/ 6080:
 /***/ ((module) => {
 
-module.exports = "<script src=\"::CDN::/bs-custom-file-input/dist/bs-custom-file-input.js\"></script>\r\n<script>\r\n  bsCustomFileInput.init();\r\n\r\n  function mySubmit(form) {\r\n    let formData = new FormData(form);\r\n    let file = formData.getAll('file');\r\n    console.log(file);\r\n    var reader = new FileReader();\r\n    reader.readAsDataURL(file[0]);\r\n    reader.onload = function (e) {\r\n      let bd = this.result.substring(this.result.indexOf(',') + 1);\r\n      fetch('/space/api/NPMUpload/' + file[0].name, {\r\n        method: 'POST',\r\n        body: bd,\r\n        headers: {\r\n          'Content-Type': 'text/plain'\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (data) {\r\n        console.log(data);\r\n        let s = `/mhgoos@0.0.${data.commit.message.replace(\"Update:\", \"\")}/` + file[0].name;\r\n        document.querySelector(\"#message\").innerHTML = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`;\r\n      }).catch(function (err) {\r\n        document.querySelector(\"#message\").innerHTML = err;\r\n        console.error(err);\r\n      });\r\n    }\r\n    return false;\r\n  }\r\n</script>";
+module.exports = "<script src=\"::CDN::/bs-custom-file-input/dist/bs-custom-file-input.js\"></script>\r\n<script>\r\n  bsCustomFileInput.init();\r\n\r\n  function mySubmit(form) {\r\n    let formData = new FormData(form);\r\n    fetch(\"/space/api/NPMUpload/\", {\r\n      method: \"POST\",\r\n      body: formData,\r\n      headers: {\r\n        \"accept\": \"application/json\",\r\n      }\r\n    }).then(function (response) {\r\n      return response.text();\r\n    }).then(function (data) {\r\n      console.log(data);\r\n      document.querySelector(\"#message\").innerHTML = data;\r\n    }).catch(function (err) {\r\n      document.querySelector(\"#message\").innerHTML = err;\r\n      console.error(err);\r\n    });\r\n    return false;\r\n  }\r\n</script>";
 
 /***/ }),
 
@@ -61281,7 +61281,66 @@ const IPFS = {
 };
 /* harmony default export */ const API_IPFS = (IPFS);
 
+;// CONCATENATED MODULE: ./src/Space/API/NPMUpload/index.js
+/* provided dependency */ var NPMUpload_Buffer = __webpack_require__(8764)["Buffer"];
+
+
+async function NPMUpload(file) {
+  const fileBuffer = await file.arrayBuffer()
+  const fileName = await file.name
+  const fileBase64 = NPMUpload_Buffer.from(fileBuffer).toString('base64')
+
+  const set = await Space_Space.Helpers.Setting("NPMUpload");
+  const GITHUB_TOKEN = set.GITHUB_TOKEN;
+  const GITHUB_REPO = set.GITHUB_REPO;
+  const GITHUB_BRANCH = set.GITHUB_BRANCH;
+  const NPM_PKG = set.NPM_PKG;
+  const message = Date.now()
+  const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${fileName}?ref=${GITHUB_BRANCH}`
+  const fileSha = await fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "user-agent": "copoko.npm.git/0.0.1",
+      "Authorization": "token " + GITHUB_TOKEN
+    },
+  }).then(e => {
+    return e.json()
+  }).then(e => {
+    return e.sha
+  })
+
+  const r = await fetch(url, {
+    body: JSON.stringify({
+      branch: GITHUB_BRANCH, message: `Update:` + message, content: fileBase64, sha: fileSha
+    }),
+    method: "PUT",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "user-agent": "copoko.npm.git/0.0.1",
+      "Authorization": "token " + GITHUB_TOKEN
+    }
+  })
+  const p = {
+    status: r.status,
+    body: await r.text()
+  }
+  if (p.status.toString().startsWith("20")) { // success 200 201
+    let data = JSON.parse(p.body);
+    let s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
+    let ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
+    return {
+      status: p.status,
+      body: ss
+    }
+  }
+  // error
+  return p
+}
+/* harmony default export */ const API_NPMUpload = (NPMUpload);
+
 ;// CONCATENATED MODULE: ./src/Space/API/index.js
+
 
 
 
@@ -61330,6 +61389,7 @@ let API = {
   Thum: API_Thum,
   Nbnhhsh: API_Nbnhhsh,
   IPFS: API_IPFS,
+  NPMUpload: API_NPMUpload,
 };
 
 /* harmony default export */ const Space_API = (API);
@@ -62185,41 +62245,14 @@ async function Thum_Thum(ctx) {
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/NPMUpload/index.js
 
 
-async function NPMUpload(ctx) {
-  const set = await Space_Space.Helpers.Setting("GitHub");
-  const BOT_TOKEN = set.BOT_TOKEN;
-  const path = ctx.pathname
-  const message = Date.now()
-  const file = await ctx.request.text()
-  const filename = path.substr(("/space/api/NPMUpload/").length)
-  const url = `https://api.github.com/repos/MHG-LAB/git2npm/contents/${filename}?ref=main`
-  const f_sha = await fetch(url, {
-    method: "GET",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      "user-agent": "copoko.npm.git/0.0.1",
-      "Authorization": "token " + BOT_TOKEN
-    },
-  }).then(e => {
-    return e.text()
-  }).then(e => {
-    return (JSON.parse(e)).sha
-  })
-
-  const r = await fetch(url, {
-    body: JSON.stringify({
-      branch: "main", message: `Update:` + message, content: file, sha: f_sha
-    }),
-    method: "PUT",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      "user-agent": "copoko.npm.git/0.0.1",
-      "Authorization": "token " + BOT_TOKEN
-    }
-  })
-  return new Response(await r.text(), { status: r.status })
+async function NPMUpload_NPMUpload(ctx) {
+  const request = ctx.request;
+  const formData = await request.formData()
+  const file = await formData.get("file")
+  const ans = await Space_Space.API.NPMUpload(file)
+  return new Response(ans.body, { status: ans.status })
 }
-/* harmony default export */ const API_NPMUpload = (NPMUpload);
+/* harmony default export */ const Actions_API_NPMUpload = (NPMUpload_NPMUpload);
 
 ;// CONCATENATED MODULE: ./src/Space/Actions/API/IPFS/index.js
 
@@ -62296,7 +62329,7 @@ let API_API = {
   Happypic: Actions_API_Happypic,
   DNSQuery: Actions_API_DNSQuery,
   Thum: Actions_API_Thum,
-  NPMUpload: API_NPMUpload,
+  NPMUpload: Actions_API_NPMUpload,
   IPFS: Actions_API_IPFS,
 };
 

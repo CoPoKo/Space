@@ -4,29 +4,21 @@
 
   function mySubmit(form) {
     let formData = new FormData(form);
-    let file = formData.getAll('file');
-    console.log(file);
-    var reader = new FileReader();
-    reader.readAsDataURL(file[0]);
-    reader.onload = function (e) {
-      let bd = this.result.substring(this.result.indexOf(',') + 1);
-      fetch('/space/api/NPMUpload/' + file[0].name, {
-        method: 'POST',
-        body: bd,
-        headers: {
-          'Content-Type': 'text/plain'
-        }
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        console.log(data);
-        let s = `/mhgoos@0.0.${data.commit.message.replace("Update:", "")}/` + file[0].name;
-        document.querySelector("#message").innerHTML = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`;
-      }).catch(function (err) {
-        document.querySelector("#message").innerHTML = err;
-        console.error(err);
-      });
-    }
+    fetch("/space/api/NPMUpload/", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "accept": "application/json",
+      }
+    }).then(function (response) {
+      return response.text();
+    }).then(function (data) {
+      console.log(data);
+      document.querySelector("#message").innerHTML = data;
+    }).catch(function (err) {
+      document.querySelector("#message").innerHTML = err;
+      console.error(err);
+    });
     return false;
   }
 </script>

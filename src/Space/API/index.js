@@ -21,6 +21,7 @@ import DNSQuery from "./DNSQuery"
 import Thum from "./Thum"
 import Nbnhhsh from "./Nbnhhsh"
 import IPFS from "./IPFS"
+import NPMUpload from "./NPMUpload"
 
 let API = {
   KV,
@@ -46,6 +47,7 @@ let API = {
   Thum,
   Nbnhhsh,
   IPFS,
+  NPMUpload,
 };
 
 export default API;
