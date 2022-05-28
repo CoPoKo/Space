@@ -22,7 +22,8 @@
     .grecaptcha-badge {
       display: none;
     }
-    body{
+
+    body {
       background: black;
     }
   </style>
@@ -84,7 +85,7 @@
               "<h1>我们正在验证您的登录凭据...</h1>";
             const res = await (
               await fetch(
-                new Request("/space/auth", {
+                new Request("/space/auth::AUTH_PAGE::", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded",

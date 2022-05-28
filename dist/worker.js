@@ -36796,7 +36796,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 /***/ 6096:
 /***/ ((module) => {
 
-module.exports = "<!DOCTYPE html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta http-equiv=\"x-dns-prefetch-control\" content=\"on\" />\r\n  <link rel=\"dns-prefetch\" href=\"::PRECONNECT::\" />\r\n  <link rel=\"preconnect\" href=\"::PRECONNECT::\" crossorigin />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <title>Auth | CoPoKo Space</title>\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"::CDN_SPACE::/favicon/favicon-16x16.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"::CDN_SPACE::/favicon/favicon-32x32.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"96x96\" href=\"::CDN_SPACE::/favicon/favicon-96x96.png\" />\r\n  <link rel=\"stylesheet\" href=\"::CDN_SPACE::/css/auth.css\" />\r\n  <style>\r\n    .grecaptcha-badge {\r\n      display: none;\r\n    }\r\n    body{\r\n      background: black;\r\n    }\r\n  </style>\r\n</head>\r\n\r\n<body>\r\n  <main class=\"auth-main wrapper\">\r\n    <div id=\"auth-block\" class=\"auth-block\">\r\n      <h1>Welcome</h1>\r\n      <div id=\"form\" class=\"form-horizontal\" method=\"POST\" action=\"/space/auth\">\r\n        <div class=\"form-group\">\r\n          <label for=\"inputName\" class=\"col-sm-2 control-label\">Name</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"text\" name=\"name\" class=\"form-control\" id=\"inputName\" placeholder=\"Name\" required=\"required\"\r\n              autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"inputPassword\" class=\"col-sm-2 control-label\">Password</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"password\" name=\"password\" class=\"form-control\" id=\"inputPassword\" placeholder=\"Password\"\r\n              required=\"required\" autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <div class=\"col-sm-offset-5 col-sm-8\">\r\n            <button type=\"submit\" id=\"signin\" class=\"btn btn-default btn-auth\">\r\n              Sign in\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <ul class=\"bg-bubbles\">\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n    </ul>\r\n  </main>\r\n  <script src=\"https://recaptcha.net/recaptcha/api.js?render=::reCAPTCHA_CLIENT::\"></script>\r\n  <script>\r\n    document.getElementById(\"signin\").addEventListener(\"click\", async () => {\r\n      const name = document.getElementById(\"inputName\").value;\r\n      const password = document.getElementById(\"inputPassword\").value;\r\n      document.getElementById(\"auth-block\").innerHTML =\r\n        \"<h1>我们正在进行人机验证...</h1>\";\r\n      grecaptcha.ready(() => {\r\n        grecaptcha\r\n          .execute(\"::reCAPTCHA_CLIENT::\", { action: \"space\" })\r\n          .then(async (t) => {\r\n            document.getElementById(\"auth-block\").innerHTML =\r\n              \"<h1>我们正在验证您的登录凭据...</h1>\";\r\n            const res = await (\r\n              await fetch(\r\n                new Request(\"/space/auth\", {\r\n                  method: \"POST\",\r\n                  headers: {\r\n                    \"Content-Type\": \"application/x-www-form-urlencoded\",\r\n                  },\r\n                  body: `name=${name}&password=${password}&token=${t}`,\r\n                })\r\n              )\r\n            ).json();\r\n            if (res.success) {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>登录成功，即将跳转！</h1>\";\r\n              document.location.href = `${document.location.origin}/space/dash`;\r\n            } else {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>无效的登录凭据 :(</h1>\";\r\n            }\r\n          });\r\n      });\r\n    });\r\n  </script>\r\n</body>\r\n\r\n</html>";
+module.exports = "<!DOCTYPE html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta http-equiv=\"x-dns-prefetch-control\" content=\"on\" />\r\n  <link rel=\"dns-prefetch\" href=\"::PRECONNECT::\" />\r\n  <link rel=\"preconnect\" href=\"::PRECONNECT::\" crossorigin />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <title>Auth | CoPoKo Space</title>\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"::CDN_SPACE::/favicon/favicon-16x16.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"::CDN_SPACE::/favicon/favicon-32x32.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"96x96\" href=\"::CDN_SPACE::/favicon/favicon-96x96.png\" />\r\n  <link rel=\"stylesheet\" href=\"::CDN_SPACE::/css/auth.css\" />\r\n  <style>\r\n    .grecaptcha-badge {\r\n      display: none;\r\n    }\r\n\r\n    body {\r\n      background: black;\r\n    }\r\n  </style>\r\n</head>\r\n\r\n<body>\r\n  <main class=\"auth-main wrapper\">\r\n    <div id=\"auth-block\" class=\"auth-block\">\r\n      <h1>Welcome</h1>\r\n      <div id=\"form\" class=\"form-horizontal\" method=\"POST\" action=\"/space/auth\">\r\n        <div class=\"form-group\">\r\n          <label for=\"inputName\" class=\"col-sm-2 control-label\">Name</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"text\" name=\"name\" class=\"form-control\" id=\"inputName\" placeholder=\"Name\" required=\"required\"\r\n              autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"inputPassword\" class=\"col-sm-2 control-label\">Password</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"password\" name=\"password\" class=\"form-control\" id=\"inputPassword\" placeholder=\"Password\"\r\n              required=\"required\" autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <div class=\"col-sm-offset-5 col-sm-8\">\r\n            <button type=\"submit\" id=\"signin\" class=\"btn btn-default btn-auth\">\r\n              Sign in\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <ul class=\"bg-bubbles\">\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n    </ul>\r\n  </main>\r\n  <script src=\"https://recaptcha.net/recaptcha/api.js?render=::reCAPTCHA_CLIENT::\"></script>\r\n  <script>\r\n    document.getElementById(\"signin\").addEventListener(\"click\", async () => {\r\n      const name = document.getElementById(\"inputName\").value;\r\n      const password = document.getElementById(\"inputPassword\").value;\r\n      document.getElementById(\"auth-block\").innerHTML =\r\n        \"<h1>我们正在进行人机验证...</h1>\";\r\n      grecaptcha.ready(() => {\r\n        grecaptcha\r\n          .execute(\"::reCAPTCHA_CLIENT::\", { action: \"space\" })\r\n          .then(async (t) => {\r\n            document.getElementById(\"auth-block\").innerHTML =\r\n              \"<h1>我们正在验证您的登录凭据...</h1>\";\r\n            const res = await (\r\n              await fetch(\r\n                new Request(\"/space/auth::AUTH_PAGE::\", {\r\n                  method: \"POST\",\r\n                  headers: {\r\n                    \"Content-Type\": \"application/x-www-form-urlencoded\",\r\n                  },\r\n                  body: `name=${name}&password=${password}&token=${t}`,\r\n                })\r\n              )\r\n            ).json();\r\n            if (res.success) {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>登录成功，即将跳转！</h1>\";\r\n              document.location.href = `${document.location.origin}/space/dash`;\r\n            } else {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>无效的登录凭据 :(</h1>\";\r\n            }\r\n          });\r\n      });\r\n    });\r\n  </script>\r\n</body>\r\n\r\n</html>";
 
 /***/ }),
 
@@ -61759,10 +61759,9 @@ let Renderers = {
 
 let SHA256 = __webpack_require__(2153);
 async function AuthPage(ctx) {
-  return new Response(
-    Space_Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT),
-    Space_Space.Helpers.Headers.html
-  );
+  let html = Space_Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT)
+  html = html.replace(/::AUTH_PAGE::/g, AUTH_PAGE)
+  return new Response(html, Space_Space.Helpers.Headers.html);
 }
 async function CheckAuth(ctx) {
   let auth = await Space_Space.Helpers.ReadRequest.Body(ctx.request);
@@ -61787,7 +61786,7 @@ async function CheckAuth(ctx) {
           headers: {
             "content-type": "application/json; charset=utf-8",
             "Access-Control-Allow-Origin": "*",
-            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth + ";HttpOnly;Secure;SameSite=Strict",
+            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth + ";path=/space;HttpOnly;Secure;SameSite=Strict",
           },
         }
       );
@@ -62272,7 +62271,7 @@ async function NPMUpload_NPMUpload(ctx) {
 async function IPFS_Get(ctx) {
   const request = ctx.request
   const path = ctx.pathname
-  if (path == "/ipfs/") {
+  if (path == "/ipfs/" || path == "/ipfs") {
     return new Response(Space_Space.Renderers.ipfs, Space_Space.Helpers.Headers.html);
   }
   const url = new URL(request.url)
@@ -63649,7 +63648,7 @@ async function handleSpace(event) {
     router.get("/favicon.ico").action(Space_Space.Actions.Favicon);
     router.get("/robots.txt").action(Space_Space.Actions.Robots);
     router.get(AUTH_PAGE).action(Space_Space.Actions.Auth.AuthPage);
-    router.post("/space/auth").action(Space_Space.Actions.Auth.CheckAuth);
+    router.post("/space/auth" + AUTH_PAGE).action(Space_Space.Actions.Auth.CheckAuth);
     // 安全跳转
     router.get("/link").action(Space_Space.Actions.Link);
     // Telegraf Webhook
@@ -63678,7 +63677,7 @@ async function handleSpace(event) {
     router.get("/dns").action(Space_Space.Actions.API.DNSQuery);
     router.get("/thum").action(Space_Space.Actions.API.Thum);
     router.get("/ipfs/api/add").action(Space_Space.Actions.API.IPFS.Put);
-    router.get("/ipfs/").action(Space_Space.Actions.API.IPFS.Get);
+    router.get("/ipfs").action(Space_Space.Actions.API.IPFS.Get);
     router.post("/api/v0/").action(Space_Space.Actions.API.IPFS.Put);
     /////////////////////////////////////////////////////////////////////
     // Header Auth

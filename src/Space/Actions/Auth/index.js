@@ -1,10 +1,9 @@
 import Space from "../../Space";
 let SHA256 = require("crypto-js/sha256");
 async function AuthPage(ctx) {
-  return new Response(
-    Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT),
-    Space.Helpers.Headers.html
-  );
+  let html = Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT)
+  html = html.replace(/::AUTH_PAGE::/g, AUTH_PAGE)
+  return new Response(html, Space.Helpers.Headers.html);
 }
 async function CheckAuth(ctx) {
   let auth = await Space.Helpers.ReadRequest.Body(ctx.request);
@@ -29,7 +28,7 @@ async function CheckAuth(ctx) {
           headers: {
             "content-type": "application/json; charset=utf-8",
             "Access-Control-Allow-Origin": "*",
-            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth + ";HttpOnly;Secure;SameSite=Strict",
+            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth + ";path=/space;HttpOnly;Secure;SameSite=Strict",
           },
         }
       );
