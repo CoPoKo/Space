@@ -61728,6 +61728,7 @@ function checkReferer(event) {
   }
   return false
 }
+
 async function securityCheckAnalytics(event) {
   // Workers KV 免费包含
   // 1 GB - 键值存储空间
@@ -61744,7 +61745,6 @@ async function securityCheckAnalytics(event) {
   // Workers 每日 100,000 Request
   const workers = await Space_Space.API.CF.getWorkersRequestAnalytics().then(e => e.json()).then(e => e.data).then(e => e?.viewer?.accounts[0]?.workersInvocationsAdaptive[0]?.sum?.requests)
   await setUnderAttack(workers, 35000, 40000)
-  await Space_Space.API.KV.Put("security_check_analytics", JSON.stringify(workers))
 }
 async function setUnderAttack(a, b, c) {
   if (!a) {
@@ -63743,17 +63743,33 @@ let Space = {
 
 ;// CONCATENATED MODULE: ./src/Space/index.js
 
+let IPTimes = {}
 async function handleSpace(event) {
   try {
     /////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////
     // 安全检查
+    /////////////////////////////////////////////////////////////////////
+    // IPTimes
+    const request = event.request;
+    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get("X-Forwarded-For") || request.headers.get('x-real-ip');
+    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 0.25) && IPTimes[ip].times >= 300) {
+      return await Space_Space.Helpers.ErrorResponse("Too Many Requests", 403);
+    }
+    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 24) && IPTimes[ip].times >= 1000) {
+      return await Space_Space.Helpers.ErrorResponse("Too Many Requests", 403);
+    }
+    IPTimes[ip] = {
+      time: new Date().getTime(),
+      times: IPTimes[ip]?.times ? IPTimes[ip].times + 1 : 1,
+    };
+    // Referer
     if (typeof MY_REFERER != "undefined") {
       let checkRefererStatus = Space_Space.Helpers.Security.checkReferer(event);
       if (!checkRefererStatus) {
         return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
+    // Analytics
     event.waitUntil(Space_Space.Helpers.Security.securityCheckAnalytics(event));
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////

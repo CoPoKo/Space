@@ -1,15 +1,31 @@
 import Space from "./Space";
+let IPTimes = {}
 async function handleSpace(event) {
   try {
     /////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////
     // 安全检查
+    /////////////////////////////////////////////////////////////////////
+    // IP-Time-Times
+    const request = event.request;
+    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get("X-Forwarded-For") || request.headers.get('x-real-ip');
+    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 0.25) && IPTimes[ip].times >= 300) {
+      return await Space.Helpers.ErrorResponse("Too Many Requests", 403);
+    }
+    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 24) && IPTimes[ip].times >= 1000) {
+      return await Space.Helpers.ErrorResponse("Too Many Requests", 403);
+    }
+    IPTimes[ip] = {
+      time: new Date().getTime(),
+      times: IPTimes[ip]?.times ? IPTimes[ip].times + 1 : 1,
+    };
+    // Referer
     if (typeof MY_REFERER != "undefined") {
       let checkRefererStatus = Space.Helpers.Security.checkReferer(event);
       if (!checkRefererStatus) {
         return await Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
+    // Analytics
     event.waitUntil(Space.Helpers.Security.securityCheckAnalytics(event));
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////

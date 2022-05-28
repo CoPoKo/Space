@@ -9,6 +9,7 @@ function checkReferer(event) {
   }
   return false
 }
+
 async function securityCheckAnalytics(event) {
   // Workers KV 免费包含
   // 1 GB - 键值存储空间
