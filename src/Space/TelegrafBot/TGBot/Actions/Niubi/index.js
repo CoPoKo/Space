@@ -2,7 +2,7 @@ import Space from "../../../../Space";
 
 const Niubi = async that => {
   let name = "CoCo";
-  let arr = /来点(\S*)笑话/.exec(that.ctx.message.text)
+  const arr = /来点(\S*)笑话/.exec(that.ctx.message.text)
 
   if (arr && Array.isArray(arr) && arr[1]) {
     name = arr[1];
@@ -20,7 +20,7 @@ const Niubi = async that => {
       return
     })
   }
-  let ans = await Space.API.Niubi(name)
+  const ans = await Space.API.Niubi(name)
   return that.ctx.reply(ans);
 };
 

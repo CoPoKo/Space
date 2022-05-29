@@ -22,7 +22,7 @@ import Thum from "./Thum"
 import NPMUpload from "./NPMUpload"
 import IPFS from "./IPFS"
 
-let API = {
+const API = {
   KV,
   GoogleTranslate,
   GoogleSearch,

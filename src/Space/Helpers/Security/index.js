@@ -1,6 +1,6 @@
 import Space from "../../Space";
 function checkReferer(event) {
-  let referer = event.request.headers.get('referer');
+  const referer = event.request.headers.get('referer');
   if (referer == null) {
     return true
   }
@@ -43,7 +43,7 @@ async function setUnderAttack(a, b, c) {
   }
 }
 
-let Security = {
+const Security = {
   checkReferer,
   securityCheckAnalytics,
 };

@@ -5,26 +5,26 @@ async function Admin(ctx) {
   if (!doBasicAuth(ctx.request)) {
     return unauthorized();
   }
-  let path = ctx.pathname
+  const path = ctx.pathname
   if (path.startsWith('/Admin/happypic-sex')) {
-    let ans = await Space.API.Setu.HappypicSex()
+    const ans = await Space.API.Setu.HappypicSex()
     return fetch(ans)
   }
   if (path.startsWith('/Admin/setu/gif')) {
-    let id = ctx.getParam('id') || Space.Helpers.RandomNum(1, 35)
+    const id = ctx.getParam('id') || Space.Helpers.RandomNum(1, 35)
     return new Response('<html style="height: 100%;"><head><meta name="viewport" content="width=device-width, minimum-scale=0.1"><title>404</title></head><body style="text-align: center;margin: 0px; background: #0e0e0e; height: 100%"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="/Admin/setu/api/gif?id=' + id + '"></body></html>'
       , Space.Helpers.Headers.html);
   }
   if (path.startsWith('/Admin/setu/api/gif')) {
-    let id = ctx.getParam('id')
+    const id = ctx.getParam('id')
     return Space.API.Setu.SJMM(id)
   }
   if (path.startsWith('/Admin/setu/tui')) {
-    let id = ctx.getParam('id')
+    const id = ctx.getParam('id')
     return Space.API.Setu.Tui(id)
   }
   if (path.startsWith('/Admin/setu/el')) {
-    let ans = await Space.API.Setu.El()
+    const ans = await Space.API.Setu.El()
     return fetch(ans)
   }
 

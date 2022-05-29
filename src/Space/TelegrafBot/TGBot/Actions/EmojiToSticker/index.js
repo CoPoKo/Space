@@ -5,7 +5,7 @@ const EmojiToSticker = async that => {
   for (const key in MyStickerSet) {
     if (Object.hasOwnProperty.call(MyStickerSet, key)) {
       const element = MyStickerSet[key];
-      let Reg = new RegExp(key)
+      const Reg = new RegExp(key)
       if (Reg.test(that.ctx.message.text))
         return that.ctx.replyWithSticker(element);
     }

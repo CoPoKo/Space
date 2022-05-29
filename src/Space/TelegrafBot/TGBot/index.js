@@ -2,7 +2,7 @@ import HandleMessage from "./HandleMessage";
 import Actions from "./Actions";
 import StickerSet from "./StickerSet";
 
-let TGBot = {
+const TGBot = {
   HandleMessage,
   Actions,
   StickerSet,

@@ -1,10 +1,10 @@
 import Space from "../../../Space"
 
 async function BingImgInfo(ctx) {
-  let URLParameters = Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let path = ctx.pathname
-  let day = URLParameters.day
-  let ans = await Space.API.BingImgInfo(day)
+  const URLParameters = Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const path = ctx.pathname
+  const day = URLParameters.day
+  const ans = await Space.API.BingImgInfo(day)
 
   if (path.startsWith('/bing/info')) {
     return new Response(JSON.stringify(ans), Space.Helpers.Headers.json)

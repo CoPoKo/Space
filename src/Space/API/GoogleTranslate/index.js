@@ -1,9 +1,9 @@
 import Space from "../../Space"
 
-async function GoogleTranslate(s,conf){
-  let set = await Space.Helpers.Setting("GoogleTranslate");
-  let translate_api = set.API;
-  let ans=await (await fetch(translate_api,{
+async function GoogleTranslate(s, conf) {
+  const set = await Space.Helpers.Setting("GoogleTranslate");
+  const translate_api = set.API;
+  const ans = await (await fetch(translate_api, {
     method: "POST",
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",

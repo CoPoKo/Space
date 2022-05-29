@@ -27,12 +27,12 @@ function DashPage(nav) {
   return page
 }
 
-let dash = {}
+const dash = {}
 dash_nav.forEach(item => {
   dash[item] = cdn(DashPage(item))
 })
 
-let Renderers = {
+const Renderers = {
   erorr: cdn(erorr),
   auth: cdn(auth),
   ipfs: cdn(ipfs),

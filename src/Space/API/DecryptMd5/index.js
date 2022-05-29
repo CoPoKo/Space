@@ -1,10 +1,10 @@
 import Space from "../../Space"
 
 async function DecryptMd5(md5) {
-  let data = {}
+  const data = {}
   if (md5) {
     // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
-    let MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5
+    const MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5
     let rs = await (await fetch(MD5FetchURL, {
       method: "GET",
       headers: {

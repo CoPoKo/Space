@@ -2,10 +2,9 @@ import Space from "../../../Space";
 
 async function Get(ctx) {
   try {
-    let body = await Space.Helpers.ReadRequest.Body(ctx.request);
-    body = JSON.parse(body);
-    let key = body.key;
-    let value = await Space.API.KV.Get(key);
+    const body = await Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
+    const value = await Space.API.KV.Get(key);
     return new Response(
       JSON.stringify({
         sucess: 1,
@@ -29,10 +28,9 @@ async function Get(ctx) {
 }
 async function Put(ctx) {
   try {
-    let body = await Space.Helpers.ReadRequest.Body(ctx.request);
-    body = JSON.parse(body);
-    let key = body.key;
-    let value = body.value;
+    const body = await Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
+    const value = body.value;
     await Space.API.KV.Put(key, value);
     return new Response(
       JSON.stringify({
@@ -58,9 +56,8 @@ async function Put(ctx) {
 }
 async function Delete(ctx) {
   try {
-    let body = await Space.Helpers.ReadRequest.Body(ctx.request);
-    body = JSON.parse(body);
-    let key = body.key;
+    const body = await Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
     await Space.API.KV.Delete(key);
     return new Response(
       JSON.stringify({
@@ -83,7 +80,7 @@ async function Delete(ctx) {
   }
 }
 
-let KV = {
+const KV = {
   Get,
   Put,
   Delete,

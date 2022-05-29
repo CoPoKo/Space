@@ -6,8 +6,8 @@ async function HappypicSex() {
 
 async function SJMM(id) {
   id = id || Space.Helpers.RandomNum(1, 35)
-  let set = await Space.Helpers.Setting("GitHub");
-  let BOT_TOKEN = set.BOT_TOKEN;
+  const set = await Space.Helpers.Setting("GitHub");
+  const BOT_TOKEN = set.BOT_TOKEN;
   return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/gif/" + id + ".gif", {
     headers: {
       Accept: "application/vnd.github.v3.raw",
@@ -17,8 +17,8 @@ async function SJMM(id) {
 }
 async function Tui(id) {
   id = id || Space.Helpers.RandomNum(1, 557)
-  let set = await Space.Helpers.Setting("GitHub");
-  let BOT_TOKEN = set.BOT_TOKEN;
+  const set = await Space.Helpers.Setting("GitHub");
+  const BOT_TOKEN = set.BOT_TOKEN;
   return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/tui/" + id + ".jpg", {
     headers: {
       Accept: "application/vnd.github.v3.raw",
@@ -27,13 +27,13 @@ async function Tui(id) {
   })
 }
 async function El() {
-  let FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
-  let SetuInfo = (await Space.Helpers.Fetch.JSON(FetchUrl)).image
-  let url = SetuInfo[Space.Helpers.RandomNum(0, SetuInfo.length - 1)].url
+  const FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
+  const SetuInfo = (await Space.Helpers.Fetch.JSON(FetchUrl)).image
+  const url = SetuInfo[Space.Helpers.RandomNum(0, SetuInfo.length - 1)].url
   return url
 }
 
-let Setu = {
+const Setu = {
   HappypicSex,
   SJMM,
   Tui,

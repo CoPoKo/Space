@@ -108,7 +108,7 @@ async function Text(ctx) {
     .then(that => {
       return that.reg(/来点(\S*)笑话/).action(TGBot.Actions.Niubi)
     })
-    .then(that=> {
+    .then(that => {
       return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
     })
     .then(that => {

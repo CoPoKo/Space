@@ -1,7 +1,7 @@
 import Space from "../../../../Space";
 
 const DNSQuery = async that => {
-  let opt = {}
+  const opt = {}
   opt.type = that.args.t || "A"
   opt.name = that.args.n || "github.com"
   opt.edns_client_subnet = that.args.et || `1.0.0.1`

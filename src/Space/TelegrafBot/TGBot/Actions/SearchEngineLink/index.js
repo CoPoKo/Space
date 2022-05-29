@@ -1,7 +1,7 @@
 import Space from "../../../../Space";
 
 const SearchEngineLink = async that => {
-  let engineList = {
+  const engineList = {
     baidu: {
       keywords: ["百度", "度娘", "baidu"],
       url: "https://www.baidu.com/s?wd=",
@@ -43,7 +43,7 @@ const SearchEngineLink = async that => {
     const content = getLinkByEngine(engineString, keyword);
     if (content) {
       await that.ctx.reply(content);
-      let ans = await Space.API.Thum({ url: content, wait: 1 });
+      const ans = await Space.API.Thum({ url: content, wait: 1 });
       await fetch(ans).then(async (res) => {
         return await that.ctx.replyWithPhoto(ans, { "caption": content });
       }).catch(err => { })

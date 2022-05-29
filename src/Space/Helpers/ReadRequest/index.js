@@ -35,7 +35,7 @@ function URLParameters(request) {
 }
 
 
-let ReadRequest = {
+const ReadRequest = {
   Body,
   URLParameters,
 };

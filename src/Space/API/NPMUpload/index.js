@@ -41,9 +41,9 @@ async function NPMUpload(file) {
     body: await r.text()
   }
   if (p.status.toString().startsWith("20")) { // success 200 201
-    let data = JSON.parse(p.body);
-    let s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
-    let ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
+    const data = JSON.parse(p.body);
+    const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
+    const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
     return {
       status: p.status,
       body: ss

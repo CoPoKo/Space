@@ -24,7 +24,7 @@ import IPFS from "./IPFS"
 import NPMUpload from "./NPMUpload"
 import CF from "./CF"
 
-let API = {
+const API = {
   KV,
   GoogleTranslate,
   GoogleSearch,

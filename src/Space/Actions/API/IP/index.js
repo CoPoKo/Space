@@ -1,7 +1,7 @@
 import Space from "../../../Space"
 
 async function IP(ctx) {
-  let request = ctx.request
+  const request = ctx.request
   return new Response(JSON.stringify({
     "CF-Connecting-IP": request.headers.get("CF-Connecting-IP"),
     "X-Forwarded-For": request.headers.get("X-Forwarded-For"),

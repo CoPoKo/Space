@@ -7,7 +7,7 @@ const IPFS = {
     }
     const set = await Space.Helpers.Setting("IPFS");
     const API = set.API;
-    let formdata = new FormData();
+    const formdata = new FormData();
     formdata.append("file", Buffer.from(s));
     return await fetch(new Request(API + "/api/v0/add", {
       method: "POST",

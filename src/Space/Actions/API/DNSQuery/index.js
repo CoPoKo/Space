@@ -20,11 +20,11 @@ import Space from "../../../Space"
   注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
  */
 async function DNSQuery(ctx) {
-  let path = ctx.pathname
-  let opt = {}
+  const path = ctx.pathname
+  const opt = {}
   opt.type = ctx.getParam("type")
   opt.name = ctx.getParam("name")
-  opt.edns_client_subnet = ctx.getParam("edns_client_subnet") || new Map(ctx.request.headers).get('x-real-ip') || `1.0.0.1`
+  opt.edns_client_subnet = ctx.getParam("edns_client_subnet") || ctx.request.headers.get('x-real-ip') || `1.0.0.1`
 
   if (path.indexOf("host") != -1) {
     opt.host = "true"
@@ -45,7 +45,7 @@ async function DNSQuery(ctx) {
     opt.upstream = "rubyfish"
   }
 
-  let ans = await Space.API.DNSQuery(opt)
+  const ans = await Space.API.DNSQuery(opt)
 
   if (opt.way == "get") {
     return new Response(ans, Space.Helpers.Headers.js)

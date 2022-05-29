@@ -4,13 +4,13 @@ async function Nbnhhsh(key) {
   if (!key)
     key = "nb"
 
-  let res = await fetch(new Request("https://lab.magiconch.com/api/nbnhhsh/guess", {
+  const res = await fetch(new Request("https://lab.magiconch.com/api/nbnhhsh/guess", {
     method: "POST",
     headers: { "Content-Type": "application/json; charset=utf-8" },
     body: JSON.stringify({ text: key }),
   }));
-  let data = await res.json()
-  let ans = []
+  const data = await res.json()
+  const ans = []
   if (data.length) {
     data.forEach((result) => {
       let content = `${result.name} 理解不能`;

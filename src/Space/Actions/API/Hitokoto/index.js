@@ -1,8 +1,8 @@
 import Space from "../../../Space"
 
 async function Hitokoto(ctx) {
-  let path = ctx.pathname
-  let ans = await Space.API.Hitokoto()
+  const path = ctx.pathname
+  const ans = await Space.API.Hitokoto()
   if (path.startsWith('/hitokoto/w')) {
     return new Response("document.write('" + ans + "')", Space.Helpers.Headers.json)
   }

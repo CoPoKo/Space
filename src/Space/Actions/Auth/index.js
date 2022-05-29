@@ -1,24 +1,18 @@
 import Space from "../../Space";
-let SHA256 = require("crypto-js/sha256");
+const SHA256 = require("crypto-js/sha256");
 async function AuthPage(ctx) {
-  let html = Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT)
-  html = html.replace(/::AUTH_PAGE::/g, AUTH_PAGE)
+  const html = Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT).replace(/::AUTH_PAGE::/g, AUTH_PAGE)
   return new Response(html, Space.Helpers.Headers.html);
 }
 async function CheckAuth(ctx) {
-  let auth = await Space.Helpers.ReadRequest.Body(ctx.request);
-  auth = JSON.parse(auth);
-  let token = auth.token;
-  let secret = reCAPTCHA_SERVER;
-  let ip = ctx.ip;
-  let recaptcha = await Space.Helpers.Captcha.recaptcha(secret, token, ip);
+  const auth = await Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+  const token = auth.token;
+  const secret = reCAPTCHA_SERVER;
+  const ip = ctx.ip;
+  const recaptcha = await Space.Helpers.Captcha.recaptcha(secret, token, ip);
   if (recaptcha) {
-    let TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(
-      SpacePassword
-    ).toString()}`;
-    let TestAuth = `${SHA256(auth.name).toString()}::${SHA256(
-      auth.password
-    ).toString()}`;
+    const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
+    const TestAuth = `${SHA256(auth.name).toString()}::${SHA256(auth.password).toString()}`;
     if (TestAuth == TrueAuth) {
       return new Response(
         JSON.stringify({
@@ -47,10 +41,8 @@ async function CheckCookieAuth(ctx) {
     .get(ctx.request, "_copoko_space_cookie_auth")
     .then(async (_copoko_space_cookie_auth) => {
       if (_copoko_space_cookie_auth) {
-        let TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(
-          SpacePassword
-        ).toString()}`;
-        let TestAuth = _copoko_space_cookie_auth;
+        const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
+        const TestAuth = _copoko_space_cookie_auth;
         if (TestAuth == TrueAuth) {
           return "PASS";
         }
@@ -58,7 +50,7 @@ async function CheckCookieAuth(ctx) {
       return await Space.Helpers.ErrorResponse("NO PERMISSION TO ACCESS THE SERVICE", 403);
     });
 }
-let Auth = {
+const Auth = {
   CheckAuth,
   CheckCookieAuth,
   AuthPage,

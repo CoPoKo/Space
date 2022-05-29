@@ -60768,7 +60768,7 @@ var __webpack_exports__ = {};
 "use strict";
 
 ;// CONCATENATED MODULE: ./src/Space/API/KV/index.js
-let KV = {
+const KV = {
   Put: async(key,value) => {
     return await SpaceKV.put(key, value);
   },
@@ -60784,10 +60784,10 @@ let KV = {
 ;// CONCATENATED MODULE: ./src/Space/API/GoogleTranslate/index.js
 
 
-async function GoogleTranslate(s,conf){
-  let set = await Space_Space.Helpers.Setting("GoogleTranslate");
-  let translate_api = set.API;
-  let ans=await (await fetch(translate_api,{
+async function GoogleTranslate(s, conf) {
+  const set = await Space_Space.Helpers.Setting("GoogleTranslate");
+  const translate_api = set.API;
+  const ans = await (await fetch(translate_api, {
     method: "POST",
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
@@ -60804,13 +60804,13 @@ async function GoogleTranslate(s,conf){
 ;// CONCATENATED MODULE: ./src/Space/API/GoogleSearch/index.js
 
 
-async function GoogleSearch(question){
-  let set = await Space_Space.Helpers.Setting("GoogleSearch");
-  let KEY = set.KEY;
-  let CX = set.CX;
-  let FetchURL_Google_ALL = "https://www.googleapis.com/customsearch/v1?key="+KEY+"&cx="+CX+"&start=0&q="+question
-  let ans= await Space_Space.Helpers.Fetch.JSON(FetchURL_Google_ALL)
-  return JSON.stringify({ans:ans.items})
+async function GoogleSearch(question) {
+  const set = await Space_Space.Helpers.Setting("GoogleSearch");
+  const KEY = set.KEY;
+  const CX = set.CX;
+  const FetchURL_Google_ALL = "https://www.googleapis.com/customsearch/v1?key=" + KEY + "&cx=" + CX + "&start=0&q=" + question
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchURL_Google_ALL)
+  return JSON.stringify({ ans: ans.items })
 }
 /* harmony default export */ const API_GoogleSearch = (GoogleSearch);
 
@@ -60818,13 +60818,13 @@ async function GoogleSearch(question){
 
 
 async function WolframAlpha(question) {
-  let set = await Space_Space.Helpers.Setting("WolframAlpha");
-  let APPID = set.APPID;
-  let s_en = await Space_Space.API.GoogleTranslate(question, {
+  const set = await Space_Space.Helpers.Setting("WolframAlpha");
+  const APPID = set.APPID;
+  const s_en = await Space_Space.API.GoogleTranslate(question, {
     "to": "en",
     "domain": "com"
   });
-  let FetchURL = "https://api.wolframalpha.com/v1/spoken?appid=" + APPID + "&i=" + s_en.text
+  const FetchURL = "https://api.wolframalpha.com/v1/spoken?appid=" + APPID + "&i=" + s_en.text
   let ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
   if (!/wolfram/g.test(question.toLowerCase())) {
     ans = ans.replace(/WolframAlpha/g, "Coco")
@@ -60841,7 +60841,7 @@ async function WolframAlpha(question) {
     ans = "You appear to be a human seeking computational knowledge."
   }
   ans = ans.replace(/No spoken result available/g, "I don't know.")
-  let ans_cn = await Space_Space.API.GoogleTranslate(ans, {
+  const ans_cn = await Space_Space.API.GoogleTranslate(ans, {
     "to": "zh-cn",
     "domain": "com"
   });
@@ -60858,9 +60858,9 @@ async function WolframAlpha(question) {
 async function BingImgInfo(day) {
   if (!day)
     day = 0
-  let FetchUrl = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=" + day + "&n=1"
-  let ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
-  let BingImgInfo = ans.images[0]
+  const FetchUrl = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=" + day + "&n=1"
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
+  const BingImgInfo = ans.images[0]
   BingImgInfo.url = "https://www.bing.com" + BingImgInfo.url
   BingImgInfo.urlbase = "https://www.bing.com" + BingImgInfo.urlbase
   BingImgInfo.quiz = "https://www.bing.com" + BingImgInfo.quiz
@@ -60881,9 +60881,9 @@ async function Sitich() {
 
 
 async function Soul() {
-  let FetchUrl = "https://cdn.jsdelivr.net/gh/wwcxjun/soul@master/soul.json"
-  let ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
-  let soul = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)].content
+  const FetchUrl = "https://cdn.jsdelivr.net/gh/wwcxjun/soul@master/soul.json"
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
+  const soul = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)].content
   return soul
 }
 /* harmony default export */ const API_Soul = (Soul);
@@ -60892,9 +60892,9 @@ async function Soul() {
 
 
 async function Hitokoto() {
-  let FetchUrl = "https://cdn.jsdelivr.net/gh/sy-records/hitokoto@master/hitokoto.txt"
-  let ans = (await Space_Space.Helpers.Fetch.Text(FetchUrl)).split("\n")
-  let hitokoto = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)]
+  const FetchUrl = "https://cdn.jsdelivr.net/gh/sy-records/hitokoto@master/hitokoto.txt"
+  const ans = (await Space_Space.Helpers.Fetch.Text(FetchUrl)).split("\n")
+  const hitokoto = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)]
   return hitokoto
 }
 /* harmony default export */ const API_Hitokoto = (Hitokoto);
@@ -60924,8 +60924,8 @@ async function ACG() {
 async function Niubi(name) {
   if (!name)
     name = "CoCo"
-  let FetchUrl = "https://cdn.jsdelivr.net/gh/ElpsyCN/el-bot-api@master/data/niubi.json"
-  let ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
+  const FetchUrl = "https://cdn.jsdelivr.net/gh/ElpsyCN/el-bot-api@master/data/niubi.json"
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
   let data = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)]
   data = data.replace(/\${name}/g, "「" + name + "」")
   return data
@@ -60936,10 +60936,10 @@ async function Niubi(name) {
 
 
 async function DecryptMd5(md5) {
-  let data = {}
+  const data = {}
   if (md5) {
     // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
-    let MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5
+    const MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5
     let rs = await (await fetch(MD5FetchURL, {
       method: "GET",
       headers: {
@@ -60960,21 +60960,21 @@ async function DecryptMd5(md5) {
 
 
 async function GetJTPYStr() {
-  let FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/JTPY.txt";
-  let str = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/JTPY.txt";
+  const str = await Space_Space.Helpers.Fetch.Text(FetchURL)
   return str;
 }
 async function GetFTPYStr() {
-  let FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/FTPY.txt";
-  let str = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/FTPY.txt";
+  const str = await Space_Space.Helpers.Fetch.Text(FetchURL)
   return str;
 }
 // 简=>繁
 async function Traditionalized(cc) {
-  var str = '';
-  var JTPYStr = await GetJTPYStr()
-  var FTPYStr = await GetFTPYStr()
-  for (var i = 0; i < cc.length; i++) {
+  let str = '';
+  const JTPYStr = await GetJTPYStr()
+  const FTPYStr = await GetFTPYStr()
+  for (let i = 0; i < cc.length; i++) {
     if (JTPYStr.indexOf(cc.charAt(i)) != -1)
       str += FTPYStr.charAt(JTPYStr.indexOf(cc.charAt(i)));
     else
@@ -60984,10 +60984,10 @@ async function Traditionalized(cc) {
 }
 // 繁=>简
 async function Simplized(cc) {
-  var str = '';
-  var JTPYStr = await GetJTPYStr()
-  var FTPYStr = await GetFTPYStr()
-  for (var i = 0; i < cc.length; i++) {
+  let str = '';
+  const JTPYStr = await GetJTPYStr()
+  const FTPYStr = await GetFTPYStr()
+  for (let i = 0; i < cc.length; i++) {
     if (FTPYStr.indexOf(cc.charAt(i)) != -1)
       str += JTPYStr.charAt(FTPYStr.indexOf(cc.charAt(i)));
     else
@@ -61086,8 +61086,8 @@ async function HappypicSex() {
 
 async function SJMM(id) {
   id = id || Space_Space.Helpers.RandomNum(1, 35)
-  let set = await Space_Space.Helpers.Setting("GitHub");
-  let BOT_TOKEN = set.BOT_TOKEN;
+  const set = await Space_Space.Helpers.Setting("GitHub");
+  const BOT_TOKEN = set.BOT_TOKEN;
   return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/gif/" + id + ".gif", {
     headers: {
       Accept: "application/vnd.github.v3.raw",
@@ -61097,8 +61097,8 @@ async function SJMM(id) {
 }
 async function Tui(id) {
   id = id || Space_Space.Helpers.RandomNum(1, 557)
-  let set = await Space_Space.Helpers.Setting("GitHub");
-  let BOT_TOKEN = set.BOT_TOKEN;
+  const set = await Space_Space.Helpers.Setting("GitHub");
+  const BOT_TOKEN = set.BOT_TOKEN;
   return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/tui/" + id + ".jpg", {
     headers: {
       Accept: "application/vnd.github.v3.raw",
@@ -61107,13 +61107,13 @@ async function Tui(id) {
   })
 }
 async function El() {
-  let FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
-  let SetuInfo = (await Space_Space.Helpers.Fetch.JSON(FetchUrl)).image
-  let url = SetuInfo[Space_Space.Helpers.RandomNum(0, SetuInfo.length - 1)].url
+  const FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
+  const SetuInfo = (await Space_Space.Helpers.Fetch.JSON(FetchUrl)).image
+  const url = SetuInfo[Space_Space.Helpers.RandomNum(0, SetuInfo.length - 1)].url
   return url
 }
 
-let Setu = {
+const Setu = {
   HappypicSex,
   SJMM,
   Tui,
@@ -61176,7 +61176,7 @@ async function DNSQuery(opt = {}) {
 
   if (opt.way == "get") {
     FetchURL += `?name=${opt.name}&type=${opt.type}&edns_client_subnet=${opt.edns_client_subnet}`
-    let _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
+    const _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
     const _text = await _fetch.text()
     if (opt.host == "true") {
       const _Answer = await JSON.parse(_text)["Answer"]
@@ -61237,13 +61237,13 @@ async function Nbnhhsh(key) {
   if (!key)
     key = "nb"
 
-  let res = await fetch(new Request("https://lab.magiconch.com/api/nbnhhsh/guess", {
+  const res = await fetch(new Request("https://lab.magiconch.com/api/nbnhhsh/guess", {
     method: "POST",
     headers: { "Content-Type": "application/json; charset=utf-8" },
     body: JSON.stringify({ text: key }),
   }));
-  let data = await res.json()
-  let ans = []
+  const data = await res.json()
+  const ans = []
   if (data.length) {
     data.forEach((result) => {
       let content = `${result.name} 理解不能`;
@@ -61272,7 +61272,7 @@ const IPFS = {
     }
     const set = await Space_Space.Helpers.Setting("IPFS");
     const API = set.API;
-    let formdata = new FormData();
+    const formdata = new FormData();
     formdata.append("file", Buffer.from(s));
     return await fetch(new Request(API + "/api/v0/add", {
       method: "POST",
@@ -61333,9 +61333,9 @@ async function NPMUpload(file) {
     body: await r.text()
   }
   if (p.status.toString().startsWith("20")) { // success 200 201
-    let data = JSON.parse(p.body);
-    let s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
-    let ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
+    const data = JSON.parse(p.body);
+    const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
+    const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
     return {
       status: p.status,
       body: ss
@@ -61449,7 +61449,7 @@ const CF = {
 
 
 
-let API = {
+const API = {
   KV: API_KV,
   GoogleTranslate: API_GoogleTranslate,
   GoogleSearch: API_GoogleSearch,
@@ -61516,7 +61516,7 @@ const Headers_text = {
     "Access-Control-Allow-Origin": "*",
   },
 };
-let Headers = {
+const Headers = {
   js,
   html,
   json,
@@ -61621,9 +61621,9 @@ async function set(response, key, value, path = "/") {
   response.headers.append("Set-Cookie", `${key}=${value}; path=${path};Max-Age=86400`);
   return response;
 }
-let Cookie = {
-  set: set,
-  get: get,
+const Cookie = {
+  set,
+  get,
 };
 /* harmony default export */ const Helpers_Cookie = (Cookie);
 
@@ -61665,7 +61665,7 @@ function URLParameters(request) {
 }
 
 
-let ReadRequest = {
+const ReadRequest = {
   Body,
   URLParameters,
 };
@@ -61673,21 +61673,20 @@ let ReadRequest = {
 
 ;// CONCATENATED MODULE: ./src/Space/Helpers/Captcha/index.js
 const recaptcha = async (secret, token, ip) => {
-  let res = await fetch(
+  const res = await fetch(
     new Request("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `secret=${secret}&response=${token}&remoteip=${ip}`,
     })
-  );
-  res = await res.json();
+  ).then(e => e.json())
   if (res.success && res.score >= 0.6) {
     return true;
   } else {
     return false;
   }
 };
-let Captcha = {
+const Captcha = {
   recaptcha: recaptcha,
 };
 /* harmony default export */ const Helpers_Captcha = (Captcha);
@@ -61706,12 +61705,12 @@ async function Setting(key) {
 /* harmony default export */ const Helpers_Setting = (Setting);
 
 ;// CONCATENATED MODULE: ./src/Space/Helpers/Fetch/index.js
-let Fetch = {
+const Fetch = {
   Text: async function (req) {
-    return await (await fetch(req)).text()
+    return fetch(req).then(e => e.text())
   },
   JSON: async function (req) {
-    return await (await fetch(req)).json()
+    return fetch(req).then(e => e.json())
   }
 };
 /* harmony default export */ const Helpers_Fetch = (Fetch);
@@ -61719,7 +61718,7 @@ let Fetch = {
 ;// CONCATENATED MODULE: ./src/Space/Helpers/Security/index.js
 
 function checkReferer(event) {
-  let referer = event.request.headers.get('referer');
+  const referer = event.request.headers.get('referer');
   if (referer == null) {
     return true
   }
@@ -61762,7 +61761,7 @@ async function setUnderAttack(a, b, c) {
   }
 }
 
-let Security = {
+const Security = {
   checkReferer,
   securityCheckAnalytics,
 };
@@ -61794,7 +61793,7 @@ function RandomNum(minNum, maxNum) {
 
 
 
-let Helpers = {
+const Helpers = {
   Headers: Helpers_Headers,
   ErrorResponse: Helpers_ErrorResponse,
   Router: Helpers_Router,
@@ -61854,12 +61853,12 @@ function DashPage(nav) {
   return page
 }
 
-let Renderers_dash = {}
+const Renderers_dash = {}
 dash_nav.forEach(item => {
   Renderers_dash[item] = cdn(DashPage(item))
 })
 
-let Renderers = {
+const Renderers = {
   erorr: cdn((error_default())),
   auth: cdn((auth_default())),
   ipfs: cdn((ipfs_default())),
@@ -61870,26 +61869,20 @@ let Renderers = {
 
 ;// CONCATENATED MODULE: ./src/Space/Actions/Auth/index.js
 
-let SHA256 = __webpack_require__(2153);
+const SHA256 = __webpack_require__(2153);
 async function AuthPage(ctx) {
-  let html = Space_Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT)
-  html = html.replace(/::AUTH_PAGE::/g, AUTH_PAGE)
+  const html = Space_Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT).replace(/::AUTH_PAGE::/g, AUTH_PAGE)
   return new Response(html, Space_Space.Helpers.Headers.html);
 }
 async function CheckAuth(ctx) {
-  let auth = await Space_Space.Helpers.ReadRequest.Body(ctx.request);
-  auth = JSON.parse(auth);
-  let token = auth.token;
-  let secret = reCAPTCHA_SERVER;
-  let ip = ctx.ip;
-  let recaptcha = await Space_Space.Helpers.Captcha.recaptcha(secret, token, ip);
+  const auth = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+  const token = auth.token;
+  const secret = reCAPTCHA_SERVER;
+  const ip = ctx.ip;
+  const recaptcha = await Space_Space.Helpers.Captcha.recaptcha(secret, token, ip);
   if (recaptcha) {
-    let TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(
-      SpacePassword
-    ).toString()}`;
-    let TestAuth = `${SHA256(auth.name).toString()}::${SHA256(
-      auth.password
-    ).toString()}`;
+    const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
+    const TestAuth = `${SHA256(auth.name).toString()}::${SHA256(auth.password).toString()}`;
     if (TestAuth == TrueAuth) {
       return new Response(
         JSON.stringify({
@@ -61917,10 +61910,8 @@ async function CheckCookieAuth(ctx) {
   return Space_Space.Helpers.Cookie.get(ctx.request, "_copoko_space_cookie_auth")
     .then(async (_copoko_space_cookie_auth) => {
       if (_copoko_space_cookie_auth) {
-        let TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(
-          SpacePassword
-        ).toString()}`;
-        let TestAuth = _copoko_space_cookie_auth;
+        const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
+        const TestAuth = _copoko_space_cookie_auth;
         if (TestAuth == TrueAuth) {
           return "PASS";
         }
@@ -61928,7 +61919,7 @@ async function CheckCookieAuth(ctx) {
       return await Space_Space.Helpers.ErrorResponse("NO PERMISSION TO ACCESS THE SERVICE", 403);
     });
 }
-let Auth = {
+const Auth = {
   CheckAuth,
   CheckCookieAuth,
   AuthPage,
@@ -61954,7 +61945,7 @@ function BuildPageDash(ctx) {
 
 const { dash_nav: Dash_dash_nav } = __webpack_require__(9908);
 
-let Dash = {};
+const Dash = {};
 Dash_dash_nav.forEach(item => {
   Dash[item] = BuildPageDash;
 })
@@ -61966,10 +61957,9 @@ Dash_dash_nav.forEach(item => {
 
 async function Get(ctx) {
   try {
-    let body = await Space_Space.Helpers.ReadRequest.Body(ctx.request);
-    body = JSON.parse(body);
-    let key = body.key;
-    let value = await Space_Space.API.KV.Get(key);
+    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
+    const value = await Space_Space.API.KV.Get(key);
     return new Response(
       JSON.stringify({
         sucess: 1,
@@ -61993,10 +61983,9 @@ async function Get(ctx) {
 }
 async function Put(ctx) {
   try {
-    let body = await Space_Space.Helpers.ReadRequest.Body(ctx.request);
-    body = JSON.parse(body);
-    let key = body.key;
-    let value = body.value;
+    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
+    const value = body.value;
     await Space_Space.API.KV.Put(key, value);
     return new Response(
       JSON.stringify({
@@ -62022,9 +62011,8 @@ async function Put(ctx) {
 }
 async function Delete(ctx) {
   try {
-    let body = await Space_Space.Helpers.ReadRequest.Body(ctx.request);
-    body = JSON.parse(body);
-    let key = body.key;
+    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
     await Space_Space.API.KV.Delete(key);
     return new Response(
       JSON.stringify({
@@ -62047,7 +62035,7 @@ async function Delete(ctx) {
   }
 }
 
-let KV_KV = {
+const KV_KV = {
   Get,
   Put,
   Delete,
@@ -62058,15 +62046,15 @@ let KV_KV = {
 
 
 async function GoogleTranslate_GoogleTranslate(ctx) {
-  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let s = URLParameters.s
-  let to = URLParameters.to || "zh-cn"
-  let domain = URLParameters.domain || "com"
-  let conf = {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const to = URLParameters.to || "zh-cn"
+  const domain = URLParameters.domain || "com"
+  const conf = {
     "to": to,
     "domain": domain
   }
-  let ans = await Space_Space.API.GoogleTranslate(s, conf)
+  const ans = await Space_Space.API.GoogleTranslate(s, conf)
   return new Response(ans.text, Space_Space.Helpers.Headers.json);
 }
 /* harmony default export */ const Actions_API_GoogleTranslate = (GoogleTranslate_GoogleTranslate);
@@ -62075,9 +62063,9 @@ async function GoogleTranslate_GoogleTranslate(ctx) {
 
 
 async function GoogleSearch_GoogleSearch(ctx) {
-  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let s = URLParameters.s
-  let ans = await Space_Space.API.GoogleSearch(s)
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const ans = await Space_Space.API.GoogleSearch(s)
   return new Response(ans, Space_Space.Helpers.Headers.json);
 }
 /* harmony default export */ const Actions_API_GoogleSearch = (GoogleSearch_GoogleSearch);
@@ -62086,9 +62074,9 @@ async function GoogleSearch_GoogleSearch(ctx) {
 
 
 async function WolframAlpha_WolframAlpha(ctx) {
-  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let s = URLParameters.s
-  let ans = await Space_Space.API.WolframAlpha(s)
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const ans = await Space_Space.API.WolframAlpha(s)
   return new Response(ans, Space_Space.Helpers.Headers.json);
 }
 /* harmony default export */ const Actions_API_WolframAlpha = (WolframAlpha_WolframAlpha);
@@ -62097,10 +62085,10 @@ async function WolframAlpha_WolframAlpha(ctx) {
 
 
 async function BingImgInfo_BingImgInfo(ctx) {
-  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let path = ctx.pathname
-  let day = URLParameters.day
-  let ans = await Space_Space.API.BingImgInfo(day)
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const path = ctx.pathname
+  const day = URLParameters.day
+  const ans = await Space_Space.API.BingImgInfo(day)
 
   if (path.startsWith('/bing/info')) {
     return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
@@ -62119,7 +62107,7 @@ async function BingImgInfo_BingImgInfo(ctx) {
 
 
 async function Sitich_Sitich(ctx) {
-  let ans = await Space_Space.API.Sitich()
+  const ans = await Space_Space.API.Sitich()
   return fetch(ans)
 }
 /* harmony default export */ const Actions_API_Sitich = (Sitich_Sitich);
@@ -62129,8 +62117,8 @@ async function Sitich_Sitich(ctx) {
 
 
 async function Soul_Soul(ctx) {
-  let path = ctx.pathname
-  let soul = await Space_Space.API.Soul()
+  const path = ctx.pathname
+  const soul = await Space_Space.API.Soul()
   if (path.startsWith('/soul/w')) {
     return new Response("document.write('" + soul + "')", Space_Space.Helpers.Headers.json)
   }
@@ -62142,8 +62130,8 @@ async function Soul_Soul(ctx) {
 
 
 async function Hitokoto_Hitokoto(ctx) {
-  let path = ctx.pathname
-  let ans = await Space_Space.API.Hitokoto()
+  const path = ctx.pathname
+  const ans = await Space_Space.API.Hitokoto()
   if (path.startsWith('/hitokoto/w')) {
     return new Response("document.write('" + ans + "')", Space_Space.Helpers.Headers.json)
   }
@@ -62155,9 +62143,9 @@ async function Hitokoto_Hitokoto(ctx) {
 
 
 async function Unsplash_Unsplash(ctx) {
-  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let keywords = URLParameters.keywords
-  let ans = await Space_Space.API.Unsplash(keywords)
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const keywords = URLParameters.keywords
+  const ans = await Space_Space.API.Unsplash(keywords)
 
   return fetch(ans)
 }
@@ -62167,7 +62155,7 @@ async function Unsplash_Unsplash(ctx) {
 
 
 async function ACG_ACG(ctx) {
-  let ans = await Space_Space.API.ACG()
+  const ans = await Space_Space.API.ACG()
   return fetch(ans)
 }
 /* harmony default export */ const Actions_API_ACG = (ACG_ACG);
@@ -62176,9 +62164,9 @@ async function ACG_ACG(ctx) {
 
 
 async function Niubi_Niubi(ctx) {
-  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let name = URLParameters.name
-  let ans = await Space_Space.API.Niubi(name)
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const name = URLParameters.name
+  const ans = await Space_Space.API.Niubi(name)
 
   return new Response(JSON.stringify({ "niubi": ans }), Space_Space.Helpers.Headers.json)
 }
@@ -62188,7 +62176,7 @@ async function Niubi_Niubi(ctx) {
 
 
 async function IP(ctx) {
-  let request = ctx.request
+  const request = ctx.request
   return new Response(JSON.stringify({
     "CF-Connecting-IP": request.headers.get("CF-Connecting-IP"),
     "X-Forwarded-For": request.headers.get("X-Forwarded-For"),
@@ -62202,8 +62190,8 @@ async function IP(ctx) {
 
 
 async function DecryptMd5_DecryptMd5(ctx) {
-  let md5 = ctx.getParam("md5");
-  let ans = await Space_Space.API.DecryptMd5(md5);
+  const md5 = ctx.getParam("md5");
+  const ans = await Space_Space.API.DecryptMd5(md5);
   return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
 }
 /* harmony default export */ const Actions_API_DecryptMd5 = (DecryptMd5_DecryptMd5);
@@ -62212,16 +62200,16 @@ async function DecryptMd5_DecryptMd5(ctx) {
 
 
 async function ZH_ZH(ctx) {
-  let URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  let s = URLParameters.s
-  let path = ctx.pathname
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const path = ctx.pathname
   if (s) {
     if (path.startsWith('/zh/s')) {
-      let ans = await Space_Space.API.ZH.Simplized(s)
+      const ans = await Space_Space.API.ZH.Simplized(s)
       return new Response(ans, Space_Space.Helpers.Headers.json)
     }
     if (path.startsWith('/zh/t')) {
-      let ans = await Space_Space.API.ZH.Traditionalized(s)
+      const ans = await Space_Space.API.ZH.Traditionalized(s)
       return new Response(ans, Space_Space.Helpers.Headers.json)
     }
   }
@@ -62233,7 +62221,7 @@ async function ZH_ZH(ctx) {
 
 
 async function thispersondoesnotexist_thispersondoesnotexist(ctx) {
-  let ans = await Space_Space.API.thispersondoesnotexist()
+  const ans = await Space_Space.API.thispersondoesnotexist()
   return fetch(ans)
 }
 /* harmony default export */ const Actions_API_thispersondoesnotexist = (thispersondoesnotexist_thispersondoesnotexist);
@@ -62242,8 +62230,8 @@ async function thispersondoesnotexist_thispersondoesnotexist(ctx) {
 
 
 async function thiswaifudoesnotexist_thiswaifudoesnotexist(ctx) {
-  let id = ctx.getParam("id");
-  let ans = await Space_Space.API.thiswaifudoesnotexist(id)
+  const id = ctx.getParam("id");
+  const ans = await Space_Space.API.thiswaifudoesnotexist(id)
   return fetch(ans)
 }
 /* harmony default export */ const Actions_API_thiswaifudoesnotexist = (thiswaifudoesnotexist_thiswaifudoesnotexist);
@@ -62252,9 +62240,9 @@ async function thiswaifudoesnotexist_thiswaifudoesnotexist(ctx) {
 
 
 async function thisanimedoesnotexist_thisanimedoesnotexist(ctx) {
-  let creativity = ctx.getParam("creativity");
-  let seed = ctx.getParam("seed");
-  let ans = await Space_Space.API.thisanimedoesnotexist(creativity,seed)
+  const creativity = ctx.getParam("creativity");
+  const seed = ctx.getParam("seed");
+  const ans = await Space_Space.API.thisanimedoesnotexist(creativity,seed)
   return fetch(ans)
 }
 /* harmony default export */ const Actions_API_thisanimedoesnotexist = (thisanimedoesnotexist_thisanimedoesnotexist);
@@ -62263,7 +62251,7 @@ async function thisanimedoesnotexist_thisanimedoesnotexist(ctx) {
 
 
 async function Poet_Poet(ctx) {
-  let opt = {}
+  const opt = {}
   opt.type = ctx.getParam("type")
   opt.from = ctx.getParam("from")
   opt.with = ctx.getParam("with")
@@ -62272,7 +62260,7 @@ async function Poet_Poet(ctx) {
   opt.tran = ctx.getParam("tran")
   opt.author = ctx.getParam("author")
 
-  let ans = await Space_Space.API.Poet(opt)
+  const ans = await Space_Space.API.Poet(opt)
   return new Response(ans, Space_Space.Helpers.Headers.json)
 }
 /* harmony default export */ const Actions_API_Poet = (Poet_Poet);
@@ -62281,7 +62269,7 @@ async function Poet_Poet(ctx) {
 
 
 async function Happypic_Happypic(ctx) {
-  let ans = await Space_Space.API.Happypic()
+  const ans = await Space_Space.API.Happypic()
   return fetch(ans)
 }
 /* harmony default export */ const Actions_API_Happypic = (Happypic_Happypic);
@@ -62309,11 +62297,11 @@ async function Happypic_Happypic(ctx) {
   注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
  */
 async function DNSQuery_DNSQuery(ctx) {
-  let path = ctx.pathname
-  let opt = {}
+  const path = ctx.pathname
+  const opt = {}
   opt.type = ctx.getParam("type")
   opt.name = ctx.getParam("name")
-  opt.edns_client_subnet = ctx.getParam("edns_client_subnet") || new Map(ctx.request.headers).get('x-real-ip') || `1.0.0.1`
+  opt.edns_client_subnet = ctx.getParam("edns_client_subnet") || ctx.request.headers.get('x-real-ip') || `1.0.0.1`
 
   if (path.indexOf("host") != -1) {
     opt.host = "true"
@@ -62334,7 +62322,7 @@ async function DNSQuery_DNSQuery(ctx) {
     opt.upstream = "rubyfish"
   }
 
-  let ans = await Space_Space.API.DNSQuery(opt)
+  const ans = await Space_Space.API.DNSQuery(opt)
 
   if (opt.way == "get") {
     return new Response(ans, Space_Space.Helpers.Headers.js)
@@ -62355,13 +62343,13 @@ async function DNSQuery_DNSQuery(ctx) {
 
 
 async function Thum_Thum(ctx) {
-  let opt = {}
+  const opt = {}
   opt.url = ctx.getParam("url")
   opt.width = ctx.getParam("width")
   opt.height = ctx.getParam("height")
   opt.wait = ctx.getParam("wait")
 
-  let ans = await Space_Space.API.Thum(opt)
+  const ans = await Space_Space.API.Thum(opt)
   return fetch(ans)
 }
 /* harmony default export */ const Actions_API_Thum = (Thum_Thum);
@@ -62437,7 +62425,7 @@ const IPFS_IPFS = {
 
 
 
-let API_API = {
+const API_API = {
   KV: Actions_API_KV,
   GoogleTranslate: Actions_API_GoogleTranslate,
   GoogleSearch: Actions_API_GoogleSearch,
@@ -62467,7 +62455,7 @@ let API_API = {
 
 ;// CONCATENATED MODULE: ./src/Space/Actions/Link/index.js
 async function Link(ctx) {
-  let url = ctx.getParam("url")
+  const url = ctx.getParam("url")
   return Response.redirect(url, 302);
 }
 /* harmony default export */ const Actions_Link = (Link);
@@ -62476,8 +62464,8 @@ async function Link(ctx) {
 
 
 async function GithubEvent(ctx) {
-  let FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@main/github-events/index.html"
-  let ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@main/github-events/index.html"
+  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
   return new Response(ans, Space_Space.Helpers.Headers.html)
 }
 /* harmony default export */ const Pages_GithubEvent = (GithubEvent);
@@ -62486,8 +62474,8 @@ async function GithubEvent(ctx) {
 
 
 async function PDF(ctx) {
-  let FetchURL = "https://cdn.jsdelivr.net/npm/imbox@0.0.11/pdf.js/web/static.html"
-  let ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  const FetchURL = "https://cdn.jsdelivr.net/npm/imbox@0.0.11/pdf.js/web/static.html"
+  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
   return new Response(ans, Space_Space.Helpers.Headers.html)
 }
 /* harmony default export */ const Pages_PDF = (PDF);
@@ -62496,8 +62484,8 @@ async function PDF(ctx) {
 
 
 async function Color(ctx) {
-  let FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@2/color/index.html"
-  let ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@2/color/index.html"
+  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
   return new Response(ans, Space_Space.Helpers.Headers.html)
 }
 /* harmony default export */ const Pages_Color = (Color);
@@ -62507,7 +62495,7 @@ async function Color(ctx) {
 
 
 
-let Pages = {
+const Pages = {
   GithubEvent: Pages_GithubEvent,
   PDF: Pages_PDF,
   Color: Pages_Color,
@@ -62751,7 +62739,7 @@ class HandleMessage {
   }
 }
 function isInArray(arr, value) {
-  for (var i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     if (value === arr[i]) {
       return true;
     }
@@ -62764,7 +62752,7 @@ function isInArray(arr, value) {
 
 const Actions_Niubi_Niubi = async that => {
   let name = "CoCo";
-  let arr = /来点(\S*)笑话/.exec(that.ctx.message.text)
+  const arr = /来点(\S*)笑话/.exec(that.ctx.message.text)
 
   if (arr && Array.isArray(arr) && arr[1]) {
     name = arr[1];
@@ -62782,7 +62770,7 @@ const Actions_Niubi_Niubi = async that => {
       return
     })
   }
-  let ans = await Space_Space.API.Niubi(name)
+  const ans = await Space_Space.API.Niubi(name)
   return that.ctx.reply(ans);
 };
 
@@ -62792,7 +62780,7 @@ const Actions_Niubi_Niubi = async that => {
 
 
 const Actions_Unsplash_Unsplash = async that => {
-  let ans = await Space_Space.API.Unsplash(that.args.k)
+  const ans = await Space_Space.API.Unsplash(that.args.k)
   return that.ctx.replyWithPhoto(ans);
 };
 
@@ -62802,7 +62790,7 @@ const Actions_Unsplash_Unsplash = async that => {
 
 
 const Bing = async that => {
-  let ans = await Space_Space.API.BingImgInfo(that.args.d);
+  const ans = await Space_Space.API.BingImgInfo(that.args.d);
   return that.ctx.replyWithPhoto(ans.url, { "caption": ans.copyright });
 };
 
@@ -62812,7 +62800,7 @@ const Bing = async that => {
 
 
 const Actions_Soul_Soul = async that => {
-  let ans = await Space_Space.API.Soul();
+  const ans = await Space_Space.API.Soul();
   return that.ctx.reply(ans);
 };
 
@@ -62822,7 +62810,7 @@ const Actions_Soul_Soul = async that => {
 
 
 const Actions_Hitokoto_Hitokoto = async that => {
-  let ans = await Space_Space.API.Hitokoto();
+  const ans = await Space_Space.API.Hitokoto();
   return that.ctx.reply(ans);
 };
 
@@ -62832,7 +62820,7 @@ const Actions_Hitokoto_Hitokoto = async that => {
 
 
 const SearchEngineLink = async that => {
-  let engineList = {
+  const engineList = {
     baidu: {
       keywords: ["百度", "度娘", "baidu"],
       url: "https://www.baidu.com/s?wd=",
@@ -62874,7 +62862,7 @@ const SearchEngineLink = async that => {
     const content = getLinkByEngine(engineString, keyword);
     if (content) {
       await that.ctx.reply(content);
-      let ans = await Space_Space.API.Thum({ url: content, wait: 1 });
+      const ans = await Space_Space.API.Thum({ url: content, wait: 1 });
       await fetch(ans).then(async (res) => {
         return await that.ctx.replyWithPhoto(ans, { "caption": content });
       }).catch(err => { })
@@ -62888,7 +62876,7 @@ const SearchEngineLink = async that => {
 
 
 const Actions_Happypic_Happypic = async that => {
-  let ans = await Space_Space.API.Happypic();
+  const ans = await Space_Space.API.Happypic();
   return that.ctx.replyWithPhoto(ans);
 };
 
@@ -62899,13 +62887,13 @@ const Actions_Happypic_Happypic = async that => {
 
 const Setu_Setu = async that => {
   if (that.args.k == "p") {
-    let ans = await Space_Space.API.Setu.HappypicSex();
+    const ans = await Space_Space.API.Setu.HappypicSex();
     return that.ctx.replyWithPhoto(ans);
   }
   if (that.args.k == "t") {
     let res = await Space_Space.API.Setu.Tui();
     res = await res.arrayBuffer()
-    let form = new FormData();
+    const form = new FormData();
     form.append('chat_id', that.ctx.chat.id);
     form.append('photo', new Blob([res], { type: "image/jpg" }));
     return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendPhoto", {
@@ -62916,7 +62904,7 @@ const Setu_Setu = async that => {
   if (that.args.k == "s") {
     let res = await Space_Space.API.Setu.SJMM();
     res = await res.arrayBuffer();
-    let form = new FormData();
+    const form = new FormData();
     form.append('chat_id', that.ctx.chat.id);
     form.append('animation', new Blob([res], { type: "image/gif" }));
     form.append('width', 500);
@@ -62926,7 +62914,7 @@ const Setu_Setu = async that => {
       body: form
     })
   }
-  let ans = await Space_Space.API.Setu.El();
+  const ans = await Space_Space.API.Setu.El();
   return that.ctx.replyWithPhoto(ans);
 };
 
@@ -62936,7 +62924,7 @@ const Setu_Setu = async that => {
 
 
 const Nbnhhsh_Nbnhhsh = async that => {
-  let ans = await Space_Space.API.Nbnhhsh(that.args.k);
+  const ans = await Space_Space.API.Nbnhhsh(that.args.k);
   return that.ctx.reply(ans);;
 };
 
@@ -62947,17 +62935,17 @@ const Nbnhhsh_Nbnhhsh = async that => {
 
 const Actions_Thum_Thum = async that => {
   if (that.type == 'reg') {
-    let arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text)
+    const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text)
     if (arr && Array.isArray(arr) && arr[1]) {
       that.args.u = arr[0];
     }
   }
-  let opt = {};
+  const opt = {};
   opt.url = that.args.u;
   opt.width = that.args.w;
   opt.height = that.args.h;
   opt.wait = that.args.t;
-  let ans = await Space_Space.API.Thum(opt);
+  const ans = await Space_Space.API.Thum(opt);
   await fetch(ans).then(async (res) => {
     return await that.ctx.replyWithPhoto(ans, { "caption": opt.url });
   }).catch(err => { });
@@ -62969,11 +62957,11 @@ const Actions_Thum_Thum = async that => {
 
 
 const Actions_GoogleTranslate_GoogleTranslate = async that => {
-  let conf = {
+  const conf = {
     "to": that.args.t,
     "domain": "com"
   }
-  let ans = await Space_Space.API.GoogleTranslate(that.args.k, conf)
+  const ans = await Space_Space.API.GoogleTranslate(that.args.k, conf)
   return that.ctx.reply(ans.text);
 };
 
@@ -62997,7 +62985,7 @@ const Actions_DecryptMd5_DecryptMd5 = async that => {
 
 
 const Actions_DNSQuery_DNSQuery = async that => {
-  let opt = {}
+  const opt = {}
   opt.type = that.args.t || "A"
   opt.name = that.args.n || "github.com"
   opt.edns_client_subnet = that.args.et || `1.0.0.1`
@@ -63025,17 +63013,17 @@ const Actions_Poet_Poet = async that => {
 
 
 const InterruptRepetition = async that => {
-  let ctx = that.ctx
+  const ctx = that.ctx
   if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
     if (ctx.message.text) {
       if (!ctx.session.messageList) {
         ctx.session.messageList = []
       }
       ctx.session.messageList.push(ctx.message.text)
-      let messageList = ctx.session.messageList
-      let length = messageList.length
+      const messageList = ctx.session.messageList
+      const length = messageList.length
       if (length >= 4) {
-        let myset = [...new Set(ctx.session.messageList)]
+        const myset = [...new Set(ctx.session.messageList)]
         if (myset.length == 1) {
           if (myset[0] == `打断复读!`) {
             ctx.reply(`我生气了!`)
@@ -63073,8 +63061,8 @@ const Actions_WolframAlpha_WolframAlpha = async that => {
 
 
 const Balloon = async that => {
-  let ctx = that.ctx
-  let num = ctx.message.text.split("。").length - 1
+  const ctx = that.ctx
+  const num = ctx.message.text.split("。").length - 1
   if (num <= 5) {
     ctx.reply(ctx.message.text.replace(/。/g, "喵~"))
   } else {
@@ -63092,7 +63080,7 @@ const EmojiToSticker = async that => {
   for (const key in MyStickerSet) {
     if (Object.hasOwnProperty.call(MyStickerSet, key)) {
       const element = MyStickerSet[key];
-      let Reg = new RegExp(key)
+      const Reg = new RegExp(key)
       if (Reg.test(that.ctx.message.text))
         return that.ctx.replyWithSticker(element);
     }
@@ -63132,7 +63120,7 @@ const ReplaceMa = async that => {
 
 
 
-let Actions = {
+const Actions = {
   Niubi: Actions_Niubi,
   Unsplash: Actions_Unsplash,
   Bing: Actions_Bing,
@@ -63157,7 +63145,7 @@ let Actions = {
 /* harmony default export */ const TGBot_Actions = (Actions);
 
 ;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/StickerSet/index.js
-let Cat = {
+const Cat = {
   "😂": "CAACAgIAAxkBAAIDwmECSdghggbmH3T5MVEB-VqNrslNAAJuDAAC32wZSkdZVXyKLr_DIAQ",
   "😘": "CAACAgIAAxkBAAIDxGECSiFHUGhrFDiKhwUCqs87PdOPAAK7EgACaBDZSfrl-N3-SLTXIAQ",
   "👍": "CAACAgIAAxkBAAIDxmECSmc35-732rax0IVhzd4dk1lHAAJ1DwACvScRSgNCdFZ_RgthIAQ",
@@ -63185,7 +63173,7 @@ let Cat = {
   "🤷": "CAACAgIAAxkBAAID9WECTS4ybWydHinFkfsHns8jT7c_AALRDAACovthSgcRPxdEzhvCIAQ",
 }
 
-let My = {
+const My = {
   "😶": "CAACAgUAAxkBAAPMYXNjdyQUv1J8MG6Wd-O2it7HBy4AAiADAAL9RkFW04AtW309YokhBA",
   "😴": "CAACAgUAAxkBAAPGYXNjSeAhycXOF1KnpWlkZ8fPaRwAAgoEAAJos0hWiy9SKdJOSpkhBA",
   "😭": "CAACAgUAAxkBAAOyYXNiUitDBD6cZYTD2uGwtWLlHwoAAhUEAAIfTUhWbjPffbd8cBIhBA",
@@ -63215,7 +63203,7 @@ let My = {
   "🐟": "CAACAgUAAxkBAAIBT2FzbrWHWep67c3jcstCCD1Em1MtAALLAANs66IrPo3FOfRCtzohBA",
   "😁": "CAACAgUAAxkBAAIBUWFzbxN2k0ItxgEeIUyFgRTdqhGvAALxAANs66Irz8uvoLTV5FkhBA",
 }
-let StickerSet = {
+const StickerSet = {
   Cat,
   My,
 }
@@ -63225,7 +63213,7 @@ let StickerSet = {
 
 
 
-let TGBot = {
+const TGBot = {
   HandleMessage: TGBot_HandleMessage,
   Actions: TGBot_Actions,
   StickerSet: TGBot_StickerSet,
@@ -63397,7 +63385,7 @@ async function Text(ctx) {
     .then(that => {
       return that.reg(/来点(\S*)笑话/).action(TelegrafBot_TGBot.Actions.Niubi)
     })
-    .then(that=> {
+    .then(that => {
       return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
     })
     .then(that => {
@@ -63642,26 +63630,26 @@ async function Admin(ctx) {
   if (!doBasicAuth(ctx.request)) {
     return unauthorized();
   }
-  let path = ctx.pathname
+  const path = ctx.pathname
   if (path.startsWith('/Admin/happypic-sex')) {
-    let ans = await Space_Space.API.Setu.HappypicSex()
+    const ans = await Space_Space.API.Setu.HappypicSex()
     return fetch(ans)
   }
   if (path.startsWith('/Admin/setu/gif')) {
-    let id = ctx.getParam('id') || Space_Space.Helpers.RandomNum(1, 35)
+    const id = ctx.getParam('id') || Space_Space.Helpers.RandomNum(1, 35)
     return new Response('<html style="height: 100%;"><head><meta name="viewport" content="width=device-width, minimum-scale=0.1"><title>404</title></head><body style="text-align: center;margin: 0px; background: #0e0e0e; height: 100%"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="/Admin/setu/api/gif?id=' + id + '"></body></html>'
       , Space_Space.Helpers.Headers.html);
   }
   if (path.startsWith('/Admin/setu/api/gif')) {
-    let id = ctx.getParam('id')
+    const id = ctx.getParam('id')
     return Space_Space.API.Setu.SJMM(id)
   }
   if (path.startsWith('/Admin/setu/tui')) {
-    let id = ctx.getParam('id')
+    const id = ctx.getParam('id')
     return Space_Space.API.Setu.Tui(id)
   }
   if (path.startsWith('/Admin/setu/el')) {
-    let ans = await Space_Space.API.Setu.El()
+    const ans = await Space_Space.API.Setu.El()
     return fetch(ans)
   }
 
@@ -63712,7 +63700,7 @@ function unauthorized() {
 
 
 
-let Actions_Actions = {
+const Actions_Actions = {
   Auth: Actions_Auth,
   Robots: Actions_Robots,
   Dash: Actions_Dash,
@@ -63732,7 +63720,7 @@ let Actions_Actions = {
 
 
 
-let Space = {
+const Space = {
   API: Space_API,
   Helpers: Space_Helpers,
   Renderers: Space_Renderers,
@@ -63743,7 +63731,7 @@ let Space = {
 
 ;// CONCATENATED MODULE: ./src/Space/index.js
 
-let IPTimes = {}
+const IPTimes = {}
 async function handleSpace(event) {
   try {
     /////////////////////////////////////////////////////////////////////
@@ -63766,14 +63754,14 @@ async function handleSpace(event) {
     };
     // Referer
     if (typeof MY_REFERER != "undefined") {
-      let checkRefererStatus = Space_Space.Helpers.Security.checkReferer(event);
+      const checkRefererStatus = Space_Space.Helpers.Security.checkReferer(event);
       if (!checkRefererStatus) {
         return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
-    let router = new Space_Space.Helpers.Router(event);
+    const router = new Space_Space.Helpers.Router(event);
     // 以下非鉴权路由
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
@@ -63818,7 +63806,7 @@ async function handleSpace(event) {
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权
     if (!router.status.action) {
-      let res = await Space_Space.Actions.Auth.CheckCookieAuth(event);
+      const res = await Space_Space.Actions.Auth.CheckCookieAuth(event);
       if (res != "PASS") {
         return res;
       } else {
@@ -63873,15 +63861,15 @@ async function handleSpace(event) {
 
 
 async function handleScheduled(event) {
-  let Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
-  let Minutes = new Date(event.scheduledTime).getMinutes()
+  const Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
+  const Minutes = new Date(event.scheduledTime).getMinutes()
 
   if (Hours == 2 && Minutes == 0) {
     await Space_Space.API.CF.createRoute();
     await Space_Space.API.CF.setSecurityLevel("essentially_off")
   }
   if (Hours == 6 && Minutes == 0) {
-    let ans = await Space_Space.API.BingImgInfo();
+    const ans = await Space_Space.API.BingImgInfo();
     // chattitle: "喵喵喵" chatid: -1001531720445
     await TelegrafBot.telegram.sendPhoto("-1001531720445", ans.url, { "caption": ans.copyright });
   }

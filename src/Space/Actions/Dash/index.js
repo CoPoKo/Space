@@ -9,7 +9,7 @@ function BuildPageDash(ctx) {
 
 const { dash_nav } = require("../../Renderers/Pages/dash/dash_nav.js");
 
-let Dash = {};
+const Dash = {};
 dash_nav.forEach(item => {
   Dash[item] = BuildPageDash;
 })

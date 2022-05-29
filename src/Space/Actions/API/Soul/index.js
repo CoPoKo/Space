@@ -1,8 +1,8 @@
 import Space from "../../../Space"
 
 async function Soul(ctx) {
-  let path = ctx.pathname
-  let soul = await Space.API.Soul()
+  const path = ctx.pathname
+  const soul = await Space.API.Soul()
   if (path.startsWith('/soul/w')) {
     return new Response("document.write('" + soul + "')", Space.Helpers.Headers.json)
   }

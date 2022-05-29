@@ -34,7 +34,7 @@ const text = {
     "Access-Control-Allow-Origin": "*",
   },
 };
-let Headers = {
+const Headers = {
   js,
   html,
   json,

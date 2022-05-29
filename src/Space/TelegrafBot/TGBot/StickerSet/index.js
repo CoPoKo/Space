@@ -1,4 +1,4 @@
-let Cat = {
+const Cat = {
   "😂": "CAACAgIAAxkBAAIDwmECSdghggbmH3T5MVEB-VqNrslNAAJuDAAC32wZSkdZVXyKLr_DIAQ",
   "😘": "CAACAgIAAxkBAAIDxGECSiFHUGhrFDiKhwUCqs87PdOPAAK7EgACaBDZSfrl-N3-SLTXIAQ",
   "👍": "CAACAgIAAxkBAAIDxmECSmc35-732rax0IVhzd4dk1lHAAJ1DwACvScRSgNCdFZ_RgthIAQ",
@@ -26,7 +26,7 @@ let Cat = {
   "🤷": "CAACAgIAAxkBAAID9WECTS4ybWydHinFkfsHns8jT7c_AALRDAACovthSgcRPxdEzhvCIAQ",
 }
 
-let My = {
+const My = {
   "😶": "CAACAgUAAxkBAAPMYXNjdyQUv1J8MG6Wd-O2it7HBy4AAiADAAL9RkFW04AtW309YokhBA",
   "😴": "CAACAgUAAxkBAAPGYXNjSeAhycXOF1KnpWlkZ8fPaRwAAgoEAAJos0hWiy9SKdJOSpkhBA",
   "😭": "CAACAgUAAxkBAAOyYXNiUitDBD6cZYTD2uGwtWLlHwoAAhUEAAIfTUhWbjPffbd8cBIhBA",
@@ -56,7 +56,7 @@ let My = {
   "🐟": "CAACAgUAAxkBAAIBT2FzbrWHWep67c3jcstCCD1Em1MtAALLAANs66IrPo3FOfRCtzohBA",
   "😁": "CAACAgUAAxkBAAIBUWFzbxN2k0ItxgEeIUyFgRTdqhGvAALxAANs66Irz8uvoLTV5FkhBA",
 }
-let StickerSet = {
+const StickerSet = {
   Cat,
   My,
 }

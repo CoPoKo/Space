@@ -18,7 +18,7 @@ import Balloon from "./Balloon";
 import EmojiToSticker from "./EmojiToSticker";
 import ReplaceMa from "./ReplaceMa";
 
-let Actions = {
+const Actions = {
   Niubi,
   Unsplash,
   Bing,

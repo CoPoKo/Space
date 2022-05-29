@@ -16,8 +16,8 @@ async function set(response, key, value, path = "/") {
   response.headers.append("Set-Cookie", `${key}=${value}; path=${path};Max-Age=86400`);
   return response;
 }
-let Cookie = {
-  set: set,
-  get: get,
+const Cookie = {
+  set,
+  get,
 };
 export default Cookie;

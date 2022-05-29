@@ -1,7 +1,7 @@
 import Space from "../../../../Space";
 
 const Happypic = async that => {
-  let ans = await Space.API.Happypic();
+  const ans = await Space.API.Happypic();
   return that.ctx.replyWithPhoto(ans);
 };
 

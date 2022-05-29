@@ -8,7 +8,7 @@ import Favicon from "./Favicon"
 import TelegrafWebhook from "./TelegrafWebhook"
 import Admin from "./Admin"
 
-let Actions = {
+const Actions = {
   Auth,
   Robots,
   Dash,

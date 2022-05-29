@@ -1,5 +1,5 @@
 import Space from "./Space";
-let IPTimes = {}
+const IPTimes = {}
 async function handleSpace(event) {
   try {
     /////////////////////////////////////////////////////////////////////
@@ -22,14 +22,14 @@ async function handleSpace(event) {
     };
     // Referer
     if (typeof MY_REFERER != "undefined") {
-      let checkRefererStatus = Space.Helpers.Security.checkReferer(event);
+      const checkRefererStatus = Space.Helpers.Security.checkReferer(event);
       if (!checkRefererStatus) {
         return await Space.Helpers.ErrorResponse("Ooops...", 403);
       }
     }
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
-    let router = new Space.Helpers.Router(event);
+    const router = new Space.Helpers.Router(event);
     // 以下非鉴权路由
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ async function handleSpace(event) {
     // 以上非 Cookie 鉴权路由
     // Cookie 鉴权
     if (!router.status.action) {
-      let res = await Space.Actions.Auth.CheckCookieAuth(event);
+      const res = await Space.Actions.Auth.CheckCookieAuth(event);
       if (res != "PASS") {
         return res;
       } else {

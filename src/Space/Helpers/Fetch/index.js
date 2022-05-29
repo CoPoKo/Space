@@ -1,9 +1,9 @@
-let Fetch = {
+const Fetch = {
   Text: async function (req) {
-    return await (await fetch(req)).text()
+    return fetch(req).then(e => e.text())
   },
   JSON: async function (req) {
-    return await (await fetch(req)).json()
+    return fetch(req).then(e => e.json())
   }
 };
 export default Fetch;

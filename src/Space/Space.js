@@ -3,7 +3,7 @@ import Helpers from "./Helpers"
 import Renderers from "./Renderers"
 import Actions from "./Actions"
 
-let Space = {
+const Space = {
   API,
   Helpers,
   Renderers,

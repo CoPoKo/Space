@@ -1,4 +1,4 @@
-let KV = {
+const KV = {
   Put: async(key,value) => {
     return await SpaceKV.put(key, value);
   },

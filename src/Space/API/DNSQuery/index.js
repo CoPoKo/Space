@@ -52,7 +52,7 @@ async function DNSQuery(opt = {}) {
 
   if (opt.way == "get") {
     FetchURL += `?name=${opt.name}&type=${opt.type}&edns_client_subnet=${opt.edns_client_subnet}`
-    let _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
+    const _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
     const _text = await _fetch.text()
     if (opt.host == "true") {
       const _Answer = await JSON.parse(_text)["Answer"]

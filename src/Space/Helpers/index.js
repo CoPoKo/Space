@@ -9,7 +9,7 @@ import Fetch from './Fetch';
 import Security from './Security';
 import RandomNum from './RandomNum';
 
-let Helpers = {
+const Helpers = {
   Headers,
   ErrorResponse,
   Router,

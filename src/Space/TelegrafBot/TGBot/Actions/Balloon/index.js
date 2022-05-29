@@ -1,8 +1,8 @@
 import Space from "../../../../Space";
 
 const Balloon = async that => {
-  let ctx = that.ctx
-  let num = ctx.message.text.split("。").length - 1
+  const ctx = that.ctx
+  const num = ctx.message.text.split("。").length - 1
   if (num <= 5) {
     ctx.reply(ctx.message.text.replace(/。/g, "喵~"))
   } else {
