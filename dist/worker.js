@@ -55730,12 +55730,12 @@ exports["default"] = Auth;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
+const dash_nav_1 = __webpack_require__(4356);
 function BuildPageDash(ctx) {
     return new Response(Space_1.default.Renderers.dash[ctx.status.path.replace("/space/dash/", "")], Space_1.default.Helpers.Headers.html);
 }
-const { dash_nav } = __webpack_require__(9908);
 const Dash = {};
-dash_nav.forEach((item) => {
+dash_nav_1.dash_nav.forEach((item) => {
     Dash[item] = BuildPageDash;
 });
 exports["default"] = Dash;
@@ -56337,6 +56337,64 @@ exports["default"] = Helpers;
 
 /***/ }),
 
+/***/ 4356:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.dash_nav = void 0;
+exports.dash_nav = ["home", "search", "npm", "setting"];
+
+
+/***/ }),
+
+/***/ 9239:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Config_1 = __webpack_require__(2156);
+const dash_nav_1 = __webpack_require__(4356);
+const erorr = __webpack_require__(6818);
+const auth = __webpack_require__(6096);
+const robots = __webpack_require__(2547);
+const dash_father = __webpack_require__(7138);
+const ipfs = __webpack_require__(5401);
+function cdn(page) {
+    page = page.replace(/::CDN_SPACE::/g, Config_1.space_cdn + "/@copoko/space-static@" + Config_1.space_static_version);
+    page = page.replace(/::CDN::/g, Config_1.space_cdn);
+    page = page.replace(/::PRECONNECT::/g, Config_1.space_dns_prefetch);
+    return page;
+}
+let dash_nav_html = "";
+dash_nav_1.dash_nav.forEach(item => {
+    dash_nav_html += __webpack_require__(9708)(`./${item}/nav-item.html`);
+});
+function DashPage(nav) {
+    let page = dash_father.replace(/::DASH_NAV::/g, dash_nav_html);
+    page = page.replace(/::DASH_CONTENT::/g, __webpack_require__(7832)(`./${nav}/content.html`));
+    page = page.replace(/::DASH_BODYEND::/g, __webpack_require__(4535)(`./${nav}/bodyend.html`));
+    page = page.replace(/::DASH_UTIL::/g, __webpack_require__(2200));
+    return page;
+}
+const dash = {};
+dash_nav_1.dash_nav.forEach(item => {
+    dash[item] = cdn(DashPage(item));
+});
+const Renderers = {
+    erorr: cdn(erorr),
+    auth: cdn(auth),
+    ipfs: cdn(ipfs),
+    robots: robots,
+    dash: dash,
+};
+exports["default"] = Renderers;
+
+
+/***/ }),
+
 /***/ 5468:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -56378,7 +56436,7 @@ exports["default"] = handleScheduled;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const API_1 = __webpack_require__(9117);
 const Helpers_1 = __webpack_require__(1378);
-const Renderers_1 = __webpack_require__(7192);
+const Renderers_1 = __webpack_require__(9239);
 const Actions_1 = __webpack_require__(3355);
 const Space = {
     API: API_1.default,
@@ -57747,7 +57805,7 @@ async function handleSpace(event) {
         /////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////
         // dashboard
-        const { dash_nav } = __webpack_require__(9908);
+        const { dash_nav } = __webpack_require__(4356);
         dash_nav.forEach((e) => {
             router.get("/space/dash/" + e).action(Space_1.default.Actions.Dash[e]);
         });
@@ -60319,18 +60377,6 @@ function extend() {
 
 /***/ }),
 
-/***/ 9908:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "dash_nav": () => (/* binding */ dash_nav)
-/* harmony export */ });
-const dash_nav = ["home","search","npm","setting"]
-
-/***/ }),
-
 /***/ 4535:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -60424,70 +60470,6 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 9708;
-
-/***/ }),
-
-/***/ 7192:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var html_loader_Pages_error_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6818);
-/* harmony import */ var html_loader_Pages_error_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(html_loader_Pages_error_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var html_loader_Pages_auth_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6096);
-/* harmony import */ var html_loader_Pages_auth_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(html_loader_Pages_auth_html__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var html_loader_Pages_robots_txt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2547);
-/* harmony import */ var html_loader_Pages_robots_txt__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(html_loader_Pages_robots_txt__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var html_loader_Pages_dash_dash_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7138);
-/* harmony import */ var html_loader_Pages_dash_dash_html__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(html_loader_Pages_dash_dash_html__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var html_loader_Pages_ipfs_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5401);
-/* harmony import */ var html_loader_Pages_ipfs_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(html_loader_Pages_ipfs_html__WEBPACK_IMPORTED_MODULE_4__);
-const { space_static_version, space_cdn, space_dns_prefetch } = __webpack_require__(2156)
-;
-
-
-
-
-
-function cdn(page) {
-  page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
-  page = page.replace(/::CDN::/g, space_cdn)
-  page = page.replace(/::PRECONNECT::/g, space_dns_prefetch)
-  return page
-}
-
-const { dash_nav } = __webpack_require__(9908)
-
-let dash_nav_html = ""
-dash_nav.forEach(item => {
-  dash_nav_html += __webpack_require__(9708)(`./${item}/nav-item.html`)
-})
-
-function DashPage(nav) {
-  let page = html_loader_Pages_dash_dash_html__WEBPACK_IMPORTED_MODULE_3___default().replace(/::DASH_NAV::/g, dash_nav_html)
-  page = page.replace(/::DASH_CONTENT::/g, __webpack_require__(7832)(`./${nav}/content.html`))
-  page = page.replace(/::DASH_BODYEND::/g, __webpack_require__(4535)(`./${nav}/bodyend.html`))
-  page = page.replace(/::DASH_UTIL::/g, __webpack_require__(2200))
-  return page
-}
-
-const dash = {}
-dash_nav.forEach(item => {
-  dash[item] = cdn(DashPage(item))
-})
-
-const Renderers = {
-  erorr: cdn((html_loader_Pages_error_html__WEBPACK_IMPORTED_MODULE_0___default())),
-  auth: cdn((html_loader_Pages_auth_html__WEBPACK_IMPORTED_MODULE_1___default())),
-  ipfs: cdn((html_loader_Pages_ipfs_html__WEBPACK_IMPORTED_MODULE_4___default())),
-  robots: (html_loader_Pages_robots_txt__WEBPACK_IMPORTED_MODULE_2___default()),
-  dash: dash,
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Renderers);
-
 
 /***/ }),
 

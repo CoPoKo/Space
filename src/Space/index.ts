@@ -85,7 +85,7 @@ async function handleSpace(event: FetchEvent) {
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // dashboard
-    const { dash_nav } = require("./Renderers/Pages/dash/dash_nav.js");
+    const { dash_nav } = require("./Renderers/Pages/dash/dash_nav");
     dash_nav.forEach((e: string) => {
       router.get("/space/dash/" + e).action(Space.Actions.Dash[e]);
     });

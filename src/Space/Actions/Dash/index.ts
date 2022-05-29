@@ -1,5 +1,5 @@
 import Space from "../../Space";
-
+import { dash_nav } from "../../Renderers/Pages/dash/dash_nav";
 
 function BuildPageDash(ctx: any) {
   return new Response(
@@ -7,8 +7,6 @@ function BuildPageDash(ctx: any) {
     Space.Helpers.Headers.html
   );
 }
-
-const { dash_nav } = require("../../Renderers/Pages/dash/dash_nav.js");
 
 const Dash = {};
 dash_nav.forEach((item: string) => {
