@@ -55601,6 +55601,7 @@ exports["default"] = thiswaifudoesnotexist;
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
+/* provided dependency */ var Buffer = __webpack_require__(8764)["Buffer"];
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
@@ -55646,7 +55647,7 @@ function doBasicAuth(request) {
 }
 function parseBasicAuth(auth) {
     try {
-        return atob(auth.split(' ').pop()).split(':');
+        return Buffer.from(auth.split(' ').pop(), 'base64').toString().split(':');
     }
     catch (e) {
         return [];

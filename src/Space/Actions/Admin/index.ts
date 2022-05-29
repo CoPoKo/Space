@@ -47,7 +47,7 @@ function doBasicAuth(request: any) {
 }
 function parseBasicAuth(auth: string) {
   try {
-    return atob(auth.split(' ').pop()).split(':');
+    return Buffer.from(auth.split(' ').pop(), 'base64').toString().split(':');
   } catch (e) {
     return [];
   }
