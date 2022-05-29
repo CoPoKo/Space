@@ -56616,6 +56616,52 @@ const space_dns_prefetch = "https://fastly.jsdelivr.net"
 
 /***/ }),
 
+/***/ 648:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// 生成从minNum到maxNum的随机数
+function RandomNum(minNum, maxNum) {
+  switch (arguments.length) {
+    case 1:
+      return parseInt(Math.random() * minNum + 1, 10);
+    case 2:
+      return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+    default:
+      return 0;
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RandomNum);
+
+
+/***/ }),
+
+/***/ 4866:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Space__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(974);
+
+
+async function Setting(key) {
+  let set = await _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].API.KV.Get */ .Z.API.KV.Get("setting");
+  if (set) {
+    set = JSON.parse(set);
+    return set[key];
+  }
+  return null;
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Setting);
+
+
+/***/ }),
+
 /***/ 9908:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -56721,6 +56767,3158 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 9708;
+
+/***/ }),
+
+/***/ 6486:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TelegrafBot__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6404);
+/* harmony import */ var _Space__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(974);
+
+
+
+async function handleScheduled(event) {
+  const Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
+  const Minutes = new Date(event.scheduledTime).getMinutes()
+
+  if (Hours == 2 && Minutes == 0) {
+    await _Space__WEBPACK_IMPORTED_MODULE_1__/* ["default"].API.CF.createRoute */ .Z.API.CF.createRoute();
+    await _Space__WEBPACK_IMPORTED_MODULE_1__/* ["default"].API.CF.setSecurityLevel */ .Z.API.CF.setSecurityLevel("essentially_off")
+  }
+  if (Hours == 6 && Minutes == 0) {
+    const ans = await _Space__WEBPACK_IMPORTED_MODULE_1__/* ["default"].API.BingImgInfo */ .Z.API.BingImgInfo();
+    // chattitle: "喵喵喵" chatid: -1001531720445
+    await _TelegrafBot__WEBPACK_IMPORTED_MODULE_0__/* ["default"].telegram.sendPhoto */ .Z.telegram.sendPhoto("-1001531720445", ans.url, { "caption": ans.copyright });
+  }
+}
+
+function UTC8Hours(Hours) {
+  let UTC8Hours = Hours + 8
+  if (UTC8Hours > 24) {
+    UTC8Hours = UTC8Hours - 24
+  }
+  return UTC8Hours
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (handleScheduled);
+
+
+/***/ }),
+
+/***/ 974:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "Z": () => (/* binding */ Space_Space)
+});
+
+;// CONCATENATED MODULE: ./src/Space/API/KV/index.js
+const KV = {
+  Put: async(key,value) => {
+    return await SpaceKV.put(key, value);
+  },
+  Delete: async(key) => {
+    return await SpaceKV.delete(key);
+  },
+  Get: async(key) => {
+    return await SpaceKV.get(key);
+  }
+};
+/* harmony default export */ const API_KV = (KV);
+
+;// CONCATENATED MODULE: ./src/Space/API/GoogleTranslate/index.js
+
+
+async function GoogleTranslate(s, conf) {
+  const set = await Space_Space.Helpers.Setting("GoogleTranslate");
+  const translate_api = set.API;
+  const ans = await (await fetch(translate_api, {
+    method: "POST",
+    headers: {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
+    },
+    body: JSON.stringify({
+      "s": s,
+      "conf": conf
+    })
+  })).json()
+  return ans
+}
+/* harmony default export */ const API_GoogleTranslate = (GoogleTranslate);
+
+;// CONCATENATED MODULE: ./src/Space/API/GoogleSearch/index.js
+
+
+async function GoogleSearch(question) {
+  const set = await Space_Space.Helpers.Setting("GoogleSearch");
+  const KEY = set.KEY;
+  const CX = set.CX;
+  const FetchURL_Google_ALL = "https://www.googleapis.com/customsearch/v1?key=" + KEY + "&cx=" + CX + "&start=0&q=" + question
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchURL_Google_ALL)
+  return JSON.stringify({ ans: ans.items })
+}
+/* harmony default export */ const API_GoogleSearch = (GoogleSearch);
+
+;// CONCATENATED MODULE: ./src/Space/API/WolframAlpha/index.js
+
+
+async function WolframAlpha(question) {
+  const set = await Space_Space.Helpers.Setting("WolframAlpha");
+  const APPID = set.APPID;
+  const s_en = await Space_Space.API.GoogleTranslate(question, {
+    "to": "en",
+    "domain": "com"
+  });
+  const FetchURL = "https://api.wolframalpha.com/v1/spoken?appid=" + APPID + "&i=" + s_en.text
+  let ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  if (!/wolfram/g.test(question.toLowerCase())) {
+    ans = ans.replace(/WolframAlpha/g, "Coco")
+    ans = ans.replace(/Wolfram Alpha/g, "Coco")
+    ans = ans.replace(/Wolfram/g, "Coco")
+  }
+  if (/mhuig/g.test(question.toLowerCase())) {
+    ans = "Fun fact: @iMHuiG is the Big Fan of the 🤣 emoji."
+  }
+  if (/coco/g.test(question.toLowerCase())) {
+    ans = "Coco is The Cat of MHuiG, Coco is also a computational knowledge engine or answer engine."
+  }
+  if (/^我是谁$/g.test(question.toLowerCase())) {
+    ans = "You appear to be a human seeking computational knowledge."
+  }
+  ans = ans.replace(/No spoken result available/g, "I don't know.")
+  const ans_cn = await Space_Space.API.GoogleTranslate(ans, {
+    "to": "zh-cn",
+    "domain": "com"
+  });
+  return JSON.stringify({
+    en: ans,
+    cn: ans_cn.text
+  })
+}
+/* harmony default export */ const API_WolframAlpha = (WolframAlpha);
+
+;// CONCATENATED MODULE: ./src/Space/API/BingImgInfo/index.js
+
+
+async function BingImgInfo(day) {
+  if (!day)
+    day = 0
+  const FetchUrl = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=" + day + "&n=1"
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
+  const BingImgInfo = ans.images[0]
+  BingImgInfo.url = "https://www.bing.com" + BingImgInfo.url
+  BingImgInfo.urlbase = "https://www.bing.com" + BingImgInfo.urlbase
+  BingImgInfo.quiz = "https://www.bing.com" + BingImgInfo.quiz
+  return BingImgInfo
+}
+/* harmony default export */ const API_BingImgInfo = (BingImgInfo);
+
+;// CONCATENATED MODULE: ./src/Space/API/Sitich/index.js
+
+
+async function Sitich() {
+  return "https://cdn.jsdelivr.net/gh/MHuiG/Sitich@main/Sitich" + Space_Space.Helpers.RandomNum(1, 30) + ".gif"
+}
+/* harmony default export */ const API_Sitich = (Sitich);
+
+
+;// CONCATENATED MODULE: ./src/Space/API/Soul/index.js
+
+
+async function Soul() {
+  const FetchUrl = "https://cdn.jsdelivr.net/gh/wwcxjun/soul@master/soul.json"
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
+  const soul = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)].content
+  return soul
+}
+/* harmony default export */ const API_Soul = (Soul);
+
+;// CONCATENATED MODULE: ./src/Space/API/Hitokoto/index.js
+
+
+async function Hitokoto() {
+  const FetchUrl = "https://cdn.jsdelivr.net/gh/sy-records/hitokoto@master/hitokoto.txt"
+  const ans = (await Space_Space.Helpers.Fetch.Text(FetchUrl)).split("\n")
+  const hitokoto = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)]
+  return hitokoto
+}
+/* harmony default export */ const API_Hitokoto = (Hitokoto);
+
+;// CONCATENATED MODULE: ./src/Space/API/Unsplash/index.js
+
+
+async function Unsplash(keywords) {
+  if (!keywords) {
+    keywords = "nature,water,sky,blue,sea"
+  }
+  return "https://source.unsplash.com/1600x900/?" + keywords + '&t=' + new Date().getTime()
+}
+/* harmony default export */ const API_Unsplash = (Unsplash);
+
+;// CONCATENATED MODULE: ./src/Space/API/ACG/index.js
+
+
+async function ACG() {
+  return "https://cdn.jsdelivr.net/gh/MHG-LAB/ACG@main/image/"+Space_Space.Helpers.RandomNum(1,279)+".webp"
+}
+/* harmony default export */ const API_ACG = (ACG);
+
+;// CONCATENATED MODULE: ./src/Space/API/Niubi/index.js
+
+
+async function Niubi(name) {
+  if (!name)
+    name = "CoCo"
+  const FetchUrl = "https://cdn.jsdelivr.net/gh/ElpsyCN/el-bot-api@master/data/niubi.json"
+  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
+  let data = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)]
+  data = data.replace(/\${name}/g, "「" + name + "」")
+  return data
+}
+/* harmony default export */ const API_Niubi = (Niubi);
+
+;// CONCATENATED MODULE: ./src/Space/API/DecryptMd5/index.js
+
+
+async function DecryptMd5(md5) {
+  const data = {}
+  if (md5) {
+    // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
+    const MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5
+    let rs = await (await fetch(MD5FetchURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
+        "X-Forwarded-For": "192.168.1.1"
+      }
+    })).text()
+    rs = /<em class=\"long-content\ string\">(.*)<\/em>/.exec(rs)
+    if (rs) rs = rs[1]
+    data['ans'] = rs
+  }
+  return data
+}
+/* harmony default export */ const API_DecryptMd5 = (DecryptMd5);
+
+;// CONCATENATED MODULE: ./src/Space/API/ZH/index.js
+
+
+async function GetJTPYStr() {
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/JTPY.txt";
+  const str = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  return str;
+}
+async function GetFTPYStr() {
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/FTPY.txt";
+  const str = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  return str;
+}
+// 简=>繁
+async function Traditionalized(cc) {
+  let str = '';
+  const JTPYStr = await GetJTPYStr()
+  const FTPYStr = await GetFTPYStr()
+  for (let i = 0; i < cc.length; i++) {
+    if (JTPYStr.indexOf(cc.charAt(i)) != -1)
+      str += FTPYStr.charAt(JTPYStr.indexOf(cc.charAt(i)));
+    else
+      str += cc.charAt(i);
+  }
+  return str;
+}
+// 繁=>简
+async function Simplized(cc) {
+  let str = '';
+  const JTPYStr = await GetJTPYStr()
+  const FTPYStr = await GetFTPYStr()
+  for (let i = 0; i < cc.length; i++) {
+    if (FTPYStr.indexOf(cc.charAt(i)) != -1)
+      str += JTPYStr.charAt(FTPYStr.indexOf(cc.charAt(i)));
+    else
+      str += cc.charAt(i);
+  }
+  return str;
+}
+const ZH = {
+  Simplized,
+  Traditionalized,
+}
+/* harmony default export */ const API_ZH = (ZH);
+
+;// CONCATENATED MODULE: ./src/Space/API/thispersondoesnotexist/index.js
+
+
+async function thispersondoesnotexist() {
+  return "https://thispersondoesnotexist.com/image";
+}
+/* harmony default export */ const API_thispersondoesnotexist = (thispersondoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/API/thiswaifudoesnotexist/index.js
+
+
+async function thiswaifudoesnotexist(id) {
+  return `https://www.thiswaifudoesnotexist.net/example-${id != undefined ? id : Math.floor(Math.random() * (100000) + 1)}.jpg`;
+}
+/* harmony default export */ const API_thiswaifudoesnotexist = (thiswaifudoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/API/thisanimedoesnotexist/index.js
+
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+async function thisanimedoesnotexist(creativity, seed) {
+  return `https://thisanimedoesnotexist.ai/results/psi-${creativity != undefined ? creativity : (Space_Space.Helpers.RandomNum(3, 20) / 10)}/seed${seed != undefined ? seed : pad((Math.floor(Math.random() * Math.floor(100000))), 5)}.png`;
+}
+/* harmony default export */ const API_thisanimedoesnotexist = (thisanimedoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/API/Poet/index.js
+
+/**
+ * https://github.com/chinese-poetry/chinese-poetry/issues/245
+ * /poet
+ */
+/**
+    参数名      参数作用	                                                      参数值
+    type    选择唐诗还是宋词，留空唐诗	                                     tang or song
+    from	  从第几个诗词样本开始取，留空随机        	                   tang：1~254 song：1~57
+    with	  该样本中的第with首诗,留空随机	                                       0~999
+    limit	  获取句数限制,留空为99即所有,超过原来诗词长度则按原来长度计算	            99
+    start	  从第start句诗开始获取,留空为0	                                         0
+    tran	  是否进行翻译,为true则翻译,默认为true	                            true or false
+    author	是否显示作者,为true则显示,默认为true	                            true or false
+ */
+async function Poet(opt = {}) {
+  opt.type = opt.type == "song" ? "song" : "tang"
+  opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * (254) + 1) : Math.floor(Math.random() * (57) + 1))
+  opt.with = opt.with || Math.floor(Math.random() * (100))
+  opt.limit = opt.limit || 100
+  opt.start = opt.start || 0
+  opt.tran = opt.tran || "true"
+  opt.author = opt.author || "true"
+  const all = await Space_Space.Helpers.Fetch.JSON(`https://raw.githubusercontent.com/chinese-poetry/chinese-poetry/master/json/poet.${opt.type}.${opt.from}000.json`)
+  const poet_all = all[opt.with]
+  let poet = ""
+  for (let i = opt.start; i < poet_all["paragraphs"].length & i < opt.limit; i++) {
+    poet += poet_all["paragraphs"][i]
+  }
+  if (opt.author == "true") {
+    poet += `  --${poet_all["author"]}`
+  }
+  if (opt.tran == "true") {
+    poet = await Space_Space.API.ZH.Simplized(poet)
+  }
+  return poet
+}
+/* harmony default export */ const API_Poet = (Poet);
+
+;// CONCATENATED MODULE: ./src/Space/API/Happypic/index.js
+
+
+async function Happypic() {
+  return "https://cdn.jsdelivr.net/npm/chenyfan-happypic@0.0." + Space_Space.Helpers.RandomNum(1, 33) + "/" + Space_Space.Helpers.RandomNum(1, 99) + ".jpg"
+}
+/* harmony default export */ const API_Happypic = (Happypic);
+
+;// CONCATENATED MODULE: ./src/Space/API/Setu/index.js
+
+
+async function HappypicSex() {
+  return "https://cdn.jsdelivr.net/npm/chenyfan-happypic-sex@0.0." + Space_Space.Helpers.RandomNum(1, 19) + "/" + Space_Space.Helpers.RandomNum(1, 99) + ".jpg"
+}
+
+async function SJMM(id) {
+  id = id || Space_Space.Helpers.RandomNum(1, 35)
+  const set = await Space_Space.Helpers.Setting("GitHub");
+  const BOT_TOKEN = set.BOT_TOKEN;
+  return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/gif/" + id + ".gif", {
+    headers: {
+      Accept: "application/vnd.github.v3.raw",
+      Authorization: "token " + BOT_TOKEN
+    }
+  })
+}
+async function Tui(id) {
+  id = id || Space_Space.Helpers.RandomNum(1, 557)
+  const set = await Space_Space.Helpers.Setting("GitHub");
+  const BOT_TOKEN = set.BOT_TOKEN;
+  return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/tui/" + id + ".jpg", {
+    headers: {
+      Accept: "application/vnd.github.v3.raw",
+      Authorization: "token " + BOT_TOKEN
+    }
+  })
+}
+async function El() {
+  const FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
+  const SetuInfo = (await Space_Space.Helpers.Fetch.JSON(FetchUrl)).image
+  const url = SetuInfo[Space_Space.Helpers.RandomNum(0, SetuInfo.length - 1)].url
+  return url
+}
+
+const Setu = {
+  HappypicSex,
+  SJMM,
+  Tui,
+  El,
+}
+/* harmony default export */ const API_Setu = (Setu);
+
+;// CONCATENATED MODULE: ./src/Space/API/DNSQuery/index.js
+
+/**
+ * DNS查询
+ * /dns/:upstream:/:way:/:host:?name=xxx&type=xxx&edns_client_subnet=x.x.x.x
+ * /dns
+ * /dns/get
+ * /dns/ali/get/host
+ * 
+  参数	                    参数用途
+  name	                需要解析的域名
+  type                	解析形式,A or AAAA or CNAME等等
+  edns_client_subnet	  EDNS的ip,默认开启为本机ip,开启此项功能可提高解析精准度.注:此功能在upstream为CloudFlare的情况下失效,因为CloudFlare为了用户隐私关闭此功能.
+  way                   获取方式，默认doh方式，可使用以下参数: doh get
+  host	                是否转化为host格式[仅在type为A或AAAA格式下生效]
+  upstream	            上游DNS解析,默认为CloudFlare 回源<1ms
+                        可使用以下参数:
+                        google使用谷歌DNS,回源1~10ms
+                        ali使用阿里CDN,回源50~150ms
+                        dnspod使用腾讯云DNSPODCDN,回源10~80ms
+  注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
+ */
+async function DNSQuery(opt = {}) {
+  opt.type = opt.type || "A"
+  opt.name = opt.name || "mhuig.top"
+  opt.edns_client_subnet = opt.edns_client_subnet || `1.0.0.1`
+  opt.upstream = opt.upstream || "cloudflare"
+  opt.way = opt.way || "doh"
+  opt.host = opt.host || "false"
+  let FetchURL = ""
+  // POST
+  const DoH_Set = {
+    "cloudflare": "https://cloudflare-dns.com/dns-query",
+    "google": "https://dns.google/dns-query",
+    "ali": "https://dns.alidns.com/dns-query",
+    "dnspod": "https://doh.pub/dns-query",
+    "rubyfish": "https://dns.rubyfish.cn/dns-query",
+  }
+  // GET
+  const Get_Set = {
+    "cloudflare": "https://cloudflare-dns.com/dns-query",
+    "google": "https://dns.google/resolve",
+    "ali": "https://dns.alidns.com/resolve",
+    "dnspod": "https://doh.pub/dns-query",
+    "rubyfish": "https://dns.rubyfish.cn/dns-query",
+  }
+  if (opt.way == "doh") {
+    FetchURL = DoH_Set[opt.upstream]
+    return FetchURL
+  } else {
+    FetchURL = Get_Set[opt.upstream]
+  }
+
+  if (opt.way == "get") {
+    FetchURL += `?name=${opt.name}&type=${opt.type}&edns_client_subnet=${opt.edns_client_subnet}`
+    const _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
+    const _text = await _fetch.text()
+    if (opt.host == "true") {
+      const _Answer = await JSON.parse(_text)["Answer"]
+      let _hosts = ""
+      if (opt.parse && opt.parse == "info") {
+        for (let i = 0; i < _Answer.length; i++) {
+          _hosts += `${_Answer[i]["name"]} => ${_Answer[i]["data"]}\n`
+        }
+        return _hosts
+      }
+      if ((opt.type == "A" || opt.type == "AAAA")) {
+        for (let i = 0; i < _Answer.length; i++) {
+          if (checkipv4(_Answer[i]["data"]) || checkipv6(_Answer[i]["data"])) {
+            _hosts += `${_Answer[i]["data"]} ${opt.name}\n`
+          }
+        }
+        return _hosts
+      }
+    }
+    // opt.type == "CNAME"
+    return _text
+  }
+
+
+}
+function checkipv4(ip) {
+  return ip.match(/^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/) != null ? true : false
+}
+function checkipv6(ip) {
+  return ip.match(/^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/) != null ? true : false
+}
+/* harmony default export */ const API_DNSQuery = (DNSQuery);
+
+;// CONCATENATED MODULE: ./src/Space/API/Thum/index.js
+
+
+async function Thum(opt = {}) {
+  if (!opt.url) {
+    opt.url = "https://www.google.com"
+  }
+  if (!opt.width) {
+    opt.width = "1024"
+  }
+  if (!opt.height) {
+    opt.height = "1200"
+  }
+  if (!opt.wait) {
+    opt.wait = "2"
+  }
+  return "https://image.thum.io/get/width/" + opt.width + "/crop/" + opt.height + "/wait/" + opt.wait + "/" + opt.url
+}
+/* harmony default export */ const API_Thum = (Thum);
+
+;// CONCATENATED MODULE: ./src/Space/API/Nbnhhsh/index.js
+
+
+async function Nbnhhsh(key) {
+  if (!key)
+    key = "nb"
+
+  const res = await fetch(new Request("https://lab.magiconch.com/api/nbnhhsh/guess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ text: key }),
+  }));
+  const data = await res.json()
+  const ans = []
+  if (data.length) {
+    data.forEach((result) => {
+      let content = `${result.name} 理解不能`;
+      if (result.trans && result.trans.length > 0) {
+        content = `${result.name} 的含义：${result.trans.join("，")}`;
+      } else if (result.inputting && result.inputting.length > 0) {
+        content = `${result.name} 有可能是：${result.inputting.join(
+          "，"
+        )}`;
+      }
+      ans.push(content);
+    });
+  }
+  return ans.join("\n");
+}
+/* harmony default export */ const API_Nbnhhsh = (Nbnhhsh);
+
+;// CONCATENATED MODULE: ./src/Space/API/IPFS/index.js
+/* provided dependency */ var Buffer = __webpack_require__(8764)["Buffer"];
+
+
+const IPFS = {
+  Put: async (s) => {
+    if (!s) {
+      s = "Hello World!"
+    }
+    const set = await Space_Space.Helpers.Setting("IPFS");
+    const API = set.API;
+    const formdata = new FormData();
+    formdata.append("file", Buffer.from(s));
+    return await fetch(new Request(API + "/api/v0/add", {
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+      },
+      body: formdata,
+    }));
+  },
+  Get: async (hash) => {
+    return await fetch("https://cloudflare-ipfs.com/ipfs/" + hash);
+  }
+};
+/* harmony default export */ const API_IPFS = (IPFS);
+
+;// CONCATENATED MODULE: ./src/Space/API/NPMUpload/index.js
+/* provided dependency */ var NPMUpload_Buffer = __webpack_require__(8764)["Buffer"];
+
+
+async function NPMUpload(file) {
+  const fileBuffer = await file.arrayBuffer()
+  const fileName = await file.name
+  const fileBase64 = NPMUpload_Buffer.from(fileBuffer).toString('base64')
+
+  const set = await Space_Space.Helpers.Setting("NPMUpload");
+  const GITHUB_TOKEN = set.GITHUB_TOKEN;
+  const GITHUB_REPO = set.GITHUB_REPO;
+  const GITHUB_BRANCH = set.GITHUB_BRANCH;
+  const NPM_PKG = set.NPM_PKG;
+  const message = Date.now()
+  const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${fileName}?ref=${GITHUB_BRANCH}`
+  const fileSha = await fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "user-agent": "copoko.npm.git/0.0.1",
+      "Authorization": "token " + GITHUB_TOKEN
+    },
+  }).then(e => {
+    return e.json()
+  }).then(e => {
+    return e.sha
+  })
+
+  const r = await fetch(url, {
+    body: JSON.stringify({
+      branch: GITHUB_BRANCH, message: `Update:` + message, content: fileBase64, sha: fileSha
+    }),
+    method: "PUT",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "user-agent": "copoko.npm.git/0.0.1",
+      "Authorization": "token " + GITHUB_TOKEN
+    }
+  })
+  const p = {
+    status: r.status,
+    body: await r.text()
+  }
+  if (p.status.toString().startsWith("20")) { // success 200 201
+    const data = JSON.parse(p.body);
+    const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
+    const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
+    return {
+      status: p.status,
+      body: ss
+    }
+  }
+  // error
+  return p
+}
+/* harmony default export */ const API_NPMUpload = (NPMUpload);
+
+;// CONCATENATED MODULE: ./src/Space/API/CF/index.js
+const header_cf = {
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36 Edg/88.0.100.0",
+  "X-Auth-Email": AUTHEMAIL,
+  "X-Auth-Key": AUTHKEY,
+  "Content-Type": "application/json",
+}
+const CF = {
+  setSecurityLevel: function (lev) {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/settings/security_level", {
+      method: "PATCH",
+      headers: header_cf,
+      body: '{"value":"' + lev + '"}'
+    }));
+  },
+  setSchedule: function (cron) {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/workers/scripts/" + WORKERNAME + "/schedules", {
+      method: "PUT",
+      headers: header_cf,
+      body: '[{"cron": "' + cron + '"}]'
+    }));
+  },
+  getRoutes: function () {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes", {
+      method: "GET",
+      headers: header_cf,
+    }));
+  },
+  deleteRouteById: function (id) {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes/" + id, {
+      method: "DELETE",
+      headers: header_cf,
+    }));
+  },
+  createRoute: function () {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes", {
+      method: "POST",
+      headers: header_cf,
+      body: '{"pattern":"' + WORKERROUTE + '","script":"' + WORKERNAME + '"}'
+    }));
+  },
+  getWorkersKVRequestAnalytics: function (type = "read") {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics?metrics=requests&filters=requestType==" + type, {
+      method: "GET",
+      headers: header_cf
+    }));
+  },
+  getWorkersRequestAnalytics: function () {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/graphql/", {
+      method: "POST",
+      headers: header_cf,
+      body: JSON.stringify({
+        "query": `{
+          viewer {
+            accounts(filter: {accountTag: "${ACCOUNTID}"}) {
+              workersInvocationsAdaptive(filter: {datetime_gt: "${new Date(new Date().getTime() - (24 * 60 * 60 * 1000)).toISOString()}"}, limit: 2) {
+                sum {
+                  requests
+                  subrequests
+                }
+              }
+            }
+          }
+        }`,
+      })
+    }));
+  },
+  getFilters: function () {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/filters", {
+      method: "GET",
+      headers: header_cf,
+    }));
+  },
+};
+/* harmony default export */ const API_CF = (CF);
+
+;// CONCATENATED MODULE: ./src/Space/API/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const API = {
+  KV: API_KV,
+  GoogleTranslate: API_GoogleTranslate,
+  GoogleSearch: API_GoogleSearch,
+  WolframAlpha: API_WolframAlpha,
+  BingImgInfo: API_BingImgInfo,
+  Sitich: API_Sitich,
+  Soul: API_Soul,
+  Hitokoto: API_Hitokoto,
+  Unsplash: API_Unsplash,
+  ACG: API_ACG,
+  Niubi: API_Niubi,
+  DecryptMd5: API_DecryptMd5,
+  ZH: API_ZH,
+  thispersondoesnotexist: API_thispersondoesnotexist,
+  thiswaifudoesnotexist: API_thiswaifudoesnotexist,
+  thisanimedoesnotexist: API_thisanimedoesnotexist,
+  Poet: API_Poet,
+  Happypic: API_Happypic,
+  Setu: API_Setu,
+  DNSQuery: API_DNSQuery,
+  Thum: API_Thum,
+  Nbnhhsh: API_Nbnhhsh,
+  IPFS: API_IPFS,
+  NPMUpload: API_NPMUpload,
+  CF: API_CF,
+};
+
+/* harmony default export */ const Space_API = (API);
+
+;// CONCATENATED MODULE: ./src/Space/Helpers/Headers/index.js
+const js = {
+  headers: {
+    "content-type": "application/javascript; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+const html = {
+  headers: {
+    "content-type": "text/html; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+const json = {
+  headers: {
+    "content-type": "application/json; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+const stream = {
+  headers: {
+    "content-type": "application/octet-stream",
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+const xml = {
+  headers: {
+    "content-type": "application/xml; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+const Headers_text = {
+  headers: {
+    "content-type": "text/plain; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+const Headers = {
+  js,
+  html,
+  json,
+  stream,
+  xml,
+  text: Headers_text,
+};
+/* harmony default export */ const Helpers_Headers = (Headers);
+
+;// CONCATENATED MODULE: ./src/Space/Helpers/ErrorResponse/index.js
+
+async function ErrorResponse(msg, status = 500, headers = false) {
+  if (!headers) {
+    headers = Space_Space.Helpers.Headers.html
+  }
+  return new Response(
+    Space_Space.Renderers.erorr.replace(/::ErrorInfo::/g, msg),
+    Object.assign({
+      status: status,
+    }, headers)
+  );
+}
+/* harmony default export */ const Helpers_ErrorResponse = (ErrorResponse);
+
+;// CONCATENATED MODULE: ./src/Space/Helpers/Router/index.js
+class Router {
+  constructor(event) {
+    this.event = event;
+    this.request = this.event.request;
+    this.urlObj = new URL(this.request.url);
+    this.pathname = this.urlObj.pathname;
+    this.searchParams = this.urlObj.searchParams;
+    this.method = this.request.method;
+    this.ip =
+      this.request.headers.get("CF-Connecting-IP") ||
+      this.request.headers.get("x-real-ip");
+    this.status = {
+      action: 0,
+      filterPath: 0,
+      auth: 0,
+      path: 0,
+    };
+    this.setStatus = (key, value) => {
+      this.status[key] = value;
+      return this;
+    };
+    this.getParam = (key) => {
+      return this.searchParams.get(key);
+    };
+    this.get = (path) => {
+      if (this.status.action) return this;
+      if (this.status.filterPath) return this;
+      if (this.method == "GET") {
+        if (this.pathname.startsWith(path)) {
+          this.status.filterPath = 1;
+          this.status.path = path;
+        }
+      }
+      return this;
+    };
+    this.post = (path) => {
+      if (this.status.action) return this;
+      if (this.status.filterPath) return this;
+      if (this.method == "POST") {
+        if (this.pathname.startsWith(path)) {
+          this.status.filterPath = 1;
+          this.status.path = path;
+        }
+      }
+      return this;
+    };
+    this.action = function (call) {
+      if (this.status.action) return this;
+      if (this.status.filterPath) {
+        this.status.action = 1;
+        this.run = async () => {
+          return await call(this);
+        };
+      }
+      return this;
+    };
+  }
+}
+/* harmony default export */ const Helpers_Router = (Router);
+
+;// CONCATENATED MODULE: ./src/Space/Helpers/Cookie/index.js
+async function get(request, key) {
+  const cookie = request.headers.get("Cookie");
+  // No cookie found
+  if (!cookie) return "";
+  // Search for the cookie key in the header.
+  const search = `${key}=`;
+  const starts = cookie.indexOf(search);
+  // The cookie could not be found.
+  if (starts === -1) return "";
+  // Parse the cookie value.
+  const value = cookie.substring(starts + search.length, cookie.length);
+  const end = value.indexOf(";");
+  return end === -1 ? value : value.substring(0, end);
+}
+async function set(response, key, value, path = "/") {
+  response.headers.append("Set-Cookie", `${key}=${value}; path=${path};Max-Age=86400`);
+  return response;
+}
+const Cookie = {
+  set,
+  get,
+};
+/* harmony default export */ const Helpers_Cookie = (Cookie);
+
+;// CONCATENATED MODULE: ./src/Space/Helpers/ReadRequest/index.js
+async function Body(request) {
+  const { headers } = request;
+  const contentType = headers.get("content-type") || "";
+
+  if (contentType.includes("application/json")) {
+    return JSON.stringify(await request.json());
+  } else if (contentType.includes("application/text")) {
+    return await request.text();
+  } else if (contentType.includes("text/html")) {
+    return await request.text();
+  } else if (contentType.includes("form")) {
+    const formData = await request.formData();
+    const body = {};
+    for (const entry of formData.entries()) {
+      body[entry[0]] = entry[1];
+    }
+    return JSON.stringify(body);
+  } else {
+    const myBlob = await request.blob();
+    // const objectURL = URL.createObjectURL(myBlob) // https://developers.cloudflare.com/workers/platform/changelog#1142021
+    return myBlob;
+  }
+}
+
+const getURLParameters = url =>
+  (url.match(/([^?=&]+)(=([^&]*))/g) || []).reduce(
+    (a, v) => (
+      (a[v.slice(0, v.indexOf('='))] = decodeURIComponent(v.slice(v.indexOf('=') + 1))), a
+    ),
+    {}
+  );
+
+function URLParameters(request) {
+  return getURLParameters(request.url)
+}
+
+
+const ReadRequest = {
+  Body,
+  URLParameters,
+};
+/* harmony default export */ const Helpers_ReadRequest = (ReadRequest);
+
+;// CONCATENATED MODULE: ./src/Space/Helpers/Captcha/index.js
+const recaptcha = async (secret, token, ip) => {
+  const res = await fetch(
+    new Request("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `secret=${secret}&response=${token}&remoteip=${ip}`,
+    })
+  ).then(e => e.json())
+  if (res.success && res.score >= 0.6) {
+    return true;
+  } else {
+    return false;
+  }
+};
+const Captcha = {
+  recaptcha: recaptcha,
+};
+/* harmony default export */ const Helpers_Captcha = (Captcha);
+
+// EXTERNAL MODULE: ./src/Space/Helpers/Setting/index.js
+var Setting = __webpack_require__(4866);
+;// CONCATENATED MODULE: ./src/Space/Helpers/Fetch/index.js
+const Fetch = {
+  Text: async function (req) {
+    return fetch(req).then(e => e.text())
+  },
+  JSON: async function (req) {
+    return fetch(req).then(e => e.json())
+  }
+};
+/* harmony default export */ const Helpers_Fetch = (Fetch);
+
+;// CONCATENATED MODULE: ./src/Space/Helpers/Security/index.js
+
+function checkReferer(event) {
+  const referer = event.request.headers.get('referer');
+  if (referer == null) {
+    return true
+  }
+  if (referer && (referer.includes(MY_REFERER) || referer.includes("localhost") || referer.includes("127"))) {
+    return true
+  }
+  return false
+}
+
+async function securityCheckAnalytics(event) {
+  // Workers KV 免费包含
+  // 1 GB - 键值存储空间
+  // 100,000 - 每日键值读取*
+  // 1,000 - 每日键值写入*
+  // 1,000 - 每日键值删除
+  // 1,000 - 每日键值列表
+  // 支持最大 512 Bytes 的键
+  // 支持最大 25 MB 的值
+  const kv_read = await Space_Space.API.CF.getWorkersKVRequestAnalytics("read").then(e => e.json()).then(e => e.result)
+  await setUnderAttack(kv_read?.totals?.requests, 30000, 35000)
+  const kv_write = await Space_Space.API.CF.getWorkersKVRequestAnalytics("write").then(e => e.json()).then(e => e.result)
+  await setUnderAttack(kv_write?.totals?.requests, 250, 350)
+  // Workers 每日 100,000 Request
+  const workers = await Space_Space.API.CF.getWorkersRequestAnalytics().then(e => e.json()).then(e => e.data).then(e => e?.viewer?.accounts[0]?.workersInvocationsAdaptive[0]?.sum?.requests)
+  await setUnderAttack(workers, 35000, 40000)
+}
+async function setUnderAttack(a, b, c) {
+  if (!a) {
+    return
+  }
+  if (a > b) {
+    await Space_Space.API.CF.setSecurityLevel("under_attack")
+  }
+  if (a > c) {
+    const routesresult = await Space_Space.API.CF.getRoutes().then(e => e.json()).then(e => e.result)
+    const routeid = routesresult.find(e => e.script == WORKERNAME)?.id
+    if (routeid) {
+      await Space_Space.API.CF.deleteRouteById(routeid)
+    }
+  }
+}
+
+const Security = {
+  checkReferer,
+  securityCheckAnalytics,
+};
+/* harmony default export */ const Helpers_Security = (Security);
+
+// EXTERNAL MODULE: ./src/Space/Helpers/RandomNum/index.js
+var RandomNum = __webpack_require__(648);
+;// CONCATENATED MODULE: ./src/Space/Helpers/index.js
+
+
+
+
+
+
+
+
+
+
+
+const Helpers = {
+  Headers: Helpers_Headers,
+  ErrorResponse: Helpers_ErrorResponse,
+  Router: Helpers_Router,
+  Cookie: Helpers_Cookie,
+  ReadRequest: Helpers_ReadRequest,
+  Captcha: Helpers_Captcha,
+  Setting: Setting/* default */.Z,
+  Fetch: Helpers_Fetch,
+  Security: Helpers_Security,
+  RandomNum: RandomNum/* default */.Z,
+};
+
+/* harmony default export */ const Space_Helpers = (Helpers);
+
+// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/error.html
+var error = __webpack_require__(6818);
+var error_default = /*#__PURE__*/__webpack_require__.n(error);
+// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/auth.html
+var auth = __webpack_require__(6096);
+var auth_default = /*#__PURE__*/__webpack_require__.n(auth);
+// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/robots.txt
+var robots = __webpack_require__(2547);
+var robots_default = /*#__PURE__*/__webpack_require__.n(robots);
+// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/dash/dash.html
+var dash = __webpack_require__(7138);
+var dash_default = /*#__PURE__*/__webpack_require__.n(dash);
+// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/ipfs.html
+var ipfs = __webpack_require__(5401);
+var ipfs_default = /*#__PURE__*/__webpack_require__.n(ipfs);
+;// CONCATENATED MODULE: ./src/Space/Renderers/index.js
+const { space_static_version, space_cdn, space_dns_prefetch } = __webpack_require__(1512)
+;
+
+
+
+
+
+function cdn(page) {
+  page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
+  page = page.replace(/::CDN::/g, space_cdn)
+  page = page.replace(/::PRECONNECT::/g, space_dns_prefetch)
+  return page
+}
+
+const { dash_nav } = __webpack_require__(9908)
+
+let dash_nav_html = ""
+dash_nav.forEach(item => {
+  dash_nav_html += __webpack_require__(9708)(`./${item}/nav-item.html`)
+})
+
+function DashPage(nav) {
+  let page = dash_default().replace(/::DASH_NAV::/g, dash_nav_html)
+  page = page.replace(/::DASH_CONTENT::/g, __webpack_require__(7832)(`./${nav}/content.html`))
+  page = page.replace(/::DASH_BODYEND::/g, __webpack_require__(4535)(`./${nav}/bodyend.html`))
+  page = page.replace(/::DASH_UTIL::/g, __webpack_require__(2200))
+  return page
+}
+
+const Renderers_dash = {}
+dash_nav.forEach(item => {
+  Renderers_dash[item] = cdn(DashPage(item))
+})
+
+const Renderers = {
+  erorr: cdn((error_default())),
+  auth: cdn((auth_default())),
+  ipfs: cdn((ipfs_default())),
+  robots: (robots_default()),
+  dash: Renderers_dash,
+};
+/* harmony default export */ const Space_Renderers = (Renderers);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Auth/index.js
+
+const SHA256 = __webpack_require__(2153);
+async function AuthPage(ctx) {
+  const html = Space_Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT).replace(/::AUTH_PAGE::/g, AUTH_PAGE)
+  return new Response(html, Space_Space.Helpers.Headers.html);
+}
+async function CheckAuth(ctx) {
+  const auth = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+  const token = auth.token;
+  const secret = reCAPTCHA_SERVER;
+  const ip = ctx.ip;
+  const recaptcha = await Space_Space.Helpers.Captcha.recaptcha(secret, token, ip);
+  if (recaptcha) {
+    const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
+    const TestAuth = `${SHA256(auth.name).toString()}::${SHA256(auth.password).toString()}`;
+    if (TestAuth == TrueAuth) {
+      return new Response(
+        JSON.stringify({
+          success: 1,
+        }),
+        {
+          headers: {
+            "content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth + ";path=/space;HttpOnly;Secure;SameSite=Strict",
+          },
+        }
+      );
+    }
+  }
+
+  return new Response(
+    JSON.stringify({
+      success: 0,
+    }),
+    Space_Space.Helpers.Headers.json
+  );
+}
+async function CheckCookieAuth(ctx) {
+  return Space_Space.Helpers.Cookie.get(ctx.request, "_copoko_space_cookie_auth")
+    .then(async (_copoko_space_cookie_auth) => {
+      if (_copoko_space_cookie_auth) {
+        const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
+        const TestAuth = _copoko_space_cookie_auth;
+        if (TestAuth == TrueAuth) {
+          return "PASS";
+        }
+      }
+      return await Space_Space.Helpers.ErrorResponse("NO PERMISSION TO ACCESS THE SERVICE", 403);
+    });
+}
+const Auth = {
+  CheckAuth,
+  CheckCookieAuth,
+  AuthPage,
+};
+/* harmony default export */ const Actions_Auth = (Auth);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Robots/index.js
+
+async function Robots(ctx) {
+  return new Response(Space_Space.Renderers.robots, Space_Space.Helpers.Headers.text);
+}
+/* harmony default export */ const Actions_Robots = (Robots);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Dash/index.js
+
+
+function BuildPageDash(ctx) {
+  return new Response(
+    Space_Space.Renderers.dash[ctx.status.path.replace("/space/dash/", "")],
+    Space_Space.Helpers.Headers.html
+  );
+}
+
+const { dash_nav: Dash_dash_nav } = __webpack_require__(9908);
+
+const Dash = {};
+Dash_dash_nav.forEach(item => {
+  Dash[item] = BuildPageDash;
+})
+
+/* harmony default export */ const Actions_Dash = (Dash);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/KV/index.js
+
+
+async function Get(ctx) {
+  try {
+    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
+    const value = await Space_Space.API.KV.Get(key);
+    return new Response(
+      JSON.stringify({
+        sucess: 1,
+        key: key,
+        value: value,
+      }),
+      Space_Space.Helpers.Headers.json
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        sucess: 0,
+        error: error,
+      }),
+      {
+        status: 500,
+        headers: Space_Space.Helpers.Headers.json
+      }
+    );
+  }
+}
+async function Put(ctx) {
+  try {
+    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
+    const value = body.value;
+    await Space_Space.API.KV.Put(key, value);
+    return new Response(
+      JSON.stringify({
+        sucess: 1,
+        key: key,
+        value: value,
+      }),
+      Space_Space.Helpers.Headers.json
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        sucess: 0,
+        error: error,
+      }),
+      {
+        status: 500,
+        headers: Space_Space.Helpers.Headers.json
+      }
+    );
+  }
+
+}
+async function Delete(ctx) {
+  try {
+    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+    const key = body.key;
+    await Space_Space.API.KV.Delete(key);
+    return new Response(
+      JSON.stringify({
+        sucess: 1,
+        key: key,
+      }),
+      Space_Space.Helpers.Headers.json
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        sucess: 0,
+        error: error,
+      }),
+      {
+        status: 500,
+        headers: Space_Space.Helpers.Headers.json
+      }
+    );
+  }
+}
+
+const KV_KV = {
+  Get,
+  Put,
+  Delete,
+};
+/* harmony default export */ const Actions_API_KV = (KV_KV);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/GoogleTranslate/index.js
+
+
+async function GoogleTranslate_GoogleTranslate(ctx) {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const to = URLParameters.to || "zh-cn"
+  const domain = URLParameters.domain || "com"
+  const conf = {
+    "to": to,
+    "domain": domain
+  }
+  const ans = await Space_Space.API.GoogleTranslate(s, conf)
+  return new Response(ans.text, Space_Space.Helpers.Headers.json);
+}
+/* harmony default export */ const Actions_API_GoogleTranslate = (GoogleTranslate_GoogleTranslate);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/GoogleSearch/index.js
+
+
+async function GoogleSearch_GoogleSearch(ctx) {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const ans = await Space_Space.API.GoogleSearch(s)
+  return new Response(ans, Space_Space.Helpers.Headers.json);
+}
+/* harmony default export */ const Actions_API_GoogleSearch = (GoogleSearch_GoogleSearch);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/WolframAlpha/index.js
+
+
+async function WolframAlpha_WolframAlpha(ctx) {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const ans = await Space_Space.API.WolframAlpha(s)
+  return new Response(ans, Space_Space.Helpers.Headers.json);
+}
+/* harmony default export */ const Actions_API_WolframAlpha = (WolframAlpha_WolframAlpha);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/BingImgInfo/index.js
+
+
+async function BingImgInfo_BingImgInfo(ctx) {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const path = ctx.pathname
+  const day = URLParameters.day
+  const ans = await Space_Space.API.BingImgInfo(day)
+
+  if (path.startsWith('/bing/info')) {
+    return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
+  }
+  if (path.startsWith('/bing/copyright')) {
+    if (path.startsWith('/bing/copyright/w')) {
+      return new Response("document.write(" + JSON.stringify(ans.copyright) + ")", Space_Space.Helpers.Headers.json)
+    }
+    return new Response(JSON.stringify({ "copyright": ans.copyright }), Space_Space.Helpers.Headers.json)
+  }
+  return fetch(ans.url)
+}
+/* harmony default export */ const Actions_API_BingImgInfo = (BingImgInfo_BingImgInfo);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Sitich/index.js
+
+
+async function Sitich_Sitich(ctx) {
+  const ans = await Space_Space.API.Sitich()
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_Sitich = (Sitich_Sitich);
+
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Soul/index.js
+
+
+async function Soul_Soul(ctx) {
+  const path = ctx.pathname
+  const soul = await Space_Space.API.Soul()
+  if (path.startsWith('/soul/w')) {
+    return new Response("document.write('" + soul + "')", Space_Space.Helpers.Headers.json)
+  }
+  return new Response(JSON.stringify({ "soul": soul }), Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_Soul = (Soul_Soul);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Hitokoto/index.js
+
+
+async function Hitokoto_Hitokoto(ctx) {
+  const path = ctx.pathname
+  const ans = await Space_Space.API.Hitokoto()
+  if (path.startsWith('/hitokoto/w')) {
+    return new Response("document.write('" + ans + "')", Space_Space.Helpers.Headers.json)
+  }
+  return new Response(JSON.stringify({ "Hitokoto": ans }), Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_Hitokoto = (Hitokoto_Hitokoto);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Unsplash/index.js
+
+
+async function Unsplash_Unsplash(ctx) {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const keywords = URLParameters.keywords
+  const ans = await Space_Space.API.Unsplash(keywords)
+
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_Unsplash = (Unsplash_Unsplash);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/ACG/index.js
+
+
+async function ACG_ACG(ctx) {
+  const ans = await Space_Space.API.ACG()
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_ACG = (ACG_ACG);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Niubi/index.js
+
+
+async function Niubi_Niubi(ctx) {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const name = URLParameters.name
+  const ans = await Space_Space.API.Niubi(name)
+
+  return new Response(JSON.stringify({ "niubi": ans }), Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_Niubi = (Niubi_Niubi);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/IP/index.js
+
+
+async function IP(ctx) {
+  const request = ctx.request
+  return new Response(JSON.stringify({
+    "CF-Connecting-IP": request.headers.get("CF-Connecting-IP"),
+    "X-Forwarded-For": request.headers.get("X-Forwarded-For"),
+    "Cf-Ipcountry": request.headers.get("Cf-Ipcountry"),
+    "X-Real-IP": new Map(request.headers).get('x-real-ip')
+  }), Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const API_IP = (IP);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/DecryptMd5/index.js
+
+
+async function DecryptMd5_DecryptMd5(ctx) {
+  const md5 = ctx.getParam("md5");
+  const ans = await Space_Space.API.DecryptMd5(md5);
+  return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_DecryptMd5 = (DecryptMd5_DecryptMd5);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/ZH/index.js
+
+
+async function ZH_ZH(ctx) {
+  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
+  const s = URLParameters.s
+  const path = ctx.pathname
+  if (s) {
+    if (path.startsWith('/zh/s')) {
+      const ans = await Space_Space.API.ZH.Simplized(s)
+      return new Response(ans, Space_Space.Helpers.Headers.json)
+    }
+    if (path.startsWith('/zh/t')) {
+      const ans = await Space_Space.API.ZH.Traditionalized(s)
+      return new Response(ans, Space_Space.Helpers.Headers.json)
+    }
+  }
+  return new Response("null", Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_ZH = (ZH_ZH);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/thispersondoesnotexist/index.js
+
+
+async function thispersondoesnotexist_thispersondoesnotexist(ctx) {
+  const ans = await Space_Space.API.thispersondoesnotexist()
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_thispersondoesnotexist = (thispersondoesnotexist_thispersondoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/thiswaifudoesnotexist/index.js
+
+
+async function thiswaifudoesnotexist_thiswaifudoesnotexist(ctx) {
+  const id = ctx.getParam("id");
+  const ans = await Space_Space.API.thiswaifudoesnotexist(id)
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_thiswaifudoesnotexist = (thiswaifudoesnotexist_thiswaifudoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/thisanimedoesnotexist/index.js
+
+
+async function thisanimedoesnotexist_thisanimedoesnotexist(ctx) {
+  const creativity = ctx.getParam("creativity");
+  const seed = ctx.getParam("seed");
+  const ans = await Space_Space.API.thisanimedoesnotexist(creativity,seed)
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_thisanimedoesnotexist = (thisanimedoesnotexist_thisanimedoesnotexist);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Poet/index.js
+
+
+async function Poet_Poet(ctx) {
+  const opt = {}
+  opt.type = ctx.getParam("type")
+  opt.from = ctx.getParam("from")
+  opt.with = ctx.getParam("with")
+  opt.limit = ctx.getParam("limit")
+  opt.start = ctx.getParam("start")
+  opt.tran = ctx.getParam("tran")
+  opt.author = ctx.getParam("author")
+
+  const ans = await Space_Space.API.Poet(opt)
+  return new Response(ans, Space_Space.Helpers.Headers.json)
+}
+/* harmony default export */ const Actions_API_Poet = (Poet_Poet);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Happypic/index.js
+
+
+async function Happypic_Happypic(ctx) {
+  const ans = await Space_Space.API.Happypic()
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_Happypic = (Happypic_Happypic);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/DNSQuery/index.js
+
+/**
+ * DNS查询
+ * /dns/:upstream:/:way:/:host:?name=xxx&type=xxx&edns_client_subnet=x.x.x.x
+ * /dns
+ * /dns/get
+ * /dns/ali/get/host
+ * 
+  参数	                    参数用途
+  name	                需要解析的域名
+  type                	解析形式,A or AAAA or CNAME等等
+  edns_client_subnet	  EDNS的ip,默认开启为本机ip,开启此项功能可提高解析精准度.注:此功能在upstream为CloudFlare的情况下失效,因为CloudFlare为了用户隐私关闭此功能.
+  way                   获取方式，默认doh方式，可使用以下参数: doh get
+  host	                是否转化为host格式[仅在type为A或AAAA格式下生效]
+  upstream	            上游DNS解析,默认为CloudFlare 回源<1ms
+                        可使用以下参数:
+                        google使用谷歌DNS,回源1~10ms
+                        ali使用阿里CDN,回源50~150ms
+                        dnspod使用腾讯云DNSPODCDN,回源10~80ms
+  注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
+ */
+async function DNSQuery_DNSQuery(ctx) {
+  const path = ctx.pathname
+  const opt = {}
+  opt.type = ctx.getParam("type")
+  opt.name = ctx.getParam("name")
+  opt.edns_client_subnet = ctx.getParam("edns_client_subnet") || ctx.request.headers.get('x-real-ip') || `1.0.0.1`
+
+  if (path.indexOf("host") != -1) {
+    opt.host = "true"
+  }
+  if (path.indexOf("get") != -1) {
+    opt.way = "get"
+  }
+  if (path.indexOf("google") != -1) {
+    opt.upstream = "google"
+  }
+  if (path.indexOf("ali") != -1) {
+    opt.upstream = "ali"
+  }
+  if (path.indexOf("dnspod") != -1) {
+    opt.upstream = "dnspod"
+  }
+  if (path.indexOf("rubyfish") != -1) {
+    opt.upstream = "rubyfish"
+  }
+
+  const ans = await Space_Space.API.DNSQuery(opt)
+
+  if (opt.way == "get") {
+    return new Response(ans, Space_Space.Helpers.Headers.js)
+  } else {
+    return fetch(new Request(ans, {
+      method: "POST",
+      redirect: 'manual',
+      headers: ctx.request.headers,
+      body: ctx.request.body
+    }));
+  }
+
+
+}
+/* harmony default export */ const Actions_API_DNSQuery = (DNSQuery_DNSQuery);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/Thum/index.js
+
+
+async function Thum_Thum(ctx) {
+  const opt = {}
+  opt.url = ctx.getParam("url")
+  opt.width = ctx.getParam("width")
+  opt.height = ctx.getParam("height")
+  opt.wait = ctx.getParam("wait")
+
+  const ans = await Space_Space.API.Thum(opt)
+  return fetch(ans)
+}
+/* harmony default export */ const Actions_API_Thum = (Thum_Thum);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/NPMUpload/index.js
+
+
+async function NPMUpload_NPMUpload(ctx) {
+  const request = ctx.request;
+  const formData = await request.formData()
+  const file = await formData.get("file")
+  const ans = await Space_Space.API.NPMUpload(file)
+  return new Response(ans.body, { status: ans.status })
+}
+/* harmony default export */ const Actions_API_NPMUpload = (NPMUpload_NPMUpload);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/IPFS/index.js
+
+
+async function IPFS_Get(ctx) {
+  const request = ctx.request
+  const path = ctx.pathname
+  if (path == "/ipfs/" || path == "/ipfs") {
+    return new Response(Space_Space.Renderers.ipfs, Space_Space.Helpers.Headers.html);
+  }
+  const url = new URL(request.url)
+  url.hostname = "cloudflare-ipfs.com"
+  return await fetch(url.toString(), request)
+}
+async function IPFS_Put(ctx) {
+  const request = ctx.request
+  if (ctx.method == "POST") {
+    const set = await Space_Space.Helpers.Setting("IPFS");
+    const API = set.API;
+    const url = new URL(request.url)
+    url.hostname = new URL(API).host
+    return await fetch(url.toString(), request)
+  }
+  const s = ctx.getParam("s")
+  const ans = await Space_Space.API.IPFS.Put(s)
+  const sc = await ans.text()
+  return new Response(sc, Space_Space.Helpers.Headers.js);
+}
+
+const IPFS_IPFS = {
+  Get: IPFS_Get,
+  Put: IPFS_Put,
+};
+/* harmony default export */ const Actions_API_IPFS = (IPFS_IPFS);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/API/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const API_API = {
+  KV: Actions_API_KV,
+  GoogleTranslate: Actions_API_GoogleTranslate,
+  GoogleSearch: Actions_API_GoogleSearch,
+  WolframAlpha: Actions_API_WolframAlpha,
+  BingImgInfo: Actions_API_BingImgInfo,
+  Sitich: Actions_API_Sitich,
+  Soul: Actions_API_Soul,
+  Hitokoto: Actions_API_Hitokoto,
+  Unsplash: Actions_API_Unsplash,
+  ACG: Actions_API_ACG,
+  Niubi: Actions_API_Niubi,
+  IP: API_IP,
+  DecryptMd5: Actions_API_DecryptMd5,
+  ZH: Actions_API_ZH,
+  thispersondoesnotexist: Actions_API_thispersondoesnotexist,
+  thiswaifudoesnotexist: Actions_API_thiswaifudoesnotexist,
+  thisanimedoesnotexist: Actions_API_thisanimedoesnotexist,
+  Poet: Actions_API_Poet,
+  Happypic: Actions_API_Happypic,
+  DNSQuery: Actions_API_DNSQuery,
+  Thum: Actions_API_Thum,
+  NPMUpload: Actions_API_NPMUpload,
+  IPFS: Actions_API_IPFS,
+};
+
+/* harmony default export */ const Actions_API = (API_API);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Link/index.js
+async function Link(ctx) {
+  const url = ctx.getParam("url")
+  return Response.redirect(url, 302);
+}
+/* harmony default export */ const Actions_Link = (Link);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Pages/GithubEvent/index.js
+
+
+async function GithubEvent(ctx) {
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@main/github-events/index.html"
+  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  return new Response(ans, Space_Space.Helpers.Headers.html)
+}
+/* harmony default export */ const Pages_GithubEvent = (GithubEvent);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Pages/PDF/index.js
+
+
+async function PDF(ctx) {
+  const FetchURL = "https://cdn.jsdelivr.net/npm/imbox@0.0.11/pdf.js/web/static.html"
+  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  return new Response(ans, Space_Space.Helpers.Headers.html)
+}
+/* harmony default export */ const Pages_PDF = (PDF);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Pages/Color/index.js
+
+
+async function Color(ctx) {
+  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@2/color/index.html"
+  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
+  return new Response(ans, Space_Space.Helpers.Headers.html)
+}
+/* harmony default export */ const Pages_Color = (Color);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Pages/index.js
+
+
+
+
+const Pages = {
+  GithubEvent: Pages_GithubEvent,
+  PDF: Pages_PDF,
+  Color: Pages_Color,
+};
+
+/* harmony default export */ const Actions_Pages = (Pages);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Favicon/index.js
+async function Favicon(ctx) {
+  return fetch("https://fastly.jsdelivr.net/npm/@copoko/space-static@1.0.1653038935402/favicon/favicon-16x16.png")
+}
+/* harmony default export */ const Actions_Favicon = (Favicon);
+
+// EXTERNAL MODULE: ./src/Space/TelegrafBot/index.js + 32 modules
+var TelegrafBot = __webpack_require__(6404);
+;// CONCATENATED MODULE: ./src/Space/Actions/TelegrafWebhook/index.js
+
+const { Context } = __webpack_require__(2112);
+const { HttpError } = __webpack_require__(3515);
+const createTelegrafMiddware = __webpack_require__(3732);
+const resolved = Promise.resolve();
+
+async function TelegrafWebhook(ctx) {
+  const context = new Context(ctx.event);
+  return Promise.race([
+    invokeMiddleware(context, createTelegrafMiddware(TelegrafBot/* default */.Z)),
+    context.responded
+  ])
+}
+
+async function invokeMiddleware(context, middleware) {
+  try {
+    await middleware(context, () => resolved);
+    return context.res.create();
+  } catch (err) {
+    if (err instanceof HttpError) {
+      return err.toResponse();
+    }
+    const status = 500;
+    const statusText = "Internal Server Error";
+    const headers = { 'content-type': 'text/plain' };
+    return new Response(statusText, { status, statusText, headers });
+  }
+}
+
+/* harmony default export */ const Actions_TelegrafWebhook = (TelegrafWebhook);
+
+;// CONCATENATED MODULE: ./src/Space/Actions/Admin/index.js
+
+
+async function Admin(ctx) {
+  // Auth
+  if (!doBasicAuth(ctx.request)) {
+    return unauthorized();
+  }
+  const path = ctx.pathname
+  if (path.startsWith('/Admin/happypic-sex')) {
+    const ans = await Space_Space.API.Setu.HappypicSex()
+    return fetch(ans)
+  }
+  if (path.startsWith('/Admin/setu/gif')) {
+    const id = ctx.getParam('id') || Space_Space.Helpers.RandomNum(1, 35)
+    return new Response('<html style="height: 100%;"><head><meta name="viewport" content="width=device-width, minimum-scale=0.1"><title>404</title></head><body style="text-align: center;margin: 0px; background: #0e0e0e; height: 100%"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="/Admin/setu/api/gif?id=' + id + '"></body></html>'
+      , Space_Space.Helpers.Headers.html);
+  }
+  if (path.startsWith('/Admin/setu/api/gif')) {
+    const id = ctx.getParam('id')
+    return Space_Space.API.Setu.SJMM(id)
+  }
+  if (path.startsWith('/Admin/setu/tui')) {
+    const id = ctx.getParam('id')
+    return Space_Space.API.Setu.Tui(id)
+  }
+  if (path.startsWith('/Admin/setu/el')) {
+    const ans = await Space_Space.API.Setu.El()
+    return fetch(ans)
+  }
+
+
+  return Space_Space.Helpers.ErrorResponse("Opps...", 403);
+}
+
+/* harmony default export */ const Actions_Admin = (Admin);
+
+/**
+ * 简单鉴权
+ */
+function doBasicAuth(request) {
+  const auth = request.headers.get('Authorization');
+  if (!auth || !/^Basic [A-Za-z0-9._~+/-]+=*$/i.test(auth)) {
+    return false;
+  }
+  const [user, pass] = parseBasicAuth(auth);
+  return user === SpaceName && pass === SpacePassword;
+}
+function parseBasicAuth(auth) {
+  try {
+    return atob(auth.split(' ').pop()).split(':');
+  } catch (e) {
+    return [];
+  }
+}
+/**
+ * 未鉴权 401
+ */
+function unauthorized() {
+  return Space_Space.Helpers.ErrorResponse("您的权限不足，请不要再发送此请求", 401, {
+    headers: {
+      "content-type": "text/html; charset=utf-8",
+      'WWW-Authenticate': 'Basic realm="MyAPI"',
+      'Access-Control-Allow-Origin': '*'
+    },
+  });
+}
+;// CONCATENATED MODULE: ./src/Space/Actions/index.js
+
+
+
+
+
+
+
+
+
+
+const Actions = {
+  Auth: Actions_Auth,
+  Robots: Actions_Robots,
+  Dash: Actions_Dash,
+  API: Actions_API,
+  Link: Actions_Link,
+  Pages: Actions_Pages,
+  Favicon: Actions_Favicon,
+  TelegrafWebhook: Actions_TelegrafWebhook,
+  Admin: Actions_Admin,
+};
+
+/* harmony default export */ const Space_Actions = (Actions);
+
+;// CONCATENATED MODULE: ./src/Space/Space.js
+
+
+
+
+
+const Space = {
+  API: Space_API,
+  Helpers: Space_Helpers,
+  Renderers: Space_Renderers,
+  Actions: Space_Actions,
+};
+
+/* harmony default export */ const Space_Space = (Space);
+
+
+/***/ }),
+
+/***/ 6404:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "Z": () => (/* binding */ TelegrafBot)
+});
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Start/index.js
+
+async function Start(ctx) {
+  ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA')
+}
+
+/* harmony default export */ const BotModel_Start = (Start);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Help/index.js
+
+async function Help(ctx) {
+  await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA')
+  // ctx.reply("HelpInfo6666");
+}
+
+/* harmony default export */ const BotModel_Help = (Help);
+
+// EXTERNAL MODULE: ./src/Space/Space.js + 72 modules
+var Space = __webpack_require__(974);
+// EXTERNAL MODULE: ./src/Space/Helpers/Setting/index.js
+var Setting = __webpack_require__(4866);
+// EXTERNAL MODULE: ./src/Space/Helpers/RandomNum/index.js
+var RandomNum = __webpack_require__(648);
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/HandleMessage/index.js
+
+
+
+class Shell {
+  constructor(shell) {
+    this.args = shell.replace(/^>/, '').split(/\"([^\"]*?)\"|\s/);
+    this.index = 0;
+    this.shift = () => {
+      let arg = this.args[this.index];
+      this.index++;
+      if (arg) {
+        return arg;
+      } else if (this.index >= this.args.length) {
+        return ':#:';
+      } else {
+        return this.shift();
+      }
+    };
+  }
+}
+
+class HandleMessage {
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.message = ctx.message.text;
+    this.username = ctx.message.from.username;
+    this.args = {};
+    this.status = 0;
+    this.except_status = 0;
+    this.new_chat_members_list = [];
+
+    if (this.message) this.message = this.message.toLocaleLowerCase();
+    if (ctx.message.new_chat_members) this.new_chat_members_list = ctx.message.new_chat_members;
+    if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
+      this.chatid = ctx.message.chat.id
+    }
+    this.newChatMembers = function () {
+      if (this.status) return this;
+      this.type = 'newChatMembers';
+      return this;
+    }
+    this.cleanStatus = function () {
+      this.status = 0;
+      return this;
+    }
+    this.setRandom = function (probability = 40) {
+      if (this.status) return this;
+      this.type = 'random';
+      this.probability = probability
+      return this;
+    }
+    this.pass = function () {
+      if (this.status) return this;
+      this.type = 'pass';
+      return this;
+    }
+    this.block = function () {
+      if (this.status) return this;
+      this.type = 'block';
+      return this;
+    }
+    this.admin = function () {
+      if (this.status) return this;
+      this.type = 'admin';
+      return this;
+    };
+    this.reg = function (reg) {
+      if (this.status) return this;
+      this.type = 'reg';
+      this.textReg = reg;
+      return this;
+    };
+    this.includes = function (list) {
+      if (this.status) return this;
+      this.type = 'includes';
+      this.includesList = list;
+      return this;
+    };
+    this.cmd = function (cmd) {
+      if (this.status) return this;
+      this.type = 'cmd';
+      this.cmdReg = new RegExp(cmd);
+      return this;
+    };
+    this.setArg = function (arg, defaultValue = 0) {
+      if (this.status) return this;
+      this.args[arg] = defaultValue;
+      return this;
+    };
+    this.reply = async function (str) {
+      return await this.action(() => {
+        return this.ctx.reply(str);
+      })
+    }
+    this.action = async function (call) {
+      if (this.except_status) {
+        this.except_status = 0;
+        return this;
+      }
+      if (this.status) return this;
+      if (this.type == 'cmd') {
+        if (!/^>/.test(this.message)) return this;
+        this.shell = new Shell(this.ctx.message.text);
+        if (this.cmdReg.test(this.shell.shift())) {
+          let shift = this.shell.shift();
+          let index = 0;
+          while (shift != ':#:') {
+            let nextShift = null
+            if (/-\w/.test(shift)) {
+              let key = shift.replace(/^-/, "")
+              if (isInArray(Object.keys(this.args), key)) {
+                let next = this.shell.shift();
+                let nextKey = next.replace(/^-/, "")
+                if (next != ':#:' && /-\w/.test(next) && isInArray(Object.keys(this.args), nextKey)) {
+                  this.args[key] = 1
+                  nextShift = next
+                } else {
+                  this.args[key] = next
+                }
+              }
+            } else {
+              this.args[Object.keys(this.args)[index]] = shift;
+            }
+            index++;
+            if (nextShift) {
+              shift = nextShift;
+            } else {
+              shift = this.shell.shift();
+            }
+          }
+          this.status = 1;
+          this.fun = async () => {
+            await call(this);
+          };
+        }
+      }
+      if (this.type == 'reg') {
+        if (this.textReg.test(this.message)) {
+          this.status = 1;
+          this.fun = async () => {
+            await call(this);
+          };
+        }
+      }
+      if (this.type == 'includes') {
+        let flag = 0
+        for (let i = 0; i < this.includesList.length; i++) {
+          const ele = this.includesList[i];
+          let eleReg = new RegExp(ele)
+          if (eleReg.test(this.message)) {
+            flag++;
+          }
+        }
+        if (flag == this.includesList.length) {
+          this.status = 1;
+          this.fun = async () => {
+            await call(this);
+          };
+        }
+      }
+      if (this.type == 'admin') {
+        if (!this.adminUsername) {
+          const set = await (0,Setting/* default */.Z)("TelegrafBot")
+          const ADMIN_NAME = set.ADMIN_NAME
+          this.adminUsername = ADMIN_NAME
+        }
+        if (this.username == this.adminUsername) {
+          this.status = 1;
+          this.fun = async () => {
+            await call(this);
+          };
+        }
+      }
+      if (this.type == 'random') {
+        if ((0,RandomNum/* default */.Z)(1, 100) <= this.probability) {
+          this.status = 1;
+          this.fun = async () => {
+            await call(this);
+          };
+        }
+      }
+      if (this.type == 'newChatMembers') {
+        if (this.new_chat_members_list.length) {
+          this.status = 1;
+          this.fun = async () => {
+            await call(this);
+          };
+        }
+      }
+      if (this.type == 'pass') {
+        await call(this);
+      }
+      if (this.type == 'block') {
+        this.status = 1;
+        this.fun = async () => {
+          await call(this);
+        };
+      }
+      if (this.status != 1) {
+        this.args = {}
+      }
+      return this;
+    };
+    this.run = async function () {
+      if (this.status) {
+        await this.fun();
+      }
+      return this
+    };
+  }
+}
+function isInArray(arr, value) {
+  for (let i = 0; i < arr.length; i++) {
+    if (value === arr[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+/* harmony default export */ const TGBot_HandleMessage = (HandleMessage);
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Niubi/index.js
+
+
+const Niubi = async that => {
+  let name = "CoCo";
+  const arr = /来点(\S*)笑话/.exec(that.ctx.message.text)
+
+  if (arr && Array.isArray(arr) && arr[1]) {
+    name = arr[1];
+  }
+  if (that.ctx.message.entities && /nb/.test(that.ctx.message.text)) {
+    that.ctx.message.entities.forEach(one => {
+      if (one.type == "mention") {
+        name = that.ctx.message.text.slice(one.offset + 1, one.length);
+      }
+    })
+  }
+  if (that.ctx.message.new_chat_members && that.ctx.message.new_chat_members.length) {
+    that.ctx.message.new_chat_members.forEach(it => {
+      name = it.username;
+      return
+    })
+  }
+  const ans = await Space/* default.API.Niubi */.Z.API.Niubi(name)
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_Niubi = (Niubi);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Unsplash/index.js
+
+
+const Unsplash = async that => {
+  const ans = await Space/* default.API.Unsplash */.Z.API.Unsplash(that.args.k)
+  return that.ctx.replyWithPhoto(ans);
+};
+
+/* harmony default export */ const Actions_Unsplash = (Unsplash);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Bing/index.js
+
+
+const Bing = async that => {
+  const ans = await Space/* default.API.BingImgInfo */.Z.API.BingImgInfo(that.args.d);
+  return that.ctx.replyWithPhoto(ans.url, { "caption": ans.copyright });
+};
+
+/* harmony default export */ const Actions_Bing = (Bing);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Soul/index.js
+
+
+const Soul = async that => {
+  const ans = await Space/* default.API.Soul */.Z.API.Soul();
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_Soul = (Soul);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Hitokoto/index.js
+
+
+const Hitokoto = async that => {
+  const ans = await Space/* default.API.Hitokoto */.Z.API.Hitokoto();
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_Hitokoto = (Hitokoto);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/SearchEngineLink/index.js
+
+
+const SearchEngineLink = async that => {
+  const engineList = {
+    baidu: {
+      keywords: ["百度", "度娘", "baidu"],
+      url: "https://www.baidu.com/s?wd=",
+    },
+    google: {
+      keywords: ["谷歌", "google", "Google"],
+      url: "https://www.google.com/search?q=",
+    },
+    bing: {
+      keywords: ["bing", "必应"],
+      url: "https://cn.bing.com/search?q=",
+    },
+    buhuibaidu: {
+      keywords: ["不会百度"],
+      url: "https://buhuibaidu.me/?s=",
+    },
+  };
+  function getLinkByEngine(name, keyword) {
+    keyword = encodeURI(keyword);
+    if (engineList[name]) {
+      return engineList[name].url + keyword;
+    } else {
+      for (const engine in engineList) {
+        if (engineList[engine].keywords.includes(name)) {
+          return engineList[engine].url + keyword;
+        }
+      }
+      return "";
+    }
+  }
+  const msg = that.ctx.message.text;
+  const engineString = msg.split(" ")[0];
+  let keyword = msg.slice(engineString.length).trim();
+  const buhuibaidu = msg.match(/不会百度(.*)吗/);
+  if (buhuibaidu) {
+    keyword = buhuibaidu[1].trim();
+    that.ctx.reply(getLinkByEngine("buhuibaidu", keyword));
+  } else {
+    const content = getLinkByEngine(engineString, keyword);
+    if (content) {
+      await that.ctx.reply(content);
+      const ans = await Space/* default.API.Thum */.Z.API.Thum({ url: content, wait: 1 });
+      await fetch(ans).then(async (res) => {
+        return await that.ctx.replyWithPhoto(ans, { "caption": content });
+      }).catch(err => { })
+    }
+  }
+};
+
+/* harmony default export */ const Actions_SearchEngineLink = (SearchEngineLink);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Happypic/index.js
+
+
+const Happypic = async that => {
+  const ans = await Space/* default.API.Happypic */.Z.API.Happypic();
+  return that.ctx.replyWithPhoto(ans);
+};
+
+/* harmony default export */ const Actions_Happypic = (Happypic);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Setu/index.js
+
+
+const Setu = async that => {
+  if (that.args.k == "p") {
+    const ans = await Space/* default.API.Setu.HappypicSex */.Z.API.Setu.HappypicSex();
+    return that.ctx.replyWithPhoto(ans);
+  }
+  if (that.args.k == "t") {
+    let res = await Space/* default.API.Setu.Tui */.Z.API.Setu.Tui();
+    res = await res.arrayBuffer()
+    const form = new FormData();
+    form.append('chat_id', that.ctx.chat.id);
+    form.append('photo', new Blob([res], { type: "image/jpg" }));
+    return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendPhoto", {
+      method: 'post',
+      body: form
+    })
+  }
+  if (that.args.k == "s") {
+    let res = await Space/* default.API.Setu.SJMM */.Z.API.Setu.SJMM();
+    res = await res.arrayBuffer();
+    const form = new FormData();
+    form.append('chat_id', that.ctx.chat.id);
+    form.append('animation', new Blob([res], { type: "image/gif" }));
+    form.append('width', 500);
+    form.append('height', 500);
+    return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendAnimation", {
+      method: 'post',
+      body: form
+    })
+  }
+  const ans = await Space/* default.API.Setu.El */.Z.API.Setu.El();
+  return that.ctx.replyWithPhoto(ans);
+};
+
+/* harmony default export */ const Actions_Setu = (Setu);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Nbnhhsh/index.js
+
+
+const Nbnhhsh = async that => {
+  const ans = await Space/* default.API.Nbnhhsh */.Z.API.Nbnhhsh(that.args.k);
+  return that.ctx.reply(ans);;
+};
+
+/* harmony default export */ const Actions_Nbnhhsh = (Nbnhhsh);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Thum/index.js
+
+
+const Thum = async that => {
+  if (that.type == 'reg') {
+    const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text)
+    if (arr && Array.isArray(arr) && arr[1]) {
+      that.args.u = arr[0];
+    }
+  }
+  const opt = {};
+  opt.url = that.args.u;
+  opt.width = that.args.w;
+  opt.height = that.args.h;
+  opt.wait = that.args.t;
+  const ans = await Space/* default.API.Thum */.Z.API.Thum(opt);
+  await fetch(ans).then(async (res) => {
+    return await that.ctx.replyWithPhoto(ans, { "caption": opt.url });
+  }).catch(err => { });
+};
+
+/* harmony default export */ const Actions_Thum = (Thum);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/GoogleTranslate/index.js
+
+
+const GoogleTranslate = async that => {
+  const conf = {
+    "to": that.args.t,
+    "domain": "com"
+  }
+  const ans = await Space/* default.API.GoogleTranslate */.Z.API.GoogleTranslate(that.args.k, conf)
+  return that.ctx.reply(ans.text);
+};
+
+/* harmony default export */ const Actions_GoogleTranslate = (GoogleTranslate);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/DecryptMd5/index.js
+
+
+const DecryptMd5 = async that => {
+  const md5 = that.args.k
+  const ans = await Space/* default.API.DeMD5 */.Z.API.DeMD5(md5)
+  if (ans.ans)
+    return that.ctx.reply(ans.ans);
+  else
+    return that.ctx.reply("Not Found.");
+};
+
+/* harmony default export */ const Actions_DecryptMd5 = (DecryptMd5);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/DNSQuery/index.js
+
+
+const DNSQuery = async that => {
+  const opt = {}
+  opt.type = that.args.t || "A"
+  opt.name = that.args.n || "github.com"
+  opt.edns_client_subnet = that.args.et || `1.0.0.1`
+  opt.upstream = that.args.u || "cloudflare"
+  opt.way = "get"
+  opt.host = "true"
+  opt.parse = "info"
+  const ans = await Space/* default.API.DNSQuery */.Z.API.DNSQuery(opt);
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_DNSQuery = (DNSQuery);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Poet/index.js
+
+
+const Poet = async that => {
+  const ans = await Space/* default.API.Poet */.Z.API.Poet()
+  return that.ctx.reply(ans);
+};
+
+/* harmony default export */ const Actions_Poet = (Poet);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/InterruptRepetition/index.js
+
+
+const InterruptRepetition = async that => {
+  const ctx = that.ctx
+  if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
+    if (ctx.message.text) {
+      if (!ctx.session.messageList) {
+        ctx.session.messageList = []
+      }
+      ctx.session.messageList.push(ctx.message.text)
+      const messageList = ctx.session.messageList
+      const length = messageList.length
+      if (length >= 4) {
+        const myset = [...new Set(ctx.session.messageList)]
+        if (myset.length == 1) {
+          if (myset[0] == `打断复读!`) {
+            ctx.reply(`我生气了!`)
+            ctx.session.messageList.push(`我生气了!`)
+            ctx.session.messageList.shift()
+          } else {
+            ctx.reply(`打断复读!`)
+            ctx.session.messageList.push(`打断复读!`)
+            ctx.session.messageList.shift()
+          }
+        }
+        ctx.session.messageList.shift()
+      }
+    }
+  }
+};
+
+/* harmony default export */ const Actions_InterruptRepetition = (InterruptRepetition);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/WolframAlpha/index.js
+
+
+const WolframAlpha = async that => {
+  const q = that.ctx.message.text.replace(/^:/, "").trim()
+  let ans = await Space/* default.API.WolframAlpha */.Z.API.WolframAlpha(q)
+  ans = JSON.parse(ans)
+  if (ans.en == ans.cn)
+    return that.ctx.reply(ans.en);
+  return that.ctx.reply(ans.cn + "\n" + ans.en);
+};
+
+/* harmony default export */ const Actions_WolframAlpha = (WolframAlpha);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Balloon/index.js
+
+
+const Balloon = async that => {
+  const ctx = that.ctx
+  const num = ctx.message.text.split("。").length - 1
+  if (num <= 5) {
+    ctx.reply(ctx.message.text.replace(/。/g, "喵~"))
+  } else {
+    ctx.reply(`汪汪汪~`)
+  }
+};
+
+/* harmony default export */ const Actions_Balloon = (Balloon);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/EmojiToSticker/index.js
+
+
+const EmojiToSticker = async that => {
+  const MyStickerSet = TelegrafBot_TGBot.StickerSet.My;
+  for (const key in MyStickerSet) {
+    if (Object.hasOwnProperty.call(MyStickerSet, key)) {
+      const element = MyStickerSet[key];
+      const Reg = new RegExp(key)
+      if (Reg.test(that.ctx.message.text))
+        return that.ctx.replyWithSticker(element);
+    }
+  }
+};
+
+/* harmony default export */ const Actions_EmojiToSticker = (EmojiToSticker);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/ReplaceMa/index.js
+
+
+const ReplaceMa = async that => {
+  if (!/在吗/.test(that.ctx.message.text) && /吗/.test(that.ctx.message.text))
+    return that.ctx.reply(that.ctx.message.text.replace('吗', '').replace('？', '！').replace('?', '!'));
+};
+
+/* harmony default export */ const Actions_ReplaceMa = (ReplaceMa);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const Actions = {
+  Niubi: Actions_Niubi,
+  Unsplash: Actions_Unsplash,
+  Bing: Actions_Bing,
+  Soul: Actions_Soul,
+  Hitokoto: Actions_Hitokoto,
+  SearchEngineLink: Actions_SearchEngineLink,
+  Happypic: Actions_Happypic,
+  Setu: Actions_Setu,
+  Nbnhhsh: Actions_Nbnhhsh,
+  Thum: Actions_Thum,
+  GoogleTranslate: Actions_GoogleTranslate,
+  DecryptMd5: Actions_DecryptMd5,
+  DNSQuery: Actions_DNSQuery,
+  Poet: Actions_Poet,
+  InterruptRepetition: Actions_InterruptRepetition,
+  WolframAlpha: Actions_WolframAlpha,
+  Balloon: Actions_Balloon,
+  EmojiToSticker: Actions_EmojiToSticker,
+  ReplaceMa: Actions_ReplaceMa,
+};
+
+/* harmony default export */ const TGBot_Actions = (Actions);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/StickerSet/index.js
+const Cat = {
+  "😂": "CAACAgIAAxkBAAIDwmECSdghggbmH3T5MVEB-VqNrslNAAJuDAAC32wZSkdZVXyKLr_DIAQ",
+  "😘": "CAACAgIAAxkBAAIDxGECSiFHUGhrFDiKhwUCqs87PdOPAAK7EgACaBDZSfrl-N3-SLTXIAQ",
+  "👍": "CAACAgIAAxkBAAIDxmECSmc35-732rax0IVhzd4dk1lHAAJ1DwACvScRSgNCdFZ_RgthIAQ",
+  "😨": "CAACAgIAAxkBAAIDyGECSoz67eslcCcIPFud5KSv14lOAAJzEAACqOgRSmKIrKBCdwtTIAQ",
+  "👋": "CAACAgIAAxkBAAIDymECSqgn-nb4AAGvk3BETtk2qaHTkAACsAwAAtXO2EkYBH8D8PsM3yAE",
+  "☺️": "CAACAgIAAxkBAAIDzGECSt2o_VYqi7fpUTuedsTN2vfBAAIGDQACXicZSiFZnpokFU0ZIAQ",
+  "⏰": "CAACAgIAAxkBAAIDzmECSwABA7BZusAX7VDE5arqsdAEYwACSg8AAmCm0EndM-7edjWcqyAE",
+  "❓": "CAACAgIAAxkBAAID0GECSyQyPuaguDq2iwkDY4pd03KRAAI6DwACbKXZSQ009lztSI28IAQ",
+  "❤️": "CAACAgIAAxkBAAID0mECS0eP51eJIwQyZhDX_w8QN5t7AAIvDwACQK7RSenf83DveI7CIAQ",
+  "✨": "CAACAgIAAxkBAAID1GECS2Jf58rtbHdO3MbrznVaMjYcAAL1DAACt1zZSR8FnNZCmxcqIAQ",
+  "🥳": "CAACAgIAAxkBAAID1mECS3mmS9H8Jh0zFGx6IOVglE7pAAIbDAAC9HEYSnK9-WcXPPVOIAQ",
+  "😴": "CAACAgIAAxkBAAID2GECS61jqMvmXRW1AAHNgqD9SNnpmwACygoAAlc5GUp5BxzBROgsySAE",
+  "💐": "CAACAgIAAxkBAAID2mECS8czsf9hm7C_9BIn2fmwG3-nAAKaDgACczkQSlbFLctyG1jRIAQ",
+  "🤡": "CAACAgIAAxkBAAID3GECS_Np8sjymAwgvQFqaJfM21RSAAL9DQACNqwRSp0c2t2iUz8kIAQ",
+  "💪": "CAACAgIAAxkBAAID32ECTBc8Q2TB5WCGf0BLJKDliYaAAAIeDwAC3L8RSi_XlinDNYQAASAE",
+  "😠": "CAACAgIAAxkBAAID4WECTCxlXMChklpwWuWjQ_ohwOh_AALaEAAC96sYSrPsgGDfs6wlIAQ",
+  "🚶‍♂️": "CAACAgIAAxkBAAID42ECTEPp2BWkXqvIporrov5HeOImAAIKCgACnhIZSlUq1Ym0T3kYIAQ",
+  "🥵": "CAACAgIAAxkBAAID5WECTFfbH3p4jhiZY_sabsQDU333AAJcCwACqBUYShcj0M67Mj6nIAQ",
+  "😟": "CAACAgIAAxkBAAID52ECTG4lCQdAifGUeCOU8wABh9hNHAACnA0AAj3FGEp68CI2ZWSumCAE",
+  "😡": "CAACAgIAAxkBAAID6WECTIecya51n-V3s0VphLCySCKFAAJdEAACqoYRSnLCLNZ2_FluIAQ",
+  "🍿": "CAACAgIAAxkBAAID62ECTKl84_vrpinrBkQ-obVlvh_uAAJGDQAC3MRpStjhudGyNjNwIAQ",
+  "😑": "CAACAgIAAxkBAAID7WECTLw4PD3qPL2nsXHTZS8PN36MAALUDwAC2WZpSgVriX5OZGvqIAQ",
+  "😭": "CAACAgIAAxkBAAID72ECTNFRX23u08brUxT8-lpE6ApRAAJsDgACe1NoStT3thanGmnIIAQ",
+  "🤯": "CAACAgIAAxkBAAID82ECTQABqhsjlOQE1Q9444xn6BrRVgAC2xMAAghcaUrxIfu233UEHSAE",
+  "🤷": "CAACAgIAAxkBAAID9WECTS4ybWydHinFkfsHns8jT7c_AALRDAACovthSgcRPxdEzhvCIAQ",
+}
+
+const My = {
+  "😶": "CAACAgUAAxkBAAPMYXNjdyQUv1J8MG6Wd-O2it7HBy4AAiADAAL9RkFW04AtW309YokhBA",
+  "😴": "CAACAgUAAxkBAAPGYXNjSeAhycXOF1KnpWlkZ8fPaRwAAgoEAAJos0hWiy9SKdJOSpkhBA",
+  "😭": "CAACAgUAAxkBAAOyYXNiUitDBD6cZYTD2uGwtWLlHwoAAhUEAAIfTUhWbjPffbd8cBIhBA",
+  "😀": "CAACAgUAAxkBAAO0YXNiYqRUYc_Yo_jn5V5mq59xWecAAuICAAJrZaFWci91HAmEn60hBA",
+  "🥰": "CAACAgUAAxkBAAPiYXNkdPyLi7NOMdlLthkpT7mLUp4AAtYDAAJSZ0BWv-rBVNx5iv4hBA",
+  "😊": "CAACAgUAAxkBAAO6YXNirbUQh0QV2QOhZIu5cukVe-IAAr0DAALQakhWUC1VhoPd69YhBA",
+  "😝": "CAACAgUAAxkBAAO8YXNixmd5SlulzQYVzVE_3XPVcIQAAqEDAAKPI0FWnW_zfo9HTMAhBA",
+  "😨": "CAACAgUAAxkBAAO-YXNi4SATu2VxctJfK9pvdjv7ZhUAAkgCAAJunUlWZ-aA3J1PTiohBA",
+  "🥱": "CAACAgUAAxkBAAPCYXNjF4kUnELcOiidMEgn6boGfJIAAqYEAAJbcElWX_bcDvIs9b0hBA",
+  "😮": "CAACAgUAAxkBAAIBIGFzZ0Te3xWXD33zwVWdeXoTzPrOAAJwAwACK89IVrPDNLIDjsApIQQ",
+  "❓": "CAACAgUAAxkBAAPQYXNjtmU30EdEjgYiG9gHdJ7yxPsAArkDAAIgJUlWl6E79EKHkVkhBA",
+  "😕": "CAACAgUAAxkBAAPSYXNjzTYDwEts1Bp-_06Af7LpfLgAArMDAAI9tklWzb0xi7RWqechBA",
+  "😚": "CAACAgUAAxkBAAPYYXNkBnUrwRmwA0e48XaJ6DrA6JAAAg8EAALRM0hWajsHUbAl4ikhBA",
+  "😠": "CAACAgUAAxkBAAPcYXNkL4hdkNhJogUcU-TF06rTlJ0AAmsEAAKZV0hWz6LeUsId15ohBA",
+  "🤤": "CAACAgUAAxkBAAPeYXNkQjqhDY0-5zPr0mv6epO9f24AAjEFAAJnZUhWnOehqdPHJtUhBA",
+  "😥": "CAACAgUAAxkBAAPgYXNkWbYC5YnV-B7jIpb6KiFD1hEAArYCAALLVkhWPMcSedmEDZQhBA",
+  "🤔": "CAACAgUAAxkBAAIBEGFzZnj3jU9xUPYUCg7WbmbHG93FAAK3AgACfC-hVpwxpRV__Tz0IQQ",
+  "😑": "CAACAgUAAxkBAAPsYXNk_7UOB6ZnIxsXNkHCxk7bf1QAAsADAAJeEkFWmVWdWxT0OxEhBA",
+  "🥺": "CAACAgUAAxkBAAP-YXNleH5BGMybgpwvyc0QFJfUw2IAAlcDAAJEo0BWFri4bZOIYi8hBA",
+  "🤗": "CAACAgUAAxkBAAIBAAFhc2WNDJrpRfZkTpdvxf4SGTyzbAACGQQAApVCQVYFN1P7SibLzCEE",
+  "😛": "CAACAgUAAxkBAAIBBGFzZapqhPvxKQABek3z2hAn39IeJQACRwIAAibfSFYcqKsbfJkCqiEE",
+  "❌": "CAACAgUAAxkBAAIBBmFzZcyG6uY5BSsMHEd9PL2OgjvnAAIkAwACLktIVs3dvlFpLJb3IQQ",
+  "❗️": "CAACAgUAAxkBAAIBHGFzZx7XCokhKzuYw7Y6MmL1wxBJAAKgBAACmzNIVrN8dCkbl9rAIQQ",
+  "😓": "CAACAgUAAxkBAAIBDmFzZjaVuULtDrHPnmmei9dnlCIyAAKQAgACUgehVv_O-x1lV-ceIQQ",
+  "👍": "CAACAgUAAxkBAAIBR2FzbhpaTZ2wxEyZuoR-I_bYrn4VAAKoAANs66IracjsD1fCdqshBA",
+  "😱": "CAACAgUAAxkBAAIBS2FzblHUKPgoaL7ojfAXK91-qH0SAALgAANs66IrF2XcMo56ztshBA",
+  "🐟": "CAACAgUAAxkBAAIBT2FzbrWHWep67c3jcstCCD1Em1MtAALLAANs66IrPo3FOfRCtzohBA",
+  "😁": "CAACAgUAAxkBAAIBUWFzbxN2k0ItxgEeIUyFgRTdqhGvAALxAANs66Irz8uvoLTV5FkhBA",
+}
+const StickerSet = {
+  Cat,
+  My,
+}
+/* harmony default export */ const TGBot_StickerSet = (StickerSet);
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/index.js
+
+
+
+
+const TGBot = {
+  HandleMessage: TGBot_HandleMessage,
+  Actions: TGBot_Actions,
+  StickerSet: TGBot_StickerSet,
+};
+
+/* harmony default export */ const TelegrafBot_TGBot = (TGBot);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Sticker/index.js
+
+
+async function Sticker(ctx) {
+  if (Space/* default.Helpers.RandomNum */.Z.Helpers.RandomNum(1, 100) <= 10) {
+    if (ctx.message.sticker.emoji in TelegrafBot_TGBot.StickerSet.My) {
+      return ctx.replyWithSticker(TelegrafBot_TGBot.StickerSet.My[ctx.message.sticker.emoji]);
+    } else if (ctx.message.sticker.emoji in TelegrafBot_TGBot.StickerSet.Cat) {
+      return ctx.replyWithSticker(TelegrafBot_TGBot.StickerSet.Cat[ctx.message.sticker.emoji]);
+    }
+  }
+}
+
+/* harmony default export */ const BotModel_Sticker = (Sticker);
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Catch/index.js
+
+
+async function Catch(err, ctx) {
+  await ctx.reply(`Ooops...`);
+  const set = await (0,Setting/* default */.Z)("TelegrafBot")
+  const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
+  await ctx.telegram.sendMessage(ADMIN_GROUP_ID, `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx))
+  // ctx.reply(`Ooops, encountered an error for ${ctx.updateType}:\n` + err+`\n  ctx:\n`+JSON.stringify(ctx));
+}
+
+/* harmony default export */ const BotModel_Catch = (Catch);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Message/index.js
+
+async function Message(ctx) {
+  // return ctx.reply(ctx.message)
+  await new TelegrafBot_TGBot.HandleMessage(ctx)
+    .newChatMembers().action(TelegrafBot_TGBot.Actions.Niubi)
+    .then(that => {
+      return that.run()
+    })
+}
+
+/* harmony default export */ const BotModel_Message = (Message);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Mention/index.js
+
+async function Mention(ctx) {
+  // return ctx.reply(ctx.message)
+  await new TelegrafBot_TGBot.HandleMessage(ctx)
+    .reg(/nb/).action(TelegrafBot_TGBot.Actions.Niubi)
+    .then(that => {
+      return that.run()
+    })
+}
+
+/* harmony default export */ const BotModel_Mention = (Mention);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Text/index.js
+
+
+
+async function Text(ctx) {
+  // return ctx.reply(ctx.message)
+  await new TelegrafBot_TGBot.HandleMessage(ctx)
+    .admin().action(async () => {
+      return await new TelegrafBot_TGBot.HandleMessage(ctx)
+        .cmd('WebhookInfo').action(async () => {
+          return ctx.telegram.getWebhookInfo().then(data => {
+            return ctx.reply(JSON.stringify(data));
+          })
+        })
+        .then(that => {
+          return that.cmd('ChatID').action(async () => {
+            return ctx.reply(ctx.chat.id);
+          })
+        })
+        .then(that => {
+          return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that) => {
+            let q = []
+            if (that.args.q) {
+              q = that.args.q.split(",")
+            }
+            return ctx.telegram[that.args.p](...q).then(data => {
+              return ctx.reply(JSON.stringify(data));
+            })
+          })
+        })
+        .then(that => {
+          return that.reg(/test/).action(() => {
+            return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
+          })
+        })
+        .then(that => {
+          return that.reg(/在吗/).reply(`主人我在`)
+        })
+        .then(that => {
+          return that.run()
+        })
+    })
+    .then(that => {
+      return that.reg(/在吗/).reply(`爪巴`)
+    })
+    .then(that => {
+      return that.run()
+    })
+  await new TelegrafBot_TGBot.HandleMessage(ctx)
+    .reg(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TelegrafBot_TGBot.Actions.SearchEngineLink)
+    .then(that => {
+      return that.run()
+    })
+  await new TelegrafBot_TGBot.HandleMessage(ctx)
+    .cmd('help').action((that) => {
+      return that.ctx.reply("no help");
+    })
+    .then(that => {
+      return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TelegrafBot_TGBot.Actions.Unsplash)
+    })
+    .then(that => {
+      return that.cmd('cat').setArg('k', 'cat').action(TelegrafBot_TGBot.Actions.Unsplash)
+    })
+    .then(that => {
+      return that.cmd('dog').setArg('k', 'dog').action(TelegrafBot_TGBot.Actions.Unsplash)
+    })
+    .then(that => {
+      return that.cmd('bing').setArg('d', '0').action(TelegrafBot_TGBot.Actions.Bing)
+    })
+    .then(that => {
+      return that.cmd('soul').action(TelegrafBot_TGBot.Actions.Soul)
+    })
+    .then(that => {
+      return that.cmd('hitokoto').action(TelegrafBot_TGBot.Actions.Hitokoto)
+    })
+    .then(that => {
+      return that.cmd('acg').action(TelegrafBot_TGBot.Actions.Happypic)
+    })
+    .then(that => {
+      return that.cmd('setu').setArg('k', 0).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.cmd('nbnhhsh').setArg('k', 'nb').action(TelegrafBot_TGBot.Actions.Nbnhhsh)
+    })
+    .then(that => {
+      return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
+    })
+    .then(that => {
+      return that.cmd('translate').setArg('k', 'CoCo').setArg('t', 'zh-cn').action(TelegrafBot_TGBot.Actions.GoogleTranslate)
+    })
+    .then(that => {
+      return that.cmd('demd5').setArg('k', 'eb62f6b9306db575c2d596b1279627a4').action(TelegrafBot_TGBot.Actions.DecryptMd5)
+    })
+    .then(that => {
+      return that.cmd('dns').setArg('n', 'github.com').setArg('t', 'A').setArg('u', 'cloudflare').setArg('e', '1.0.0.1').action(TelegrafBot_TGBot.Actions.DNSQuery)
+    })
+    .then(that => {
+      return that.cmd('poet').action(TelegrafBot_TGBot.Actions.Poet)
+    })
+    .then(that => {
+      return that.pass().action(TelegrafBot_TGBot.Actions.InterruptRepetition)
+    })
+    .then(that => {
+      return that.reg(/^:/).action(TelegrafBot_TGBot.Actions.WolframAlpha)
+    })
+    .then(that => {
+      return that.reg(/^。{1,}$/).action(TelegrafBot_TGBot.Actions.Balloon)
+    })
+    .then(that => {
+      return that.reg(/来点(\S*)笑话/).action(TelegrafBot_TGBot.Actions.Niubi)
+    })
+    .then(that => {
+      return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
+    })
+    .then(that => {
+      return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
+    })
+    .then(that => {
+      return that.reg(/^\?$/).reply(`???`)
+    })
+    .then(that => {
+      return that.reg(/^？$/).reply(`？？？`)
+    })
+    .then(that => {
+      return that.reg(/你好/).reply(`Hello!`)
+    })
+    .then(that => {
+      return that.reg(/在？|在\?/).reply(`有事？`)
+    })
+    .then(async (that) => {
+      const set = await (0,Setting/* default */.Z)("TelegrafBot")
+      const ADMIN_NAME = set.ADMIN_NAME
+      return that.reg(/你的主人|your master/).reply(`@${ADMIN_NAME}`)
+    })
+    .then(that => {
+      return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
+    })
+    .then(that => {
+      return that.reg(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
+    })
+    .then(that => {
+      return that.includes(["怎么", "啊"]).reply(`不告诉你`)
+    })
+    .then(that => {
+      return that.includes(["发", "色图"]).reply(`有色图？`)
+    })
+    .then(that => {
+      return that.includes(["看", "色图"]).reply(`色图在哪儿？`)
+    })
+    .then(that => {
+      return that.includes(["发", "涩图"]).reply(`有涩图？`)
+    })
+    .then(that => {
+      return that.includes(["发", "涩图"]).reply(`有涩图？`)
+    })
+    .then(that => {
+      return that.includes(["来点", "色图"]).reply(`让我找找`)
+    })
+    .then(that => {
+      return that.includes(["来点", "涩图"]).reply(`让我找找`)
+    })
+    .then(that => {
+      return that.reg(/^不够(色)|(涩)$/).reply(`让我找找`)
+    })
+    .then(that => {
+      return that.includes(["我", "应该"]).reply(`确实`)
+    })
+    .then(that => {
+      return that.includes(["不舒服"]).reply(`多喝热水`)
+    })
+    .then(that => {
+      return that.includes(["你", "怎么"]).reply(`你在教我做事？`)
+    })
+    .then(that => {
+      return that.includes(["你", "去"]).reply(`你在教我做事？`)
+    })
+    .then(that => {
+      return that.includes(["变成", "了", "光"]).reply(`我也想要变成光`)
+    })
+    .then(that => {
+      return that.includes(["明明是我先来的"]).reply(`为什么会变成这样呢……`)
+    })
+    .then(that => {
+      return that.includes(["怎么样"]).reply(`就这？`)
+    })
+    .then(that => {
+      return that.includes(["其实"]).reply(`真的吗？我不信。`)
+    })
+    .then(that => {
+      return that.includes(["厉害"]).reply(`腻害`)
+    })
+    .then(that => {
+      return that.includes(["恭喜"]).reply(`恭喜`)
+    })
+    .then(that => {
+      return that.includes(["bing", "壁纸"]).setArg('d', '0').action(TelegrafBot_TGBot.Actions.Bing)
+    })
+    .then(that => {
+      return that.run()
+    })
+    .then(that => {
+      return that.cleanStatus()
+    })
+    .then(that => {
+      return that.includes(["来点", "色图"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来点", "涩图"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来点", "色色"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来点", "涩涩"]).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.reg(/^不够(色)|(涩)$/).action(TelegrafBot_TGBot.Actions.Setu)
+    })
+    .then(that => {
+      return that.includes(["来", "诗"]).action(TelegrafBot_TGBot.Actions.Poet)
+    })
+    .then(that => {
+      return that.pass().action(TelegrafBot_TGBot.Actions.EmojiToSticker)
+    })
+    .then(that => {
+      return that.setRandom(50).action(TelegrafBot_TGBot.Actions.ReplaceMa)
+    })
+    .then(that => {
+      return that.setRandom(1).reply(`然后呢?`)
+    })
+    .then(that => {
+      return that.run()
+    })
+}
+
+/* harmony default export */ const BotModel_Text = (Text);
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/index.js
+
+
+
+
+
+
+
+
+function BotModel(bot) {
+  bot.start(BotModel_Start);
+  bot.help(BotModel_Help);
+  bot.on("sticker", BotModel_Sticker);
+  bot.mention(/.*/, BotModel_Mention);
+  bot.on("text", BotModel_Text);
+  bot.on("message", BotModel_Message);
+  bot.catch(BotModel_Catch);
+}
+/* harmony default export */ const TelegrafBot_BotModel = (BotModel);
+
+;// CONCATENATED MODULE: ./node_modules/@telegraf/session/index.js
+function TelegrafSession (opts) {
+  const options = {
+    property: 'session',
+    store: new Map(),
+    getSessionKey: (ctx) => ctx.from && ctx.chat && `${ctx.from.id}:${ctx.chat.id}`,
+    ...opts
+  }
+
+  const ttlMs = options.ttl && options.ttl * 1000
+
+  return (ctx, next) => {
+    const key = options.getSessionKey(ctx)
+    if (!key) {
+      return next(ctx)
+    }
+    const now = new Date().getTime()
+    return Promise.resolve(options.store.get(key))
+      .then((state) => state || { session: {} })
+      .then(({ session, expires }) => {
+        if (expires && expires < now) {
+          session = {}
+        }
+        Object.defineProperty(ctx, options.property, {
+          get: function () { return session },
+          set: function (newValue) { session = { ...newValue } }
+        })
+        return next(ctx).then(() => options.store.set(key, {
+          session,
+          expires: ttlMs ? now + ttlMs : null
+        }))
+      })
+  }
+}
+
+;// CONCATENATED MODULE: ./src/Space/TelegrafBot/index.js
+
+const { Telegraf } = __webpack_require__(9061);
+const bot = new Telegraf(Telegraf_BOT_TOKEN);
+
+
+bot.use(TelegrafSession())
+
+TelegrafBot_BotModel(bot);
+
+/* harmony default export */ const TelegrafBot = (bot);
+
+// Your code here, but do not `bot.launch()`
+
+// https://telegrafjs.org/
+
+// bot.start((ctx) => ctx.reply('Welcome'))
+// bot.help((ctx) => ctx.reply('Send me a sticker'))
+// bot.on('sticker', (ctx) => ctx.reply('👍'))
+// bot.hears('hi', (ctx) => ctx.reply('Hey there'))
+// bot.command('oldschool', (ctx) => ctx.reply('Hello'))
+// bot.command('modern', ({ reply }) => reply('Yo'))
+// bot.command('hipster', Telegraf.reply('λ'))
+// bot.on('text', (ctx) => ctx.reply('Hello World'))
+
+/***/ }),
+
+/***/ 8212:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Space__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(974);
+
+const IPTimes = {}
+async function handleSpace(event) {
+  try {
+    /////////////////////////////////////////////////////////////////////
+    // 安全检查
+    /////////////////////////////////////////////////////////////////////
+    // Analytics
+    event.waitUntil(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.Security.securityCheckAnalytics */ .Z.Helpers.Security.securityCheckAnalytics(event));
+    // IP-Time-Times
+    const request = event.request;
+    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get('x-real-ip') || request.headers.get("X-Forwarded-For");
+    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 0.25) && IPTimes[ip].times >= 300) {
+      return await _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.ErrorResponse */ .Z.Helpers.ErrorResponse("Too Many Requests", 403);
+    }
+    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 24) && IPTimes[ip].times >= 1000) {
+      return await _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.ErrorResponse */ .Z.Helpers.ErrorResponse("Too Many Requests", 403);
+    }
+    IPTimes[ip] = {
+      time: new Date().getTime(),
+      times: IPTimes[ip]?.times ? IPTimes[ip].times + 1 : 1,
+    };
+    // Referer
+    if (typeof MY_REFERER != "undefined") {
+      const checkRefererStatus = _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.Security.checkReferer */ .Z.Helpers.Security.checkReferer(event);
+      if (!checkRefererStatus) {
+        return await _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.ErrorResponse */ .Z.Helpers.ErrorResponse("Ooops...", 403);
+      }
+    }
+    /////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+    const router = new _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.Router */ .Z.Helpers.Router(event);
+    // 以下非鉴权路由
+    /////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+    router.get("/favicon.ico").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Favicon */ .Z.Actions.Favicon);
+    router.get("/robots.txt").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Robots */ .Z.Actions.Robots);
+    router.get(AUTH_PAGE).action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Auth.AuthPage */ .Z.Actions.Auth.AuthPage);
+    router.post("/space/auth" + AUTH_PAGE).action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Auth.CheckAuth */ .Z.Actions.Auth.CheckAuth);
+    // 安全跳转
+    router.get("/link").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Link */ .Z.Actions.Link);
+    // Telegraf Webhook
+    router.post(Telegraf_BOT_WEBHOOK).action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.TelegrafWebhook */ .Z.Actions.TelegrafWebhook);
+    /////////////////////////////////////////////////////////////////////
+    // OPEN Pages
+    router.get("/github-event").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Pages.GithubEvent */ .Z.Actions.Pages.GithubEvent);
+    router.get("/pdf").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Pages.PDF */ .Z.Actions.Pages.PDF);
+    router.get("/color").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Pages.Color */ .Z.Actions.Pages.Color);
+    // OPEN API
+    router.get("/bing").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.BingImgInfo */ .Z.Actions.API.BingImgInfo);
+    router.get("/sitich").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Sitich */ .Z.Actions.API.Sitich);
+    router.get("/soul").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Soul */ .Z.Actions.API.Soul);
+    router.get("/hitokoto").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Hitokoto */ .Z.Actions.API.Hitokoto);
+    router.get("/unsplash").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Unsplash */ .Z.Actions.API.Unsplash);
+    router.get("/acg").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.ACG */ .Z.Actions.API.ACG);
+    router.get("/niubi").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Niubi */ .Z.Actions.API.Niubi);
+    router.get("/ipinfo").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.IP */ .Z.Actions.API.IP);
+    router.get("/decrypt").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.DecryptMd5 */ .Z.Actions.API.DecryptMd5);
+    router.get("/zh").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.ZH */ .Z.Actions.API.ZH);
+    router.get("/person").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.thispersondoesnotexist */ .Z.Actions.API.thispersondoesnotexist);
+    router.get("/waifu").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.thiswaifudoesnotexist */ .Z.Actions.API.thiswaifudoesnotexist);
+    router.get("/anime").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.thisanimedoesnotexist */ .Z.Actions.API.thisanimedoesnotexist);
+    router.get("/poet").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Poet */ .Z.Actions.API.Poet);
+    router.get("/happypic").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Happypic */ .Z.Actions.API.Happypic);
+    router.get("/dns").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.DNSQuery */ .Z.Actions.API.DNSQuery);
+    router.get("/thum").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.Thum */ .Z.Actions.API.Thum);
+    router.get("/ipfs/api/add").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.IPFS.Put */ .Z.Actions.API.IPFS.Put);
+    router.get("/ipfs").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.IPFS.Get */ .Z.Actions.API.IPFS.Get);
+    router.post("/api/v0/").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.IPFS.Put */ .Z.Actions.API.IPFS.Put);
+    /////////////////////////////////////////////////////////////////////
+    // Header Auth
+    router.get("/Admin").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Admin */ .Z.Actions.Admin);
+    /////////////////////////////////////////////////////////////////////
+    // 以上非 Cookie 鉴权路由
+    // Cookie 鉴权
+    if (!router.status.action) {
+      const res = await _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Auth.CheckCookieAuth */ .Z.Actions.Auth.CheckCookieAuth(event);
+      if (res != "PASS") {
+        return res;
+      } else {
+        router.setStatus("auth", 1);
+      }
+    }
+    // 以下 Cookie 鉴权路由
+    /////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+    // dashboard
+    const { dash_nav } = __webpack_require__(9908);
+    dash_nav.forEach(e => {
+      router.get("/space/dash/" + e).action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.Dash */ .Z.Actions.Dash[e]);
+    });
+    /////////////////////////////////////////////////////////////////////
+    // api
+    /////////////////////////////////////////////////////////////////////
+    router.post("/space/api/kv/get").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.KV.Get */ .Z.Actions.API.KV.Get);
+    router.post("/space/api/kv/put").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.KV.Put */ .Z.Actions.API.KV.Put);
+    router.post("/space/api/kv/delete").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.KV.Delete */ .Z.Actions.API.KV.Delete);
+    router.get("/space/api/GoogleTranslate").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.GoogleTranslate */ .Z.Actions.API.GoogleTranslate);
+    router.get("/space/api/GoogleSearch").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.GoogleSearch */ .Z.Actions.API.GoogleSearch);
+    router.get("/space/api/WolframAlpha").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.WolframAlpha */ .Z.Actions.API.WolframAlpha);
+    router.post("/space/api/NPMUpload").action(_Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Actions.API.NPMUpload */ .Z.Actions.API.NPMUpload);
+    /////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+    // 启动 action
+    if (router.status.action) {
+      return await router.run();
+    } else {
+      if (router.status.auth) {
+        if (
+          event.request.url !=
+          `https://${event.request.url.split("/")[2]}/space/dash/home`
+        ) {
+          return Response.redirect(
+            `https://${event.request.url.split("/")[2]}/space/dash/home`,
+            302
+          );
+        }
+      }
+      return await _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.ErrorResponse */ .Z.Helpers.ErrorResponse("Ooops...", 403);
+    }
+  } catch (error) {
+    return await _Space__WEBPACK_IMPORTED_MODULE_0__/* ["default"].Helpers.ErrorResponse */ .Z.Helpers.ErrorResponse(error, 500);
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (handleSpace);
+
 
 /***/ }),
 
@@ -60766,3140 +63964,19 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-
-;// CONCATENATED MODULE: ./src/Space/API/KV/index.js
-const KV = {
-  Put: async(key,value) => {
-    return await SpaceKV.put(key, value);
-  },
-  Delete: async(key) => {
-    return await SpaceKV.delete(key);
-  },
-  Get: async(key) => {
-    return await SpaceKV.get(key);
-  }
-};
-/* harmony default export */ const API_KV = (KV);
-
-;// CONCATENATED MODULE: ./src/Space/API/GoogleTranslate/index.js
-
-
-async function GoogleTranslate(s, conf) {
-  const set = await Space_Space.Helpers.Setting("GoogleTranslate");
-  const translate_api = set.API;
-  const ans = await (await fetch(translate_api, {
-    method: "POST",
-    headers: {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
-    },
-    body: JSON.stringify({
-      "s": s,
-      "conf": conf
-    })
-  })).json()
-  return ans
-}
-/* harmony default export */ const API_GoogleTranslate = (GoogleTranslate);
-
-;// CONCATENATED MODULE: ./src/Space/API/GoogleSearch/index.js
-
-
-async function GoogleSearch(question) {
-  const set = await Space_Space.Helpers.Setting("GoogleSearch");
-  const KEY = set.KEY;
-  const CX = set.CX;
-  const FetchURL_Google_ALL = "https://www.googleapis.com/customsearch/v1?key=" + KEY + "&cx=" + CX + "&start=0&q=" + question
-  const ans = await Space_Space.Helpers.Fetch.JSON(FetchURL_Google_ALL)
-  return JSON.stringify({ ans: ans.items })
-}
-/* harmony default export */ const API_GoogleSearch = (GoogleSearch);
-
-;// CONCATENATED MODULE: ./src/Space/API/WolframAlpha/index.js
-
-
-async function WolframAlpha(question) {
-  const set = await Space_Space.Helpers.Setting("WolframAlpha");
-  const APPID = set.APPID;
-  const s_en = await Space_Space.API.GoogleTranslate(question, {
-    "to": "en",
-    "domain": "com"
-  });
-  const FetchURL = "https://api.wolframalpha.com/v1/spoken?appid=" + APPID + "&i=" + s_en.text
-  let ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
-  if (!/wolfram/g.test(question.toLowerCase())) {
-    ans = ans.replace(/WolframAlpha/g, "Coco")
-    ans = ans.replace(/Wolfram Alpha/g, "Coco")
-    ans = ans.replace(/Wolfram/g, "Coco")
-  }
-  if (/mhuig/g.test(question.toLowerCase())) {
-    ans = "Fun fact: @iMHuiG is the Big Fan of the 🤣 emoji."
-  }
-  if (/coco/g.test(question.toLowerCase())) {
-    ans = "Coco is The Cat of MHuiG, Coco is also a computational knowledge engine or answer engine."
-  }
-  if (/^我是谁$/g.test(question.toLowerCase())) {
-    ans = "You appear to be a human seeking computational knowledge."
-  }
-  ans = ans.replace(/No spoken result available/g, "I don't know.")
-  const ans_cn = await Space_Space.API.GoogleTranslate(ans, {
-    "to": "zh-cn",
-    "domain": "com"
-  });
-  return JSON.stringify({
-    en: ans,
-    cn: ans_cn.text
-  })
-}
-/* harmony default export */ const API_WolframAlpha = (WolframAlpha);
-
-;// CONCATENATED MODULE: ./src/Space/API/BingImgInfo/index.js
-
-
-async function BingImgInfo(day) {
-  if (!day)
-    day = 0
-  const FetchUrl = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=" + day + "&n=1"
-  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
-  const BingImgInfo = ans.images[0]
-  BingImgInfo.url = "https://www.bing.com" + BingImgInfo.url
-  BingImgInfo.urlbase = "https://www.bing.com" + BingImgInfo.urlbase
-  BingImgInfo.quiz = "https://www.bing.com" + BingImgInfo.quiz
-  return BingImgInfo
-}
-/* harmony default export */ const API_BingImgInfo = (BingImgInfo);
-
-;// CONCATENATED MODULE: ./src/Space/API/Sitich/index.js
-
-
-async function Sitich() {
-  return "https://cdn.jsdelivr.net/gh/MHuiG/Sitich@main/Sitich" + Space_Space.Helpers.RandomNum(1, 30) + ".gif"
-}
-/* harmony default export */ const API_Sitich = (Sitich);
-
-
-;// CONCATENATED MODULE: ./src/Space/API/Soul/index.js
-
-
-async function Soul() {
-  const FetchUrl = "https://cdn.jsdelivr.net/gh/wwcxjun/soul@master/soul.json"
-  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
-  const soul = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)].content
-  return soul
-}
-/* harmony default export */ const API_Soul = (Soul);
-
-;// CONCATENATED MODULE: ./src/Space/API/Hitokoto/index.js
-
-
-async function Hitokoto() {
-  const FetchUrl = "https://cdn.jsdelivr.net/gh/sy-records/hitokoto@master/hitokoto.txt"
-  const ans = (await Space_Space.Helpers.Fetch.Text(FetchUrl)).split("\n")
-  const hitokoto = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)]
-  return hitokoto
-}
-/* harmony default export */ const API_Hitokoto = (Hitokoto);
-
-;// CONCATENATED MODULE: ./src/Space/API/Unsplash/index.js
-
-
-async function Unsplash(keywords) {
-  if (!keywords) {
-    keywords = "nature,water,sky,blue,sea"
-  }
-  return "https://source.unsplash.com/1600x900/?" + keywords + '&t=' + new Date().getTime()
-}
-/* harmony default export */ const API_Unsplash = (Unsplash);
-
-;// CONCATENATED MODULE: ./src/Space/API/ACG/index.js
-
-
-async function ACG() {
-  return "https://cdn.jsdelivr.net/gh/MHG-LAB/ACG@main/image/"+Space_Space.Helpers.RandomNum(1,279)+".webp"
-}
-/* harmony default export */ const API_ACG = (ACG);
-
-;// CONCATENATED MODULE: ./src/Space/API/Niubi/index.js
-
-
-async function Niubi(name) {
-  if (!name)
-    name = "CoCo"
-  const FetchUrl = "https://cdn.jsdelivr.net/gh/ElpsyCN/el-bot-api@master/data/niubi.json"
-  const ans = await Space_Space.Helpers.Fetch.JSON(FetchUrl)
-  let data = ans[Space_Space.Helpers.RandomNum(0, ans.length - 1)]
-  data = data.replace(/\${name}/g, "「" + name + "」")
-  return data
-}
-/* harmony default export */ const API_Niubi = (Niubi);
-
-;// CONCATENATED MODULE: ./src/Space/API/DecryptMd5/index.js
-
-
-async function DecryptMd5(md5) {
-  const data = {}
-  if (md5) {
-    // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
-    const MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5
-    let rs = await (await fetch(MD5FetchURL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
-        "X-Forwarded-For": "192.168.1.1"
-      }
-    })).text()
-    rs = /<em class=\"long-content\ string\">(.*)<\/em>/.exec(rs)
-    if (rs) rs = rs[1]
-    data['ans'] = rs
-  }
-  return data
-}
-/* harmony default export */ const API_DecryptMd5 = (DecryptMd5);
-
-;// CONCATENATED MODULE: ./src/Space/API/ZH/index.js
-
-
-async function GetJTPYStr() {
-  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/JTPY.txt";
-  const str = await Space_Space.Helpers.Fetch.Text(FetchURL)
-  return str;
-}
-async function GetFTPYStr() {
-  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/FTPY.txt";
-  const str = await Space_Space.Helpers.Fetch.Text(FetchURL)
-  return str;
-}
-// 简=>繁
-async function Traditionalized(cc) {
-  let str = '';
-  const JTPYStr = await GetJTPYStr()
-  const FTPYStr = await GetFTPYStr()
-  for (let i = 0; i < cc.length; i++) {
-    if (JTPYStr.indexOf(cc.charAt(i)) != -1)
-      str += FTPYStr.charAt(JTPYStr.indexOf(cc.charAt(i)));
-    else
-      str += cc.charAt(i);
-  }
-  return str;
-}
-// 繁=>简
-async function Simplized(cc) {
-  let str = '';
-  const JTPYStr = await GetJTPYStr()
-  const FTPYStr = await GetFTPYStr()
-  for (let i = 0; i < cc.length; i++) {
-    if (FTPYStr.indexOf(cc.charAt(i)) != -1)
-      str += JTPYStr.charAt(FTPYStr.indexOf(cc.charAt(i)));
-    else
-      str += cc.charAt(i);
-  }
-  return str;
-}
-const ZH = {
-  Simplized,
-  Traditionalized,
-}
-/* harmony default export */ const API_ZH = (ZH);
-
-;// CONCATENATED MODULE: ./src/Space/API/thispersondoesnotexist/index.js
-
-
-async function thispersondoesnotexist() {
-  return "https://thispersondoesnotexist.com/image";
-}
-/* harmony default export */ const API_thispersondoesnotexist = (thispersondoesnotexist);
-
-;// CONCATENATED MODULE: ./src/Space/API/thiswaifudoesnotexist/index.js
-
-
-async function thiswaifudoesnotexist(id) {
-  return `https://www.thiswaifudoesnotexist.net/example-${id != undefined ? id : Math.floor(Math.random() * (100000) + 1)}.jpg`;
-}
-/* harmony default export */ const API_thiswaifudoesnotexist = (thiswaifudoesnotexist);
-
-;// CONCATENATED MODULE: ./src/Space/API/thisanimedoesnotexist/index.js
-
-function pad(n, width, z) {
-  z = z || '0';
-  n = n + '';
-  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-}
-async function thisanimedoesnotexist(creativity, seed) {
-  return `https://thisanimedoesnotexist.ai/results/psi-${creativity != undefined ? creativity : (Space_Space.Helpers.RandomNum(3, 20) / 10)}/seed${seed != undefined ? seed : pad((Math.floor(Math.random() * Math.floor(100000))), 5)}.png`;
-}
-/* harmony default export */ const API_thisanimedoesnotexist = (thisanimedoesnotexist);
-
-;// CONCATENATED MODULE: ./src/Space/API/Poet/index.js
-
-/**
- * https://github.com/chinese-poetry/chinese-poetry/issues/245
- * /poet
- */
-/**
-    参数名      参数作用	                                                      参数值
-    type    选择唐诗还是宋词，留空唐诗	                                     tang or song
-    from	  从第几个诗词样本开始取，留空随机        	                   tang：1~254 song：1~57
-    with	  该样本中的第with首诗,留空随机	                                       0~999
-    limit	  获取句数限制,留空为99即所有,超过原来诗词长度则按原来长度计算	            99
-    start	  从第start句诗开始获取,留空为0	                                         0
-    tran	  是否进行翻译,为true则翻译,默认为true	                            true or false
-    author	是否显示作者,为true则显示,默认为true	                            true or false
- */
-async function Poet(opt = {}) {
-  opt.type = opt.type == "song" ? "song" : "tang"
-  opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * (254) + 1) : Math.floor(Math.random() * (57) + 1))
-  opt.with = opt.with || Math.floor(Math.random() * (100))
-  opt.limit = opt.limit || 100
-  opt.start = opt.start || 0
-  opt.tran = opt.tran || "true"
-  opt.author = opt.author || "true"
-  const all = await Space_Space.Helpers.Fetch.JSON(`https://raw.githubusercontent.com/chinese-poetry/chinese-poetry/master/json/poet.${opt.type}.${opt.from}000.json`)
-  const poet_all = all[opt.with]
-  let poet = ""
-  for (let i = opt.start; i < poet_all["paragraphs"].length & i < opt.limit; i++) {
-    poet += poet_all["paragraphs"][i]
-  }
-  if (opt.author == "true") {
-    poet += `  --${poet_all["author"]}`
-  }
-  if (opt.tran == "true") {
-    poet = await Space_Space.API.ZH.Simplized(poet)
-  }
-  return poet
-}
-/* harmony default export */ const API_Poet = (Poet);
-
-;// CONCATENATED MODULE: ./src/Space/API/Happypic/index.js
-
-
-async function Happypic() {
-  return "https://cdn.jsdelivr.net/npm/chenyfan-happypic@0.0." + Space_Space.Helpers.RandomNum(1, 33) + "/" + Space_Space.Helpers.RandomNum(1, 99) + ".jpg"
-}
-/* harmony default export */ const API_Happypic = (Happypic);
-
-;// CONCATENATED MODULE: ./src/Space/API/Setu/index.js
-
-
-async function HappypicSex() {
-  return "https://cdn.jsdelivr.net/npm/chenyfan-happypic-sex@0.0." + Space_Space.Helpers.RandomNum(1, 19) + "/" + Space_Space.Helpers.RandomNum(1, 99) + ".jpg"
-}
-
-async function SJMM(id) {
-  id = id || Space_Space.Helpers.RandomNum(1, 35)
-  const set = await Space_Space.Helpers.Setting("GitHub");
-  const BOT_TOKEN = set.BOT_TOKEN;
-  return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/gif/" + id + ".gif", {
-    headers: {
-      Accept: "application/vnd.github.v3.raw",
-      Authorization: "token " + BOT_TOKEN
-    }
-  })
-}
-async function Tui(id) {
-  id = id || Space_Space.Helpers.RandomNum(1, 557)
-  const set = await Space_Space.Helpers.Setting("GitHub");
-  const BOT_TOKEN = set.BOT_TOKEN;
-  return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/tui/" + id + ".jpg", {
-    headers: {
-      Accept: "application/vnd.github.v3.raw",
-      Authorization: "token " + BOT_TOKEN
-    }
-  })
-}
-async function El() {
-  const FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
-  const SetuInfo = (await Space_Space.Helpers.Fetch.JSON(FetchUrl)).image
-  const url = SetuInfo[Space_Space.Helpers.RandomNum(0, SetuInfo.length - 1)].url
-  return url
-}
-
-const Setu = {
-  HappypicSex,
-  SJMM,
-  Tui,
-  El,
-}
-/* harmony default export */ const API_Setu = (Setu);
-
-;// CONCATENATED MODULE: ./src/Space/API/DNSQuery/index.js
-
-/**
- * DNS查询
- * /dns/:upstream:/:way:/:host:?name=xxx&type=xxx&edns_client_subnet=x.x.x.x
- * /dns
- * /dns/get
- * /dns/ali/get/host
- * 
-  参数	                    参数用途
-  name	                需要解析的域名
-  type                	解析形式,A or AAAA or CNAME等等
-  edns_client_subnet	  EDNS的ip,默认开启为本机ip,开启此项功能可提高解析精准度.注:此功能在upstream为CloudFlare的情况下失效,因为CloudFlare为了用户隐私关闭此功能.
-  way                   获取方式，默认doh方式，可使用以下参数: doh get
-  host	                是否转化为host格式[仅在type为A或AAAA格式下生效]
-  upstream	            上游DNS解析,默认为CloudFlare 回源<1ms
-                        可使用以下参数:
-                        google使用谷歌DNS,回源1~10ms
-                        ali使用阿里CDN,回源50~150ms
-                        dnspod使用腾讯云DNSPODCDN,回源10~80ms
-  注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
- */
-async function DNSQuery(opt = {}) {
-  opt.type = opt.type || "A"
-  opt.name = opt.name || "mhuig.top"
-  opt.edns_client_subnet = opt.edns_client_subnet || `1.0.0.1`
-  opt.upstream = opt.upstream || "cloudflare"
-  opt.way = opt.way || "doh"
-  opt.host = opt.host || "false"
-  let FetchURL = ""
-  // POST
-  const DoH_Set = {
-    "cloudflare": "https://cloudflare-dns.com/dns-query",
-    "google": "https://dns.google/dns-query",
-    "ali": "https://dns.alidns.com/dns-query",
-    "dnspod": "https://doh.pub/dns-query",
-    "rubyfish": "https://dns.rubyfish.cn/dns-query",
-  }
-  // GET
-  const Get_Set = {
-    "cloudflare": "https://cloudflare-dns.com/dns-query",
-    "google": "https://dns.google/resolve",
-    "ali": "https://dns.alidns.com/resolve",
-    "dnspod": "https://doh.pub/dns-query",
-    "rubyfish": "https://dns.rubyfish.cn/dns-query",
-  }
-  if (opt.way == "doh") {
-    FetchURL = DoH_Set[opt.upstream]
-    return FetchURL
-  } else {
-    FetchURL = Get_Set[opt.upstream]
-  }
-
-  if (opt.way == "get") {
-    FetchURL += `?name=${opt.name}&type=${opt.type}&edns_client_subnet=${opt.edns_client_subnet}`
-    const _fetch = await fetch(FetchURL, { headers: { accept: "application/dns-json" } })
-    const _text = await _fetch.text()
-    if (opt.host == "true") {
-      const _Answer = await JSON.parse(_text)["Answer"]
-      let _hosts = ""
-      if (opt.parse && opt.parse == "info") {
-        for (let i = 0; i < _Answer.length; i++) {
-          _hosts += `${_Answer[i]["name"]} => ${_Answer[i]["data"]}\n`
-        }
-        return _hosts
-      }
-      if ((opt.type == "A" || opt.type == "AAAA")) {
-        for (let i = 0; i < _Answer.length; i++) {
-          if (checkipv4(_Answer[i]["data"]) || checkipv6(_Answer[i]["data"])) {
-            _hosts += `${_Answer[i]["data"]} ${opt.name}\n`
-          }
-        }
-        return _hosts
-      }
-    }
-    // opt.type == "CNAME"
-    return _text
-  }
-
-
-}
-function checkipv4(ip) {
-  return ip.match(/^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/) != null ? true : false
-}
-function checkipv6(ip) {
-  return ip.match(/^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/) != null ? true : false
-}
-/* harmony default export */ const API_DNSQuery = (DNSQuery);
-
-;// CONCATENATED MODULE: ./src/Space/API/Thum/index.js
-
-
-async function Thum(opt = {}) {
-  if (!opt.url) {
-    opt.url = "https://www.google.com"
-  }
-  if (!opt.width) {
-    opt.width = "1024"
-  }
-  if (!opt.height) {
-    opt.height = "1200"
-  }
-  if (!opt.wait) {
-    opt.wait = "2"
-  }
-  return "https://image.thum.io/get/width/" + opt.width + "/crop/" + opt.height + "/wait/" + opt.wait + "/" + opt.url
-}
-/* harmony default export */ const API_Thum = (Thum);
-
-;// CONCATENATED MODULE: ./src/Space/API/Nbnhhsh/index.js
-
-
-async function Nbnhhsh(key) {
-  if (!key)
-    key = "nb"
-
-  const res = await fetch(new Request("https://lab.magiconch.com/api/nbnhhsh/guess", {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({ text: key }),
-  }));
-  const data = await res.json()
-  const ans = []
-  if (data.length) {
-    data.forEach((result) => {
-      let content = `${result.name} 理解不能`;
-      if (result.trans && result.trans.length > 0) {
-        content = `${result.name} 的含义：${result.trans.join("，")}`;
-      } else if (result.inputting && result.inputting.length > 0) {
-        content = `${result.name} 有可能是：${result.inputting.join(
-          "，"
-        )}`;
-      }
-      ans.push(content);
-    });
-  }
-  return ans.join("\n");
-}
-/* harmony default export */ const API_Nbnhhsh = (Nbnhhsh);
-
-;// CONCATENATED MODULE: ./src/Space/API/IPFS/index.js
-/* provided dependency */ var Buffer = __webpack_require__(8764)["Buffer"];
-
-
-const IPFS = {
-  Put: async (s) => {
-    if (!s) {
-      s = "Hello World!"
-    }
-    const set = await Space_Space.Helpers.Setting("IPFS");
-    const API = set.API;
-    const formdata = new FormData();
-    formdata.append("file", Buffer.from(s));
-    return await fetch(new Request(API + "/api/v0/add", {
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-      },
-      body: formdata,
-    }));
-  },
-  Get: async (hash) => {
-    return await fetch("https://cloudflare-ipfs.com/ipfs/" + hash);
-  }
-};
-/* harmony default export */ const API_IPFS = (IPFS);
-
-;// CONCATENATED MODULE: ./src/Space/API/NPMUpload/index.js
-/* provided dependency */ var NPMUpload_Buffer = __webpack_require__(8764)["Buffer"];
-
-
-async function NPMUpload(file) {
-  const fileBuffer = await file.arrayBuffer()
-  const fileName = await file.name
-  const fileBase64 = NPMUpload_Buffer.from(fileBuffer).toString('base64')
-
-  const set = await Space_Space.Helpers.Setting("NPMUpload");
-  const GITHUB_TOKEN = set.GITHUB_TOKEN;
-  const GITHUB_REPO = set.GITHUB_REPO;
-  const GITHUB_BRANCH = set.GITHUB_BRANCH;
-  const NPM_PKG = set.NPM_PKG;
-  const message = Date.now()
-  const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${fileName}?ref=${GITHUB_BRANCH}`
-  const fileSha = await fetch(url, {
-    method: "GET",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      "user-agent": "copoko.npm.git/0.0.1",
-      "Authorization": "token " + GITHUB_TOKEN
-    },
-  }).then(e => {
-    return e.json()
-  }).then(e => {
-    return e.sha
-  })
-
-  const r = await fetch(url, {
-    body: JSON.stringify({
-      branch: GITHUB_BRANCH, message: `Update:` + message, content: fileBase64, sha: fileSha
-    }),
-    method: "PUT",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      "user-agent": "copoko.npm.git/0.0.1",
-      "Authorization": "token " + GITHUB_TOKEN
-    }
-  })
-  const p = {
-    status: r.status,
-    body: await r.text()
-  }
-  if (p.status.toString().startsWith("20")) { // success 200 201
-    const data = JSON.parse(p.body);
-    const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
-    const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
-    return {
-      status: p.status,
-      body: ss
-    }
-  }
-  // error
-  return p
-}
-/* harmony default export */ const API_NPMUpload = (NPMUpload);
-
-;// CONCATENATED MODULE: ./src/Space/API/CF/index.js
-const header_cf = {
-  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36 Edg/88.0.100.0",
-  "X-Auth-Email": AUTHEMAIL,
-  "X-Auth-Key": AUTHKEY,
-  "Content-Type": "application/json",
-}
-const CF = {
-  setSecurityLevel: function (lev) {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/settings/security_level", {
-      method: "PATCH",
-      headers: header_cf,
-      body: '{"value":"' + lev + '"}'
-    }));
-  },
-  setSchedule: function (cron) {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/workers/scripts/" + WORKERNAME + "/schedules", {
-      method: "PUT",
-      headers: header_cf,
-      body: '[{"cron": "' + cron + '"}]'
-    }));
-  },
-  getRoutes: function () {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes", {
-      method: "GET",
-      headers: header_cf,
-    }));
-  },
-  deleteRouteById: function (id) {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes/" + id, {
-      method: "DELETE",
-      headers: header_cf,
-    }));
-  },
-  createRoute: function () {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes", {
-      method: "POST",
-      headers: header_cf,
-      body: '{"pattern":"' + WORKERROUTE + '","script":"' + WORKERNAME + '"}'
-    }));
-  },
-  getWorkersKVRequestAnalytics: function (type = "read") {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics?metrics=requests&filters=requestType==" + type, {
-      method: "GET",
-      headers: header_cf
-    }));
-  },
-  getWorkersRequestAnalytics: function () {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/graphql/", {
-      method: "POST",
-      headers: header_cf,
-      body: JSON.stringify({
-        "query": `{
-          viewer {
-            accounts(filter: {accountTag: "${ACCOUNTID}"}) {
-              workersInvocationsAdaptive(filter: {datetime_gt: "${new Date(new Date().getTime() - (24 * 60 * 60 * 1000)).toISOString()}"}, limit: 2) {
-                sum {
-                  requests
-                  subrequests
-                }
-              }
-            }
-          }
-        }`,
-      })
-    }));
-  },
-  getFilters: function () {
-    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/filters", {
-      method: "GET",
-      headers: header_cf,
-    }));
-  },
-};
-/* harmony default export */ const API_CF = (CF);
-
-;// CONCATENATED MODULE: ./src/Space/API/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const API = {
-  KV: API_KV,
-  GoogleTranslate: API_GoogleTranslate,
-  GoogleSearch: API_GoogleSearch,
-  WolframAlpha: API_WolframAlpha,
-  BingImgInfo: API_BingImgInfo,
-  Sitich: API_Sitich,
-  Soul: API_Soul,
-  Hitokoto: API_Hitokoto,
-  Unsplash: API_Unsplash,
-  ACG: API_ACG,
-  Niubi: API_Niubi,
-  DecryptMd5: API_DecryptMd5,
-  ZH: API_ZH,
-  thispersondoesnotexist: API_thispersondoesnotexist,
-  thiswaifudoesnotexist: API_thiswaifudoesnotexist,
-  thisanimedoesnotexist: API_thisanimedoesnotexist,
-  Poet: API_Poet,
-  Happypic: API_Happypic,
-  Setu: API_Setu,
-  DNSQuery: API_DNSQuery,
-  Thum: API_Thum,
-  Nbnhhsh: API_Nbnhhsh,
-  IPFS: API_IPFS,
-  NPMUpload: API_NPMUpload,
-  CF: API_CF,
-};
-
-/* harmony default export */ const Space_API = (API);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/Headers/index.js
-const js = {
-  headers: {
-    "content-type": "application/javascript; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-const html = {
-  headers: {
-    "content-type": "text/html; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-const json = {
-  headers: {
-    "content-type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-const stream = {
-  headers: {
-    "content-type": "application/octet-stream",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-const xml = {
-  headers: {
-    "content-type": "application/xml; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-const Headers_text = {
-  headers: {
-    "content-type": "text/plain; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-const Headers = {
-  js,
-  html,
-  json,
-  stream,
-  xml,
-  text: Headers_text,
-};
-/* harmony default export */ const Helpers_Headers = (Headers);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/ErrorResponse/index.js
-
-async function ErrorResponse(msg, status = 500, headers = false) {
-  if (!headers) {
-    headers = Space_Space.Helpers.Headers.html
-  }
-  return new Response(
-    Space_Space.Renderers.erorr.replace(/::ErrorInfo::/g, msg),
-    Object.assign({
-      status: status,
-    }, headers)
-  );
-}
-/* harmony default export */ const Helpers_ErrorResponse = (ErrorResponse);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/Router/index.js
-class Router {
-  constructor(event) {
-    this.event = event;
-    this.request = this.event.request;
-    this.urlObj = new URL(this.request.url);
-    this.pathname = this.urlObj.pathname;
-    this.searchParams = this.urlObj.searchParams;
-    this.method = this.request.method;
-    this.ip =
-      this.request.headers.get("CF-Connecting-IP") ||
-      this.request.headers.get("x-real-ip");
-    this.status = {
-      action: 0,
-      filterPath: 0,
-      auth: 0,
-      path: 0,
-    };
-    this.setStatus = (key, value) => {
-      this.status[key] = value;
-      return this;
-    };
-    this.getParam = (key) => {
-      return this.searchParams.get(key);
-    };
-    this.get = (path) => {
-      if (this.status.action) return this;
-      if (this.status.filterPath) return this;
-      if (this.method == "GET") {
-        if (this.pathname.startsWith(path)) {
-          this.status.filterPath = 1;
-          this.status.path = path;
-        }
-      }
-      return this;
-    };
-    this.post = (path) => {
-      if (this.status.action) return this;
-      if (this.status.filterPath) return this;
-      if (this.method == "POST") {
-        if (this.pathname.startsWith(path)) {
-          this.status.filterPath = 1;
-          this.status.path = path;
-        }
-      }
-      return this;
-    };
-    this.action = function (call) {
-      if (this.status.action) return this;
-      if (this.status.filterPath) {
-        this.status.action = 1;
-        this.run = async () => {
-          return await call(this);
-        };
-      }
-      return this;
-    };
-  }
-}
-/* harmony default export */ const Helpers_Router = (Router);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/Cookie/index.js
-async function get(request, key) {
-  const cookie = request.headers.get("Cookie");
-  // No cookie found
-  if (!cookie) return "";
-  // Search for the cookie key in the header.
-  const search = `${key}=`;
-  const starts = cookie.indexOf(search);
-  // The cookie could not be found.
-  if (starts === -1) return "";
-  // Parse the cookie value.
-  const value = cookie.substring(starts + search.length, cookie.length);
-  const end = value.indexOf(";");
-  return end === -1 ? value : value.substring(0, end);
-}
-async function set(response, key, value, path = "/") {
-  response.headers.append("Set-Cookie", `${key}=${value}; path=${path};Max-Age=86400`);
-  return response;
-}
-const Cookie = {
-  set,
-  get,
-};
-/* harmony default export */ const Helpers_Cookie = (Cookie);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/ReadRequest/index.js
-async function Body(request) {
-  const { headers } = request;
-  const contentType = headers.get("content-type") || "";
-
-  if (contentType.includes("application/json")) {
-    return JSON.stringify(await request.json());
-  } else if (contentType.includes("application/text")) {
-    return await request.text();
-  } else if (contentType.includes("text/html")) {
-    return await request.text();
-  } else if (contentType.includes("form")) {
-    const formData = await request.formData();
-    const body = {};
-    for (const entry of formData.entries()) {
-      body[entry[0]] = entry[1];
-    }
-    return JSON.stringify(body);
-  } else {
-    const myBlob = await request.blob();
-    // const objectURL = URL.createObjectURL(myBlob) // https://developers.cloudflare.com/workers/platform/changelog#1142021
-    return myBlob;
-  }
-}
-
-const getURLParameters = url =>
-  (url.match(/([^?=&]+)(=([^&]*))/g) || []).reduce(
-    (a, v) => (
-      (a[v.slice(0, v.indexOf('='))] = decodeURIComponent(v.slice(v.indexOf('=') + 1))), a
-    ),
-    {}
-  );
-
-function URLParameters(request) {
-  return getURLParameters(request.url)
-}
-
-
-const ReadRequest = {
-  Body,
-  URLParameters,
-};
-/* harmony default export */ const Helpers_ReadRequest = (ReadRequest);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/Captcha/index.js
-const recaptcha = async (secret, token, ip) => {
-  const res = await fetch(
-    new Request("https://www.google.com/recaptcha/api/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `secret=${secret}&response=${token}&remoteip=${ip}`,
-    })
-  ).then(e => e.json())
-  if (res.success && res.score >= 0.6) {
-    return true;
-  } else {
-    return false;
-  }
-};
-const Captcha = {
-  recaptcha: recaptcha,
-};
-/* harmony default export */ const Helpers_Captcha = (Captcha);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/Setting/index.js
-
-
-async function Setting(key) {
-  let set = await Space_Space.API.KV.Get("setting");
-  if (set) {
-    set = JSON.parse(set);
-    return set[key];
-  }
-  return null;
-}
-/* harmony default export */ const Helpers_Setting = (Setting);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/Fetch/index.js
-const Fetch = {
-  Text: async function (req) {
-    return fetch(req).then(e => e.text())
-  },
-  JSON: async function (req) {
-    return fetch(req).then(e => e.json())
-  }
-};
-/* harmony default export */ const Helpers_Fetch = (Fetch);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/Security/index.js
-
-function checkReferer(event) {
-  const referer = event.request.headers.get('referer');
-  if (referer == null) {
-    return true
-  }
-  if (referer && (referer.includes(MY_REFERER) || referer.includes("localhost") || referer.includes("127"))) {
-    return true
-  }
-  return false
-}
-
-async function securityCheckAnalytics(event) {
-  // Workers KV 免费包含
-  // 1 GB - 键值存储空间
-  // 100,000 - 每日键值读取*
-  // 1,000 - 每日键值写入*
-  // 1,000 - 每日键值删除
-  // 1,000 - 每日键值列表
-  // 支持最大 512 Bytes 的键
-  // 支持最大 25 MB 的值
-  const kv_read = await Space_Space.API.CF.getWorkersKVRequestAnalytics("read").then(e => e.json()).then(e => e.result)
-  await setUnderAttack(kv_read?.totals?.requests, 30000, 35000)
-  const kv_write = await Space_Space.API.CF.getWorkersKVRequestAnalytics("write").then(e => e.json()).then(e => e.result)
-  await setUnderAttack(kv_write?.totals?.requests, 250, 350)
-  // Workers 每日 100,000 Request
-  const workers = await Space_Space.API.CF.getWorkersRequestAnalytics().then(e => e.json()).then(e => e.data).then(e => e?.viewer?.accounts[0]?.workersInvocationsAdaptive[0]?.sum?.requests)
-  await setUnderAttack(workers, 35000, 40000)
-}
-async function setUnderAttack(a, b, c) {
-  if (!a) {
-    return
-  }
-  if (a > b) {
-    await Space_Space.API.CF.setSecurityLevel("under_attack")
-  }
-  if (a > c) {
-    const routesresult = await Space_Space.API.CF.getRoutes().then(e => e.json()).then(e => e.result)
-    const routeid = routesresult.find(e => e.script == WORKERNAME)?.id
-    if (routeid) {
-      await Space_Space.API.CF.deleteRouteById(routeid)
-    }
-  }
-}
-
-const Security = {
-  checkReferer,
-  securityCheckAnalytics,
-};
-/* harmony default export */ const Helpers_Security = (Security);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/RandomNum/index.js
-// 生成从minNum到maxNum的随机数
-function RandomNum(minNum, maxNum) {
-  switch (arguments.length) {
-    case 1:
-      return parseInt(Math.random() * minNum + 1, 10);
-    case 2:
-      return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-    default:
-      return 0;
-  }
-}
-/* harmony default export */ const Helpers_RandomNum = (RandomNum);
-
-;// CONCATENATED MODULE: ./src/Space/Helpers/index.js
-
-
-
-
-
-
-
-
-
-
-
-const Helpers = {
-  Headers: Helpers_Headers,
-  ErrorResponse: Helpers_ErrorResponse,
-  Router: Helpers_Router,
-  Cookie: Helpers_Cookie,
-  ReadRequest: Helpers_ReadRequest,
-  Captcha: Helpers_Captcha,
-  Setting: Helpers_Setting,
-  Fetch: Helpers_Fetch,
-  Security: Helpers_Security,
-  RandomNum: Helpers_RandomNum,
-};
-
-/* harmony default export */ const Space_Helpers = (Helpers);
-
-// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/error.html
-var error = __webpack_require__(6818);
-var error_default = /*#__PURE__*/__webpack_require__.n(error);
-// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/auth.html
-var auth = __webpack_require__(6096);
-var auth_default = /*#__PURE__*/__webpack_require__.n(auth);
-// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/robots.txt
-var robots = __webpack_require__(2547);
-var robots_default = /*#__PURE__*/__webpack_require__.n(robots);
-// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/dash/dash.html
-var dash = __webpack_require__(7138);
-var dash_default = /*#__PURE__*/__webpack_require__.n(dash);
-// EXTERNAL MODULE: ./node_modules/html-loader/index.js!./src/Space/Renderers/Pages/ipfs.html
-var ipfs = __webpack_require__(5401);
-var ipfs_default = /*#__PURE__*/__webpack_require__.n(ipfs);
-;// CONCATENATED MODULE: ./src/Space/Renderers/index.js
-const { space_static_version, space_cdn, space_dns_prefetch } = __webpack_require__(1512)
-;
-
-
-
-
-
-function cdn(page) {
-  page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
-  page = page.replace(/::CDN::/g, space_cdn)
-  page = page.replace(/::PRECONNECT::/g, space_dns_prefetch)
-  return page
-}
-
-const { dash_nav } = __webpack_require__(9908)
-
-let dash_nav_html = ""
-dash_nav.forEach(item => {
-  dash_nav_html += __webpack_require__(9708)(`./${item}/nav-item.html`)
-})
-
-function DashPage(nav) {
-  let page = dash_default().replace(/::DASH_NAV::/g, dash_nav_html)
-  page = page.replace(/::DASH_CONTENT::/g, __webpack_require__(7832)(`./${nav}/content.html`))
-  page = page.replace(/::DASH_BODYEND::/g, __webpack_require__(4535)(`./${nav}/bodyend.html`))
-  page = page.replace(/::DASH_UTIL::/g, __webpack_require__(2200))
-  return page
-}
-
-const Renderers_dash = {}
-dash_nav.forEach(item => {
-  Renderers_dash[item] = cdn(DashPage(item))
-})
-
-const Renderers = {
-  erorr: cdn((error_default())),
-  auth: cdn((auth_default())),
-  ipfs: cdn((ipfs_default())),
-  robots: (robots_default()),
-  dash: Renderers_dash,
-};
-/* harmony default export */ const Space_Renderers = (Renderers);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Auth/index.js
-
-const SHA256 = __webpack_require__(2153);
-async function AuthPage(ctx) {
-  const html = Space_Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT).replace(/::AUTH_PAGE::/g, AUTH_PAGE)
-  return new Response(html, Space_Space.Helpers.Headers.html);
-}
-async function CheckAuth(ctx) {
-  const auth = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
-  const token = auth.token;
-  const secret = reCAPTCHA_SERVER;
-  const ip = ctx.ip;
-  const recaptcha = await Space_Space.Helpers.Captcha.recaptcha(secret, token, ip);
-  if (recaptcha) {
-    const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
-    const TestAuth = `${SHA256(auth.name).toString()}::${SHA256(auth.password).toString()}`;
-    if (TestAuth == TrueAuth) {
-      return new Response(
-        JSON.stringify({
-          success: 1,
-        }),
-        {
-          headers: {
-            "content-type": "application/json; charset=utf-8",
-            "Access-Control-Allow-Origin": "*",
-            "set-cookie": "_copoko_space_cookie_auth=" + TestAuth + ";path=/space;HttpOnly;Secure;SameSite=Strict",
-          },
-        }
-      );
-    }
-  }
-
-  return new Response(
-    JSON.stringify({
-      success: 0,
-    }),
-    Space_Space.Helpers.Headers.json
-  );
-}
-async function CheckCookieAuth(ctx) {
-  return Space_Space.Helpers.Cookie.get(ctx.request, "_copoko_space_cookie_auth")
-    .then(async (_copoko_space_cookie_auth) => {
-      if (_copoko_space_cookie_auth) {
-        const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
-        const TestAuth = _copoko_space_cookie_auth;
-        if (TestAuth == TrueAuth) {
-          return "PASS";
-        }
-      }
-      return await Space_Space.Helpers.ErrorResponse("NO PERMISSION TO ACCESS THE SERVICE", 403);
-    });
-}
-const Auth = {
-  CheckAuth,
-  CheckCookieAuth,
-  AuthPage,
-};
-/* harmony default export */ const Actions_Auth = (Auth);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Robots/index.js
-
-async function Robots(ctx) {
-  return new Response(Space_Space.Renderers.robots, Space_Space.Helpers.Headers.text);
-}
-/* harmony default export */ const Actions_Robots = (Robots);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Dash/index.js
-
-
-function BuildPageDash(ctx) {
-  return new Response(
-    Space_Space.Renderers.dash[ctx.status.path.replace("/space/dash/", "")],
-    Space_Space.Helpers.Headers.html
-  );
-}
-
-const { dash_nav: Dash_dash_nav } = __webpack_require__(9908);
-
-const Dash = {};
-Dash_dash_nav.forEach(item => {
-  Dash[item] = BuildPageDash;
-})
-
-/* harmony default export */ const Actions_Dash = (Dash);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/KV/index.js
-
-
-async function Get(ctx) {
-  try {
-    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
-    const key = body.key;
-    const value = await Space_Space.API.KV.Get(key);
-    return new Response(
-      JSON.stringify({
-        sucess: 1,
-        key: key,
-        value: value,
-      }),
-      Space_Space.Helpers.Headers.json
-    );
-  } catch (error) {
-    return new Response(
-      JSON.stringify({
-        sucess: 0,
-        error: error,
-      }),
-      {
-        status: 500,
-        headers: Space_Space.Helpers.Headers.json
-      }
-    );
-  }
-}
-async function Put(ctx) {
-  try {
-    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
-    const key = body.key;
-    const value = body.value;
-    await Space_Space.API.KV.Put(key, value);
-    return new Response(
-      JSON.stringify({
-        sucess: 1,
-        key: key,
-        value: value,
-      }),
-      Space_Space.Helpers.Headers.json
-    );
-  } catch (error) {
-    return new Response(
-      JSON.stringify({
-        sucess: 0,
-        error: error,
-      }),
-      {
-        status: 500,
-        headers: Space_Space.Helpers.Headers.json
-      }
-    );
-  }
-
-}
-async function Delete(ctx) {
-  try {
-    const body = await Space_Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
-    const key = body.key;
-    await Space_Space.API.KV.Delete(key);
-    return new Response(
-      JSON.stringify({
-        sucess: 1,
-        key: key,
-      }),
-      Space_Space.Helpers.Headers.json
-    );
-  } catch (error) {
-    return new Response(
-      JSON.stringify({
-        sucess: 0,
-        error: error,
-      }),
-      {
-        status: 500,
-        headers: Space_Space.Helpers.Headers.json
-      }
-    );
-  }
-}
-
-const KV_KV = {
-  Get,
-  Put,
-  Delete,
-};
-/* harmony default export */ const Actions_API_KV = (KV_KV);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/GoogleTranslate/index.js
-
-
-async function GoogleTranslate_GoogleTranslate(ctx) {
-  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const s = URLParameters.s
-  const to = URLParameters.to || "zh-cn"
-  const domain = URLParameters.domain || "com"
-  const conf = {
-    "to": to,
-    "domain": domain
-  }
-  const ans = await Space_Space.API.GoogleTranslate(s, conf)
-  return new Response(ans.text, Space_Space.Helpers.Headers.json);
-}
-/* harmony default export */ const Actions_API_GoogleTranslate = (GoogleTranslate_GoogleTranslate);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/GoogleSearch/index.js
-
-
-async function GoogleSearch_GoogleSearch(ctx) {
-  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const s = URLParameters.s
-  const ans = await Space_Space.API.GoogleSearch(s)
-  return new Response(ans, Space_Space.Helpers.Headers.json);
-}
-/* harmony default export */ const Actions_API_GoogleSearch = (GoogleSearch_GoogleSearch);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/WolframAlpha/index.js
-
-
-async function WolframAlpha_WolframAlpha(ctx) {
-  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const s = URLParameters.s
-  const ans = await Space_Space.API.WolframAlpha(s)
-  return new Response(ans, Space_Space.Helpers.Headers.json);
-}
-/* harmony default export */ const Actions_API_WolframAlpha = (WolframAlpha_WolframAlpha);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/BingImgInfo/index.js
-
-
-async function BingImgInfo_BingImgInfo(ctx) {
-  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const path = ctx.pathname
-  const day = URLParameters.day
-  const ans = await Space_Space.API.BingImgInfo(day)
-
-  if (path.startsWith('/bing/info')) {
-    return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
-  }
-  if (path.startsWith('/bing/copyright')) {
-    if (path.startsWith('/bing/copyright/w')) {
-      return new Response("document.write(" + JSON.stringify(ans.copyright) + ")", Space_Space.Helpers.Headers.json)
-    }
-    return new Response(JSON.stringify({ "copyright": ans.copyright }), Space_Space.Helpers.Headers.json)
-  }
-  return fetch(ans.url)
-}
-/* harmony default export */ const Actions_API_BingImgInfo = (BingImgInfo_BingImgInfo);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Sitich/index.js
-
-
-async function Sitich_Sitich(ctx) {
-  const ans = await Space_Space.API.Sitich()
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_Sitich = (Sitich_Sitich);
-
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Soul/index.js
-
-
-async function Soul_Soul(ctx) {
-  const path = ctx.pathname
-  const soul = await Space_Space.API.Soul()
-  if (path.startsWith('/soul/w')) {
-    return new Response("document.write('" + soul + "')", Space_Space.Helpers.Headers.json)
-  }
-  return new Response(JSON.stringify({ "soul": soul }), Space_Space.Helpers.Headers.json)
-}
-/* harmony default export */ const Actions_API_Soul = (Soul_Soul);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Hitokoto/index.js
-
-
-async function Hitokoto_Hitokoto(ctx) {
-  const path = ctx.pathname
-  const ans = await Space_Space.API.Hitokoto()
-  if (path.startsWith('/hitokoto/w')) {
-    return new Response("document.write('" + ans + "')", Space_Space.Helpers.Headers.json)
-  }
-  return new Response(JSON.stringify({ "Hitokoto": ans }), Space_Space.Helpers.Headers.json)
-}
-/* harmony default export */ const Actions_API_Hitokoto = (Hitokoto_Hitokoto);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Unsplash/index.js
-
-
-async function Unsplash_Unsplash(ctx) {
-  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const keywords = URLParameters.keywords
-  const ans = await Space_Space.API.Unsplash(keywords)
-
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_Unsplash = (Unsplash_Unsplash);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/ACG/index.js
-
-
-async function ACG_ACG(ctx) {
-  const ans = await Space_Space.API.ACG()
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_ACG = (ACG_ACG);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Niubi/index.js
-
-
-async function Niubi_Niubi(ctx) {
-  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const name = URLParameters.name
-  const ans = await Space_Space.API.Niubi(name)
-
-  return new Response(JSON.stringify({ "niubi": ans }), Space_Space.Helpers.Headers.json)
-}
-/* harmony default export */ const Actions_API_Niubi = (Niubi_Niubi);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/IP/index.js
-
-
-async function IP(ctx) {
-  const request = ctx.request
-  return new Response(JSON.stringify({
-    "CF-Connecting-IP": request.headers.get("CF-Connecting-IP"),
-    "X-Forwarded-For": request.headers.get("X-Forwarded-For"),
-    "Cf-Ipcountry": request.headers.get("Cf-Ipcountry"),
-    "X-Real-IP": new Map(request.headers).get('x-real-ip')
-  }), Space_Space.Helpers.Headers.json)
-}
-/* harmony default export */ const API_IP = (IP);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/DecryptMd5/index.js
-
-
-async function DecryptMd5_DecryptMd5(ctx) {
-  const md5 = ctx.getParam("md5");
-  const ans = await Space_Space.API.DecryptMd5(md5);
-  return new Response(JSON.stringify(ans), Space_Space.Helpers.Headers.json)
-}
-/* harmony default export */ const Actions_API_DecryptMd5 = (DecryptMd5_DecryptMd5);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/ZH/index.js
-
-
-async function ZH_ZH(ctx) {
-  const URLParameters = Space_Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const s = URLParameters.s
-  const path = ctx.pathname
-  if (s) {
-    if (path.startsWith('/zh/s')) {
-      const ans = await Space_Space.API.ZH.Simplized(s)
-      return new Response(ans, Space_Space.Helpers.Headers.json)
-    }
-    if (path.startsWith('/zh/t')) {
-      const ans = await Space_Space.API.ZH.Traditionalized(s)
-      return new Response(ans, Space_Space.Helpers.Headers.json)
-    }
-  }
-  return new Response("null", Space_Space.Helpers.Headers.json)
-}
-/* harmony default export */ const Actions_API_ZH = (ZH_ZH);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/thispersondoesnotexist/index.js
-
-
-async function thispersondoesnotexist_thispersondoesnotexist(ctx) {
-  const ans = await Space_Space.API.thispersondoesnotexist()
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_thispersondoesnotexist = (thispersondoesnotexist_thispersondoesnotexist);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/thiswaifudoesnotexist/index.js
-
-
-async function thiswaifudoesnotexist_thiswaifudoesnotexist(ctx) {
-  const id = ctx.getParam("id");
-  const ans = await Space_Space.API.thiswaifudoesnotexist(id)
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_thiswaifudoesnotexist = (thiswaifudoesnotexist_thiswaifudoesnotexist);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/thisanimedoesnotexist/index.js
-
-
-async function thisanimedoesnotexist_thisanimedoesnotexist(ctx) {
-  const creativity = ctx.getParam("creativity");
-  const seed = ctx.getParam("seed");
-  const ans = await Space_Space.API.thisanimedoesnotexist(creativity,seed)
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_thisanimedoesnotexist = (thisanimedoesnotexist_thisanimedoesnotexist);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Poet/index.js
-
-
-async function Poet_Poet(ctx) {
-  const opt = {}
-  opt.type = ctx.getParam("type")
-  opt.from = ctx.getParam("from")
-  opt.with = ctx.getParam("with")
-  opt.limit = ctx.getParam("limit")
-  opt.start = ctx.getParam("start")
-  opt.tran = ctx.getParam("tran")
-  opt.author = ctx.getParam("author")
-
-  const ans = await Space_Space.API.Poet(opt)
-  return new Response(ans, Space_Space.Helpers.Headers.json)
-}
-/* harmony default export */ const Actions_API_Poet = (Poet_Poet);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Happypic/index.js
-
-
-async function Happypic_Happypic(ctx) {
-  const ans = await Space_Space.API.Happypic()
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_Happypic = (Happypic_Happypic);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/DNSQuery/index.js
-
-/**
- * DNS查询
- * /dns/:upstream:/:way:/:host:?name=xxx&type=xxx&edns_client_subnet=x.x.x.x
- * /dns
- * /dns/get
- * /dns/ali/get/host
- * 
-  参数	                    参数用途
-  name	                需要解析的域名
-  type                	解析形式,A or AAAA or CNAME等等
-  edns_client_subnet	  EDNS的ip,默认开启为本机ip,开启此项功能可提高解析精准度.注:此功能在upstream为CloudFlare的情况下失效,因为CloudFlare为了用户隐私关闭此功能.
-  way                   获取方式，默认doh方式，可使用以下参数: doh get
-  host	                是否转化为host格式[仅在type为A或AAAA格式下生效]
-  upstream	            上游DNS解析,默认为CloudFlare 回源<1ms
-                        可使用以下参数:
-                        google使用谷歌DNS,回源1~10ms
-                        ali使用阿里CDN,回源50~150ms
-                        dnspod使用腾讯云DNSPODCDN,回源10~80ms
-  注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
- */
-async function DNSQuery_DNSQuery(ctx) {
-  const path = ctx.pathname
-  const opt = {}
-  opt.type = ctx.getParam("type")
-  opt.name = ctx.getParam("name")
-  opt.edns_client_subnet = ctx.getParam("edns_client_subnet") || ctx.request.headers.get('x-real-ip') || `1.0.0.1`
-
-  if (path.indexOf("host") != -1) {
-    opt.host = "true"
-  }
-  if (path.indexOf("get") != -1) {
-    opt.way = "get"
-  }
-  if (path.indexOf("google") != -1) {
-    opt.upstream = "google"
-  }
-  if (path.indexOf("ali") != -1) {
-    opt.upstream = "ali"
-  }
-  if (path.indexOf("dnspod") != -1) {
-    opt.upstream = "dnspod"
-  }
-  if (path.indexOf("rubyfish") != -1) {
-    opt.upstream = "rubyfish"
-  }
-
-  const ans = await Space_Space.API.DNSQuery(opt)
-
-  if (opt.way == "get") {
-    return new Response(ans, Space_Space.Helpers.Headers.js)
-  } else {
-    return fetch(new Request(ans, {
-      method: "POST",
-      redirect: 'manual',
-      headers: ctx.request.headers,
-      body: ctx.request.body
-    }));
-  }
-
-
-}
-/* harmony default export */ const Actions_API_DNSQuery = (DNSQuery_DNSQuery);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/Thum/index.js
-
-
-async function Thum_Thum(ctx) {
-  const opt = {}
-  opt.url = ctx.getParam("url")
-  opt.width = ctx.getParam("width")
-  opt.height = ctx.getParam("height")
-  opt.wait = ctx.getParam("wait")
-
-  const ans = await Space_Space.API.Thum(opt)
-  return fetch(ans)
-}
-/* harmony default export */ const Actions_API_Thum = (Thum_Thum);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/NPMUpload/index.js
-
-
-async function NPMUpload_NPMUpload(ctx) {
-  const request = ctx.request;
-  const formData = await request.formData()
-  const file = await formData.get("file")
-  const ans = await Space_Space.API.NPMUpload(file)
-  return new Response(ans.body, { status: ans.status })
-}
-/* harmony default export */ const Actions_API_NPMUpload = (NPMUpload_NPMUpload);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/IPFS/index.js
-
-
-async function IPFS_Get(ctx) {
-  const request = ctx.request
-  const path = ctx.pathname
-  if (path == "/ipfs/" || path == "/ipfs") {
-    return new Response(Space_Space.Renderers.ipfs, Space_Space.Helpers.Headers.html);
-  }
-  const url = new URL(request.url)
-  url.hostname = "cloudflare-ipfs.com"
-  return await fetch(url.toString(), request)
-}
-async function IPFS_Put(ctx) {
-  const request = ctx.request
-  if (ctx.method == "POST") {
-    const set = await Space_Space.Helpers.Setting("IPFS");
-    const API = set.API;
-    const url = new URL(request.url)
-    url.hostname = new URL(API).host
-    return await fetch(url.toString(), request)
-  }
-  const s = ctx.getParam("s")
-  const ans = await Space_Space.API.IPFS.Put(s)
-  const sc = await ans.text()
-  return new Response(sc, Space_Space.Helpers.Headers.js);
-}
-
-const IPFS_IPFS = {
-  Get: IPFS_Get,
-  Put: IPFS_Put,
-};
-/* harmony default export */ const Actions_API_IPFS = (IPFS_IPFS);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/API/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const API_API = {
-  KV: Actions_API_KV,
-  GoogleTranslate: Actions_API_GoogleTranslate,
-  GoogleSearch: Actions_API_GoogleSearch,
-  WolframAlpha: Actions_API_WolframAlpha,
-  BingImgInfo: Actions_API_BingImgInfo,
-  Sitich: Actions_API_Sitich,
-  Soul: Actions_API_Soul,
-  Hitokoto: Actions_API_Hitokoto,
-  Unsplash: Actions_API_Unsplash,
-  ACG: Actions_API_ACG,
-  Niubi: Actions_API_Niubi,
-  IP: API_IP,
-  DecryptMd5: Actions_API_DecryptMd5,
-  ZH: Actions_API_ZH,
-  thispersondoesnotexist: Actions_API_thispersondoesnotexist,
-  thiswaifudoesnotexist: Actions_API_thiswaifudoesnotexist,
-  thisanimedoesnotexist: Actions_API_thisanimedoesnotexist,
-  Poet: Actions_API_Poet,
-  Happypic: Actions_API_Happypic,
-  DNSQuery: Actions_API_DNSQuery,
-  Thum: Actions_API_Thum,
-  NPMUpload: Actions_API_NPMUpload,
-  IPFS: Actions_API_IPFS,
-};
-
-/* harmony default export */ const Actions_API = (API_API);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Link/index.js
-async function Link(ctx) {
-  const url = ctx.getParam("url")
-  return Response.redirect(url, 302);
-}
-/* harmony default export */ const Actions_Link = (Link);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Pages/GithubEvent/index.js
-
-
-async function GithubEvent(ctx) {
-  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@main/github-events/index.html"
-  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
-  return new Response(ans, Space_Space.Helpers.Headers.html)
-}
-/* harmony default export */ const Pages_GithubEvent = (GithubEvent);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Pages/PDF/index.js
-
-
-async function PDF(ctx) {
-  const FetchURL = "https://cdn.jsdelivr.net/npm/imbox@0.0.11/pdf.js/web/static.html"
-  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
-  return new Response(ans, Space_Space.Helpers.Headers.html)
-}
-/* harmony default export */ const Pages_PDF = (PDF);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Pages/Color/index.js
-
-
-async function Color(ctx) {
-  const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@2/color/index.html"
-  const ans = await Space_Space.Helpers.Fetch.Text(FetchURL)
-  return new Response(ans, Space_Space.Helpers.Headers.html)
-}
-/* harmony default export */ const Pages_Color = (Color);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Pages/index.js
-
-
-
-
-const Pages = {
-  GithubEvent: Pages_GithubEvent,
-  PDF: Pages_PDF,
-  Color: Pages_Color,
-};
-
-/* harmony default export */ const Actions_Pages = (Pages);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Favicon/index.js
-async function Favicon(ctx) {
-  return fetch("https://fastly.jsdelivr.net/npm/@copoko/space-static@1.0.1653038935402/favicon/favicon-16x16.png")
-}
-/* harmony default export */ const Actions_Favicon = (Favicon);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Start/index.js
-
-async function Start(ctx) {
-  ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA')
-}
-
-/* harmony default export */ const BotModel_Start = (Start);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Help/index.js
-
-async function Help(ctx) {
-  await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA')
-  // ctx.reply("HelpInfo6666");
-}
-
-/* harmony default export */ const BotModel_Help = (Help);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/HandleMessage/index.js
-
-
-
-class Shell {
-  constructor(shell) {
-    this.args = shell.replace(/^>/, '').split(/\"([^\"]*?)\"|\s/);
-    this.index = 0;
-    this.shift = () => {
-      let arg = this.args[this.index];
-      this.index++;
-      if (arg) {
-        return arg;
-      } else if (this.index >= this.args.length) {
-        return ':#:';
-      } else {
-        return this.shift();
-      }
-    };
-  }
-}
-
-class HandleMessage {
-  constructor(ctx) {
-    this.ctx = ctx;
-    this.message = ctx.message.text;
-    this.username = ctx.message.from.username;
-    this.args = {};
-    this.status = 0;
-    this.except_status = 0;
-    this.new_chat_members_list = [];
-
-    if (this.message) this.message = this.message.toLocaleLowerCase();
-    if (ctx.message.new_chat_members) this.new_chat_members_list = ctx.message.new_chat_members;
-    if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
-      this.chatid = ctx.message.chat.id
-    }
-    this.newChatMembers = function () {
-      if (this.status) return this;
-      this.type = 'newChatMembers';
-      return this;
-    }
-    this.cleanStatus = function () {
-      this.status = 0;
-      return this;
-    }
-    this.setRandom = function (probability = 40) {
-      if (this.status) return this;
-      this.type = 'random';
-      this.probability = probability
-      return this;
-    }
-    this.pass = function () {
-      if (this.status) return this;
-      this.type = 'pass';
-      return this;
-    }
-    this.block = function () {
-      if (this.status) return this;
-      this.type = 'block';
-      return this;
-    }
-    this.admin = function () {
-      if (this.status) return this;
-      this.type = 'admin';
-      return this;
-    };
-    this.reg = function (reg) {
-      if (this.status) return this;
-      this.type = 'reg';
-      this.textReg = reg;
-      return this;
-    };
-    this.includes = function (list) {
-      if (this.status) return this;
-      this.type = 'includes';
-      this.includesList = list;
-      return this;
-    };
-    this.cmd = function (cmd) {
-      if (this.status) return this;
-      this.type = 'cmd';
-      this.cmdReg = new RegExp(cmd);
-      return this;
-    };
-    this.setArg = function (arg, defaultValue = 0) {
-      if (this.status) return this;
-      this.args[arg] = defaultValue;
-      return this;
-    };
-    this.reply = async function (str) {
-      return await this.action(() => {
-        return this.ctx.reply(str);
-      })
-    }
-    this.action = async function (call) {
-      if (this.except_status) {
-        this.except_status = 0;
-        return this;
-      }
-      if (this.status) return this;
-      if (this.type == 'cmd') {
-        if (!/^>/.test(this.message)) return this;
-        this.shell = new Shell(this.ctx.message.text);
-        if (this.cmdReg.test(this.shell.shift())) {
-          let shift = this.shell.shift();
-          let index = 0;
-          while (shift != ':#:') {
-            let nextShift = null
-            if (/-\w/.test(shift)) {
-              let key = shift.replace(/^-/, "")
-              if (isInArray(Object.keys(this.args), key)) {
-                let next = this.shell.shift();
-                let nextKey = next.replace(/^-/, "")
-                if (next != ':#:' && /-\w/.test(next) && isInArray(Object.keys(this.args), nextKey)) {
-                  this.args[key] = 1
-                  nextShift = next
-                } else {
-                  this.args[key] = next
-                }
-              }
-            } else {
-              this.args[Object.keys(this.args)[index]] = shift;
-            }
-            index++;
-            if (nextShift) {
-              shift = nextShift;
-            } else {
-              shift = this.shell.shift();
-            }
-          }
-          this.status = 1;
-          this.fun = async () => {
-            await call(this);
-          };
-        }
-      }
-      if (this.type == 'reg') {
-        if (this.textReg.test(this.message)) {
-          this.status = 1;
-          this.fun = async () => {
-            await call(this);
-          };
-        }
-      }
-      if (this.type == 'includes') {
-        let flag = 0
-        for (let i = 0; i < this.includesList.length; i++) {
-          const ele = this.includesList[i];
-          let eleReg = new RegExp(ele)
-          if (eleReg.test(this.message)) {
-            flag++;
-          }
-        }
-        if (flag == this.includesList.length) {
-          this.status = 1;
-          this.fun = async () => {
-            await call(this);
-          };
-        }
-      }
-      if (this.type == 'admin') {
-        if (!this.adminUsername) {
-          const set = await Helpers_Setting("TelegrafBot")
-          const ADMIN_NAME = set.ADMIN_NAME
-          this.adminUsername = ADMIN_NAME
-        }
-        if (this.username == this.adminUsername) {
-          this.status = 1;
-          this.fun = async () => {
-            await call(this);
-          };
-        }
-      }
-      if (this.type == 'random') {
-        if (Helpers_RandomNum(1, 100) <= this.probability) {
-          this.status = 1;
-          this.fun = async () => {
-            await call(this);
-          };
-        }
-      }
-      if (this.type == 'newChatMembers') {
-        if (this.new_chat_members_list.length) {
-          this.status = 1;
-          this.fun = async () => {
-            await call(this);
-          };
-        }
-      }
-      if (this.type == 'pass') {
-        await call(this);
-      }
-      if (this.type == 'block') {
-        this.status = 1;
-        this.fun = async () => {
-          await call(this);
-        };
-      }
-      if (this.status != 1) {
-        this.args = {}
-      }
-      return this;
-    };
-    this.run = async function () {
-      if (this.status) {
-        await this.fun();
-      }
-      return this
-    };
-  }
-}
-function isInArray(arr, value) {
-  for (let i = 0; i < arr.length; i++) {
-    if (value === arr[i]) {
-      return true;
-    }
-  }
-  return false;
-}
-/* harmony default export */ const TGBot_HandleMessage = (HandleMessage);
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Niubi/index.js
-
-
-const Actions_Niubi_Niubi = async that => {
-  let name = "CoCo";
-  const arr = /来点(\S*)笑话/.exec(that.ctx.message.text)
-
-  if (arr && Array.isArray(arr) && arr[1]) {
-    name = arr[1];
-  }
-  if (that.ctx.message.entities && /nb/.test(that.ctx.message.text)) {
-    that.ctx.message.entities.forEach(one => {
-      if (one.type == "mention") {
-        name = that.ctx.message.text.slice(one.offset + 1, one.length);
-      }
-    })
-  }
-  if (that.ctx.message.new_chat_members && that.ctx.message.new_chat_members.length) {
-    that.ctx.message.new_chat_members.forEach(it => {
-      name = it.username;
-      return
-    })
-  }
-  const ans = await Space_Space.API.Niubi(name)
-  return that.ctx.reply(ans);
-};
-
-/* harmony default export */ const Actions_Niubi = (Actions_Niubi_Niubi);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Unsplash/index.js
-
-
-const Actions_Unsplash_Unsplash = async that => {
-  const ans = await Space_Space.API.Unsplash(that.args.k)
-  return that.ctx.replyWithPhoto(ans);
-};
-
-/* harmony default export */ const Actions_Unsplash = (Actions_Unsplash_Unsplash);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Bing/index.js
-
-
-const Bing = async that => {
-  const ans = await Space_Space.API.BingImgInfo(that.args.d);
-  return that.ctx.replyWithPhoto(ans.url, { "caption": ans.copyright });
-};
-
-/* harmony default export */ const Actions_Bing = (Bing);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Soul/index.js
-
-
-const Actions_Soul_Soul = async that => {
-  const ans = await Space_Space.API.Soul();
-  return that.ctx.reply(ans);
-};
-
-/* harmony default export */ const Actions_Soul = (Actions_Soul_Soul);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Hitokoto/index.js
-
-
-const Actions_Hitokoto_Hitokoto = async that => {
-  const ans = await Space_Space.API.Hitokoto();
-  return that.ctx.reply(ans);
-};
-
-/* harmony default export */ const Actions_Hitokoto = (Actions_Hitokoto_Hitokoto);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/SearchEngineLink/index.js
-
-
-const SearchEngineLink = async that => {
-  const engineList = {
-    baidu: {
-      keywords: ["百度", "度娘", "baidu"],
-      url: "https://www.baidu.com/s?wd=",
-    },
-    google: {
-      keywords: ["谷歌", "google", "Google"],
-      url: "https://www.google.com/search?q=",
-    },
-    bing: {
-      keywords: ["bing", "必应"],
-      url: "https://cn.bing.com/search?q=",
-    },
-    buhuibaidu: {
-      keywords: ["不会百度"],
-      url: "https://buhuibaidu.me/?s=",
-    },
-  };
-  function getLinkByEngine(name, keyword) {
-    keyword = encodeURI(keyword);
-    if (engineList[name]) {
-      return engineList[name].url + keyword;
-    } else {
-      for (const engine in engineList) {
-        if (engineList[engine].keywords.includes(name)) {
-          return engineList[engine].url + keyword;
-        }
-      }
-      return "";
-    }
-  }
-  const msg = that.ctx.message.text;
-  const engineString = msg.split(" ")[0];
-  let keyword = msg.slice(engineString.length).trim();
-  const buhuibaidu = msg.match(/不会百度(.*)吗/);
-  if (buhuibaidu) {
-    keyword = buhuibaidu[1].trim();
-    that.ctx.reply(getLinkByEngine("buhuibaidu", keyword));
-  } else {
-    const content = getLinkByEngine(engineString, keyword);
-    if (content) {
-      await that.ctx.reply(content);
-      const ans = await Space_Space.API.Thum({ url: content, wait: 1 });
-      await fetch(ans).then(async (res) => {
-        return await that.ctx.replyWithPhoto(ans, { "caption": content });
-      }).catch(err => { })
-    }
-  }
-};
-
-/* harmony default export */ const Actions_SearchEngineLink = (SearchEngineLink);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Happypic/index.js
-
-
-const Actions_Happypic_Happypic = async that => {
-  const ans = await Space_Space.API.Happypic();
-  return that.ctx.replyWithPhoto(ans);
-};
-
-/* harmony default export */ const Actions_Happypic = (Actions_Happypic_Happypic);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Setu/index.js
-
-
-const Setu_Setu = async that => {
-  if (that.args.k == "p") {
-    const ans = await Space_Space.API.Setu.HappypicSex();
-    return that.ctx.replyWithPhoto(ans);
-  }
-  if (that.args.k == "t") {
-    let res = await Space_Space.API.Setu.Tui();
-    res = await res.arrayBuffer()
-    const form = new FormData();
-    form.append('chat_id', that.ctx.chat.id);
-    form.append('photo', new Blob([res], { type: "image/jpg" }));
-    return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendPhoto", {
-      method: 'post',
-      body: form
-    })
-  }
-  if (that.args.k == "s") {
-    let res = await Space_Space.API.Setu.SJMM();
-    res = await res.arrayBuffer();
-    const form = new FormData();
-    form.append('chat_id', that.ctx.chat.id);
-    form.append('animation', new Blob([res], { type: "image/gif" }));
-    form.append('width', 500);
-    form.append('height', 500);
-    return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendAnimation", {
-      method: 'post',
-      body: form
-    })
-  }
-  const ans = await Space_Space.API.Setu.El();
-  return that.ctx.replyWithPhoto(ans);
-};
-
-/* harmony default export */ const Actions_Setu = (Setu_Setu);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Nbnhhsh/index.js
-
-
-const Nbnhhsh_Nbnhhsh = async that => {
-  const ans = await Space_Space.API.Nbnhhsh(that.args.k);
-  return that.ctx.reply(ans);;
-};
-
-/* harmony default export */ const Actions_Nbnhhsh = (Nbnhhsh_Nbnhhsh);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Thum/index.js
-
-
-const Actions_Thum_Thum = async that => {
-  if (that.type == 'reg') {
-    const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text)
-    if (arr && Array.isArray(arr) && arr[1]) {
-      that.args.u = arr[0];
-    }
-  }
-  const opt = {};
-  opt.url = that.args.u;
-  opt.width = that.args.w;
-  opt.height = that.args.h;
-  opt.wait = that.args.t;
-  const ans = await Space_Space.API.Thum(opt);
-  await fetch(ans).then(async (res) => {
-    return await that.ctx.replyWithPhoto(ans, { "caption": opt.url });
-  }).catch(err => { });
-};
-
-/* harmony default export */ const Actions_Thum = (Actions_Thum_Thum);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/GoogleTranslate/index.js
-
-
-const Actions_GoogleTranslate_GoogleTranslate = async that => {
-  const conf = {
-    "to": that.args.t,
-    "domain": "com"
-  }
-  const ans = await Space_Space.API.GoogleTranslate(that.args.k, conf)
-  return that.ctx.reply(ans.text);
-};
-
-/* harmony default export */ const Actions_GoogleTranslate = (Actions_GoogleTranslate_GoogleTranslate);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/DecryptMd5/index.js
-
-
-const Actions_DecryptMd5_DecryptMd5 = async that => {
-  const md5 = that.args.k
-  const ans = await Space_Space.API.DeMD5(md5)
-  if (ans.ans)
-    return that.ctx.reply(ans.ans);
-  else
-    return that.ctx.reply("Not Found.");
-};
-
-/* harmony default export */ const Actions_DecryptMd5 = (Actions_DecryptMd5_DecryptMd5);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/DNSQuery/index.js
-
-
-const Actions_DNSQuery_DNSQuery = async that => {
-  const opt = {}
-  opt.type = that.args.t || "A"
-  opt.name = that.args.n || "github.com"
-  opt.edns_client_subnet = that.args.et || `1.0.0.1`
-  opt.upstream = that.args.u || "cloudflare"
-  opt.way = "get"
-  opt.host = "true"
-  opt.parse = "info"
-  const ans = await Space_Space.API.DNSQuery(opt);
-  return that.ctx.reply(ans);
-};
-
-/* harmony default export */ const Actions_DNSQuery = (Actions_DNSQuery_DNSQuery);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Poet/index.js
-
-
-const Actions_Poet_Poet = async that => {
-  const ans = await Space_Space.API.Poet()
-  return that.ctx.reply(ans);
-};
-
-/* harmony default export */ const Actions_Poet = (Actions_Poet_Poet);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/InterruptRepetition/index.js
-
-
-const InterruptRepetition = async that => {
-  const ctx = that.ctx
-  if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
-    if (ctx.message.text) {
-      if (!ctx.session.messageList) {
-        ctx.session.messageList = []
-      }
-      ctx.session.messageList.push(ctx.message.text)
-      const messageList = ctx.session.messageList
-      const length = messageList.length
-      if (length >= 4) {
-        const myset = [...new Set(ctx.session.messageList)]
-        if (myset.length == 1) {
-          if (myset[0] == `打断复读!`) {
-            ctx.reply(`我生气了!`)
-            ctx.session.messageList.push(`我生气了!`)
-            ctx.session.messageList.shift()
-          } else {
-            ctx.reply(`打断复读!`)
-            ctx.session.messageList.push(`打断复读!`)
-            ctx.session.messageList.shift()
-          }
-        }
-        ctx.session.messageList.shift()
-      }
-    }
-  }
-};
-
-/* harmony default export */ const Actions_InterruptRepetition = (InterruptRepetition);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/WolframAlpha/index.js
-
-
-const Actions_WolframAlpha_WolframAlpha = async that => {
-  const q = that.ctx.message.text.replace(/^:/, "").trim()
-  let ans = await Space_Space.API.WolframAlpha(q)
-  ans = JSON.parse(ans)
-  if (ans.en == ans.cn)
-    return that.ctx.reply(ans.en);
-  return that.ctx.reply(ans.cn + "\n" + ans.en);
-};
-
-/* harmony default export */ const Actions_WolframAlpha = (Actions_WolframAlpha_WolframAlpha);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/Balloon/index.js
-
-
-const Balloon = async that => {
-  const ctx = that.ctx
-  const num = ctx.message.text.split("。").length - 1
-  if (num <= 5) {
-    ctx.reply(ctx.message.text.replace(/。/g, "喵~"))
-  } else {
-    ctx.reply(`汪汪汪~`)
-  }
-};
-
-/* harmony default export */ const Actions_Balloon = (Balloon);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/EmojiToSticker/index.js
-
-
-const EmojiToSticker = async that => {
-  const MyStickerSet = TelegrafBot_TGBot.StickerSet.My;
-  for (const key in MyStickerSet) {
-    if (Object.hasOwnProperty.call(MyStickerSet, key)) {
-      const element = MyStickerSet[key];
-      const Reg = new RegExp(key)
-      if (Reg.test(that.ctx.message.text))
-        return that.ctx.replyWithSticker(element);
-    }
-  }
-};
-
-/* harmony default export */ const Actions_EmojiToSticker = (EmojiToSticker);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/ReplaceMa/index.js
-
-
-const ReplaceMa = async that => {
-  if (!/在吗/.test(that.ctx.message.text) && /吗/.test(that.ctx.message.text))
-    return that.ctx.reply(that.ctx.message.text.replace('吗', '').replace('？', '！').replace('?', '!'));
-};
-
-/* harmony default export */ const Actions_ReplaceMa = (ReplaceMa);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/Actions/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const Actions = {
-  Niubi: Actions_Niubi,
-  Unsplash: Actions_Unsplash,
-  Bing: Actions_Bing,
-  Soul: Actions_Soul,
-  Hitokoto: Actions_Hitokoto,
-  SearchEngineLink: Actions_SearchEngineLink,
-  Happypic: Actions_Happypic,
-  Setu: Actions_Setu,
-  Nbnhhsh: Actions_Nbnhhsh,
-  Thum: Actions_Thum,
-  GoogleTranslate: Actions_GoogleTranslate,
-  DecryptMd5: Actions_DecryptMd5,
-  DNSQuery: Actions_DNSQuery,
-  Poet: Actions_Poet,
-  InterruptRepetition: Actions_InterruptRepetition,
-  WolframAlpha: Actions_WolframAlpha,
-  Balloon: Actions_Balloon,
-  EmojiToSticker: Actions_EmojiToSticker,
-  ReplaceMa: Actions_ReplaceMa,
-};
-
-/* harmony default export */ const TGBot_Actions = (Actions);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/StickerSet/index.js
-const Cat = {
-  "😂": "CAACAgIAAxkBAAIDwmECSdghggbmH3T5MVEB-VqNrslNAAJuDAAC32wZSkdZVXyKLr_DIAQ",
-  "😘": "CAACAgIAAxkBAAIDxGECSiFHUGhrFDiKhwUCqs87PdOPAAK7EgACaBDZSfrl-N3-SLTXIAQ",
-  "👍": "CAACAgIAAxkBAAIDxmECSmc35-732rax0IVhzd4dk1lHAAJ1DwACvScRSgNCdFZ_RgthIAQ",
-  "😨": "CAACAgIAAxkBAAIDyGECSoz67eslcCcIPFud5KSv14lOAAJzEAACqOgRSmKIrKBCdwtTIAQ",
-  "👋": "CAACAgIAAxkBAAIDymECSqgn-nb4AAGvk3BETtk2qaHTkAACsAwAAtXO2EkYBH8D8PsM3yAE",
-  "☺️": "CAACAgIAAxkBAAIDzGECSt2o_VYqi7fpUTuedsTN2vfBAAIGDQACXicZSiFZnpokFU0ZIAQ",
-  "⏰": "CAACAgIAAxkBAAIDzmECSwABA7BZusAX7VDE5arqsdAEYwACSg8AAmCm0EndM-7edjWcqyAE",
-  "❓": "CAACAgIAAxkBAAID0GECSyQyPuaguDq2iwkDY4pd03KRAAI6DwACbKXZSQ009lztSI28IAQ",
-  "❤️": "CAACAgIAAxkBAAID0mECS0eP51eJIwQyZhDX_w8QN5t7AAIvDwACQK7RSenf83DveI7CIAQ",
-  "✨": "CAACAgIAAxkBAAID1GECS2Jf58rtbHdO3MbrznVaMjYcAAL1DAACt1zZSR8FnNZCmxcqIAQ",
-  "🥳": "CAACAgIAAxkBAAID1mECS3mmS9H8Jh0zFGx6IOVglE7pAAIbDAAC9HEYSnK9-WcXPPVOIAQ",
-  "😴": "CAACAgIAAxkBAAID2GECS61jqMvmXRW1AAHNgqD9SNnpmwACygoAAlc5GUp5BxzBROgsySAE",
-  "💐": "CAACAgIAAxkBAAID2mECS8czsf9hm7C_9BIn2fmwG3-nAAKaDgACczkQSlbFLctyG1jRIAQ",
-  "🤡": "CAACAgIAAxkBAAID3GECS_Np8sjymAwgvQFqaJfM21RSAAL9DQACNqwRSp0c2t2iUz8kIAQ",
-  "💪": "CAACAgIAAxkBAAID32ECTBc8Q2TB5WCGf0BLJKDliYaAAAIeDwAC3L8RSi_XlinDNYQAASAE",
-  "😠": "CAACAgIAAxkBAAID4WECTCxlXMChklpwWuWjQ_ohwOh_AALaEAAC96sYSrPsgGDfs6wlIAQ",
-  "🚶‍♂️": "CAACAgIAAxkBAAID42ECTEPp2BWkXqvIporrov5HeOImAAIKCgACnhIZSlUq1Ym0T3kYIAQ",
-  "🥵": "CAACAgIAAxkBAAID5WECTFfbH3p4jhiZY_sabsQDU333AAJcCwACqBUYShcj0M67Mj6nIAQ",
-  "😟": "CAACAgIAAxkBAAID52ECTG4lCQdAifGUeCOU8wABh9hNHAACnA0AAj3FGEp68CI2ZWSumCAE",
-  "😡": "CAACAgIAAxkBAAID6WECTIecya51n-V3s0VphLCySCKFAAJdEAACqoYRSnLCLNZ2_FluIAQ",
-  "🍿": "CAACAgIAAxkBAAID62ECTKl84_vrpinrBkQ-obVlvh_uAAJGDQAC3MRpStjhudGyNjNwIAQ",
-  "😑": "CAACAgIAAxkBAAID7WECTLw4PD3qPL2nsXHTZS8PN36MAALUDwAC2WZpSgVriX5OZGvqIAQ",
-  "😭": "CAACAgIAAxkBAAID72ECTNFRX23u08brUxT8-lpE6ApRAAJsDgACe1NoStT3thanGmnIIAQ",
-  "🤯": "CAACAgIAAxkBAAID82ECTQABqhsjlOQE1Q9444xn6BrRVgAC2xMAAghcaUrxIfu233UEHSAE",
-  "🤷": "CAACAgIAAxkBAAID9WECTS4ybWydHinFkfsHns8jT7c_AALRDAACovthSgcRPxdEzhvCIAQ",
-}
-
-const My = {
-  "😶": "CAACAgUAAxkBAAPMYXNjdyQUv1J8MG6Wd-O2it7HBy4AAiADAAL9RkFW04AtW309YokhBA",
-  "😴": "CAACAgUAAxkBAAPGYXNjSeAhycXOF1KnpWlkZ8fPaRwAAgoEAAJos0hWiy9SKdJOSpkhBA",
-  "😭": "CAACAgUAAxkBAAOyYXNiUitDBD6cZYTD2uGwtWLlHwoAAhUEAAIfTUhWbjPffbd8cBIhBA",
-  "😀": "CAACAgUAAxkBAAO0YXNiYqRUYc_Yo_jn5V5mq59xWecAAuICAAJrZaFWci91HAmEn60hBA",
-  "🥰": "CAACAgUAAxkBAAPiYXNkdPyLi7NOMdlLthkpT7mLUp4AAtYDAAJSZ0BWv-rBVNx5iv4hBA",
-  "😊": "CAACAgUAAxkBAAO6YXNirbUQh0QV2QOhZIu5cukVe-IAAr0DAALQakhWUC1VhoPd69YhBA",
-  "😝": "CAACAgUAAxkBAAO8YXNixmd5SlulzQYVzVE_3XPVcIQAAqEDAAKPI0FWnW_zfo9HTMAhBA",
-  "😨": "CAACAgUAAxkBAAO-YXNi4SATu2VxctJfK9pvdjv7ZhUAAkgCAAJunUlWZ-aA3J1PTiohBA",
-  "🥱": "CAACAgUAAxkBAAPCYXNjF4kUnELcOiidMEgn6boGfJIAAqYEAAJbcElWX_bcDvIs9b0hBA",
-  "😮": "CAACAgUAAxkBAAIBIGFzZ0Te3xWXD33zwVWdeXoTzPrOAAJwAwACK89IVrPDNLIDjsApIQQ",
-  "❓": "CAACAgUAAxkBAAPQYXNjtmU30EdEjgYiG9gHdJ7yxPsAArkDAAIgJUlWl6E79EKHkVkhBA",
-  "😕": "CAACAgUAAxkBAAPSYXNjzTYDwEts1Bp-_06Af7LpfLgAArMDAAI9tklWzb0xi7RWqechBA",
-  "😚": "CAACAgUAAxkBAAPYYXNkBnUrwRmwA0e48XaJ6DrA6JAAAg8EAALRM0hWajsHUbAl4ikhBA",
-  "😠": "CAACAgUAAxkBAAPcYXNkL4hdkNhJogUcU-TF06rTlJ0AAmsEAAKZV0hWz6LeUsId15ohBA",
-  "🤤": "CAACAgUAAxkBAAPeYXNkQjqhDY0-5zPr0mv6epO9f24AAjEFAAJnZUhWnOehqdPHJtUhBA",
-  "😥": "CAACAgUAAxkBAAPgYXNkWbYC5YnV-B7jIpb6KiFD1hEAArYCAALLVkhWPMcSedmEDZQhBA",
-  "🤔": "CAACAgUAAxkBAAIBEGFzZnj3jU9xUPYUCg7WbmbHG93FAAK3AgACfC-hVpwxpRV__Tz0IQQ",
-  "😑": "CAACAgUAAxkBAAPsYXNk_7UOB6ZnIxsXNkHCxk7bf1QAAsADAAJeEkFWmVWdWxT0OxEhBA",
-  "🥺": "CAACAgUAAxkBAAP-YXNleH5BGMybgpwvyc0QFJfUw2IAAlcDAAJEo0BWFri4bZOIYi8hBA",
-  "🤗": "CAACAgUAAxkBAAIBAAFhc2WNDJrpRfZkTpdvxf4SGTyzbAACGQQAApVCQVYFN1P7SibLzCEE",
-  "😛": "CAACAgUAAxkBAAIBBGFzZapqhPvxKQABek3z2hAn39IeJQACRwIAAibfSFYcqKsbfJkCqiEE",
-  "❌": "CAACAgUAAxkBAAIBBmFzZcyG6uY5BSsMHEd9PL2OgjvnAAIkAwACLktIVs3dvlFpLJb3IQQ",
-  "❗️": "CAACAgUAAxkBAAIBHGFzZx7XCokhKzuYw7Y6MmL1wxBJAAKgBAACmzNIVrN8dCkbl9rAIQQ",
-  "😓": "CAACAgUAAxkBAAIBDmFzZjaVuULtDrHPnmmei9dnlCIyAAKQAgACUgehVv_O-x1lV-ceIQQ",
-  "👍": "CAACAgUAAxkBAAIBR2FzbhpaTZ2wxEyZuoR-I_bYrn4VAAKoAANs66IracjsD1fCdqshBA",
-  "😱": "CAACAgUAAxkBAAIBS2FzblHUKPgoaL7ojfAXK91-qH0SAALgAANs66IrF2XcMo56ztshBA",
-  "🐟": "CAACAgUAAxkBAAIBT2FzbrWHWep67c3jcstCCD1Em1MtAALLAANs66IrPo3FOfRCtzohBA",
-  "😁": "CAACAgUAAxkBAAIBUWFzbxN2k0ItxgEeIUyFgRTdqhGvAALxAANs66Irz8uvoLTV5FkhBA",
-}
-const StickerSet = {
-  Cat,
-  My,
-}
-/* harmony default export */ const TGBot_StickerSet = (StickerSet);
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/TGBot/index.js
-
-
-
-
-const TGBot = {
-  HandleMessage: TGBot_HandleMessage,
-  Actions: TGBot_Actions,
-  StickerSet: TGBot_StickerSet,
-};
-
-/* harmony default export */ const TelegrafBot_TGBot = (TGBot);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Sticker/index.js
-
-
-async function Sticker(ctx) {
-  if (Space_Space.Helpers.RandomNum(1, 100) <= 10) {
-    if (ctx.message.sticker.emoji in TelegrafBot_TGBot.StickerSet.My) {
-      return ctx.replyWithSticker(TelegrafBot_TGBot.StickerSet.My[ctx.message.sticker.emoji]);
-    } else if (ctx.message.sticker.emoji in TelegrafBot_TGBot.StickerSet.Cat) {
-      return ctx.replyWithSticker(TelegrafBot_TGBot.StickerSet.Cat[ctx.message.sticker.emoji]);
-    }
-  }
-}
-
-/* harmony default export */ const BotModel_Sticker = (Sticker);
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Catch/index.js
-
-
-async function Catch(err, ctx) {
-  await ctx.reply(`Ooops...`);
-  const set = await Helpers_Setting("TelegrafBot")
-  const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
-  await ctx.telegram.sendMessage(ADMIN_GROUP_ID, `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx))
-  // ctx.reply(`Ooops, encountered an error for ${ctx.updateType}:\n` + err+`\n  ctx:\n`+JSON.stringify(ctx));
-}
-
-/* harmony default export */ const BotModel_Catch = (Catch);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Message/index.js
-
-async function Message(ctx) {
-  // return ctx.reply(ctx.message)
-  await new TelegrafBot_TGBot.HandleMessage(ctx)
-    .newChatMembers().action(TelegrafBot_TGBot.Actions.Niubi)
-    .then(that => {
-      return that.run()
-    })
-}
-
-/* harmony default export */ const BotModel_Message = (Message);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Mention/index.js
-
-async function Mention(ctx) {
-  // return ctx.reply(ctx.message)
-  await new TelegrafBot_TGBot.HandleMessage(ctx)
-    .reg(/nb/).action(TelegrafBot_TGBot.Actions.Niubi)
-    .then(that => {
-      return that.run()
-    })
-}
-
-/* harmony default export */ const BotModel_Mention = (Mention);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/Text/index.js
-
-
-
-async function Text(ctx) {
-  // return ctx.reply(ctx.message)
-  await new TelegrafBot_TGBot.HandleMessage(ctx)
-    .admin().action(async () => {
-      return await new TelegrafBot_TGBot.HandleMessage(ctx)
-        .cmd('WebhookInfo').action(async () => {
-          return ctx.telegram.getWebhookInfo().then(data => {
-            return ctx.reply(JSON.stringify(data));
-          })
-        })
-        .then(that => {
-          return that.cmd('ChatID').action(async () => {
-            return ctx.reply(ctx.chat.id);
-          })
-        })
-        .then(that => {
-          return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that) => {
-            let q = []
-            if (that.args.q) {
-              q = that.args.q.split(",")
-            }
-            return ctx.telegram[that.args.p](...q).then(data => {
-              return ctx.reply(JSON.stringify(data));
-            })
-          })
-        })
-        .then(that => {
-          return that.reg(/test/).action(() => {
-            return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
-          })
-        })
-        .then(that => {
-          return that.reg(/在吗/).reply(`主人我在`)
-        })
-        .then(that => {
-          return that.run()
-        })
-    })
-    .then(that => {
-      return that.reg(/在吗/).reply(`爪巴`)
-    })
-    .then(that => {
-      return that.run()
-    })
-  await new TelegrafBot_TGBot.HandleMessage(ctx)
-    .reg(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TelegrafBot_TGBot.Actions.SearchEngineLink)
-    .then(that => {
-      return that.run()
-    })
-  await new TelegrafBot_TGBot.HandleMessage(ctx)
-    .cmd('help').action((that) => {
-      return that.ctx.reply("no help");
-    })
-    .then(that => {
-      return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TelegrafBot_TGBot.Actions.Unsplash)
-    })
-    .then(that => {
-      return that.cmd('cat').setArg('k', 'cat').action(TelegrafBot_TGBot.Actions.Unsplash)
-    })
-    .then(that => {
-      return that.cmd('dog').setArg('k', 'dog').action(TelegrafBot_TGBot.Actions.Unsplash)
-    })
-    .then(that => {
-      return that.cmd('bing').setArg('d', '0').action(TelegrafBot_TGBot.Actions.Bing)
-    })
-    .then(that => {
-      return that.cmd('soul').action(TelegrafBot_TGBot.Actions.Soul)
-    })
-    .then(that => {
-      return that.cmd('hitokoto').action(TelegrafBot_TGBot.Actions.Hitokoto)
-    })
-    .then(that => {
-      return that.cmd('acg').action(TelegrafBot_TGBot.Actions.Happypic)
-    })
-    .then(that => {
-      return that.cmd('setu').setArg('k', 0).action(TelegrafBot_TGBot.Actions.Setu)
-    })
-    .then(that => {
-      return that.cmd('nbnhhsh').setArg('k', 'nb').action(TelegrafBot_TGBot.Actions.Nbnhhsh)
-    })
-    .then(that => {
-      return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
-    })
-    .then(that => {
-      return that.cmd('translate').setArg('k', 'CoCo').setArg('t', 'zh-cn').action(TelegrafBot_TGBot.Actions.GoogleTranslate)
-    })
-    .then(that => {
-      return that.cmd('demd5').setArg('k', 'eb62f6b9306db575c2d596b1279627a4').action(TelegrafBot_TGBot.Actions.DecryptMd5)
-    })
-    .then(that => {
-      return that.cmd('dns').setArg('n', 'github.com').setArg('t', 'A').setArg('u', 'cloudflare').setArg('e', '1.0.0.1').action(TelegrafBot_TGBot.Actions.DNSQuery)
-    })
-    .then(that => {
-      return that.cmd('poet').action(TelegrafBot_TGBot.Actions.Poet)
-    })
-    .then(that => {
-      return that.pass().action(TelegrafBot_TGBot.Actions.InterruptRepetition)
-    })
-    .then(that => {
-      return that.reg(/^:/).action(TelegrafBot_TGBot.Actions.WolframAlpha)
-    })
-    .then(that => {
-      return that.reg(/^。{1,}$/).action(TelegrafBot_TGBot.Actions.Balloon)
-    })
-    .then(that => {
-      return that.reg(/来点(\S*)笑话/).action(TelegrafBot_TGBot.Actions.Niubi)
-    })
-    .then(that => {
-      return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TelegrafBot_TGBot.Actions.Thum)
-    })
-    .then(that => {
-      return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
-    })
-    .then(that => {
-      return that.reg(/^\?$/).reply(`???`)
-    })
-    .then(that => {
-      return that.reg(/^？$/).reply(`？？？`)
-    })
-    .then(that => {
-      return that.reg(/你好/).reply(`Hello!`)
-    })
-    .then(that => {
-      return that.reg(/在？|在\?/).reply(`有事？`)
-    })
-    .then(async (that) => {
-      const set = await Helpers_Setting("TelegrafBot")
-      const ADMIN_NAME = set.ADMIN_NAME
-      return that.reg(/你的主人|your master/).reply(`@${ADMIN_NAME}`)
-    })
-    .then(that => {
-      return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
-    })
-    .then(that => {
-      return that.reg(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
-    })
-    .then(that => {
-      return that.includes(["怎么", "啊"]).reply(`不告诉你`)
-    })
-    .then(that => {
-      return that.includes(["发", "色图"]).reply(`有色图？`)
-    })
-    .then(that => {
-      return that.includes(["看", "色图"]).reply(`色图在哪儿？`)
-    })
-    .then(that => {
-      return that.includes(["发", "涩图"]).reply(`有涩图？`)
-    })
-    .then(that => {
-      return that.includes(["发", "涩图"]).reply(`有涩图？`)
-    })
-    .then(that => {
-      return that.includes(["来点", "色图"]).reply(`让我找找`)
-    })
-    .then(that => {
-      return that.includes(["来点", "涩图"]).reply(`让我找找`)
-    })
-    .then(that => {
-      return that.reg(/^不够(色)|(涩)$/).reply(`让我找找`)
-    })
-    .then(that => {
-      return that.includes(["我", "应该"]).reply(`确实`)
-    })
-    .then(that => {
-      return that.includes(["不舒服"]).reply(`多喝热水`)
-    })
-    .then(that => {
-      return that.includes(["你", "怎么"]).reply(`你在教我做事？`)
-    })
-    .then(that => {
-      return that.includes(["你", "去"]).reply(`你在教我做事？`)
-    })
-    .then(that => {
-      return that.includes(["变成", "了", "光"]).reply(`我也想要变成光`)
-    })
-    .then(that => {
-      return that.includes(["明明是我先来的"]).reply(`为什么会变成这样呢……`)
-    })
-    .then(that => {
-      return that.includes(["怎么样"]).reply(`就这？`)
-    })
-    .then(that => {
-      return that.includes(["其实"]).reply(`真的吗？我不信。`)
-    })
-    .then(that => {
-      return that.includes(["厉害"]).reply(`腻害`)
-    })
-    .then(that => {
-      return that.includes(["恭喜"]).reply(`恭喜`)
-    })
-    .then(that => {
-      return that.includes(["bing", "壁纸"]).setArg('d', '0').action(TelegrafBot_TGBot.Actions.Bing)
-    })
-    .then(that => {
-      return that.run()
-    })
-    .then(that => {
-      return that.cleanStatus()
-    })
-    .then(that => {
-      return that.includes(["来点", "色图"]).action(TelegrafBot_TGBot.Actions.Setu)
-    })
-    .then(that => {
-      return that.includes(["来点", "涩图"]).action(TelegrafBot_TGBot.Actions.Setu)
-    })
-    .then(that => {
-      return that.includes(["来点", "色色"]).action(TelegrafBot_TGBot.Actions.Setu)
-    })
-    .then(that => {
-      return that.includes(["来点", "涩涩"]).action(TelegrafBot_TGBot.Actions.Setu)
-    })
-    .then(that => {
-      return that.reg(/^不够(色)|(涩)$/).action(TelegrafBot_TGBot.Actions.Setu)
-    })
-    .then(that => {
-      return that.includes(["来", "诗"]).action(TelegrafBot_TGBot.Actions.Poet)
-    })
-    .then(that => {
-      return that.pass().action(TelegrafBot_TGBot.Actions.EmojiToSticker)
-    })
-    .then(that => {
-      return that.setRandom(50).action(TelegrafBot_TGBot.Actions.ReplaceMa)
-    })
-    .then(that => {
-      return that.setRandom(1).reply(`然后呢?`)
-    })
-    .then(that => {
-      return that.run()
-    })
-}
-
-/* harmony default export */ const BotModel_Text = (Text);
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/BotModel/index.js
-
-
-
-
-
-
-
-
-function BotModel(bot) {
-  bot.start(BotModel_Start);
-  bot.help(BotModel_Help);
-  bot.on("sticker", BotModel_Sticker);
-  bot.mention(/.*/, BotModel_Mention);
-  bot.on("text", BotModel_Text);
-  bot.on("message", BotModel_Message);
-  bot.catch(BotModel_Catch);
-}
-/* harmony default export */ const TelegrafBot_BotModel = (BotModel);
-
-;// CONCATENATED MODULE: ./node_modules/@telegraf/session/index.js
-function TelegrafSession (opts) {
-  const options = {
-    property: 'session',
-    store: new Map(),
-    getSessionKey: (ctx) => ctx.from && ctx.chat && `${ctx.from.id}:${ctx.chat.id}`,
-    ...opts
-  }
-
-  const ttlMs = options.ttl && options.ttl * 1000
-
-  return (ctx, next) => {
-    const key = options.getSessionKey(ctx)
-    if (!key) {
-      return next(ctx)
-    }
-    const now = new Date().getTime()
-    return Promise.resolve(options.store.get(key))
-      .then((state) => state || { session: {} })
-      .then(({ session, expires }) => {
-        if (expires && expires < now) {
-          session = {}
-        }
-        Object.defineProperty(ctx, options.property, {
-          get: function () { return session },
-          set: function (newValue) { session = { ...newValue } }
-        })
-        return next(ctx).then(() => options.store.set(key, {
-          session,
-          expires: ttlMs ? now + ttlMs : null
-        }))
-      })
-  }
-}
-
-;// CONCATENATED MODULE: ./src/Space/TelegrafBot/index.js
-
-const { Telegraf } = __webpack_require__(9061);
-const bot = new Telegraf(Telegraf_BOT_TOKEN);
-
-
-bot.use(TelegrafSession())
-
-TelegrafBot_BotModel(bot);
-
-/* harmony default export */ const TelegrafBot = (bot);
-
-// Your code here, but do not `bot.launch()`
-
-// https://telegrafjs.org/
-
-// bot.start((ctx) => ctx.reply('Welcome'))
-// bot.help((ctx) => ctx.reply('Send me a sticker'))
-// bot.on('sticker', (ctx) => ctx.reply('👍'))
-// bot.hears('hi', (ctx) => ctx.reply('Hey there'))
-// bot.command('oldschool', (ctx) => ctx.reply('Hello'))
-// bot.command('modern', ({ reply }) => reply('Yo'))
-// bot.command('hipster', Telegraf.reply('λ'))
-// bot.on('text', (ctx) => ctx.reply('Hello World'))
-;// CONCATENATED MODULE: ./src/Space/Actions/TelegrafWebhook/index.js
-
-const { Context } = __webpack_require__(2112);
-const { HttpError } = __webpack_require__(3515);
-const createTelegrafMiddware = __webpack_require__(3732);
-const resolved = Promise.resolve();
-
-async function TelegrafWebhook(ctx) {
-  const context = new Context(ctx.event);
-  return Promise.race([
-    invokeMiddleware(context, createTelegrafMiddware(TelegrafBot)),
-    context.responded
-  ])
-}
-
-async function invokeMiddleware(context, middleware) {
-  try {
-    await middleware(context, () => resolved);
-    return context.res.create();
-  } catch (err) {
-    if (err instanceof HttpError) {
-      return err.toResponse();
-    }
-    const status = 500;
-    const statusText = "Internal Server Error";
-    const headers = { 'content-type': 'text/plain' };
-    return new Response(statusText, { status, statusText, headers });
-  }
-}
-
-/* harmony default export */ const Actions_TelegrafWebhook = (TelegrafWebhook);
-
-;// CONCATENATED MODULE: ./src/Space/Actions/Admin/index.js
-
-
-async function Admin(ctx) {
-  // Auth
-  if (!doBasicAuth(ctx.request)) {
-    return unauthorized();
-  }
-  const path = ctx.pathname
-  if (path.startsWith('/Admin/happypic-sex')) {
-    const ans = await Space_Space.API.Setu.HappypicSex()
-    return fetch(ans)
-  }
-  if (path.startsWith('/Admin/setu/gif')) {
-    const id = ctx.getParam('id') || Space_Space.Helpers.RandomNum(1, 35)
-    return new Response('<html style="height: 100%;"><head><meta name="viewport" content="width=device-width, minimum-scale=0.1"><title>404</title></head><body style="text-align: center;margin: 0px; background: #0e0e0e; height: 100%"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="/Admin/setu/api/gif?id=' + id + '"></body></html>'
-      , Space_Space.Helpers.Headers.html);
-  }
-  if (path.startsWith('/Admin/setu/api/gif')) {
-    const id = ctx.getParam('id')
-    return Space_Space.API.Setu.SJMM(id)
-  }
-  if (path.startsWith('/Admin/setu/tui')) {
-    const id = ctx.getParam('id')
-    return Space_Space.API.Setu.Tui(id)
-  }
-  if (path.startsWith('/Admin/setu/el')) {
-    const ans = await Space_Space.API.Setu.El()
-    return fetch(ans)
-  }
-
-
-  return Space_Space.Helpers.ErrorResponse("Opps...", 403);
-}
-
-/* harmony default export */ const Actions_Admin = (Admin);
-
-/**
- * 简单鉴权
- */
-function doBasicAuth(request) {
-  const auth = request.headers.get('Authorization');
-  if (!auth || !/^Basic [A-Za-z0-9._~+/-]+=*$/i.test(auth)) {
-    return false;
-  }
-  const [user, pass] = parseBasicAuth(auth);
-  return user === SpaceName && pass === SpacePassword;
-}
-function parseBasicAuth(auth) {
-  try {
-    return atob(auth.split(' ').pop()).split(':');
-  } catch (e) {
-    return [];
-  }
-}
-/**
- * 未鉴权 401
- */
-function unauthorized() {
-  return Space_Space.Helpers.ErrorResponse("您的权限不足，请不要再发送此请求", 401, {
-    headers: {
-      "content-type": "text/html; charset=utf-8",
-      'WWW-Authenticate': 'Basic realm="MyAPI"',
-      'Access-Control-Allow-Origin': '*'
-    },
-  });
-}
-;// CONCATENATED MODULE: ./src/Space/Actions/index.js
-
-
-
-
-
-
-
-
-
-
-const Actions_Actions = {
-  Auth: Actions_Auth,
-  Robots: Actions_Robots,
-  Dash: Actions_Dash,
-  API: Actions_API,
-  Link: Actions_Link,
-  Pages: Actions_Pages,
-  Favicon: Actions_Favicon,
-  TelegrafWebhook: Actions_TelegrafWebhook,
-  Admin: Actions_Admin,
-};
-
-/* harmony default export */ const Space_Actions = (Actions_Actions);
-
-;// CONCATENATED MODULE: ./src/Space/Space.js
-
-
-
-
-
-const Space = {
-  API: Space_API,
-  Helpers: Space_Helpers,
-  Renderers: Space_Renderers,
-  Actions: Space_Actions,
-};
-
-/* harmony default export */ const Space_Space = (Space);
-
-;// CONCATENATED MODULE: ./src/Space/index.js
-
-const IPTimes = {}
-async function handleSpace(event) {
-  try {
-    /////////////////////////////////////////////////////////////////////
-    // 安全检查
-    /////////////////////////////////////////////////////////////////////
-    // Analytics
-    event.waitUntil(Space_Space.Helpers.Security.securityCheckAnalytics(event));
-    // IP-Time-Times
-    const request = event.request;
-    const ip = request.headers.get("CF-Connecting-IP") || request.headers.get('x-real-ip') || request.headers.get("X-Forwarded-For");
-    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 0.25) && IPTimes[ip].times >= 300) {
-      return await Space_Space.Helpers.ErrorResponse("Too Many Requests", 403);
-    }
-    if (IPTimes[ip] && ((new Date() - IPTimes[ip].time) / 1000 / 60 / 60 < 24) && IPTimes[ip].times >= 1000) {
-      return await Space_Space.Helpers.ErrorResponse("Too Many Requests", 403);
-    }
-    IPTimes[ip] = {
-      time: new Date().getTime(),
-      times: IPTimes[ip]?.times ? IPTimes[ip].times + 1 : 1,
-    };
-    // Referer
-    if (typeof MY_REFERER != "undefined") {
-      const checkRefererStatus = Space_Space.Helpers.Security.checkReferer(event);
-      if (!checkRefererStatus) {
-        return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
-      }
-    }
-    /////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////
-    const router = new Space_Space.Helpers.Router(event);
-    // 以下非鉴权路由
-    /////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////
-    router.get("/favicon.ico").action(Space_Space.Actions.Favicon);
-    router.get("/robots.txt").action(Space_Space.Actions.Robots);
-    router.get(AUTH_PAGE).action(Space_Space.Actions.Auth.AuthPage);
-    router.post("/space/auth" + AUTH_PAGE).action(Space_Space.Actions.Auth.CheckAuth);
-    // 安全跳转
-    router.get("/link").action(Space_Space.Actions.Link);
-    // Telegraf Webhook
-    router.post(Telegraf_BOT_WEBHOOK).action(Space_Space.Actions.TelegrafWebhook);
-    /////////////////////////////////////////////////////////////////////
-    // OPEN Pages
-    router.get("/github-event").action(Space_Space.Actions.Pages.GithubEvent);
-    router.get("/pdf").action(Space_Space.Actions.Pages.PDF);
-    router.get("/color").action(Space_Space.Actions.Pages.Color);
-    // OPEN API
-    router.get("/bing").action(Space_Space.Actions.API.BingImgInfo);
-    router.get("/sitich").action(Space_Space.Actions.API.Sitich);
-    router.get("/soul").action(Space_Space.Actions.API.Soul);
-    router.get("/hitokoto").action(Space_Space.Actions.API.Hitokoto);
-    router.get("/unsplash").action(Space_Space.Actions.API.Unsplash);
-    router.get("/acg").action(Space_Space.Actions.API.ACG);
-    router.get("/niubi").action(Space_Space.Actions.API.Niubi);
-    router.get("/ipinfo").action(Space_Space.Actions.API.IP);
-    router.get("/decrypt").action(Space_Space.Actions.API.DecryptMd5);
-    router.get("/zh").action(Space_Space.Actions.API.ZH);
-    router.get("/person").action(Space_Space.Actions.API.thispersondoesnotexist);
-    router.get("/waifu").action(Space_Space.Actions.API.thiswaifudoesnotexist);
-    router.get("/anime").action(Space_Space.Actions.API.thisanimedoesnotexist);
-    router.get("/poet").action(Space_Space.Actions.API.Poet);
-    router.get("/happypic").action(Space_Space.Actions.API.Happypic);
-    router.get("/dns").action(Space_Space.Actions.API.DNSQuery);
-    router.get("/thum").action(Space_Space.Actions.API.Thum);
-    router.get("/ipfs/api/add").action(Space_Space.Actions.API.IPFS.Put);
-    router.get("/ipfs").action(Space_Space.Actions.API.IPFS.Get);
-    router.post("/api/v0/").action(Space_Space.Actions.API.IPFS.Put);
-    /////////////////////////////////////////////////////////////////////
-    // Header Auth
-    router.get("/Admin").action(Space_Space.Actions.Admin);
-    /////////////////////////////////////////////////////////////////////
-    // 以上非 Cookie 鉴权路由
-    // Cookie 鉴权
-    if (!router.status.action) {
-      const res = await Space_Space.Actions.Auth.CheckCookieAuth(event);
-      if (res != "PASS") {
-        return res;
-      } else {
-        router.setStatus("auth", 1);
-      }
-    }
-    // 以下 Cookie 鉴权路由
-    /////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////
-    // dashboard
-    const { dash_nav } = __webpack_require__(9908);
-    dash_nav.forEach(e => {
-      router.get("/space/dash/" + e).action(Space_Space.Actions.Dash[e]);
-    });
-    /////////////////////////////////////////////////////////////////////
-    // api
-    /////////////////////////////////////////////////////////////////////
-    router.post("/space/api/kv/get").action(Space_Space.Actions.API.KV.Get);
-    router.post("/space/api/kv/put").action(Space_Space.Actions.API.KV.Put);
-    router.post("/space/api/kv/delete").action(Space_Space.Actions.API.KV.Delete);
-    router.get("/space/api/GoogleTranslate").action(Space_Space.Actions.API.GoogleTranslate);
-    router.get("/space/api/GoogleSearch").action(Space_Space.Actions.API.GoogleSearch);
-    router.get("/space/api/WolframAlpha").action(Space_Space.Actions.API.WolframAlpha);
-    router.post("/space/api/NPMUpload").action(Space_Space.Actions.API.NPMUpload);
-    /////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////
-    // 启动 action
-    if (router.status.action) {
-      return await router.run();
-    } else {
-      if (router.status.auth) {
-        if (
-          event.request.url !=
-          `https://${event.request.url.split("/")[2]}/space/dash/home`
-        ) {
-          return Response.redirect(
-            `https://${event.request.url.split("/")[2]}/space/dash/home`,
-            302
-          );
-        }
-      }
-      return await Space_Space.Helpers.ErrorResponse("Ooops...", 403);
-    }
-  } catch (error) {
-    return await Space_Space.Helpers.ErrorResponse(error, 500);
-  }
-}
-/* harmony default export */ const src_Space = (handleSpace);
-
-;// CONCATENATED MODULE: ./src/Space/Scheduled.js
-
-
-
-async function handleScheduled(event) {
-  const Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
-  const Minutes = new Date(event.scheduledTime).getMinutes()
-
-  if (Hours == 2 && Minutes == 0) {
-    await Space_Space.API.CF.createRoute();
-    await Space_Space.API.CF.setSecurityLevel("essentially_off")
-  }
-  if (Hours == 6 && Minutes == 0) {
-    const ans = await Space_Space.API.BingImgInfo();
-    // chattitle: "喵喵喵" chatid: -1001531720445
-    await TelegrafBot.telegram.sendPhoto("-1001531720445", ans.url, { "caption": ans.copyright });
-  }
-}
-
-function UTC8Hours(Hours) {
-  let UTC8Hours = Hours + 8
-  if (UTC8Hours > 24) {
-    UTC8Hours = UTC8Hours - 24
-  }
-  return UTC8Hours
-}
-
-/* harmony default export */ const Scheduled = (handleScheduled);
-
-;// CONCATENATED MODULE: ./src/index.js
-
-
-
+var exports = __webpack_exports__;
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+const Space_1 = __webpack_require__(8212);
+const Scheduled_1 = __webpack_require__(6486);
 addEventListener("fetch", (event) => {
-  event.respondWith(
-    src_Space(event).catch(
-      (err) => new Response(err.stack, { status: 500 })
-    )
-  );
+    event.respondWith((0, Space_1.default)(event).catch((err) => new Response(err.stack, { status: 500 })));
+});
+addEventListener('scheduled', async (event) => {
+    event.waitUntil((0, Scheduled_1.default)(event));
 });
 
-addEventListener('scheduled', async event => {
-  event.waitUntil(Scheduled(event))
-})
 })();
 
 /******/ })()
