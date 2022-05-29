@@ -4,7 +4,10 @@ async function HappypicSex() {
   return "https://cdn.jsdelivr.net/npm/chenyfan-happypic-sex@0.0." + Space.Helpers.RandomNum(1, 19) + "/" + Space.Helpers.RandomNum(1, 99) + ".jpg"
 }
 
-async function SJMM(id: any = Space.Helpers.RandomNum(1, 35)) {
+async function SJMM(id?: any) {
+  if (!id) {
+    id = Space.Helpers.RandomNum(1, 35)
+  }
   const set = await Space.Helpers.Setting("GitHub");
   const BOT_TOKEN = set.BOT_TOKEN;
   return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/gif/" + id + ".gif", {
@@ -14,7 +17,10 @@ async function SJMM(id: any = Space.Helpers.RandomNum(1, 35)) {
     }
   })
 }
-async function Tui(id: any = Space.Helpers.RandomNum(1, 557)) {
+async function Tui(id?: any) {
+  if (!id) {
+    id = Space.Helpers.RandomNum(1, 557)
+  }
   const set = await Space.Helpers.Setting("GitHub");
   const BOT_TOKEN = set.BOT_TOKEN;
   return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/tui/" + id + ".jpg", {

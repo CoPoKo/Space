@@ -54621,7 +54621,10 @@ const Space_1 = __webpack_require__(7619);
 async function HappypicSex() {
     return "https://cdn.jsdelivr.net/npm/chenyfan-happypic-sex@0.0." + Space_1.default.Helpers.RandomNum(1, 19) + "/" + Space_1.default.Helpers.RandomNum(1, 99) + ".jpg";
 }
-async function SJMM(id = Space_1.default.Helpers.RandomNum(1, 35)) {
+async function SJMM(id) {
+    if (!id) {
+        id = Space_1.default.Helpers.RandomNum(1, 35);
+    }
     const set = await Space_1.default.Helpers.Setting("GitHub");
     const BOT_TOKEN = set.BOT_TOKEN;
     return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/gif/" + id + ".gif", {
@@ -54631,7 +54634,10 @@ async function SJMM(id = Space_1.default.Helpers.RandomNum(1, 35)) {
         }
     });
 }
-async function Tui(id = Space_1.default.Helpers.RandomNum(1, 557)) {
+async function Tui(id) {
+    if (!id) {
+        id = Space_1.default.Helpers.RandomNum(1, 557);
+    }
     const set = await Space_1.default.Helpers.Setting("GitHub");
     const BOT_TOKEN = set.BOT_TOKEN;
     return fetch("https://raw.githubusercontent.com/MHG-LAB/PRIVATEPIC/master/setu/tui/" + id + ".jpg", {
