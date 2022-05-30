@@ -17,6 +17,7 @@ import WolframAlpha from "./WolframAlpha";
 import Balloon from "./Balloon";
 import EmojiToSticker from "./EmojiToSticker";
 import ReplaceMa from "./ReplaceMa";
+import ReplyMaster from "./ReplyMaster";
 
 const Actions = {
   Niubi,
@@ -38,6 +39,7 @@ const Actions = {
   Balloon,
   EmojiToSticker,
   ReplaceMa,
+  ReplyMaster,
 };
 
 export default Actions;

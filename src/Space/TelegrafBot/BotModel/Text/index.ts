@@ -8,7 +8,7 @@ async function Text(ctx: any) {
     .admin().action(async () => {
       return await new TGBot.HandleMessage(ctx)
         .cmd('WebhookInfo').action(async () => {
-          return ctx.telegram.getWebhookInfo().then(data => {
+          return ctx.telegram.getWebhookInfo().then((data: any) => {
             return ctx.reply(JSON.stringify(data));
           })
         })
@@ -18,12 +18,12 @@ async function Text(ctx: any) {
           })
         })
         .then((that: HandleMessage) => {
-          return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that) => {
+          return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that: any) => {
             let q = []
             if (that.args.q) {
               q = that.args.q.split(",")
             }
-            return ctx.telegram[that.args.p](...q).then(data => {
+            return ctx.telegram[that.args.p](...q).then((data: any) => {
               return ctx.reply(JSON.stringify(data));
             })
           })
@@ -55,7 +55,7 @@ async function Text(ctx: any) {
       return that.run()
     })
   await new TGBot.HandleMessage(ctx)
-    .cmd('help').action((that) => {
+    .cmd('help').action((that: HandleMessage) => {
       return that.ctx.reply("no help");
     })
     .then((that: HandleMessage) => {
@@ -127,10 +127,8 @@ async function Text(ctx: any) {
     .then((that: HandleMessage) => {
       return that.reg(/在？|在\?/).reply(`有事？`)
     })
-    .then(async (that) => {
-      const set = await Setting("TelegrafBot")
-      const ADMIN_NAME = set.ADMIN_NAME
-      return that.reg(/你的主人|your master/).reply(`@${ADMIN_NAME}`)
+    .then((that: HandleMessage) => {
+      return that.reg(/你的主人|your master/).action(TGBot.Actions.ReplyMaster)
     })
     .then((that: HandleMessage) => {
       return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
