@@ -1,6 +1,7 @@
 import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const Setu = async (that: any) => {
+const Setu = async (that: HandleMessage) => {
   if (that.args.k == "p") {
     const ans = await Space.API.Setu.HappypicSex();
     return that.ctx.replyWithPhoto(ans);

@@ -1,6 +1,6 @@
 import Space from "../../Space"
 
-async function WolframAlpha(question: string) {
+const WolframAlpha: (question: string) => Promise<{ en: string; cn: string; }> = async (question) => {
   const set = await Space.Helpers.Setting("WolframAlpha");
   const APPID = set.APPID;
   const s_en: any = await Space.API.GoogleTranslate(question, {
@@ -28,9 +28,9 @@ async function WolframAlpha(question: string) {
     "to": "zh-cn",
     "domain": "com"
   });
-  return JSON.stringify({
+  return {
     en: ans,
     cn: ans_cn.text
-  })
+  }
 }
 export default WolframAlpha;

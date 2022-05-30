@@ -1,6 +1,6 @@
-import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const InterruptRepetition = async (that: any) => {
+const InterruptRepetition = async (that: HandleMessage) => {
   const ctx = that.ctx
   if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
     if (ctx.message.text) {

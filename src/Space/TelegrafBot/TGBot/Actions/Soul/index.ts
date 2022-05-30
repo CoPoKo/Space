@@ -1,6 +1,7 @@
 import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const Soul = async (that: any) => {
+const Soul = async (that: HandleMessage) => {
   const ans = await Space.API.Soul();
   return that.ctx.reply(ans);
 };

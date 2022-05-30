@@ -1,6 +1,6 @@
-import Space from "../../../../Space";
 import TGBot from "../../../TGBot"
-const EmojiToSticker = async (that: any) => {
+import HandleMessage from "../../HandleMessage";
+const EmojiToSticker = async (that: HandleMessage) => {
   const MyStickerSet = TGBot.StickerSet.My;
   for (const key in MyStickerSet) {
     if (Object.hasOwnProperty.call(MyStickerSet, key)) {

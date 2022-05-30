@@ -1,6 +1,7 @@
 import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const Thum = async (that: any) => {
+const Thum = async (that: HandleMessage) => {
   if (that.type == 'reg') {
     const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text)
     if (arr && Array.isArray(arr) && arr[1]) {

@@ -54748,7 +54748,7 @@ exports["default"] = Unsplash;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function WolframAlpha(question) {
+const WolframAlpha = async (question) => {
     const set = await Space_1.default.Helpers.Setting("WolframAlpha");
     const APPID = set.APPID;
     const s_en = await Space_1.default.API.GoogleTranslate(question, {
@@ -54776,11 +54776,11 @@ async function WolframAlpha(question) {
         "to": "zh-cn",
         "domain": "com"
     });
-    return JSON.stringify({
+    return {
         en: ans,
         cn: ans_cn.text
-    });
-}
+    };
+};
 exports["default"] = WolframAlpha;
 
 
@@ -55405,7 +55405,7 @@ const Space_1 = __webpack_require__(7619);
 async function WolframAlpha(ctx) {
     const s = ctx.getParam("s");
     const ans = await Space_1.default.API.WolframAlpha(s);
-    return new Response(ans, Space_1.default.Helpers.Headers.json);
+    return new Response(JSON.stringify(ans), Space_1.default.Helpers.Headers.json);
 }
 exports["default"] = WolframAlpha;
 
@@ -57261,7 +57261,6 @@ const Space_1 = __webpack_require__(7619);
 const WolframAlpha = async (that) => {
     const q = that.ctx.message.text.replace(/^:/, "").trim();
     let ans = await Space_1.default.API.WolframAlpha(q);
-    ans = JSON.parse(ans);
     if (ans.en == ans.cn)
         return that.ctx.reply(ans.en);
     return that.ctx.reply(ans.cn + "\n" + ans.en);
@@ -57419,10 +57418,6 @@ class HandleMessage {
             });
         };
         this.action = async function (call) {
-            if (this.except_status) {
-                this.except_status = 0;
-                return this;
-            }
             if (this.status)
                 return this;
             if (this.type == 'cmd') {
@@ -57543,7 +57538,6 @@ class HandleMessage {
         this.username = ctx.message.from.username;
         this.args = {};
         this.status = 0;
-        this.except_status = 0;
         this.new_chat_members_list = [];
         if (this.message)
             this.message = this.message.toLocaleLowerCase();

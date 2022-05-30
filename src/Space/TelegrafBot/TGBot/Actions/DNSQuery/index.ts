@@ -1,6 +1,7 @@
 import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const DNSQuery = async (that: any) => {
+const DNSQuery = async (that: HandleMessage) => {
   const opt: any = {}
   opt.type = that.args.t || "A"
   opt.name = that.args.n || "github.com"

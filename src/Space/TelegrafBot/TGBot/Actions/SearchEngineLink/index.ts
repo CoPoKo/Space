@@ -1,6 +1,7 @@
 import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const SearchEngineLink = async (that: any) => {
+const SearchEngineLink = async (that: HandleMessage) => {
   const engineList = {
     baidu: {
       keywords: ["百度", "度娘", "baidu"],

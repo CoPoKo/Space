@@ -22,6 +22,10 @@ class Shell {
 }
 
 class HandleMessage {
+  public message: string;
+  public chatid: string;
+  public username: string;
+  public status: number;
   [x: string]: any;
   constructor(ctx: any) {
     this.ctx = ctx;
@@ -29,7 +33,6 @@ class HandleMessage {
     this.username = ctx.message.from.username;
     this.args = {};
     this.status = 0;
-    this.except_status = 0;
     this.new_chat_members_list = [];
 
     if (this.message) this.message = this.message.toLocaleLowerCase();
@@ -97,10 +100,6 @@ class HandleMessage {
     })
   }
   public action = async function (call: (arg0: any) => any) {
-    if (this.except_status) {
-      this.except_status = 0;
-      return this;
-    }
     if (this.status) return this;
     if (this.type == 'cmd') {
       if (!/^>/.test(this.message)) return this;

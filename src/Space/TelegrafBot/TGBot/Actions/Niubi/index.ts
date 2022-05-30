@@ -1,6 +1,7 @@
 import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const Niubi = async (that: any) => {
+const Niubi = async (that: HandleMessage) => {
   let name = "CoCo";
   const arr = /来点(\S*)笑话/.exec(that.ctx.message.text)
 

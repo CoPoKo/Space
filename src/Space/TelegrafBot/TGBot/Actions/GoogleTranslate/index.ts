@@ -1,6 +1,7 @@
 import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
 
-const GoogleTranslate = async (that: any) => {
+const GoogleTranslate = async (that: HandleMessage) => {
   const conf = {
     "to": that.args.t,
     "domain": "com"
