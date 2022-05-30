@@ -4,9 +4,7 @@ const InterruptRepetition = async (that: any) => {
   const ctx = that.ctx
   if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
     if (ctx.message.text) {
-      if (!ctx.session.messageList) {
-        ctx.session.messageList = []
-      }
+      ctx.session ??= { messageList: [] }
       ctx.session.messageList.push(ctx.message.text)
       const messageList = ctx.session.messageList
       const length = messageList.length

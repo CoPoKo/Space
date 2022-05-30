@@ -56571,12 +56571,15 @@ async function Text(ctx) {
             });
         })
             .then(that => {
-            return that.reg(/test/).action(() => {
+            return that.reg(/coco test/).action(() => {
                 return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA");
             });
         })
             .then(that => {
             return that.reg(/在吗/).reply(`主人我在`);
+        })
+            .then(that => {
+            return that.cmd('setu').setArg('k', 0).action(TGBot_1.default.Actions.Setu);
         })
             .then(that => {
             return that.run();
@@ -56617,9 +56620,6 @@ async function Text(ctx) {
     })
         .then(that => {
         return that.cmd('acg').action(TGBot_1.default.Actions.Happypic);
-    })
-        .then(that => {
-        return that.cmd('setu').setArg('k', 0).action(TGBot_1.default.Actions.Setu);
     })
         .then(that => {
         return that.cmd('nbnhhsh').setArg('k', 'nb').action(TGBot_1.default.Actions.Nbnhhsh);
@@ -56972,9 +56972,7 @@ const InterruptRepetition = async (that) => {
     const ctx = that.ctx;
     if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
         if (ctx.message.text) {
-            if (!ctx.session.messageList) {
-                ctx.session.messageList = [];
-            }
+            ctx.session ?? (ctx.session = { messageList: [] });
             ctx.session.messageList.push(ctx.message.text);
             const messageList = ctx.session.messageList;
             const length = messageList.length;
@@ -57667,10 +57665,8 @@ exports["default"] = TGBot;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const BotModel_1 = __webpack_require__(1533);
-const { Telegraf } = __webpack_require__(9061);
-const bot = new Telegraf(Telegraf_BOT_TOKEN);
-const session_1 = __webpack_require__(235);
-bot.use((0, session_1.default)(bot));
+const telegraf_1 = __webpack_require__(9061);
+const bot = new telegraf_1.Telegraf(Telegraf_BOT_TOKEN);
 (0, BotModel_1.default)(bot);
 exports["default"] = bot;
 // Your code here, but do not `bot.launch()`
@@ -64140,51 +64136,6 @@ class Telegram extends client_1.default {
 }
 exports.Telegram = Telegram;
 exports["default"] = Telegram;
-
-
-/***/ }),
-
-/***/ 235:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ TelegrafSession)
-/* harmony export */ });
-function TelegrafSession (opts) {
-  const options = {
-    property: 'session',
-    store: new Map(),
-    getSessionKey: (ctx) => ctx.from && ctx.chat && `${ctx.from.id}:${ctx.chat.id}`,
-    ...opts
-  }
-
-  const ttlMs = options.ttl && options.ttl * 1000
-
-  return (ctx, next) => {
-    const key = options.getSessionKey(ctx)
-    if (!key) {
-      return next(ctx)
-    }
-    const now = new Date().getTime()
-    return Promise.resolve(options.store.get(key))
-      .then((state) => state || { session: {} })
-      .then(({ session, expires }) => {
-        if (expires && expires < now) {
-          session = {}
-        }
-        Object.defineProperty(ctx, options.property, {
-          get: function () { return session },
-          set: function (newValue) { session = { ...newValue } }
-        })
-        return next(ctx).then(() => options.store.set(key, {
-          session,
-          expires: ttlMs ? now + ttlMs : null
-        }))
-      })
-  }
-}
 
 
 /***/ }),

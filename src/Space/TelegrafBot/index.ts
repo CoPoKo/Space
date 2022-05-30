@@ -1,9 +1,6 @@
 import BotModel from "./BotModel";
-const { Telegraf } = require('telegraf');
+import { Telegraf } from 'telegraf'
 const bot = new Telegraf(Telegraf_BOT_TOKEN);
-
-import session from '@telegraf/session'
-bot.use(session(bot))
 
 BotModel(bot);
 

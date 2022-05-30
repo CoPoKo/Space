@@ -28,12 +28,15 @@ async function Text(ctx: any) {
           })
         })
         .then(that => {
-          return that.reg(/test/).action(() => {
+          return that.reg(/coco test/).action(() => {
             return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
           })
         })
         .then(that => {
           return that.reg(/在吗/).reply(`主人我在`)
+        })
+        .then(that => {
+          return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
         })
         .then(that => {
           return that.run()
@@ -74,9 +77,6 @@ async function Text(ctx: any) {
     })
     .then(that => {
       return that.cmd('acg').action(TGBot.Actions.Happypic)
-    })
-    .then(that => {
-      return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
     })
     .then(that => {
       return that.cmd('nbnhhsh').setArg('k', 'nb').action(TGBot.Actions.Nbnhhsh)
