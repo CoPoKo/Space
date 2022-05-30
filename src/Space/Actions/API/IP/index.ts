@@ -1,6 +1,7 @@
+import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function IP(ctx: any) {
+async function IP(ctx: Router) {
   const request = ctx.request
   return new Response(JSON.stringify({
     "CF-Connecting-IP": request.headers.get("CF-Connecting-IP"),

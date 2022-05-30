@@ -15,8 +15,8 @@ import Space from "../../Space"
  */
 async function Poet(opt: any = {}) {
   opt.type = opt.type == "song" ? "song" : "tang"
-  opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * (254) + 1) : Math.floor(Math.random() * (57) + 1))
-  opt.with = opt.with || Math.floor(Math.random() * (100))
+  opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * 254 + 1) : Math.floor(Math.random() * 57 + 1))
+  opt.with = opt.with || Math.floor(Math.random() * 100)
   opt.limit = opt.limit || 100
   opt.start = opt.start || 0
   opt.tran = opt.tran || "true"

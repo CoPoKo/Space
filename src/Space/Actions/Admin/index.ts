@@ -1,6 +1,7 @@
+import Router from "../../Helpers/Router";
 import Space from "../../Space";
 
-async function Admin(ctx: any) {
+async function Admin(ctx: Router) {
   // Auth
   if (!doBasicAuth(ctx.request)) {
     return unauthorized();

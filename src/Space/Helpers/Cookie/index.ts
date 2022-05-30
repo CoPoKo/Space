@@ -1,4 +1,4 @@
-async function get(request: any, key: any) {
+async function get(request: Request, key: string) {
   const cookie = request.headers.get("Cookie");
   // No cookie found
   if (!cookie) return "";
@@ -12,7 +12,7 @@ async function get(request: any, key: any) {
   const end = value.indexOf(";");
   return end === -1 ? value : value.substring(0, end);
 }
-async function set(response: any, key: any, value: any, path = "/") {
+async function set(response: Response, key: string, value: string, path = "/") {
   response.headers.append("Set-Cookie", `${key}=${value}; path=${path};Max-Age=86400`);
   return response;
 }

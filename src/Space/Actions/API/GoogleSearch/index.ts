@@ -1,9 +1,9 @@
+import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function GoogleSearch(ctx: any) {
-  const URLParameters: any = Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const s = URLParameters.s
+async function GoogleSearch(ctx: Router) {
+  const s = ctx.getParam("s")
   const ans = await Space.API.GoogleSearch(s)
-  return new Response(ans, Space.Helpers.Headers.json);
+  return new Response(JSON.stringify({ ans: ans.items }), Space.Helpers.Headers.json);
 }
 export default GoogleSearch;

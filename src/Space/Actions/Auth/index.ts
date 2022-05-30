@@ -1,11 +1,12 @@
+import Router from "../../Helpers/Router";
 import Space from "../../Space";
 const SHA256 = require("crypto-js/sha256");
 async function AuthPage(_ctx: any) {
   const html = Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT).replace(/::AUTH_PAGE::/g, AUTH_PAGE)
   return new Response(html, Space.Helpers.Headers.html);
 }
-async function CheckAuth(ctx: any) {
-  const auth = await Space.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e))
+async function CheckAuth(ctx: Router) {
+  const auth = await Space.Helpers.ReadRequest.Body(ctx.request).then((e: string) => JSON.parse(e))
   const token = auth.token;
   const secret = reCAPTCHA_SERVER;
   const ip = ctx.ip;
@@ -36,9 +37,9 @@ async function CheckAuth(ctx: any) {
     Space.Helpers.Headers.json
   );
 }
-async function CheckCookieAuth(ctx: any) {
+async function CheckCookieAuth(event: FetchEvent) {
   return Space.Helpers.Cookie
-    .get(ctx.request, "_copoko_space_cookie_auth")
+    .get(event.request, "_copoko_space_cookie_auth")
     .then(async (_copoko_space_cookie_auth) => {
       if (_copoko_space_cookie_auth) {
         const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;

@@ -2,7 +2,7 @@ import Space from "../../Space"
 
 async function NPMUpload(file: any) {
   const fileBuffer = await file.arrayBuffer()
-  const fileName = await file.name
+  const fileName = file.name
   const fileBase64 = Buffer.from(fileBuffer).toString('base64')
 
   const set = await Space.Helpers.Setting("NPMUpload");

@@ -1,6 +1,7 @@
+import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Poet(ctx: any) {
+async function Poet(ctx: Router) {
   const opt: any = {}
   opt.type = ctx.getParam("type")
   opt.from = ctx.getParam("from")

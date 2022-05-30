@@ -1,6 +1,7 @@
+import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Hitokoto(ctx: any) {
+async function Hitokoto(ctx: Router) {
   const path = ctx.pathname
   const ans = await Space.API.Hitokoto()
   if (path.startsWith('/hitokoto/w')) {

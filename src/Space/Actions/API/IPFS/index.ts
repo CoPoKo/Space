@@ -1,6 +1,7 @@
+import Router from "../../../Helpers/Router";
 import Space from "../../../Space";
 
-async function Get(ctx: any) {
+async function Get(ctx: Router) {
   const request = ctx.request
   const path = ctx.pathname
   if (path == "/ipfs/" || path == "/ipfs") {
@@ -10,7 +11,7 @@ async function Get(ctx: any) {
   url.hostname = "cloudflare-ipfs.com"
   return await fetch(url.toString(), request)
 }
-async function Put(ctx: any) {
+async function Put(ctx: Router) {
   const request = ctx.request
   if (ctx.method == "POST") {
     const set = await Space.Helpers.Setting("IPFS");

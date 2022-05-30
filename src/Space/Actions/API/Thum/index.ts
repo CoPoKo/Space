@@ -1,6 +1,7 @@
+import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Thum(ctx: any) {
+async function Thum(ctx: Router) {
   const opt: any = {}
   opt.url = ctx.getParam("url")
   opt.width = ctx.getParam("width")

@@ -1,3 +1,4 @@
+import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 /**
  * DNS查询
@@ -19,7 +20,7 @@ import Space from "../../../Space"
                         dnspod使用腾讯云DNSPODCDN,回源10~80ms
   注：DoH 推荐直接选用https://dns.alidns.com/dns-query，而不是用本API的反代接口
  */
-async function DNSQuery(ctx: any) {
+async function DNSQuery(ctx: Router) {
   const path = ctx.pathname
   const opt: any = {}
   opt.type = ctx.getParam("type")

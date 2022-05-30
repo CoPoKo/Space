@@ -1,6 +1,6 @@
 import Space from "../../../Space"
 
-async function ACG(_ctx: any) {
+async function ACG() {
   const ans = await Space.API.ACG()
   return fetch(ans)
 }

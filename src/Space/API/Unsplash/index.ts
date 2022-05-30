@@ -1,5 +1,3 @@
-import Space from "../../Space"
-
 async function Unsplash(keywords: string) {
   if (!keywords) {
     keywords = "nature,water,sky,blue,sea"

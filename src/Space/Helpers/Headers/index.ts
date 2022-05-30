@@ -1,41 +1,41 @@
-const js = {
+const js: any = {
   headers: {
     "content-type": "application/javascript; charset=utf-8",
     "Access-Control-Allow-Origin": "*",
   },
 };
-const html = {
+const html: any = {
   headers: {
     "content-type": "text/html; charset=utf-8",
     "Access-Control-Allow-Origin": "*",
   },
 };
-const json = {
+const json: any = {
   headers: {
     "content-type": "application/json; charset=utf-8",
     "Access-Control-Allow-Origin": "*",
   },
 };
-const stream = {
+const stream: any = {
   headers: {
     "content-type": "application/octet-stream",
     "Access-Control-Allow-Origin": "*",
   },
 };
-const xml = {
+const xml: any = {
   headers: {
     "content-type": "application/xml; charset=utf-8",
     "Access-Control-Allow-Origin": "*",
   },
 };
-const text = {
+const text: any = {
   headers: {
     "content-type": "text/plain; charset=utf-8",
     "Access-Control-Allow-Origin": "*",
   },
 };
 
-const Headers = {
+const Headers: any = {
   js,
   html,
   json,

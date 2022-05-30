@@ -1,7 +1,7 @@
 import Space from "../../Space"
 
 const IPFS = {
-  Put: async (s: any) => {
+  Put: async (s: string) => {
     if (!s) {
       s = "Hello World!"
     }

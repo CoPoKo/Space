@@ -1,6 +1,6 @@
 import Space from "../../../Space"
 
-async function Sitich(_ctx: any) {
+async function Sitich() {
   const ans = await Space.API.Sitich()
   return fetch(ans)
 }

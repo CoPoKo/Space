@@ -1,9 +1,9 @@
 import Space from "../../Space"
 
-async function GoogleTranslate(s: any, conf: any) {
+const GoogleTranslate: (s: string, conf: any) => Promise<any> = async (s, conf) => {
   const set = await Space.Helpers.Setting("GoogleTranslate");
   const translate_api = set.API;
-  const ans = await (await fetch(translate_api, {
+  return fetch(translate_api, {
     method: "POST",
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
@@ -12,7 +12,6 @@ async function GoogleTranslate(s: any, conf: any) {
       "s": s,
       "conf": conf
     })
-  })).json()
-  return ans
+  }).then(e => e.json())
 }
 export default GoogleTranslate;

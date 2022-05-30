@@ -1,8 +1,8 @@
+import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Niubi(ctx: any) {
-  const URLParameters = Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const name = URLParameters.name
+async function Niubi(ctx: Router) {
+  const name = ctx.getParam("name")
   const ans = await Space.API.Niubi(name)
 
   return new Response(JSON.stringify({ "niubi": ans }), Space.Helpers.Headers.json)

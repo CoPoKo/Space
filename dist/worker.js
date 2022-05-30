@@ -54085,15 +54085,16 @@ exports["default"] = ACG;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function BingImgInfo(day = 0) {
+const BingImgInfo = async (day = 0) => {
     const FetchUrl = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=" + day + "&n=1";
-    const ans = await Space_1.default.Helpers.Fetch.JSON(FetchUrl);
-    const BingImgInfo = ans.images[0];
-    BingImgInfo.url = "https://www.bing.com" + BingImgInfo.url;
-    BingImgInfo.urlbase = "https://www.bing.com" + BingImgInfo.urlbase;
-    BingImgInfo.quiz = "https://www.bing.com" + BingImgInfo.quiz;
-    return BingImgInfo;
-}
+    return await Space_1.default.Helpers.Fetch.JSON(FetchUrl).then((e) => {
+        const BingImgInfo = e.images[0];
+        BingImgInfo.url = "https://www.bing.com" + BingImgInfo.url;
+        BingImgInfo.urlbase = "https://www.bing.com" + BingImgInfo.urlbase;
+        BingImgInfo.quiz = "https://www.bing.com" + BingImgInfo.quiz;
+        return BingImgInfo;
+    });
+};
 exports["default"] = BingImgInfo;
 
 
@@ -54283,26 +54284,29 @@ exports["default"] = DNSQuery;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-async function DecryptMd5(md5) {
-    const data = {};
+const DecryptMd5 = async (md5) => {
     if (md5) {
         // https://md5.gromweb.com/?md5=eb62f6b9306db575c2d596b1279627a4
         const MD5FetchURL = "https://md5.gromweb.com/?md5=" + md5;
-        let rs = await (await fetch(MD5FetchURL, {
+        return await fetch(MD5FetchURL, {
             method: "GET",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
                 "X-Forwarded-For": "192.168.1.1"
             }
-        })).text();
-        rs = /<em class=\"long-content\ string\">(.*)<\/em>/.exec(rs);
-        if (rs)
-            rs = rs[1];
-        data['ans'] = rs;
+        })
+            .then(e => e.text())
+            .then(e => /<em class=\"long-content\ string\">(.*)<\/em>/.exec(e))
+            .then(e => {
+            if (e)
+                return e[1];
+            else
+                return "Not Found";
+        });
     }
-    return data;
-}
+    return "null";
+};
 exports["default"] = DecryptMd5;
 
 
@@ -54321,7 +54325,7 @@ async function GoogleSearch(question) {
     const CX = set.CX;
     const FetchURL_Google_ALL = "https://www.googleapis.com/customsearch/v1?key=" + KEY + "&cx=" + CX + "&start=0&q=" + question;
     const ans = await Space_1.default.Helpers.Fetch.JSON(FetchURL_Google_ALL);
-    return JSON.stringify({ ans: ans.items });
+    return ans;
 }
 exports["default"] = GoogleSearch;
 
@@ -54335,10 +54339,10 @@ exports["default"] = GoogleSearch;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function GoogleTranslate(s, conf) {
+const GoogleTranslate = async (s, conf) => {
     const set = await Space_1.default.Helpers.Setting("GoogleTranslate");
     const translate_api = set.API;
-    const ans = await (await fetch(translate_api, {
+    return fetch(translate_api, {
         method: "POST",
         headers: {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
@@ -54347,9 +54351,8 @@ async function GoogleTranslate(s, conf) {
             "s": s,
             "conf": conf
         })
-    })).json();
-    return ans;
-}
+    }).then(e => e.json());
+};
 exports["default"] = GoogleTranslate;
 
 
@@ -54454,7 +54457,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function NPMUpload(file) {
     const fileBuffer = await file.arrayBuffer();
-    const fileName = await file.name;
+    const fileName = file.name;
     const fileBase64 = Buffer.from(fileBuffer).toString('base64');
     const set = await Space_1.default.Helpers.Setting("NPMUpload");
     const GITHUB_TOKEN = set.GITHUB_TOKEN;
@@ -54586,8 +54589,8 @@ const Space_1 = __webpack_require__(7619);
  */
 async function Poet(opt = {}) {
     opt.type = opt.type == "song" ? "song" : "tang";
-    opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * (254) + 1) : Math.floor(Math.random() * (57) + 1));
-    opt.with = opt.with || Math.floor(Math.random() * (100));
+    opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * 254 + 1) : Math.floor(Math.random() * 57 + 1));
+    opt.with = opt.with || Math.floor(Math.random() * 100);
     opt.limit = opt.limit || 100;
     opt.start = opt.start || 0;
     opt.tran = opt.tran || "true";
@@ -54649,9 +54652,7 @@ async function Tui(id) {
 }
 async function El() {
     const FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json";
-    const SetuInfo = await Space_1.default.Helpers.Fetch.JSON(FetchUrl).then((e) => { e.image; });
-    const url = SetuInfo[Space_1.default.Helpers.RandomNum(0, SetuInfo.length - 1)].url;
-    return url;
+    return await Space_1.default.Helpers.Fetch.JSON(FetchUrl).then((e) => e.image).then((e) => e[Space_1.default.Helpers.RandomNum(0, e.length - 1)].url);
 }
 const Setu = {
     HappypicSex,
@@ -54954,7 +54955,7 @@ exports["default"] = thiswaifudoesnotexist;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function ACG(_ctx) {
+async function ACG() {
     const ans = await Space_1.default.API.ACG();
     return fetch(ans);
 }
@@ -54971,9 +54972,8 @@ exports["default"] = ACG;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function BingImgInfo(ctx) {
-    const URLParameters = Space_1.default.Helpers.ReadRequest.URLParameters(ctx.request);
     const path = ctx.pathname;
-    const day = URLParameters.day;
+    const day = ctx.getParam("day");
     const ans = await Space_1.default.API.BingImgInfo(day);
     if (path.startsWith('/bing/info')) {
         return new Response(JSON.stringify(ans), Space_1.default.Helpers.Headers.json);
@@ -55070,7 +55070,7 @@ const Space_1 = __webpack_require__(7619);
 async function DecryptMd5(ctx) {
     const md5 = ctx.getParam("md5");
     const ans = await Space_1.default.API.DecryptMd5(md5);
-    return new Response(JSON.stringify(ans), Space_1.default.Helpers.Headers.json);
+    return new Response(JSON.stringify({ ans: ans }), Space_1.default.Helpers.Headers.json);
 }
 exports["default"] = DecryptMd5;
 
@@ -55085,10 +55085,9 @@ exports["default"] = DecryptMd5;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function GoogleSearch(ctx) {
-    const URLParameters = Space_1.default.Helpers.ReadRequest.URLParameters(ctx.request);
-    const s = URLParameters.s;
+    const s = ctx.getParam("s");
     const ans = await Space_1.default.API.GoogleSearch(s);
-    return new Response(ans, Space_1.default.Helpers.Headers.json);
+    return new Response(JSON.stringify({ ans: ans.items }), Space_1.default.Helpers.Headers.json);
 }
 exports["default"] = GoogleSearch;
 
@@ -55103,10 +55102,9 @@ exports["default"] = GoogleSearch;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function GoogleTranslate(ctx) {
-    const URLParameters = Space_1.default.Helpers.ReadRequest.URLParameters(ctx.request);
-    const s = URLParameters.s;
-    const to = URLParameters.to || "zh-cn";
-    const domain = URLParameters.domain || "com";
+    const s = ctx.getParam("s");
+    const to = ctx.getParam("to") || "zh-cn";
+    const domain = ctx.getParam("domain") || "com";
     const conf = {
         "to": to,
         "domain": domain
@@ -55126,7 +55124,7 @@ exports["default"] = GoogleTranslate;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function Happypic(_ctx) {
+async function Happypic() {
     const ans = await Space_1.default.API.Happypic();
     return fetch(ans);
 }
@@ -55224,76 +55222,34 @@ exports["default"] = IP;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function Get(ctx) {
-    try {
-        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
-        const key = body.key;
-        const value = await Space_1.default.API.KV.Get(key);
-        return new Response(JSON.stringify({
-            sucess: 1,
-            key: key,
-            value: value,
-        }), Space_1.default.Helpers.Headers.json);
-    }
-    catch (error) {
-        return new Response(JSON.stringify({
-            sucess: 0,
-            error: error,
-        }), {
-            status: 500,
-            headers: {
-                "content-type": "application/json; charset=utf-8",
-                "Access-Control-Allow-Origin": "*",
-            }
-        });
-    }
+    const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+    const key = body.key;
+    const value = await Space_1.default.API.KV.Get(key);
+    return new Response(JSON.stringify({
+        sucess: 1,
+        key: key,
+        value: value,
+    }), Space_1.default.Helpers.Headers.json);
 }
 async function Put(ctx) {
-    try {
-        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
-        const key = body.key;
-        const value = body.value;
-        await Space_1.default.API.KV.Put(key, value);
-        return new Response(JSON.stringify({
-            sucess: 1,
-            key: key,
-            value: value,
-        }), Space_1.default.Helpers.Headers.json);
-    }
-    catch (error) {
-        return new Response(JSON.stringify({
-            sucess: 0,
-            error: error,
-        }), {
-            status: 500,
-            headers: {
-                "content-type": "application/json; charset=utf-8",
-                "Access-Control-Allow-Origin": "*",
-            }
-        });
-    }
+    const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+    const key = body.key;
+    const value = body.value;
+    await Space_1.default.API.KV.Put(key, value);
+    return new Response(JSON.stringify({
+        sucess: 1,
+        key: key,
+        value: value,
+    }), Space_1.default.Helpers.Headers.json);
 }
 async function Delete(ctx) {
-    try {
-        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
-        const key = body.key;
-        await Space_1.default.API.KV.Delete(key);
-        return new Response(JSON.stringify({
-            sucess: 1,
-            key: key,
-        }), Space_1.default.Helpers.Headers.json);
-    }
-    catch (error) {
-        return new Response(JSON.stringify({
-            sucess: 0,
-            error: error,
-        }), {
-            status: 500,
-            headers: {
-                "content-type": "application/json; charset=utf-8",
-                "Access-Control-Allow-Origin": "*",
-            }
-        });
-    }
+    const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+    const key = body.key;
+    await Space_1.default.API.KV.Delete(key);
+    return new Response(JSON.stringify({
+        sucess: 1,
+        key: key,
+    }), Space_1.default.Helpers.Headers.json);
 }
 const KV = {
     Get,
@@ -55315,7 +55271,7 @@ const Space_1 = __webpack_require__(7619);
 async function NPMUpload(ctx) {
     const request = ctx.request;
     const formData = await request.formData();
-    const file = await formData.get("file");
+    const file = formData.get("file");
     const ans = await Space_1.default.API.NPMUpload(file);
     return new Response(ans.body, { status: ans.status });
 }
@@ -55332,8 +55288,7 @@ exports["default"] = NPMUpload;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function Niubi(ctx) {
-    const URLParameters = Space_1.default.Helpers.ReadRequest.URLParameters(ctx.request);
-    const name = URLParameters.name;
+    const name = ctx.getParam("name");
     const ans = await Space_1.default.API.Niubi(name);
     return new Response(JSON.stringify({ "niubi": ans }), Space_1.default.Helpers.Headers.json);
 }
@@ -55373,7 +55328,7 @@ exports["default"] = Poet;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function Sitich(_ctx) {
+async function Sitich() {
     const ans = await Space_1.default.API.Sitich();
     return fetch(ans);
 }
@@ -55431,8 +55386,7 @@ exports["default"] = Thum;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function Unsplash(ctx) {
-    const URLParameters = Space_1.default.Helpers.ReadRequest.URLParameters(ctx.request);
-    const keywords = URLParameters.keywords;
+    const keywords = ctx.getParam("keywords");
     const ans = await Space_1.default.API.Unsplash(keywords);
     return fetch(ans);
 }
@@ -55449,8 +55403,7 @@ exports["default"] = Unsplash;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function WolframAlpha(ctx) {
-    const URLParameters = Space_1.default.Helpers.ReadRequest.URLParameters(ctx.request);
-    const s = URLParameters.s;
+    const s = ctx.getParam("s");
     const ans = await Space_1.default.API.WolframAlpha(s);
     return new Response(ans, Space_1.default.Helpers.Headers.json);
 }
@@ -55467,8 +55420,7 @@ exports["default"] = WolframAlpha;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function ZH(ctx) {
-    const URLParameters = Space_1.default.Helpers.ReadRequest.URLParameters(ctx.request);
-    const s = URLParameters.s;
+    const s = ctx.getParam("s");
     const path = ctx.pathname;
     if (s) {
         if (path.startsWith('/zh/s')) {
@@ -55571,7 +55523,7 @@ exports["default"] = thisanimedoesnotexist;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function thispersondoesnotexist(_ctx) {
+async function thispersondoesnotexist() {
     const ans = await Space_1.default.API.thispersondoesnotexist();
     return fetch(ans);
 }
@@ -55682,7 +55634,7 @@ async function AuthPage(_ctx) {
     return new Response(html, Space_1.default.Helpers.Headers.html);
 }
 async function CheckAuth(ctx) {
-    const auth = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then(e => JSON.parse(e));
+    const auth = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
     const token = auth.token;
     const secret = reCAPTCHA_SERVER;
     const ip = ctx.ip;
@@ -55706,9 +55658,9 @@ async function CheckAuth(ctx) {
         success: 0,
     }), Space_1.default.Helpers.Headers.json);
 }
-async function CheckCookieAuth(ctx) {
+async function CheckCookieAuth(event) {
     return Space_1.default.Helpers.Cookie
-        .get(ctx.request, "_copoko_space_cookie_auth")
+        .get(event.request, "_copoko_space_cookie_auth")
         .then(async (_copoko_space_cookie_auth) => {
         if (_copoko_space_cookie_auth) {
             const TrueAuth = `${SHA256(SpaceName).toString()}::${SHA256(SpacePassword).toString()}`;
@@ -55756,7 +55708,7 @@ exports["default"] = Dash;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-async function Favicon(_ctx) {
+async function Favicon() {
     return fetch("https://fastly.jsdelivr.net/npm/@copoko/space-static@1.0.1653038935402/favicon/favicon-16x16.png");
 }
 exports["default"] = Favicon;
@@ -55786,7 +55738,7 @@ exports["default"] = Link;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function Color(_ctx) {
+async function Color() {
     const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@2/color/index.html";
     const ans = await Space_1.default.Helpers.Fetch.Text(FetchURL);
     return new Response(ans, Space_1.default.Helpers.Headers.html);
@@ -55803,7 +55755,7 @@ exports["default"] = Color;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function GithubEvent(_ctx) {
+async function GithubEvent() {
     const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/pages@main/github-events/index.html";
     const ans = await Space_1.default.Helpers.Fetch.Text(FetchURL);
     return new Response(ans, Space_1.default.Helpers.Headers.html);
@@ -55820,7 +55772,7 @@ exports["default"] = GithubEvent;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function PDF(_ctx) {
+async function PDF() {
     const FetchURL = "https://cdn.jsdelivr.net/npm/imbox@0.0.11/pdf.js/web/static.html";
     const ans = await Space_1.default.Helpers.Fetch.Text(FetchURL);
     return new Response(ans, Space_1.default.Helpers.Headers.html);
@@ -55856,7 +55808,7 @@ exports["default"] = Pages;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function Robots(_ctx) {
+async function Robots() {
     return new Response(Space_1.default.Renderers.robots, Space_1.default.Helpers.Headers.text);
 }
 exports["default"] = Robots;
@@ -55954,17 +55906,20 @@ exports.space_dns_prefetch = "https://fastly.jsdelivr.net";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const recaptcha = async (secret, token, ip) => {
-    const res = await fetch(new Request("https://www.google.com/recaptcha/api/siteverify", {
+    return fetch(new Request("https://www.google.com/recaptcha/api/siteverify", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `secret=${secret}&response=${token}&remoteip=${ip}`,
-    })).then(e => e.json());
-    if (res.success && res.score >= 0.6) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    }))
+        .then(e => e.json())
+        .then((e) => {
+        if (e.success && e.score >= 0.6) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    });
 };
 const Captcha = {
     recaptcha,
@@ -56032,13 +55987,27 @@ exports["default"] = ErrorResponse;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Text = async (req) => {
+    return fetch(req).then(e => e.text());
+};
+const JSON = async (req) => {
+    return fetch(req).then(e => e.json());
+};
+const Blob = async (req) => {
+    return fetch(req).then(e => e.blob());
+};
+const ArrayBuffer = async (req) => {
+    return fetch(req).then(e => e.arrayBuffer());
+};
+const FormData = async (req) => {
+    return fetch(req).then(e => e.formData());
+};
 const Fetch = {
-    Text: async function (req) {
-        return fetch(req).then(e => e.text());
-    },
-    JSON: async function (req) {
-        return fetch(req).then(e => e.json());
-    }
+    Text,
+    JSON,
+    Blob,
+    ArrayBuffer,
+    FormData,
 };
 exports["default"] = Fetch;
 
@@ -56167,27 +56136,12 @@ exports["default"] = ReadRequest;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 class Router {
     constructor(event) {
-        this.event = event;
-        this.request = this.event.request;
-        this.urlObj = new URL(this.request.url);
-        this.pathname = this.urlObj.pathname;
-        this.searchParams = this.urlObj.searchParams;
-        this.method = this.request.method;
-        this.ip =
-            this.request.headers.get("CF-Connecting-IP") ||
-                this.request.headers.get("x-real-ip");
-        this.status = {
-            action: 0,
-            filterPath: 0,
-            auth: 0,
-            path: 0,
+        this.getParam = (key) => {
+            return this.searchParams.get(key);
         };
         this.setStatus = (key, value) => {
             this.status[key] = value;
             return this;
-        };
-        this.getParam = (key) => {
-            return this.searchParams.get(key);
         };
         this.get = (path) => {
             if (this.status.action)
@@ -56225,6 +56179,21 @@ class Router {
                 };
             }
             return this;
+        };
+        this.event = event;
+        this.request = this.event.request;
+        this.urlObj = new URL(this.request.url);
+        this.searchParams = this.urlObj.searchParams;
+        this.pathname = this.urlObj.pathname;
+        this.method = this.request.method;
+        this.ip =
+            this.request.headers.get("CF-Connecting-IP") ||
+                this.request.headers.get("x-real-ip");
+        this.status = {
+            action: 0,
+            filterPath: 0,
+            auth: 0,
+            path: 0,
         };
     }
 }
@@ -56908,8 +56877,8 @@ const Space_1 = __webpack_require__(7619);
 const DecryptMd5 = async (that) => {
     const md5 = that.args.k;
     const ans = await Space_1.default.API.DecryptMd5(md5);
-    if (ans.ans)
-        return that.ctx.reply(ans.ans);
+    if (ans)
+        return that.ctx.reply(ans);
     else
         return that.ctx.reply("Not Found.");
 };
@@ -57365,8 +57334,6 @@ const Setting_1 = __webpack_require__(7425);
 const RandomNum_1 = __webpack_require__(3590);
 class Shell {
     constructor(shell) {
-        this.args = shell.replace(/^>/, '').split(/\"([^\"]*?)\"|\s/);
-        this.index = 0;
         this.shift = () => {
             let arg = this.args[this.index];
             this.index++;
@@ -57380,24 +57347,12 @@ class Shell {
                 return this.shift();
             }
         };
+        this.args = shell.replace(/^>/, '').split(/\"([^\"]*?)\"|\s/);
+        this.index = 0;
     }
 }
 class HandleMessage {
     constructor(ctx) {
-        this.ctx = ctx;
-        this.message = ctx.message.text;
-        this.username = ctx.message.from.username;
-        this.args = {};
-        this.status = 0;
-        this.except_status = 0;
-        this.new_chat_members_list = [];
-        if (this.message)
-            this.message = this.message.toLocaleLowerCase();
-        if (ctx.message.new_chat_members)
-            this.new_chat_members_list = ctx.message.new_chat_members;
-        if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
-            this.chatid = ctx.message.chat.id;
-        }
         this.newChatMembers = function () {
             if (this.status)
                 return this;
@@ -57585,6 +57540,20 @@ class HandleMessage {
             }
             return this;
         };
+        this.ctx = ctx;
+        this.message = ctx.message.text;
+        this.username = ctx.message.from.username;
+        this.args = {};
+        this.status = 0;
+        this.except_status = 0;
+        this.new_chat_members_list = [];
+        if (this.message)
+            this.message = this.message.toLocaleLowerCase();
+        if (ctx.message.new_chat_members)
+            this.new_chat_members_list = ctx.message.new_chat_members;
+        if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
+            this.chatid = ctx.message.chat.id;
+        }
     }
 }
 function isInArray(arr, value) {

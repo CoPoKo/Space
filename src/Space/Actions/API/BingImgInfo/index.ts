@@ -1,9 +1,9 @@
+import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function BingImgInfo(ctx: any) {
-  const URLParameters: any = Space.Helpers.ReadRequest.URLParameters(ctx.request)
+async function BingImgInfo(ctx: Router) {
   const path = ctx.pathname
-  const day = URLParameters.day
+  const day = ctx.getParam("day")
   const ans = await Space.API.BingImgInfo(day)
 
   if (path.startsWith('/bing/info')) {

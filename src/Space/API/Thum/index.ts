@@ -1,5 +1,3 @@
-import Space from "../../Space"
-
 async function Thum(opt: any = {}) {
   if (!opt.url) {
     opt.url = "https://www.google.com"

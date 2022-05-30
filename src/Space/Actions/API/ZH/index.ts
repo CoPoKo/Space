@@ -1,8 +1,8 @@
+import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function ZH(ctx: any) {
-  const URLParameters = Space.Helpers.ReadRequest.URLParameters(ctx.request)
-  const s = URLParameters.s
+async function ZH(ctx: Router) {
+  const s = ctx.getParam("s")
   const path = ctx.pathname
   if (s) {
     if (path.startsWith('/zh/s')) {
