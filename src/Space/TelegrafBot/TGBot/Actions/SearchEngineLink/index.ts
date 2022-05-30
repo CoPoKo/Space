@@ -33,7 +33,7 @@ const SearchEngineLink = async (that: HandleMessage) => {
       return "";
     }
   }
-  const msg = that.ctx.message.text;
+  const msg = that.ctx.message["text"];
   const engineString = msg.split(" ")[0];
   let keyword = msg.slice(engineString.length).trim();
   const buhuibaidu = msg.match(/不会百度(.*)吗/);

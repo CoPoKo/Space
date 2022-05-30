@@ -56523,11 +56523,11 @@ const Space_1 = __webpack_require__(7619);
 const TGBot_1 = __webpack_require__(6379);
 async function Sticker(ctx) {
     if (Space_1.default.Helpers.RandomNum(1, 100) <= 10) {
-        if (ctx.message.sticker.emoji in TGBot_1.default.StickerSet.My) {
-            return ctx.replyWithSticker(TGBot_1.default.StickerSet.My[ctx.message.sticker.emoji]);
+        if (ctx.message["sticker"].emoji in TGBot_1.default.StickerSet.My) {
+            return ctx.replyWithSticker(TGBot_1.default.StickerSet.My[ctx.message["sticker"].emoji]);
         }
-        else if (ctx.message.sticker.emoji in TGBot_1.default.StickerSet.Cat) {
-            return ctx.replyWithSticker(TGBot_1.default.StickerSet.Cat[ctx.message.sticker.emoji]);
+        else if (ctx.message["sticker"].emoji in TGBot_1.default.StickerSet.Cat) {
+            return ctx.replyWithSticker(TGBot_1.default.StickerSet.Cat[ctx.message["sticker"].emoji]);
         }
     }
 }
@@ -56811,9 +56811,9 @@ exports["default"] = BotModel;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Balloon = async (that) => {
     const ctx = that.ctx;
-    const num = ctx.message.text.split("。").length - 1;
+    const num = ctx.message["text"].split("。").length - 1;
     if (num <= 5) {
-        ctx.reply(ctx.message.text.replace(/。/g, "喵~"));
+        ctx.reply(ctx.message["text"].replace(/。/g, "喵~"));
     }
     else {
         ctx.reply(`汪汪汪~`);
@@ -56897,7 +56897,7 @@ const EmojiToSticker = async (that) => {
         if (Object.hasOwnProperty.call(MyStickerSet, key)) {
             const element = MyStickerSet[key];
             const Reg = new RegExp(key);
-            if (Reg.test(that.ctx.message.text))
+            if (Reg.test(that.ctx.message["text"]))
                 return that.ctx.replyWithSticker(element);
         }
     }
@@ -56968,26 +56968,26 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const InterruptRepetition = async (that) => {
     const ctx = that.ctx;
     if (ctx.message && ctx.message.chat && ctx.message.chat.type && ctx.message.chat.type == "group") {
-        if (ctx.message.text) {
-            ctx.session ?? (ctx.session = { messageList: [] });
-            ctx.session.messageList.push(ctx.message.text);
-            const messageList = ctx.session.messageList;
+        if (ctx.message["text"]) {
+            ctx["session"] ?? (ctx["session"] = { messageList: [] });
+            ctx["session"].messageList.push(ctx.message["text"]);
+            const messageList = ctx["session"].messageList;
             const length = messageList.length;
             if (length >= 4) {
-                const myset = [...new Set(ctx.session.messageList)];
+                const myset = [...new Set(ctx["session"].messageList)];
                 if (myset.length == 1) {
                     if (myset[0] == `打断复读!`) {
                         ctx.reply(`我生气了!`);
-                        ctx.session.messageList.push(`我生气了!`);
-                        ctx.session.messageList.shift();
+                        ctx["session"].messageList.push(`我生气了!`);
+                        ctx["session"].messageList.shift();
                     }
                     else {
                         ctx.reply(`打断复读!`);
-                        ctx.session.messageList.push(`打断复读!`);
-                        ctx.session.messageList.shift();
+                        ctx["session"].messageList.push(`打断复读!`);
+                        ctx["session"].messageList.shift();
                     }
                 }
-                ctx.session.messageList.shift();
+                ctx["session"].messageList.shift();
             }
         }
     }
@@ -57023,19 +57023,19 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 const Niubi = async (that) => {
     let name = "CoCo";
-    const arr = /来点(\S*)笑话/.exec(that.ctx.message.text);
+    const arr = /来点(\S*)笑话/.exec(that.ctx.message["text"]);
     if (arr && Array.isArray(arr) && arr[1]) {
         name = arr[1];
     }
-    if (that.ctx.message.entities && /nb/.test(that.ctx.message.text)) {
-        that.ctx.message.entities.forEach((one) => {
+    if (that.ctx.message["entities"] && /nb/.test(that.ctx.message["text"])) {
+        that.ctx.message["entities"].forEach((one) => {
             if (one.type == "mention") {
-                name = that.ctx.message.text.slice(one.offset + 1, one.length);
+                name = that.ctx.message["text"].slice(one.offset + 1, one.length);
             }
         });
     }
-    if (that.ctx.message.new_chat_members && that.ctx.message.new_chat_members.length) {
-        that.ctx.message.new_chat_members.forEach((it) => {
+    if (that.ctx.message["new_chat_members"] && that.ctx.message["new_chat_members"].length) {
+        that.ctx.message["new_chat_members"].forEach((it) => {
             name = it.username;
             return;
         });
@@ -57071,8 +57071,8 @@ exports["default"] = Poet;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const ReplaceMa = async (that) => {
-    if (!/在吗/.test(that.ctx.message.text) && /吗/.test(that.ctx.message.text))
-        return that.ctx.reply(that.ctx.message.text.replace('吗', '').replace('？', '！').replace('?', '!'));
+    if (!/在吗/.test(that.ctx.message["text"]) && /吗/.test(that.ctx.message["text"]))
+        return that.ctx.reply(that.ctx.message["text"].replace('吗', '').replace('？', '！').replace('?', '!'));
 };
 exports["default"] = ReplaceMa;
 
@@ -57137,7 +57137,7 @@ const SearchEngineLink = async (that) => {
             return "";
         }
     }
-    const msg = that.ctx.message.text;
+    const msg = that.ctx.message["text"];
     const engineString = msg.split(" ")[0];
     let keyword = msg.slice(engineString.length).trim();
     const buhuibaidu = msg.match(/不会百度(.*)吗/);
@@ -57177,7 +57177,7 @@ const Setu = async (that) => {
         const res = await Space_1.default.API.Setu.Tui();
         const file = await res.arrayBuffer();
         const form = new FormData();
-        form.append('chat_id', that.ctx.chat.id);
+        form.append('chat_id', String(that.ctx.chat.id));
         form.append('photo', new Blob([file], { type: "image/jpg" }));
         return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendPhoto", {
             method: 'post',
@@ -57188,7 +57188,7 @@ const Setu = async (that) => {
         const res = await Space_1.default.API.Setu.SJMM();
         const file = await res.arrayBuffer();
         const form = new FormData();
-        form.append('chat_id', that.ctx.chat.id);
+        form.append('chat_id', String(that.ctx.chat.id));
         form.append('animation', new Blob([file], { type: "image/gif" }));
         form.append('width', "500");
         form.append('height', "500");
@@ -57230,7 +57230,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 const Thum = async (that) => {
     if (that.type == 'reg') {
-        const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text);
+        const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message["text"]);
         if (arr && Array.isArray(arr) && arr[1]) {
             that.args.u = arr[0];
         }
@@ -57274,7 +57274,7 @@ exports["default"] = Unsplash;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 const WolframAlpha = async (that) => {
-    const q = that.ctx.message.text.replace(/^:/, "").trim();
+    const q = that.ctx.message["text"].replace(/^:/, "").trim();
     let ans = await Space_1.default.API.WolframAlpha(q);
     if (ans.en == ans.cn)
         return that.ctx.reply(ans.en);
@@ -57551,15 +57551,15 @@ class HandleMessage {
             return this;
         };
         this.ctx = ctx;
-        this.message = ctx.message.text;
+        this.message = ctx.message["text"];
         this.username = ctx.message.from.username;
         this.args = {};
         this.status = 0;
         this.new_chat_members_list = [];
         if (this.message)
             this.message = this.message.toLocaleLowerCase();
-        if (ctx.message.new_chat_members)
-            this.new_chat_members_list = ctx.message.new_chat_members;
+        if (ctx.message["new_chat_members"])
+            this.new_chat_members_list = ctx.message["new_chat_members"];
         if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
             this.chatid = ctx.message.chat.id;
         }

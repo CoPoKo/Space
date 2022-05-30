@@ -10,7 +10,7 @@ const Setu = async (that: HandleMessage) => {
     const res = await Space.API.Setu.Tui();
     const file = await res.arrayBuffer();
     const form = new FormData();
-    form.append('chat_id', that.ctx.chat.id);
+    form.append('chat_id', String(that.ctx.chat.id));
     form.append('photo', new Blob([file], { type: "image/jpg" }));
     return fetch("https://api.telegram.org/bot" + Telegraf_BOT_TOKEN + "/sendPhoto", {
       method: 'post',
@@ -21,7 +21,7 @@ const Setu = async (that: HandleMessage) => {
     const res = await Space.API.Setu.SJMM();
     const file = await res.arrayBuffer();
     const form = new FormData();
-    form.append('chat_id', that.ctx.chat.id);
+    form.append('chat_id', String(that.ctx.chat.id));
     form.append('animation', new Blob([file], { type: "image/gif" }));
     form.append('width', "500");
     form.append('height', "500");

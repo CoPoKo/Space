@@ -1,5 +1,4 @@
 import TGBot from "../../TGBot"
-import Setting from "../../../Helpers/Setting"
 import HandleMessage from "../../TGBot/HandleMessage"
 
 async function Text(ctx: any) {

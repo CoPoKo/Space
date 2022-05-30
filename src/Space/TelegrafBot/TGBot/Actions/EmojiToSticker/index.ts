@@ -6,7 +6,7 @@ const EmojiToSticker = async (that: HandleMessage) => {
     if (Object.hasOwnProperty.call(MyStickerSet, key)) {
       const element = MyStickerSet[key];
       const Reg = new RegExp(key)
-      if (Reg.test(that.ctx.message.text))
+      if (Reg.test(that.ctx.message["text"]))
         return that.ctx.replyWithSticker(element);
     }
   }

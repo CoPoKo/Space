@@ -1,5 +1,8 @@
 import Setting from "../../../Helpers/Setting"
 import RandomNum from "../../../Helpers/RandomNum"
+import { Context } from "telegraf";
+import { Update } from "typegram";
+
 
 class Shell {
   private index: number;
@@ -22,21 +25,22 @@ class Shell {
 }
 
 class HandleMessage {
+  public ctx: Context<Update>;
   public message: string;
-  public chatid: string;
+  public chatid: number;
   public username: string;
   public status: number;
   [x: string]: any;
-  constructor(ctx: any) {
+  constructor(ctx: Context<Update>) {
     this.ctx = ctx;
-    this.message = ctx.message.text;
+    this.message = ctx.message["text"];
     this.username = ctx.message.from.username;
     this.args = {};
     this.status = 0;
     this.new_chat_members_list = [];
 
     if (this.message) this.message = this.message.toLocaleLowerCase();
-    if (ctx.message.new_chat_members) this.new_chat_members_list = ctx.message.new_chat_members;
+    if (ctx.message["new_chat_members"]) this.new_chat_members_list = ctx.message["new_chat_members"];
     if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
       this.chatid = ctx.message.chat.id
     }

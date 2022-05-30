@@ -1,6 +1,8 @@
+import { Context } from "telegraf";
+import { Update } from "telegraf/typings/core/types/typegram";
 import Setting from "../../../Helpers/Setting"
 
-async function Catch(err: string, ctx: any) {
+async function Catch(err: string, ctx: Context<Update>) {
   await ctx.reply(`Ooops...`);
   const set = await Setting("TelegrafBot")
   const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID

@@ -3,7 +3,7 @@ import HandleMessage from "../../HandleMessage";
 
 const Thum = async (that: HandleMessage) => {
   if (that.type == 'reg') {
-    const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message.text)
+    const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message["text"])
     if (arr && Array.isArray(arr) && arr[1]) {
       that.args.u = arr[0];
     }
