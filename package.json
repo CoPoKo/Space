@@ -23,6 +23,7 @@
   "homepage": "https://github.com/CoPoKo/Space#readme",
   "dependencies": {
     "@cfworker/web": "^1.12.3",
+    "@telegraf/session": "^1.0.1",
     "cfworker-middware-telegraf": "^2.0.0",
     "crypto-js": "^4.1.1",
     "md5": "^2.3.0",

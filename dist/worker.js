@@ -56543,6 +56543,7 @@ exports["default"] = Sticker;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TGBot_1 = __webpack_require__(6379);
+const workflows = (__webpack_require__(7732)/* ["default"] */ .Z);
 async function Text(ctx) {
     // return ctx.reply(ctx.message)
     await new TGBot_1.default.HandleMessage(ctx)
@@ -56590,186 +56591,226 @@ async function Text(ctx) {
         .then((that) => {
         return that.run();
     });
-    await new TGBot_1.default.HandleMessage(ctx)
-        .reg(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot_1.default.Actions.SearchEngineLink)
-        .then((that) => {
-        return that.run();
+    function isInArray(arr, value) {
+        for (let i = 0; i < arr.length; i++) {
+            if (value === arr[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+    workflows.forEach(async (workflow) => {
+        let worker = new TGBot_1.default.HandleMessage(ctx);
+        for (const item of workflow.workflow) {
+            const keys = Object.keys(item);
+            if (isInArray(keys, "reg")) {
+                worker.reg(new RegExp(item.reg));
+            }
+            if (isInArray(keys, "cmd")) {
+                worker.cmd(item.cmd);
+            }
+            if (isInArray(keys, "arg")) {
+                const args = Object.keys(item.arg);
+                for (const arg of args) {
+                    worker.setArg(arg, item.arg[arg]);
+                }
+            }
+            if (isInArray(keys, "pass")) {
+                worker.pass();
+            }
+            if (isInArray(keys, "includes")) {
+                worker.includes(item.includes);
+            }
+            if (isInArray(keys, "random")) {
+                worker.setRandom(item.random);
+            }
+            if (isInArray(keys, "reply")) {
+                worker = await worker.reply(item.reply);
+            }
+            if (isInArray(keys, "action")) {
+                worker = await worker.action(TGBot_1.default.Actions[item.action]);
+            }
+        }
+        await worker.run();
     });
-    await new TGBot_1.default.HandleMessage(ctx)
-        .cmd('help').action((that) => {
-        return that.ctx.reply("no help");
-    })
-        .then((that) => {
-        return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TGBot_1.default.Actions.Unsplash);
-    })
-        .then((that) => {
-        return that.cmd('cat').setArg('k', 'cat').action(TGBot_1.default.Actions.Unsplash);
-    })
-        .then((that) => {
-        return that.cmd('dog').setArg('k', 'dog').action(TGBot_1.default.Actions.Unsplash);
-    })
-        .then((that) => {
-        return that.cmd('bing').setArg('d', '0').action(TGBot_1.default.Actions.Bing);
-    })
-        .then((that) => {
-        return that.cmd('soul').action(TGBot_1.default.Actions.Soul);
-    })
-        .then((that) => {
-        return that.cmd('hitokoto').action(TGBot_1.default.Actions.Hitokoto);
-    })
-        .then((that) => {
-        return that.cmd('acg').action(TGBot_1.default.Actions.Happypic);
-    })
-        .then((that) => {
-        return that.cmd('nbnhhsh').setArg('k', 'nb').action(TGBot_1.default.Actions.Nbnhhsh);
-    })
-        .then((that) => {
-        return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot_1.default.Actions.Thum);
-    })
-        .then((that) => {
-        return that.cmd('translate').setArg('k', 'CoCo').setArg('t', 'zh-cn').action(TGBot_1.default.Actions.GoogleTranslate);
-    })
-        .then((that) => {
-        return that.cmd('demd5').setArg('k', 'eb62f6b9306db575c2d596b1279627a4').action(TGBot_1.default.Actions.DecryptMd5);
-    })
-        .then((that) => {
-        return that.cmd('dns').setArg('n', 'github.com').setArg('t', 'A').setArg('u', 'cloudflare').setArg('e', '1.0.0.1').action(TGBot_1.default.Actions.DNSQuery);
-    })
-        .then((that) => {
-        return that.cmd('poet').action(TGBot_1.default.Actions.Poet);
-    })
-        .then((that) => {
-        return that.pass().action(TGBot_1.default.Actions.InterruptRepetition);
-    })
-        .then((that) => {
-        return that.reg(/^:/).action(TGBot_1.default.Actions.WolframAlpha);
-    })
-        .then((that) => {
-        return that.reg(/^。{1,}$/).action(TGBot_1.default.Actions.Balloon);
-    })
-        .then((that) => {
-        return that.reg(/来点(\S*)笑话/).action(TGBot_1.default.Actions.Niubi);
-    })
-        .then((that) => {
-        return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot_1.default.Actions.Thum);
-    })
-        .then((that) => {
-        return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`);
-    })
-        .then((that) => {
-        return that.reg(/^\?$/).reply(`???`);
-    })
-        .then((that) => {
-        return that.reg(/^？$/).reply(`？？？`);
-    })
-        .then((that) => {
-        return that.reg(/你好/).reply(`Hello!`);
-    })
-        .then((that) => {
-        return that.reg(/在？|在\?/).reply(`有事？`);
-    })
-        .then((that) => {
-        return that.reg(/你的主人|your master/).action(TGBot_1.default.Actions.ReplyMaster);
-    })
-        .then((that) => {
-        return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`);
-    })
-        .then((that) => {
-        return that.reg(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`);
-    })
-        .then((that) => {
-        return that.includes(["怎么", "啊"]).reply(`不告诉你`);
-    })
-        .then((that) => {
-        return that.includes(["发", "色图"]).reply(`有色图？`);
-    })
-        .then((that) => {
-        return that.includes(["看", "色图"]).reply(`色图在哪儿？`);
-    })
-        .then((that) => {
-        return that.includes(["发", "涩图"]).reply(`有涩图？`);
-    })
-        .then((that) => {
-        return that.includes(["发", "涩图"]).reply(`有涩图？`);
-    })
-        .then((that) => {
-        return that.includes(["来点", "色图"]).reply(`让我找找`);
-    })
-        .then((that) => {
-        return that.includes(["来点", "涩图"]).reply(`让我找找`);
-    })
-        .then((that) => {
-        return that.reg(/^不够(色)|(涩)$/).reply(`让我找找`);
-    })
-        .then((that) => {
-        return that.includes(["我", "应该"]).reply(`确实`);
-    })
-        .then((that) => {
-        return that.includes(["不舒服"]).reply(`多喝热水`);
-    })
-        .then((that) => {
-        return that.includes(["你", "怎么"]).reply(`你在教我做事？`);
-    })
-        .then((that) => {
-        return that.includes(["你", "去"]).reply(`你在教我做事？`);
-    })
-        .then((that) => {
-        return that.includes(["变成", "了", "光"]).reply(`我也想要变成光`);
-    })
-        .then((that) => {
-        return that.includes(["明明是我先来的"]).reply(`为什么会变成这样呢……`);
-    })
-        .then((that) => {
-        return that.includes(["怎么样"]).reply(`就这？`);
-    })
-        .then((that) => {
-        return that.includes(["其实"]).reply(`真的吗？我不信。`);
-    })
-        .then((that) => {
-        return that.includes(["厉害"]).reply(`腻害`);
-    })
-        .then((that) => {
-        return that.includes(["恭喜"]).reply(`恭喜`);
-    })
-        .then((that) => {
-        return that.includes(["bing", "壁纸"]).setArg('d', '0').action(TGBot_1.default.Actions.Bing);
-    })
-        .then((that) => {
-        return that.run();
-    })
-        .then((that) => {
-        return that.cleanStatus();
-    })
-        .then((that) => {
-        return that.includes(["来点", "色图"]).action(TGBot_1.default.Actions.Setu);
-    })
-        .then((that) => {
-        return that.includes(["来点", "涩图"]).action(TGBot_1.default.Actions.Setu);
-    })
-        .then((that) => {
-        return that.includes(["来点", "色色"]).action(TGBot_1.default.Actions.Setu);
-    })
-        .then((that) => {
-        return that.includes(["来点", "涩涩"]).action(TGBot_1.default.Actions.Setu);
-    })
-        .then((that) => {
-        return that.reg(/^不够(色)|(涩)$/).action(TGBot_1.default.Actions.Setu);
-    })
-        .then((that) => {
-        return that.includes(["来", "诗"]).action(TGBot_1.default.Actions.Poet);
-    })
-        .then((that) => {
-        return that.pass().action(TGBot_1.default.Actions.EmojiToSticker);
-    })
-        .then((that) => {
-        return that.setRandom(50).action(TGBot_1.default.Actions.ReplaceMa);
-    })
-        .then((that) => {
-        return that.setRandom(1).reply(`然后呢?`);
-    })
-        .then((that) => {
-        return that.run();
-    });
+    // await new TGBot.HandleMessage(ctx)
+    //   .reg(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot.Actions.SearchEngineLink)
+    //   .then((that: HandleMessage) => {
+    //     return that.run()
+    //   })
+    // await new TGBot.HandleMessage(ctx)
+    //   .cmd('help').reply("no help")
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TGBot.Actions.Unsplash)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('cat').setArg('k', 'cat').action(TGBot.Actions.Unsplash)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('dog').setArg('k', 'dog').action(TGBot.Actions.Unsplash)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('bing').setArg('d', '0').action(TGBot.Actions.Bing)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('soul').action(TGBot.Actions.Soul)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('hitokoto').action(TGBot.Actions.Hitokoto)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('acg').action(TGBot.Actions.Happypic)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('nbnhhsh').setArg('k', 'nb').action(TGBot.Actions.Nbnhhsh)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('translate').setArg('k', 'CoCo').setArg('t', 'zh-cn').action(TGBot.Actions.GoogleTranslate)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('demd5').setArg('k', 'eb62f6b9306db575c2d596b1279627a4').action(TGBot.Actions.DecryptMd5)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('dns').setArg('n', 'github.com').setArg('t', 'A').setArg('u', 'cloudflare').setArg('e', '1.0.0.1').action(TGBot.Actions.DNSQuery)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cmd('poet').action(TGBot.Actions.Poet)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.pass().action(TGBot.Actions.InterruptRepetition)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/^:/).action(TGBot.Actions.WolframAlpha)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/^。{1,}$/).action(TGBot.Actions.Balloon)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/来点(\S*)笑话/).action(TGBot.Actions.Niubi)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/^\?$/).reply(`???`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/^？$/).reply(`？？？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/你好/).reply(`Hello!`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/在？|在\?/).reply(`有事？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/你的主人|your master/).action(TGBot.Actions.ReplyMaster)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["怎么", "啊"]).reply(`不告诉你`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["发", "色图"]).reply(`有色图？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["看", "色图"]).reply(`色图在哪儿？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["发", "涩图"]).reply(`有涩图？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["看", "涩图"]).reply(`涩图在哪儿？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["来点", "色图"]).reply(`让我找找`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["来点", "涩图"]).reply(`让我找找`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/^不够(色)|(涩)$/).reply(`让我找找`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["我", "应该"]).reply(`确实`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["不舒服"]).reply(`多喝热水`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["你", "怎么"]).reply(`你在教我做事？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["你", "去"]).reply(`你在教我做事？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["变成", "了", "光"]).reply(`我也想要变成光`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["明明是我先来的"]).reply(`为什么会变成这样呢……`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["怎么样"]).reply(`就这？`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["其实"]).reply(`真的吗？我不信。`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["厉害"]).reply(`腻害`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["恭喜"]).reply(`恭喜`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["bing", "壁纸"]).setArg('d', '0').action(TGBot.Actions.Bing)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.run()
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.cleanStatus()
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["来点", "色图"]).action(TGBot.Actions.Setu)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["来点", "涩图"]).action(TGBot.Actions.Setu)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["来点", "色色"]).action(TGBot.Actions.Setu)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["来点", "涩涩"]).action(TGBot.Actions.Setu)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.reg(/^不够(色)|(涩)$/).action(TGBot.Actions.Setu)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.includes(["来", "诗"]).action(TGBot.Actions.Poet)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.pass().action(TGBot.Actions.EmojiToSticker)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.setRandom(50).action(TGBot.Actions.ReplaceMa)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.setRandom(1).reply(`然后呢?`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.run()
+    //   })
 }
 exports["default"] = Text;
 
@@ -60298,6 +60339,17 @@ function extend() {
     return target
 }
 
+
+/***/ }),
+
+/***/ 7732:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{reg:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{reg:'^:',action:'WolframAlpha'},{reg:'^。{1,}$',action:'Balloon'},{reg:'来点(\\S*)笑话',action:'Niubi'},{reg:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{reg:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{reg:'^\\?$',reply:'???'},{reg:'^？$',reply:'？？？'},{reg:'你好',reply:'Hello!'},{reg:'在？|在\\?',reply:'有事？'},{reg:'你的主人|your master',action:'ReplyMaster'},{reg:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{reg:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找'},{includes:['来点','涩图'],reply:'让我找找'},{includes:['来点','色色'],reply:'让我找找'},{includes:['来点','涩涩'],reply:'让我找找'},{reg:'^不够(色)|(涩)$',reply:'让我找找'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{pass:'pass',action:'EmojiToSticker'},{random:50,action:'ReplaceMa'},{random:1,reply:'然后呢?'},{pass:'pass',action:'InterruptRepetition'},{includes:['厉害'],reply:'腻害'}]}]);
 
 /***/ }),
 

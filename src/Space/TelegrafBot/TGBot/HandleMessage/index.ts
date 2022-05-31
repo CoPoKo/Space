@@ -215,7 +215,7 @@ class HandleMessage {
     return this
   };
 }
-function isInArray(arr: string | any[], value: any) {
+function isInArray(arr: string[], value: string) {
   for (let i = 0; i < arr.length; i++) {
     if (value === arr[i]) {
       return true;
