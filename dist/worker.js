@@ -56467,7 +56467,7 @@ exports["default"] = Help;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TGBot_1 = __webpack_require__(6379);
 async function Mention(ctx) {
-    // return ctx.reply(ctx.message)
+    // return ctx.reply(String(ctx.message))
     await new TGBot_1.default.HandleMessage(ctx)
         .reg(/nb/).action(TGBot_1.default.Actions.Niubi)
         .then((that) => {
@@ -56487,7 +56487,7 @@ exports["default"] = Mention;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TGBot_1 = __webpack_require__(6379);
 async function Message(ctx) {
-    // return ctx.reply(ctx.message)
+    // return ctx.reply(String(ctx.message))
     await new TGBot_1.default.HandleMessage(ctx)
         .newChatMembers().action(TGBot_1.default.Actions.Niubi)
         .then((that) => {
@@ -56793,7 +56793,8 @@ function BotModel(bot) {
     bot.start(Start_1.default);
     bot.help(Help_1.default);
     bot.on("sticker", Sticker_1.default);
-    bot.mention(/.*/, Mention_1.default);
+    // bot.mention(/.*/, Mention);
+    bot.hears(/^@.*/, Mention_1.default);
     bot.on("text", Text_1.default);
     bot.on("message", Message_1.default);
     bot.catch(Catch_1.default);
