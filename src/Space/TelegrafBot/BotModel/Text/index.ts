@@ -30,12 +30,12 @@ async function Text(ctx: any) {
           })
         })
         .then((that: HandleMessage) => {
-          return that.reg(/coco test/).action(() => {
+          return that.re(/coco test/).action(() => {
             return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
           })
         })
         .then((that: HandleMessage) => {
-          return that.reg(/在吗/).reply(`主人我在`)
+          return that.re(/在吗/).reply(`主人我在`)
         })
         .then((that: HandleMessage) => {
           return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
@@ -45,7 +45,7 @@ async function Text(ctx: any) {
         })
     })
     .then((that: HandleMessage) => {
-      return that.reg(/在吗/).reply(`爪巴`)
+      return that.re(/在吗/).reply(`爪巴`)
     })
     .then((that: HandleMessage) => {
       return that.run()
@@ -56,8 +56,8 @@ async function Text(ctx: any) {
     for (const item of workflow.workflow) {
       const keys = Object.keys(item)
 
-      if (IsInArray(keys, "reg")) {
-        worker.reg(new RegExp(item.reg))
+      if (IsInArray(keys, "re")) {
+        worker.re(new RegExp(item.re))
       }
       if (IsInArray(keys, "cmd")) {
         worker.cmd(item.cmd)
@@ -89,7 +89,7 @@ async function Text(ctx: any) {
   })
 
   // await new TGBot.HandleMessage(ctx)
-  //   .reg(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot.Actions.SearchEngineLink)
+  //   .re(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot.Actions.SearchEngineLink)
   //   .then((that: HandleMessage) => {
   //     return that.run()
   //   })
@@ -138,40 +138,40 @@ async function Text(ctx: any) {
   //     return that.pass().action(TGBot.Actions.InterruptRepetition)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/^:/).action(TGBot.Actions.WolframAlpha)
+  //     return that.re(/^:/).action(TGBot.Actions.WolframAlpha)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/^。{1,}$/).action(TGBot.Actions.Balloon)
+  //     return that.re(/^。{1,}$/).action(TGBot.Actions.Balloon)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/来点(\S*)笑话/).action(TGBot.Actions.Niubi)
+  //     return that.re(/来点(\S*)笑话/).action(TGBot.Actions.Niubi)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
+  //     return that.re(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
+  //     return that.re(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/^\?$/).reply(`???`)
+  //     return that.re(/^\?$/).reply(`???`)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/^？$/).reply(`？？？`)
+  //     return that.re(/^？$/).reply(`？？？`)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/你好/).reply(`Hello!`)
+  //     return that.re(/你好/).reply(`Hello!`)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/在？|在\?/).reply(`有事？`)
+  //     return that.re(/在？|在\?/).reply(`有事？`)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/你的主人|your master/).action(TGBot.Actions.ReplyMaster)
+  //     return that.re(/你的主人|your master/).action(TGBot.Actions.ReplyMaster)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
+  //     return that.re(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
+  //     return that.re(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
   //   })
   //   .then((that: HandleMessage) => {
   //     return that.includes(["怎么", "啊"]).reply(`不告诉你`)
@@ -195,7 +195,7 @@ async function Text(ctx: any) {
   //     return that.includes(["来点", "涩图"]).reply(`让我找找`)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/^不够(色)|(涩)$/).reply(`让我找找`)
+  //     return that.re(/^不够(色)|(涩)$/).reply(`让我找找`)
   //   })
   //   .then((that: HandleMessage) => {
   //     return that.includes(["我", "应该"]).reply(`确实`)
@@ -249,7 +249,7 @@ async function Text(ctx: any) {
   //     return that.includes(["来点", "涩涩"]).action(TGBot.Actions.Setu)
   //   })
   //   .then((that: HandleMessage) => {
-  //     return that.reg(/^不够(色)|(涩)$/).action(TGBot.Actions.Setu)
+  //     return that.re(/^不够(色)|(涩)$/).action(TGBot.Actions.Setu)
   //   })
   //   .then((that: HandleMessage) => {
   //     return that.includes(["来", "诗"]).action(TGBot.Actions.Poet)

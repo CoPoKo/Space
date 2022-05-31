@@ -4,7 +4,7 @@ import TGBot from "../../TGBot"
 async function Mention(ctx: Context<Update>) {
   // return ctx.reply(String(ctx.message))
   await new TGBot.HandleMessage(ctx)
-    .reg(/nb/).action(TGBot.Actions.Niubi)
+    .re(/nb/).action(TGBot.Actions.Niubi)
     .then((that: any) => {
       return that.run()
     })

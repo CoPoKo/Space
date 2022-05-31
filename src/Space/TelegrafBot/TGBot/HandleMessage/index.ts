@@ -75,10 +75,10 @@ class HandleMessage {
     this.type = 'admin';
     return this;
   };
-  public reg = function (reg: RegExp) {
+  public re = function (re: RegExp) {
     if (this.status) return this;
-    this.type = 'reg';
-    this.textReg = reg;
+    this.type = 're';
+    this.textReg = re;
     return this;
   };
   public includes = function (list: any) {
@@ -141,7 +141,7 @@ class HandleMessage {
         };
       }
     }
-    if (this.type == 'reg') {
+    if (this.type == 're') {
       if (this.textReg.test(this.message)) {
         this.status = 1;
         this.fun = async () => {

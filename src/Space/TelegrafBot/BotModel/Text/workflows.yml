@@ -1,5 +1,5 @@
 - workflow:
-    - reg: 百度|度娘|baidu|谷歌|google|Google|bing|必应
+    - re: 百度|度娘|baidu|谷歌|google|Google|bing|必应
       action: SearchEngineLink
 - workflow:
     - cmd: help
@@ -55,33 +55,33 @@
       action: DNSQuery
     - cmd: poet
       action: Poet
-    - reg: "^:"
+    - re: "^:"
       action: WolframAlpha
-    - reg: ^。{1,}$
+    - re: ^。{1,}$
       action: Balloon
-    - reg: 来点(\S*)笑话
+    - re: 来点(\S*)笑话
       action: Niubi
-    - reg: https:\/\/|http:\/\/
+    - re: https:\/\/|http:\/\/
       arg:
         w: 1024
         h: 1200
         t: 1
       action: Thum
-    - reg: (^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])
+    - re: (^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])
       reply: Hey there
-    - reg: ^\?$
+    - re: ^\?$
       reply: "???"
-    - reg: ^？$
+    - re: ^？$
       reply: ？？？
-    - reg: 你好
+    - re: 你好
       reply: Hello!
-    - reg: 在？|在\?
+    - re: 在？|在\?
       reply: 有事？
-    - reg: 你的主人|your master
+    - re: 你的主人|your master
       action: ReplyMaster
-    - reg: 早呀|早上|哦哈呦|起床啦
+    - re: 早呀|早上|哦哈呦|起床啦
       reply: 新的一天也要加油鸭
-    - reg: ^晚安|哦呀斯密|睡觉了|该睡了$
+    - re: ^晚安|哦呀斯密|睡觉了|该睡了$
       reply: 晚安
     - includes:
         - 怎么
@@ -123,7 +123,7 @@
         - 涩涩
       reply: 让我找找
     #   action: Setu
-    - reg: ^不够(色)|(涩)$
+    - re: ^不够(色)|(涩)$
       reply: 让我找找
     #   action: Setu
     - includes:

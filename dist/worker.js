@@ -56490,7 +56490,7 @@ const TGBot_1 = __webpack_require__(6379);
 async function Mention(ctx) {
     // return ctx.reply(String(ctx.message))
     await new TGBot_1.default.HandleMessage(ctx)
-        .reg(/nb/).action(TGBot_1.default.Actions.Niubi)
+        .re(/nb/).action(TGBot_1.default.Actions.Niubi)
         .then((that) => {
         return that.run();
     });
@@ -56593,12 +56593,12 @@ async function Text(ctx) {
             });
         })
             .then((that) => {
-            return that.reg(/coco test/).action(() => {
+            return that.re(/coco test/).action(() => {
                 return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA");
             });
         })
             .then((that) => {
-            return that.reg(/在吗/).reply(`主人我在`);
+            return that.re(/在吗/).reply(`主人我在`);
         })
             .then((that) => {
             return that.cmd('setu').setArg('k', 0).action(TGBot_1.default.Actions.Setu);
@@ -56608,7 +56608,7 @@ async function Text(ctx) {
         });
     })
         .then((that) => {
-        return that.reg(/在吗/).reply(`爪巴`);
+        return that.re(/在吗/).reply(`爪巴`);
     })
         .then((that) => {
         return that.run();
@@ -56617,8 +56617,8 @@ async function Text(ctx) {
         let worker = new TGBot_1.default.HandleMessage(ctx);
         for (const item of workflow.workflow) {
             const keys = Object.keys(item);
-            if ((0, IsInArray_1.default)(keys, "reg")) {
-                worker.reg(new RegExp(item.reg));
+            if ((0, IsInArray_1.default)(keys, "re")) {
+                worker.re(new RegExp(item.re));
             }
             if ((0, IsInArray_1.default)(keys, "cmd")) {
                 worker.cmd(item.cmd);
@@ -56648,7 +56648,7 @@ async function Text(ctx) {
         await worker.run();
     });
     // await new TGBot.HandleMessage(ctx)
-    //   .reg(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot.Actions.SearchEngineLink)
+    //   .re(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot.Actions.SearchEngineLink)
     //   .then((that: HandleMessage) => {
     //     return that.run()
     //   })
@@ -56697,40 +56697,40 @@ async function Text(ctx) {
     //     return that.pass().action(TGBot.Actions.InterruptRepetition)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/^:/).action(TGBot.Actions.WolframAlpha)
+    //     return that.re(/^:/).action(TGBot.Actions.WolframAlpha)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/^。{1,}$/).action(TGBot.Actions.Balloon)
+    //     return that.re(/^。{1,}$/).action(TGBot.Actions.Balloon)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/来点(\S*)笑话/).action(TGBot.Actions.Niubi)
+    //     return that.re(/来点(\S*)笑话/).action(TGBot.Actions.Niubi)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
+    //     return that.re(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
+    //     return that.re(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/^\?$/).reply(`???`)
+    //     return that.re(/^\?$/).reply(`???`)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/^？$/).reply(`？？？`)
+    //     return that.re(/^？$/).reply(`？？？`)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/你好/).reply(`Hello!`)
+    //     return that.re(/你好/).reply(`Hello!`)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/在？|在\?/).reply(`有事？`)
+    //     return that.re(/在？|在\?/).reply(`有事？`)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/你的主人|your master/).action(TGBot.Actions.ReplyMaster)
+    //     return that.re(/你的主人|your master/).action(TGBot.Actions.ReplyMaster)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
+    //     return that.re(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
+    //     return that.re(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
     //   })
     //   .then((that: HandleMessage) => {
     //     return that.includes(["怎么", "啊"]).reply(`不告诉你`)
@@ -56754,7 +56754,7 @@ async function Text(ctx) {
     //     return that.includes(["来点", "涩图"]).reply(`让我找找`)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/^不够(色)|(涩)$/).reply(`让我找找`)
+    //     return that.re(/^不够(色)|(涩)$/).reply(`让我找找`)
     //   })
     //   .then((that: HandleMessage) => {
     //     return that.includes(["我", "应该"]).reply(`确实`)
@@ -56808,7 +56808,7 @@ async function Text(ctx) {
     //     return that.includes(["来点", "涩涩"]).action(TGBot.Actions.Setu)
     //   })
     //   .then((that: HandleMessage) => {
-    //     return that.reg(/^不够(色)|(涩)$/).action(TGBot.Actions.Setu)
+    //     return that.re(/^不够(色)|(涩)$/).action(TGBot.Actions.Setu)
     //   })
     //   .then((that: HandleMessage) => {
     //     return that.includes(["来", "诗"]).action(TGBot.Actions.Poet)
@@ -57458,11 +57458,11 @@ class HandleMessage {
             this.type = 'admin';
             return this;
         };
-        this.reg = function (reg) {
+        this.re = function (re) {
             if (this.status)
                 return this;
-            this.type = 'reg';
-            this.textReg = reg;
+            this.type = 're';
+            this.textReg = re;
             return this;
         };
         this.includes = function (list) {
@@ -57533,7 +57533,7 @@ class HandleMessage {
                     };
                 }
             }
-            if (this.type == 'reg') {
+            if (this.type == 're') {
                 if (this.textReg.test(this.message)) {
                     this.status = 1;
                     this.fun = async () => {
@@ -60355,7 +60355,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{reg:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{reg:'^:',action:'WolframAlpha'},{reg:'^。{1,}$',action:'Balloon'},{reg:'来点(\\S*)笑话',action:'Niubi'},{reg:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{reg:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{reg:'^\\?$',reply:'???'},{reg:'^？$',reply:'？？？'},{reg:'你好',reply:'Hello!'},{reg:'在？|在\\?',reply:'有事？'},{reg:'你的主人|your master',action:'ReplyMaster'},{reg:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{reg:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找'},{includes:['来点','涩图'],reply:'让我找找'},{includes:['来点','色色'],reply:'让我找找'},{includes:['来点','涩涩'],reply:'让我找找'},{reg:'^不够(色)|(涩)$',reply:'让我找找'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{random:50,action:'ReplaceMa'},{random:1,reply:'然后呢?'},{pass:'pass',action:'EmojiToSticker'},{pass:'pass',action:'InterruptRepetition'}]}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找'},{includes:['来点','涩图'],reply:'让我找找'},{includes:['来点','色色'],reply:'让我找找'},{includes:['来点','涩涩'],reply:'让我找找'},{re:'^不够(色)|(涩)$',reply:'让我找找'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{random:50,action:'ReplaceMa'},{random:1,reply:'然后呢?'},{pass:'pass',action:'EmojiToSticker'},{pass:'pass',action:'InterruptRepetition'}]}]);
 
 /***/ }),
 
