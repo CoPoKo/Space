@@ -2,6 +2,16 @@
     - re: 百度|度娘|baidu|谷歌|google|Google|bing|必应
       action: SearchEngineLink
 - workflow:
+    - random: 1
+      reply: 然后呢?
+    - random: 50
+      action: ReplaceMa
+    - random: 100
+      action: EmojiToSticker
+- workflow:
+    - random: 100
+      action: InterruptRepetition
+- workflow:
     - cmd: help
       reply: no help
     - cmd: unsplash
@@ -107,25 +117,25 @@
         - 来点
         - 色图
       reply: 让我找找
-    #   action: Setu
+      action: Setu
     - includes:
         - 来点
         - 涩图
       reply: 让我找找
-    #   action: Setu
+      action: Setu
     - includes:
         - 来点
         - 色色
       reply: 让我找找
-    #   action: Setu
+      action: Setu
     - includes:
         - 来点
         - 涩涩
       reply: 让我找找
-    #   action: Setu
+      action: Setu
     - re: ^不够(色)|(涩)$
       reply: 让我找找
-    #   action: Setu
+      action: Setu
     - includes:
         - 我
         - 应该
@@ -177,11 +187,3 @@
         - 来
         - 诗
       action: Poet
-    - random: 50
-      action: ReplaceMa
-    - random: 1
-      reply: 然后呢?
-    - pass: pass
-      action: EmojiToSticker
-    - pass: pass
-      action: InterruptRepetition

@@ -56465,98 +56465,6 @@ exports["default"] = Catch;
 
 /***/ }),
 
-/***/ 2735:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-async function Help(ctx) {
-    await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA');
-    // ctx.reply("HelpInfo6666");
-}
-exports["default"] = Help;
-
-
-/***/ }),
-
-/***/ 806:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const TGBot_1 = __webpack_require__(6379);
-async function Mention(ctx) {
-    // return ctx.reply(String(ctx.message))
-    await new TGBot_1.default.HandleMessage(ctx)
-        .re(/nb/).action(TGBot_1.default.Actions.Niubi)
-        .then((that) => {
-        return that.run();
-    });
-}
-exports["default"] = Mention;
-
-
-/***/ }),
-
-/***/ 9292:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const TGBot_1 = __webpack_require__(6379);
-async function Message(ctx) {
-    // return ctx.reply(String(ctx.message))
-    await new TGBot_1.default.HandleMessage(ctx)
-        .newChatMembers().action(TGBot_1.default.Actions.Niubi)
-        .then((that) => {
-        return that.run();
-    });
-}
-exports["default"] = Message;
-
-
-/***/ }),
-
-/***/ 9170:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-async function Start(ctx) {
-    ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA');
-}
-exports["default"] = Start;
-
-
-/***/ }),
-
-/***/ 4745:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Space_1 = __webpack_require__(7619);
-const TGBot_1 = __webpack_require__(6379);
-async function Sticker(ctx) {
-    if (Space_1.default.Helpers.RandomNum(1, 100) <= 10) {
-        if (ctx.message["sticker"].emoji in TGBot_1.default.StickerSet.My) {
-            return ctx.replyWithSticker(TGBot_1.default.StickerSet.My[ctx.message["sticker"].emoji]);
-        }
-        else if (ctx.message["sticker"].emoji in TGBot_1.default.StickerSet.Cat) {
-            return ctx.replyWithSticker(TGBot_1.default.StickerSet.Cat[ctx.message["sticker"].emoji]);
-        }
-    }
-}
-exports["default"] = Sticker;
-
-
-/***/ }),
-
 /***/ 7848:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -56568,51 +56476,51 @@ const IsInArray_1 = __webpack_require__(9232);
 const workflows = (__webpack_require__(7732)/* ["default"] */ .Z);
 async function Text(ctx) {
     // return ctx.reply(ctx.message)
-    await new TGBot_1.default.HandleMessage(ctx)
-        .admin().action(async () => {
-        return await new TGBot_1.default.HandleMessage(ctx)
-            .cmd('WebhookInfo').action(async () => {
-            return ctx.telegram.getWebhookInfo().then((data) => {
-                return ctx.reply(JSON.stringify(data));
-            });
-        })
-            .then((that) => {
-            return that.cmd('ChatID').action(async () => {
-                return ctx.reply(ctx.chat.id);
-            });
-        })
-            .then((that) => {
-            return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that) => {
-                let q = [];
-                if (that.args.q) {
-                    q = that.args.q.split(",");
-                }
-                return ctx.telegram[that.args.p](...q).then((data) => {
-                    return ctx.reply(JSON.stringify(data));
-                });
-            });
-        })
-            .then((that) => {
-            return that.re(/coco test/).action(() => {
-                return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA");
-            });
-        })
-            .then((that) => {
-            return that.re(/在吗/).reply(`主人我在`);
-        })
-            .then((that) => {
-            return that.cmd('setu').setArg('k', 0).action(TGBot_1.default.Actions.Setu);
-        })
-            .then((that) => {
-            return that.run();
-        });
-    })
-        .then((that) => {
-        return that.re(/在吗/).reply(`爪巴`);
-    })
-        .then((that) => {
-        return that.run();
-    });
+    // await new TGBot.HandleMessage(ctx)
+    //   .admin().action(async () => {
+    //     return await new TGBot.HandleMessage(ctx)
+    //       .cmd('WebhookInfo').action(async () => {
+    //         return ctx.telegram.getWebhookInfo().then((data: any) => {
+    //           return ctx.reply(JSON.stringify(data));
+    //         })
+    //       })
+    //       .then((that: HandleMessage) => {
+    //         return that.cmd('ChatID').action(async () => {
+    //           return ctx.reply(ctx.chat.id);
+    //         })
+    //       })
+    //       .then((that: HandleMessage) => {
+    //         return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that: any) => {
+    //           let q = []
+    //           if (that.args.q) {
+    //             q = that.args.q.split(",")
+    //           }
+    //           return ctx.telegram[that.args.p](...q).then((data: any) => {
+    //             return ctx.reply(JSON.stringify(data));
+    //           })
+    //         })
+    //       })
+    //       .then((that: HandleMessage) => {
+    //         return that.re(/coco test/).action(() => {
+    //           return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
+    //         })
+    //       })
+    //       .then((that: HandleMessage) => {
+    //         return that.re(/在吗/).reply(`主人我在`)
+    //       })
+    //       .then((that: HandleMessage) => {
+    //         return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
+    //       })
+    //       .then((that: HandleMessage) => {
+    //         return that.run()
+    //       })
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.re(/在吗/).reply(`爪巴`)
+    //   })
+    //   .then((that: HandleMessage) => {
+    //     return that.run()
+    //   })
     workflows.forEach(async (workflow) => {
         let worker = new TGBot_1.default.HandleMessage(ctx);
         for (const item of workflow.workflow) {
@@ -56636,14 +56544,15 @@ async function Text(ctx) {
                 worker.includes(item.includes);
             }
             if ((0, IsInArray_1.default)(keys, "random")) {
-                worker.setRandom(item.random);
+                worker.setRandom(Number(item.random));
             }
             if ((0, IsInArray_1.default)(keys, "reply")) {
-                worker = await worker.reply(item.reply);
+                worker.reply(item.reply);
             }
             if ((0, IsInArray_1.default)(keys, "action")) {
-                worker = await worker.action(TGBot_1.default.Actions[item.action]);
+                worker.action(TGBot_1.default.Actions[item.action]);
             }
+            worker.cleanTrigger();
         }
         await worker.run();
     });
@@ -56837,21 +56746,16 @@ exports["default"] = Text;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Start_1 = __webpack_require__(9170);
-const Help_1 = __webpack_require__(2735);
-const Sticker_1 = __webpack_require__(4745);
 const Catch_1 = __webpack_require__(653);
-const Message_1 = __webpack_require__(9292);
-const Mention_1 = __webpack_require__(806);
 const Text_1 = __webpack_require__(7848);
 function BotModel(bot) {
-    bot.start(Start_1.default);
-    bot.help(Help_1.default);
-    bot.on("sticker", Sticker_1.default);
+    // bot.start(Start);
+    // bot.help(Help);
+    // bot.on("sticker", Sticker);
     // bot.mention(/.*/, Mention);
-    bot.hears(/^@.*/, Mention_1.default);
+    // bot.hears(/^@.*/, Mention);
     bot.on("text", Text_1.default);
-    bot.on("message", Message_1.default);
+    // bot.on("message", Message);
     bot.catch(Catch_1.default);
 }
 exports["default"] = BotModel;
@@ -57427,10 +57331,20 @@ class HandleMessage {
             if (this.status)
                 return this;
             this.type = 'newChatMembers';
+            this.triggerTotalNum++;
+            if (this.new_chat_members_list.length) {
+                this.triggerPassNum++;
+            }
             return this;
         };
         this.cleanStatus = function () {
             this.status = 0;
+            return this;
+        };
+        this.cleanTrigger = function () {
+            this.args = {};
+            this.triggerTotalNum = 0;
+            this.triggerPassNum = 0;
             return this;
         };
         this.setRandom = function (probability = 40) {
@@ -57438,24 +57352,25 @@ class HandleMessage {
                 return this;
             this.type = 'random';
             this.probability = probability;
+            this.triggerTotalNum++;
+            if ((0, RandomNum_1.default)(1, 100) <= this.probability) {
+                this.triggerPassNum++;
+            }
             return this;
         };
-        this.pass = function () {
-            if (this.status)
-                return this;
-            this.type = 'pass';
-            return this;
-        };
-        this.block = function () {
-            if (this.status)
-                return this;
-            this.type = 'block';
-            return this;
-        };
-        this.admin = function () {
+        this.admin = async function () {
             if (this.status)
                 return this;
             this.type = 'admin';
+            if (!this.adminUsername) {
+                const set = await (0, Setting_1.default)("TelegrafBot");
+                const ADMIN_NAME = set.ADMIN_NAME;
+                this.adminUsername = ADMIN_NAME;
+            }
+            this.triggerTotalNum++;
+            if (this.username == this.adminUsername) {
+                this.triggerPassNum++;
+            }
             return this;
         };
         this.re = function (re) {
@@ -57463,6 +57378,10 @@ class HandleMessage {
                 return this;
             this.type = 're';
             this.textReg = re;
+            this.triggerTotalNum++;
+            if (this.textReg.test(this.message)) {
+                this.triggerPassNum++;
+            }
             return this;
         };
         this.includes = function (list) {
@@ -57470,6 +57389,18 @@ class HandleMessage {
                 return this;
             this.type = 'includes';
             this.includesList = list;
+            let flag = 0;
+            for (let i = 0; i < this.includesList.length; i++) {
+                const ele = this.includesList[i];
+                let eleReg = new RegExp(ele);
+                if (eleReg.test(this.message)) {
+                    flag++;
+                }
+            }
+            this.triggerTotalNum++;
+            if (flag == this.includesList.length) {
+                this.triggerPassNum++;
+            }
             return this;
         };
         this.cmd = function (cmd) {
@@ -57477,6 +57408,42 @@ class HandleMessage {
                 return this;
             this.type = 'cmd';
             this.cmdReg = new RegExp(cmd);
+            this.triggerTotalNum++;
+            if (!/^>/.test(this.message))
+                return this;
+            this.shell = new Shell(this.ctx.message.text);
+            if (this.cmdReg.test(this.shell.shift())) {
+                let shift = this.shell.shift();
+                let index = 0;
+                while (shift != ':#:') {
+                    let nextShift = null;
+                    if (/-\w/.test(shift)) {
+                        let key = shift.replace(/^-/, "");
+                        if ((0, IsInArray_1.default)(Object.keys(this.args), key)) {
+                            let next = this.shell.shift();
+                            let nextKey = next.replace(/^-/, "");
+                            if (next != ':#:' && /-\w/.test(next) && (0, IsInArray_1.default)(Object.keys(this.args), nextKey)) {
+                                this.args[key] = 1;
+                                nextShift = next;
+                            }
+                            else {
+                                this.args[key] = next;
+                            }
+                        }
+                    }
+                    else {
+                        this.args[Object.keys(this.args)[index]] = shift;
+                    }
+                    index++;
+                    if (nextShift) {
+                        shift = nextShift;
+                    }
+                    else {
+                        shift = this.shell.shift();
+                    }
+                }
+                this.triggerPassNum++;
+            }
             return this;
         };
         this.setArg = function (arg, defaultValue = 0) {
@@ -57485,124 +57452,23 @@ class HandleMessage {
             this.args[arg] = defaultValue;
             return this;
         };
-        this.reply = async function (str) {
-            return await this.action(() => {
+        this.reply = function (str) {
+            return this.action(() => {
                 return this.ctx.reply(str);
             });
         };
-        this.action = async function (call) {
-            if (this.status)
-                return this;
-            if (this.type == 'cmd') {
-                if (!/^>/.test(this.message))
-                    return this;
-                this.shell = new Shell(this.ctx.message.text);
-                if (this.cmdReg.test(this.shell.shift())) {
-                    let shift = this.shell.shift();
-                    let index = 0;
-                    while (shift != ':#:') {
-                        let nextShift = null;
-                        if (/-\w/.test(shift)) {
-                            let key = shift.replace(/^-/, "");
-                            if ((0, IsInArray_1.default)(Object.keys(this.args), key)) {
-                                let next = this.shell.shift();
-                                let nextKey = next.replace(/^-/, "");
-                                if (next != ':#:' && /-\w/.test(next) && (0, IsInArray_1.default)(Object.keys(this.args), nextKey)) {
-                                    this.args[key] = 1;
-                                    nextShift = next;
-                                }
-                                else {
-                                    this.args[key] = next;
-                                }
-                            }
-                        }
-                        else {
-                            this.args[Object.keys(this.args)[index]] = shift;
-                        }
-                        index++;
-                        if (nextShift) {
-                            shift = nextShift;
-                        }
-                        else {
-                            shift = this.shell.shift();
-                        }
-                    }
-                    this.status = 1;
-                    this.fun = async () => {
-                        await call(this);
-                    };
-                }
-            }
-            if (this.type == 're') {
-                if (this.textReg.test(this.message)) {
-                    this.status = 1;
-                    this.fun = async () => {
-                        await call(this);
-                    };
-                }
-            }
-            if (this.type == 'includes') {
-                let flag = 0;
-                for (let i = 0; i < this.includesList.length; i++) {
-                    const ele = this.includesList[i];
-                    let eleReg = new RegExp(ele);
-                    if (eleReg.test(this.message)) {
-                        flag++;
-                    }
-                }
-                if (flag == this.includesList.length) {
-                    this.status = 1;
-                    this.fun = async () => {
-                        await call(this);
-                    };
-                }
-            }
-            if (this.type == 'admin') {
-                if (!this.adminUsername) {
-                    const set = await (0, Setting_1.default)("TelegrafBot");
-                    const ADMIN_NAME = set.ADMIN_NAME;
-                    this.adminUsername = ADMIN_NAME;
-                }
-                if (this.username == this.adminUsername) {
-                    this.status = 1;
-                    this.fun = async () => {
-                        await call(this);
-                    };
-                }
-            }
-            if (this.type == 'random') {
-                if ((0, RandomNum_1.default)(1, 100) <= this.probability) {
-                    this.status = 1;
-                    this.fun = async () => {
-                        await call(this);
-                    };
-                }
-            }
-            if (this.type == 'newChatMembers') {
-                if (this.new_chat_members_list.length) {
-                    this.status = 1;
-                    this.fun = async () => {
-                        await call(this);
-                    };
-                }
-            }
-            if (this.type == 'pass') {
-                await call(this);
-            }
-            if (this.type == 'block') {
+        this.action = function (call) {
+            if (this.triggerTotalNum && this.triggerTotalNum === this.triggerPassNum) {
                 this.status = 1;
-                this.fun = async () => {
-                    await call(this);
-                };
-            }
-            if (this.status != 1) {
-                this.args = {};
+                this.fun.push(call(this));
             }
             return this;
         };
         this.run = async function () {
             if (this.status) {
-                await this.fun();
+                this.fun.forEach(async (e) => {
+                    await e();
+                });
             }
             return this;
         };
@@ -57611,7 +57477,10 @@ class HandleMessage {
         this.username = ctx.message.from.username;
         this.args = {};
         this.status = 0;
+        this.triggerTotalNum = 0;
+        this.triggerPassNum = 0;
         this.new_chat_members_list = [];
+        this.fun = [];
         if (this.message)
             this.message = this.message.toLocaleLowerCase();
         if (ctx.message["new_chat_members"])
@@ -60355,7 +60224,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找'},{includes:['来点','涩图'],reply:'让我找找'},{includes:['来点','色色'],reply:'让我找找'},{includes:['来点','涩涩'],reply:'让我找找'},{re:'^不够(色)|(涩)$',reply:'让我找找'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{random:50,action:'ReplaceMa'},{random:1,reply:'然后呢?'},{pass:'pass',action:'EmojiToSticker'},{pass:'pass',action:'InterruptRepetition'}]}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]}]);
 
 /***/ }),
 

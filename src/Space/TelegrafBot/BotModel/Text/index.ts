@@ -5,51 +5,51 @@ const workflows = require("./workflows.yml").default;
 
 async function Text(ctx: any) {
   // return ctx.reply(ctx.message)
-  await new TGBot.HandleMessage(ctx)
-    .admin().action(async () => {
-      return await new TGBot.HandleMessage(ctx)
-        .cmd('WebhookInfo').action(async () => {
-          return ctx.telegram.getWebhookInfo().then((data: any) => {
-            return ctx.reply(JSON.stringify(data));
-          })
-        })
-        .then((that: HandleMessage) => {
-          return that.cmd('ChatID').action(async () => {
-            return ctx.reply(ctx.chat.id);
-          })
-        })
-        .then((that: HandleMessage) => {
-          return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that: any) => {
-            let q = []
-            if (that.args.q) {
-              q = that.args.q.split(",")
-            }
-            return ctx.telegram[that.args.p](...q).then((data: any) => {
-              return ctx.reply(JSON.stringify(data));
-            })
-          })
-        })
-        .then((that: HandleMessage) => {
-          return that.re(/coco test/).action(() => {
-            return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
-          })
-        })
-        .then((that: HandleMessage) => {
-          return that.re(/在吗/).reply(`主人我在`)
-        })
-        .then((that: HandleMessage) => {
-          return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
-        })
-        .then((that: HandleMessage) => {
-          return that.run()
-        })
-    })
-    .then((that: HandleMessage) => {
-      return that.re(/在吗/).reply(`爪巴`)
-    })
-    .then((that: HandleMessage) => {
-      return that.run()
-    })
+  // await new TGBot.HandleMessage(ctx)
+  //   .admin().action(async () => {
+  //     return await new TGBot.HandleMessage(ctx)
+  //       .cmd('WebhookInfo').action(async () => {
+  //         return ctx.telegram.getWebhookInfo().then((data: any) => {
+  //           return ctx.reply(JSON.stringify(data));
+  //         })
+  //       })
+  //       .then((that: HandleMessage) => {
+  //         return that.cmd('ChatID').action(async () => {
+  //           return ctx.reply(ctx.chat.id);
+  //         })
+  //       })
+  //       .then((that: HandleMessage) => {
+  //         return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that: any) => {
+  //           let q = []
+  //           if (that.args.q) {
+  //             q = that.args.q.split(",")
+  //           }
+  //           return ctx.telegram[that.args.p](...q).then((data: any) => {
+  //             return ctx.reply(JSON.stringify(data));
+  //           })
+  //         })
+  //       })
+  //       .then((that: HandleMessage) => {
+  //         return that.re(/coco test/).action(() => {
+  //           return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
+  //         })
+  //       })
+  //       .then((that: HandleMessage) => {
+  //         return that.re(/在吗/).reply(`主人我在`)
+  //       })
+  //       .then((that: HandleMessage) => {
+  //         return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
+  //       })
+  //       .then((that: HandleMessage) => {
+  //         return that.run()
+  //       })
+  //   })
+  //   .then((that: HandleMessage) => {
+  //     return that.re(/在吗/).reply(`爪巴`)
+  //   })
+  //   .then((that: HandleMessage) => {
+  //     return that.run()
+  //   })
 
   workflows.forEach(async (workflow: any) => {
     let worker: HandleMessage = new TGBot.HandleMessage(ctx)
@@ -75,14 +75,15 @@ async function Text(ctx: any) {
         worker.includes(item.includes)
       }
       if (IsInArray(keys, "random")) {
-        worker.setRandom(item.random)
+        worker.setRandom(Number(item.random))
       }
       if (IsInArray(keys, "reply")) {
-        worker = await worker.reply(item.reply)
+        worker.reply(item.reply)
       }
       if (IsInArray(keys, "action")) {
-        worker = await worker.action(TGBot.Actions[item.action])
+        worker.action(TGBot.Actions[item.action])
       }
+      worker.cleanTrigger()
     }
 
     await worker.run()
