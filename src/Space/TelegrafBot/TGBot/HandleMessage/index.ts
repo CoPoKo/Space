@@ -2,7 +2,7 @@ import Setting from "../../../Helpers/Setting"
 import RandomNum from "../../../Helpers/RandomNum"
 import { Context } from "telegraf";
 import { Update } from "typegram";
-
+import IsInArray from "../../../Helpers/IsInArray";
 
 class Shell {
   private index: number;
@@ -115,10 +115,10 @@ class HandleMessage {
           let nextShift = null
           if (/-\w/.test(shift)) {
             let key = shift.replace(/^-/, "")
-            if (isInArray(Object.keys(this.args), key)) {
+            if (IsInArray(Object.keys(this.args), key)) {
               let next = this.shell.shift();
               let nextKey = next.replace(/^-/, "")
-              if (next != ':#:' && /-\w/.test(next) && isInArray(Object.keys(this.args), nextKey)) {
+              if (next != ':#:' && /-\w/.test(next) && IsInArray(Object.keys(this.args), nextKey)) {
                 this.args[key] = 1
                 nextShift = next
               } else {
@@ -215,12 +215,5 @@ class HandleMessage {
     return this
   };
 }
-function isInArray(arr: string[], value: string) {
-  for (let i = 0; i < arr.length; i++) {
-    if (value === arr[i]) {
-      return true;
-    }
-  }
-  return false;
-}
+
 export default HandleMessage;

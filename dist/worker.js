@@ -56069,6 +56069,25 @@ exports["default"] = Headers;
 
 /***/ }),
 
+/***/ 9232:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+function IsInArray(arr, value) {
+    for (let i = 0; i < arr.length; i++) {
+        if (value === arr[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+exports["default"] = IsInArray;
+
+
+/***/ }),
+
 /***/ 3590:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -56296,6 +56315,7 @@ const Setting_1 = __webpack_require__(7425);
 const Fetch_1 = __webpack_require__(76);
 const Security_1 = __webpack_require__(2781);
 const RandomNum_1 = __webpack_require__(3590);
+const IsInArray_1 = __webpack_require__(9232);
 const Helpers = {
     Headers: Headers_1.default,
     ErrorResponse: ErrorResponse_1.default,
@@ -56307,6 +56327,7 @@ const Helpers = {
     Fetch: Fetch_1.default,
     Security: Security_1.default,
     RandomNum: RandomNum_1.default,
+    IsInArray: IsInArray_1.default,
 };
 exports["default"] = Helpers;
 
@@ -56543,6 +56564,7 @@ exports["default"] = Sticker;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TGBot_1 = __webpack_require__(6379);
+const IsInArray_1 = __webpack_require__(9232);
 const workflows = (__webpack_require__(7732)/* ["default"] */ .Z);
 async function Text(ctx) {
     // return ctx.reply(ctx.message)
@@ -56591,43 +56613,35 @@ async function Text(ctx) {
         .then((that) => {
         return that.run();
     });
-    function isInArray(arr, value) {
-        for (let i = 0; i < arr.length; i++) {
-            if (value === arr[i]) {
-                return true;
-            }
-        }
-        return false;
-    }
     workflows.forEach(async (workflow) => {
         let worker = new TGBot_1.default.HandleMessage(ctx);
         for (const item of workflow.workflow) {
             const keys = Object.keys(item);
-            if (isInArray(keys, "reg")) {
+            if ((0, IsInArray_1.default)(keys, "reg")) {
                 worker.reg(new RegExp(item.reg));
             }
-            if (isInArray(keys, "cmd")) {
+            if ((0, IsInArray_1.default)(keys, "cmd")) {
                 worker.cmd(item.cmd);
             }
-            if (isInArray(keys, "arg")) {
+            if ((0, IsInArray_1.default)(keys, "arg")) {
                 const args = Object.keys(item.arg);
                 for (const arg of args) {
                     worker.setArg(arg, item.arg[arg]);
                 }
             }
-            if (isInArray(keys, "pass")) {
+            if ((0, IsInArray_1.default)(keys, "pass")) {
                 worker.pass();
             }
-            if (isInArray(keys, "includes")) {
+            if ((0, IsInArray_1.default)(keys, "includes")) {
                 worker.includes(item.includes);
             }
-            if (isInArray(keys, "random")) {
+            if ((0, IsInArray_1.default)(keys, "random")) {
                 worker.setRandom(item.random);
             }
-            if (isInArray(keys, "reply")) {
+            if ((0, IsInArray_1.default)(keys, "reply")) {
                 worker = await worker.reply(item.reply);
             }
-            if (isInArray(keys, "action")) {
+            if ((0, IsInArray_1.default)(keys, "action")) {
                 worker = await worker.action(TGBot_1.default.Actions[item.action]);
             }
         }
@@ -57387,6 +57401,7 @@ exports["default"] = Actions;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Setting_1 = __webpack_require__(7425);
 const RandomNum_1 = __webpack_require__(3590);
+const IsInArray_1 = __webpack_require__(9232);
 class Shell {
     constructor(shell) {
         this.shift = () => {
@@ -57489,10 +57504,10 @@ class HandleMessage {
                         let nextShift = null;
                         if (/-\w/.test(shift)) {
                             let key = shift.replace(/^-/, "");
-                            if (isInArray(Object.keys(this.args), key)) {
+                            if ((0, IsInArray_1.default)(Object.keys(this.args), key)) {
                                 let next = this.shell.shift();
                                 let nextKey = next.replace(/^-/, "");
-                                if (next != ':#:' && /-\w/.test(next) && isInArray(Object.keys(this.args), nextKey)) {
+                                if (next != ':#:' && /-\w/.test(next) && (0, IsInArray_1.default)(Object.keys(this.args), nextKey)) {
                                     this.args[key] = 1;
                                     nextShift = next;
                                 }
@@ -57605,14 +57620,6 @@ class HandleMessage {
             this.chatid = ctx.message.chat.id;
         }
     }
-}
-function isInArray(arr, value) {
-    for (let i = 0; i < arr.length; i++) {
-        if (value === arr[i]) {
-            return true;
-        }
-    }
-    return false;
 }
 exports["default"] = HandleMessage;
 
@@ -60348,7 +60355,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{reg:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{reg:'^:',action:'WolframAlpha'},{reg:'^。{1,}$',action:'Balloon'},{reg:'来点(\\S*)笑话',action:'Niubi'},{reg:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{reg:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{reg:'^\\?$',reply:'???'},{reg:'^？$',reply:'？？？'},{reg:'你好',reply:'Hello!'},{reg:'在？|在\\?',reply:'有事？'},{reg:'你的主人|your master',action:'ReplyMaster'},{reg:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{reg:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找'},{includes:['来点','涩图'],reply:'让我找找'},{includes:['来点','色色'],reply:'让我找找'},{includes:['来点','涩涩'],reply:'让我找找'},{reg:'^不够(色)|(涩)$',reply:'让我找找'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{pass:'pass',action:'EmojiToSticker'},{random:50,action:'ReplaceMa'},{random:1,reply:'然后呢?'},{pass:'pass',action:'InterruptRepetition'},{includes:['厉害'],reply:'腻害'}]}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{reg:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{reg:'^:',action:'WolframAlpha'},{reg:'^。{1,}$',action:'Balloon'},{reg:'来点(\\S*)笑话',action:'Niubi'},{reg:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{reg:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{reg:'^\\?$',reply:'???'},{reg:'^？$',reply:'？？？'},{reg:'你好',reply:'Hello!'},{reg:'在？|在\\?',reply:'有事？'},{reg:'你的主人|your master',action:'ReplyMaster'},{reg:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{reg:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找'},{includes:['来点','涩图'],reply:'让我找找'},{includes:['来点','色色'],reply:'让我找找'},{includes:['来点','涩涩'],reply:'让我找找'},{reg:'^不够(色)|(涩)$',reply:'让我找找'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{random:50,action:'ReplaceMa'},{random:1,reply:'然后呢?'},{pass:'pass',action:'EmojiToSticker'},{pass:'pass',action:'InterruptRepetition'}]}]);
 
 /***/ }),
 

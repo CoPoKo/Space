@@ -1,5 +1,6 @@
 import TGBot from "../../TGBot"
 import HandleMessage from "../../TGBot/HandleMessage"
+import IsInArray from "../../../Helpers/IsInArray"
 const workflows = require("./workflows.yml").default;
 
 async function Text(ctx: any) {
@@ -49,44 +50,37 @@ async function Text(ctx: any) {
     .then((that: HandleMessage) => {
       return that.run()
     })
-  function isInArray(arr: string[], value: string) {
-    for (let i = 0; i < arr.length; i++) {
-      if (value === arr[i]) {
-        return true;
-      }
-    }
-    return false;
-  }
+
   workflows.forEach(async (workflow: any) => {
     let worker: HandleMessage = new TGBot.HandleMessage(ctx)
     for (const item of workflow.workflow) {
       const keys = Object.keys(item)
 
-      if (isInArray(keys, "reg")) {
+      if (IsInArray(keys, "reg")) {
         worker.reg(new RegExp(item.reg))
       }
-      if (isInArray(keys, "cmd")) {
+      if (IsInArray(keys, "cmd")) {
         worker.cmd(item.cmd)
       }
-      if (isInArray(keys, "arg")) {
+      if (IsInArray(keys, "arg")) {
         const args = Object.keys(item.arg)
         for (const arg of args) {
           worker.setArg(arg, item.arg[arg])
         }
       }
-      if (isInArray(keys, "pass")) {
+      if (IsInArray(keys, "pass")) {
         worker.pass()
       }
-      if (isInArray(keys, "includes")) {
+      if (IsInArray(keys, "includes")) {
         worker.includes(item.includes)
       }
-      if (isInArray(keys, "random")) {
+      if (IsInArray(keys, "random")) {
         worker.setRandom(item.random)
       }
-      if (isInArray(keys, "reply")) {
+      if (IsInArray(keys, "reply")) {
         worker = await worker.reply(item.reply)
       }
-      if (isInArray(keys, "action")) {
+      if (IsInArray(keys, "action")) {
         worker = await worker.action(TGBot.Actions[item.action])
       }
     }

@@ -163,6 +163,9 @@
         - 其实
       reply: 真的吗？我不信。
     - includes:
+        - 厉害
+      reply: 腻害
+    - includes:
         - 恭喜
       reply: 恭喜
     - includes:
@@ -174,14 +177,11 @@
         - 来
         - 诗
       action: Poet
-    - pass: pass
-      action: EmojiToSticker
     - random: 50
       action: ReplaceMa
     - random: 1
       reply: 然后呢?
     - pass: pass
+      action: EmojiToSticker
+    - pass: pass
       action: InterruptRepetition
-    - includes:
-        - 厉害
-      reply: 腻害

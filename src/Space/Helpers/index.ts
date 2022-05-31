@@ -8,6 +8,7 @@ import Setting from './Setting';
 import Fetch from './Fetch';
 import Security from './Security';
 import RandomNum from './RandomNum';
+import IsInArray from './IsInArray';
 
 const Helpers = {
   Headers,
@@ -20,6 +21,7 @@ const Helpers = {
   Fetch,
   Security,
   RandomNum,
+  IsInArray,
 };
 
 export default Helpers;
