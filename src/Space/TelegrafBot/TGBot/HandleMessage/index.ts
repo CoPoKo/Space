@@ -51,21 +51,11 @@ class HandleMessage {
       this.chatid = ctx.message.chat.id
     }
   }
-  public newChatMembers = function () {
-    if (this.status) return this;
-    this.type = 'newChatMembers';
-    this.triggerTotalNum++;
-    if (this.new_chat_members_list.length) {
-      this.triggerPassNum++;
-    }
-    return this;
-  }
   public cleanStatus = function () {
     this.status = 0;
     return this;
   }
   public cleanTrigger = function () {
-    this.args = {}
     this.triggerTotalNum = 0;
     this.triggerPassNum = 0;
     return this;
@@ -80,7 +70,15 @@ class HandleMessage {
     }
     return this;
   }
-
+  public newChatMembers = function () {
+    if (this.status) return this;
+    this.type = 'newChatMembers';
+    this.triggerTotalNum++;
+    if (this.new_chat_members_list.length) {
+      this.triggerPassNum++;
+    }
+    return this;
+  }
   public admin = async function () {
     if (this.status) return this;
     this.type = 'admin';
@@ -89,11 +87,10 @@ class HandleMessage {
       const ADMIN_NAME = set.ADMIN_NAME
       this.adminUsername = ADMIN_NAME
     }
-    this.triggerTotalNum++;
     if (this.username == this.adminUsername) {
-      this.triggerPassNum++;
+      return true
     }
-    return this;
+    return false;
   };
   public re = function (re: RegExp) {
     if (this.status) return this;
@@ -162,7 +159,7 @@ class HandleMessage {
 
     return this;
   };
-  public setArg = function (arg: string | number, defaultValue = 0) {
+  public setArg = function (arg: string | number, defaultValue: string | number = 0) {
     if (this.status) return this;
     this.args[arg] = defaultValue;
     return this;
@@ -176,6 +173,9 @@ class HandleMessage {
     if (this.triggerTotalNum && this.triggerTotalNum === this.triggerPassNum) {
       this.status = 1;
       this.fun.push(call(this));
+    }
+    if (this.status != 1) {
+      this.args = {}
     }
     return this;
   };
