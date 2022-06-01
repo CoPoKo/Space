@@ -1,16 +1,23 @@
-# - workflow:
-#     - admin:
-#         - re: 在吗
-#           reply: 主人我在
-#         - re: 233
-#           reply: 2333
-#         - cmd: setu
-#           arg:
-#             k: 0
-#           action: Setu
-#       else:
-#         - re: 在吗
-#           reply: 爪巴
+- workflow:
+    - admin:
+        - re: 在吗
+          reply: 主人我在
+        - cmd: setu
+          arg:
+            k: 0
+          action: Setu
+        - cmd: ChatID
+          action: ChatID
+        - cmd: WebhookInfo
+          action: WebhookInfo
+        - cmd: coco
+          arg:
+            p: getMe
+            q: null
+          action: CoCoShell
+      else:
+        - re: 在吗
+          reply: 爪巴
 - workflow:
     - re: 百度|度娘|baidu|谷歌|google|Google|bing|必应
       action: SearchEngineLink

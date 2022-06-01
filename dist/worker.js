@@ -56821,6 +56821,42 @@ exports["default"] = Bing;
 
 /***/ }),
 
+/***/ 2348:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const ChatID = async (that) => {
+    const ctx = that.ctx;
+    await ctx.reply(String(ctx.chat.id));
+};
+exports["default"] = ChatID;
+
+
+/***/ }),
+
+/***/ 8767:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const CoCoShell = async (that) => {
+    const ctx = that.ctx;
+    let q = [];
+    if (that.args.q && that.args.q != "null") {
+        q = that.args.q.split(",");
+    }
+    return ctx.telegram[that.args.p](...q).then((data) => {
+        return ctx.reply(JSON.stringify(data));
+    });
+};
+exports["default"] = CoCoShell;
+
+
+/***/ }),
+
 /***/ 6758:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -57246,6 +57282,23 @@ exports["default"] = Unsplash;
 
 /***/ }),
 
+/***/ 260:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const WebhookInfo = async (that) => {
+    const ctx = that.ctx;
+    ctx.telegram.getWebhookInfo().then((data) => {
+        return ctx.reply(JSON.stringify(data));
+    });
+};
+exports["default"] = WebhookInfo;
+
+
+/***/ }),
+
 /***/ 1714:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -57291,6 +57344,9 @@ const Balloon_1 = __webpack_require__(2799);
 const EmojiToSticker_1 = __webpack_require__(3669);
 const ReplaceMa_1 = __webpack_require__(3158);
 const ReplyMaster_1 = __webpack_require__(4997);
+const ChatID_1 = __webpack_require__(2348);
+const WebhookInfo_1 = __webpack_require__(260);
+const CoCoShell_1 = __webpack_require__(8767);
 const Actions = {
     Niubi: Niubi_1.default,
     Unsplash: Unsplash_1.default,
@@ -57312,6 +57368,9 @@ const Actions = {
     EmojiToSticker: EmojiToSticker_1.default,
     ReplaceMa: ReplaceMa_1.default,
     ReplyMaster: ReplyMaster_1.default,
+    ChatID: ChatID_1.default,
+    WebhookInfo: WebhookInfo_1.default,
+    CoCoShell: CoCoShell_1.default,
 };
 exports["default"] = Actions;
 
@@ -60246,7 +60305,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]}]);
 
 /***/ }),
 

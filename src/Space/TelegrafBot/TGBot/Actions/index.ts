@@ -18,6 +18,9 @@ import Balloon from "./Balloon";
 import EmojiToSticker from "./EmojiToSticker";
 import ReplaceMa from "./ReplaceMa";
 import ReplyMaster from "./ReplyMaster";
+import ChatID from "./ChatID";
+import WebhookInfo from "./WebhookInfo";
+import CoCoShell from "./CoCoShell";
 
 const Actions = {
   Niubi,
@@ -40,6 +43,9 @@ const Actions = {
   EmojiToSticker,
   ReplaceMa,
   ReplyMaster,
+  ChatID,
+  WebhookInfo,
+  CoCoShell,
 };
 
 export default Actions;
