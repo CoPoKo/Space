@@ -4,7 +4,6 @@ import Space from "../../../Space"
 async function thisanimedoesnotexist(ctx: Router) {
   const creativity = ctx.getParam("creativity");
   const seed = ctx.getParam("seed");
-  const ans = await Space.API.thisanimedoesnotexist(creativity, seed)
-  return fetch(ans)
+  return Space.API.thisanimedoesnotexist(creativity, seed).then(fetch)
 }
 export default thisanimedoesnotexist;

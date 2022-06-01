@@ -1,7 +1,6 @@
 import Space from "../../../Space"
 
 async function Happypic() {
-  const ans = await Space.API.Happypic()
-  return fetch(ans)
+  return Space.API.Happypic().then(fetch)
 }
 export default Happypic;

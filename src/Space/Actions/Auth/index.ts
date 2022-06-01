@@ -6,7 +6,7 @@ async function AuthPage(_ctx: any) {
   return new Response(html, Space.Helpers.Headers.html);
 }
 async function CheckAuth(ctx: Router) {
-  const auth = await Space.Helpers.ReadRequest.Body(ctx.request).then((e: string) => JSON.parse(e))
+  const auth = await Space.Helpers.ReadRequest.Body(ctx.request).then(JSON.parse)
   const token = auth.token;
   const secret = reCAPTCHA_SERVER;
   const ip = ctx.ip;

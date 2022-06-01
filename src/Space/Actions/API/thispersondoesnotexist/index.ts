@@ -1,7 +1,6 @@
 import Space from "../../../Space"
 
 async function thispersondoesnotexist() {
-  const ans = await Space.API.thispersondoesnotexist()
-  return fetch(ans)
+  return Space.API.thispersondoesnotexist().then(fetch)
 }
 export default thispersondoesnotexist;

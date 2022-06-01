@@ -1,7 +1,6 @@
 import Space from "../../../Space"
 
 async function ACG() {
-  const ans = await Space.API.ACG()
-  return fetch(ans)
+  return Space.API.ACG().then(fetch)
 }
 export default ACG;

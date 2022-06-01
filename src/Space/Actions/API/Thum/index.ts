@@ -8,7 +8,6 @@ async function Thum(ctx: Router) {
   opt.height = ctx.getParam("height")
   opt.wait = ctx.getParam("wait")
 
-  const ans = await Space.API.Thum(opt)
-  return fetch(ans)
+  return Space.API.Thum(opt).then(fetch)
 }
 export default Thum;

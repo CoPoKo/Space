@@ -1,5 +1,3 @@
-import Space from "../../Space"
-
 async function Nbnhhsh(key: string) {
   if (!key)
     key = "nb"

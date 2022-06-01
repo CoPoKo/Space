@@ -3,8 +3,6 @@ import Space from "../../../Space"
 
 async function Unsplash(ctx: Router) {
   const keywords = ctx.getParam("keywords")
-  const ans = await Space.API.Unsplash(keywords)
-
-  return fetch(ans)
+  return Space.API.Unsplash(keywords).then(fetch)
 }
 export default Unsplash;

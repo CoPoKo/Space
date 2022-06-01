@@ -8,8 +8,7 @@ async function Admin(ctx: Router) {
   }
   const path = ctx.pathname
   if (path.startsWith('/Admin/happypic-sex')) {
-    const ans = await Space.API.Setu.HappypicSex()
-    return fetch(ans)
+    return Space.API.Setu.HappypicSex().then(fetch)
   }
   if (path.startsWith('/Admin/setu/gif')) {
     const id = ctx.getParam('id') || Space.Helpers.RandomNum(1, 35)
@@ -25,8 +24,7 @@ async function Admin(ctx: Router) {
     return Space.API.Setu.Tui(id)
   }
   if (path.startsWith('/Admin/setu/el')) {
-    const ans = await Space.API.Setu.El()
-    return fetch(ans)
+    return Space.API.Setu.El().then(fetch)
   }
 
 

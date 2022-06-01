@@ -54087,7 +54087,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 const BingImgInfo = async (day = 0) => {
     const FetchUrl = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=" + day + "&n=1";
-    return await Space_1.default.Helpers.Fetch.JSON(FetchUrl).then((e) => {
+    return Space_1.default.Helpers.Fetch.JSON(FetchUrl).then((e) => {
         const BingImgInfo = e.images[0];
         BingImgInfo.url = "https://www.bing.com" + BingImgInfo.url;
         BingImgInfo.urlbase = "https://www.bing.com" + BingImgInfo.urlbase;
@@ -54956,8 +54956,7 @@ exports["default"] = thiswaifudoesnotexist;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function ACG() {
-    const ans = await Space_1.default.API.ACG();
-    return fetch(ans);
+    return Space_1.default.API.ACG().then(fetch);
 }
 exports["default"] = ACG;
 
@@ -55125,8 +55124,7 @@ exports["default"] = GoogleTranslate;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function Happypic() {
-    const ans = await Space_1.default.API.Happypic();
-    return fetch(ans);
+    return Space_1.default.API.Happypic().then(fetch);
 }
 exports["default"] = Happypic;
 
@@ -55329,8 +55327,7 @@ exports["default"] = Poet;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function Sitich() {
-    const ans = await Space_1.default.API.Sitich();
-    return fetch(ans);
+    return Space_1.default.API.Sitich().then(fetch);
 }
 exports["default"] = Sitich;
 
@@ -55370,8 +55367,7 @@ async function Thum(ctx) {
     opt.width = ctx.getParam("width");
     opt.height = ctx.getParam("height");
     opt.wait = ctx.getParam("wait");
-    const ans = await Space_1.default.API.Thum(opt);
-    return fetch(ans);
+    return Space_1.default.API.Thum(opt).then(fetch);
 }
 exports["default"] = Thum;
 
@@ -55387,8 +55383,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function Unsplash(ctx) {
     const keywords = ctx.getParam("keywords");
-    const ans = await Space_1.default.API.Unsplash(keywords);
-    return fetch(ans);
+    return Space_1.default.API.Unsplash(keywords).then(fetch);
 }
 exports["default"] = Unsplash;
 
@@ -55508,8 +55503,7 @@ const Space_1 = __webpack_require__(7619);
 async function thisanimedoesnotexist(ctx) {
     const creativity = ctx.getParam("creativity");
     const seed = ctx.getParam("seed");
-    const ans = await Space_1.default.API.thisanimedoesnotexist(creativity, seed);
-    return fetch(ans);
+    return Space_1.default.API.thisanimedoesnotexist(creativity, seed).then(fetch);
 }
 exports["default"] = thisanimedoesnotexist;
 
@@ -55524,8 +55518,7 @@ exports["default"] = thisanimedoesnotexist;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function thispersondoesnotexist() {
-    const ans = await Space_1.default.API.thispersondoesnotexist();
-    return fetch(ans);
+    return Space_1.default.API.thispersondoesnotexist().then(fetch);
 }
 exports["default"] = thispersondoesnotexist;
 
@@ -55541,8 +55534,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function thiswaifudoesnotexist(ctx) {
     const id = ctx.getParam("id");
-    const ans = await Space_1.default.API.thiswaifudoesnotexist(id);
-    return fetch(ans);
+    return Space_1.default.API.thiswaifudoesnotexist(id).then(fetch);
 }
 exports["default"] = thiswaifudoesnotexist;
 
@@ -55564,8 +55556,7 @@ async function Admin(ctx) {
     }
     const path = ctx.pathname;
     if (path.startsWith('/Admin/happypic-sex')) {
-        const ans = await Space_1.default.API.Setu.HappypicSex();
-        return fetch(ans);
+        return Space_1.default.API.Setu.HappypicSex().then(fetch);
     }
     if (path.startsWith('/Admin/setu/gif')) {
         const id = ctx.getParam('id') || Space_1.default.Helpers.RandomNum(1, 35);
@@ -55580,8 +55571,7 @@ async function Admin(ctx) {
         return Space_1.default.API.Setu.Tui(id);
     }
     if (path.startsWith('/Admin/setu/el')) {
-        const ans = await Space_1.default.API.Setu.El();
-        return fetch(ans);
+        return Space_1.default.API.Setu.El().then(fetch);
     }
     return Space_1.default.Helpers.ErrorResponse("Opps...", 403);
 }
@@ -55634,7 +55624,7 @@ async function AuthPage(_ctx) {
     return new Response(html, Space_1.default.Helpers.Headers.html);
 }
 async function CheckAuth(ctx) {
-    const auth = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+    const auth = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then(JSON.parse);
     const token = auth.token;
     const secret = reCAPTCHA_SERVER;
     const ip = ctx.ip;
