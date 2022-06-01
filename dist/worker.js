@@ -56555,67 +56555,11 @@ exports["default"] = Sticker;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const TGBot_1 = __webpack_require__(6379);
-const IsInArray_1 = __webpack_require__(9232);
+const ParseWorkflow_1 = __webpack_require__(7025);
 const workflows = (__webpack_require__(7732)/* ["default"] */ .Z);
 async function Text(ctx) {
     // return ctx.reply(String(ctx.message))
-    function praseWorker(keys, worker, item) {
-        if ((0, IsInArray_1.default)(keys, "admin")) {
-            const AdminWorkflows = item.admin;
-            const ElseWorkflows = item.else;
-            worker.admin().then(e => {
-                if (e) {
-                    for (const item of AdminWorkflows) {
-                        const keys = Object.keys(item);
-                        praseWorker(keys, worker, item);
-                        worker.cleanTrigger();
-                    }
-                }
-                else {
-                    for (const item of ElseWorkflows) {
-                        const keys = Object.keys(item);
-                        praseWorker(keys, worker, item);
-                        worker.cleanTrigger();
-                    }
-                }
-            });
-        }
-        if ((0, IsInArray_1.default)(keys, "random")) {
-            worker.setRandom(Number(item.random));
-        }
-        if ((0, IsInArray_1.default)(keys, "re")) {
-            worker.re(new RegExp(item.re));
-        }
-        if ((0, IsInArray_1.default)(keys, "includes")) {
-            worker.includes(item.includes);
-        }
-        // arg 要在 cmd 之前
-        if ((0, IsInArray_1.default)(keys, "arg")) {
-            const args = Object.keys(item.arg);
-            for (const arg of args) {
-                worker.setArg(arg, item.arg[arg]);
-            }
-        }
-        if ((0, IsInArray_1.default)(keys, "cmd")) {
-            worker.cmd(item.cmd);
-        }
-        if ((0, IsInArray_1.default)(keys, "reply")) {
-            worker.reply(item.reply);
-        }
-        if ((0, IsInArray_1.default)(keys, "action")) {
-            worker.action(TGBot_1.default.Actions[item.action]);
-        }
-    }
-    workflows.forEach(async (workflow) => {
-        const worker = new TGBot_1.default.HandleMessage(ctx);
-        for (const item of workflow.workflow) {
-            const keys = Object.keys(item);
-            praseWorker(keys, worker, item);
-            worker.cleanTrigger();
-        }
-        await worker.run();
-    });
+    (0, ParseWorkflow_1.default)(ctx, workflows);
 }
 exports["default"] = Text;
 
@@ -57438,6 +57382,77 @@ class HandleMessage {
     }
 }
 exports["default"] = HandleMessage;
+
+
+/***/ }),
+
+/***/ 7025:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const __1 = __webpack_require__(6379);
+const IsInArray_1 = __webpack_require__(9232);
+function parseWorker(keys, worker, item) {
+    if ((0, IsInArray_1.default)(keys, "admin")) {
+        const AdminWorkflows = item.admin;
+        const ElseWorkflows = item.else;
+        worker.admin().then(e => {
+            if (e) {
+                for (const item of AdminWorkflows) {
+                    const keys = Object.keys(item);
+                    parseWorker(keys, worker, item);
+                    worker.cleanTrigger();
+                }
+            }
+            else {
+                for (const item of ElseWorkflows) {
+                    const keys = Object.keys(item);
+                    parseWorker(keys, worker, item);
+                    worker.cleanTrigger();
+                }
+            }
+        });
+    }
+    if ((0, IsInArray_1.default)(keys, "random")) {
+        worker.setRandom(Number(item.random));
+    }
+    if ((0, IsInArray_1.default)(keys, "re")) {
+        worker.re(new RegExp(item.re));
+    }
+    if ((0, IsInArray_1.default)(keys, "includes")) {
+        worker.includes(item.includes);
+    }
+    // arg 要在 cmd 之前
+    if ((0, IsInArray_1.default)(keys, "arg")) {
+        const args = Object.keys(item.arg);
+        for (const arg of args) {
+            worker.setArg(arg, item.arg[arg]);
+        }
+    }
+    if ((0, IsInArray_1.default)(keys, "cmd")) {
+        worker.cmd(item.cmd);
+    }
+    if ((0, IsInArray_1.default)(keys, "reply")) {
+        worker.reply(item.reply);
+    }
+    if ((0, IsInArray_1.default)(keys, "action")) {
+        worker.action(__1.default.Actions[item.action]);
+    }
+}
+function ParseWorkflow(ctx, workflows) {
+    workflows.forEach(async (workflow) => {
+        const worker = new __1.default.HandleMessage(ctx);
+        for (const item of workflow.workflow) {
+            const keys = Object.keys(item);
+            parseWorker(keys, worker, item);
+            worker.cleanTrigger();
+        }
+        await worker.run();
+    });
+}
+exports["default"] = ParseWorkflow;
 
 
 /***/ }),
