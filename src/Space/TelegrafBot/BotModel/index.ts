@@ -9,13 +9,13 @@ import { Telegraf, Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
 
 function BotModel(bot: Telegraf<Context<Update>>) {
-  // bot.start(Start);
-  // bot.help(Help);
-  // bot.on("sticker", Sticker);
+  bot.start(Start);
+  bot.help(Help);
+  bot.on("sticker", Sticker);
   // bot.mention(/.*/, Mention);
-  // bot.hears(/^@.*/, Mention);
+  bot.hears(/^@.*/, Mention);
   bot.on("text", Text);
-  // bot.on("message", Message);
+  bot.on("message", Message);
   bot.catch(Catch);
 }
 export default BotModel;

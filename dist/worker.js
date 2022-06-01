@@ -56465,6 +56465,90 @@ exports["default"] = Catch;
 
 /***/ }),
 
+/***/ 2735:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+async function Help(ctx) {
+    await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA');
+    // ctx.reply("HelpInfo6666");
+}
+exports["default"] = Help;
+
+
+/***/ }),
+
+/***/ 806:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TGBot_1 = __webpack_require__(6379);
+async function Mention(ctx) {
+    // return ctx.reply(String(ctx.message))
+    await new TGBot_1.default.HandleMessage(ctx).re(/nb/).action(TGBot_1.default.Actions.Niubi).run();
+}
+exports["default"] = Mention;
+
+
+/***/ }),
+
+/***/ 9292:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TGBot_1 = __webpack_require__(6379);
+async function Message(ctx) {
+    // return ctx.reply(String(ctx.message))
+    await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.Niubi).run();
+}
+exports["default"] = Message;
+
+
+/***/ }),
+
+/***/ 9170:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+async function Start(ctx) {
+    ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA');
+}
+exports["default"] = Start;
+
+
+/***/ }),
+
+/***/ 4745:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+const TGBot_1 = __webpack_require__(6379);
+async function Sticker(ctx) {
+    if (Space_1.default.Helpers.RandomNum(1, 100) <= 10) {
+        if (ctx.message["sticker"].emoji in TGBot_1.default.StickerSet.My) {
+            return ctx.replyWithSticker(TGBot_1.default.StickerSet.My[ctx.message["sticker"].emoji]);
+        }
+        else if (ctx.message["sticker"].emoji in TGBot_1.default.StickerSet.Cat) {
+            return ctx.replyWithSticker(TGBot_1.default.StickerSet.Cat[ctx.message["sticker"].emoji]);
+        }
+    }
+}
+exports["default"] = Sticker;
+
+
+/***/ }),
+
 /***/ 7848:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -56476,51 +56560,6 @@ const IsInArray_1 = __webpack_require__(9232);
 const workflows = (__webpack_require__(7732)/* ["default"] */ .Z);
 async function Text(ctx) {
     // return ctx.reply(String(ctx.message))
-    // await new TGBot.HandleMessage(ctx)
-    //   .admin().action(async () => {
-    //     return await new TGBot.HandleMessage(ctx)
-    //       .cmd('WebhookInfo').action(async () => {
-    //         return ctx.telegram.getWebhookInfo().then((data: any) => {
-    //           return ctx.reply(JSON.stringify(data));
-    //         })
-    //       })
-    //       .then((that: HandleMessage) => {
-    //         return that.cmd('ChatID').action(async () => {
-    //           return ctx.reply(ctx.chat.id);
-    //         })
-    //       })
-    //       .then((that: HandleMessage) => {
-    //         return that.cmd('coco').setArg('p', 'getMe').setArg('q', null).action(async (that: any) => {
-    //           let q = []
-    //           if (that.args.q) {
-    //             q = that.args.q.split(",")
-    //           }
-    //           return ctx.telegram[that.args.p](...q).then((data: any) => {
-    //             return ctx.reply(JSON.stringify(data));
-    //           })
-    //         })
-    //       })
-    //       .then((that: HandleMessage) => {
-    //         return that.re(/coco test/).action(() => {
-    //           return ctx.replyWithSticker("CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA")
-    //         })
-    //       })
-    //       .then((that: HandleMessage) => {
-    //         return that.re(/在吗/).reply(`主人我在`)
-    //       })
-    //       .then((that: HandleMessage) => {
-    //         return that.cmd('setu').setArg('k', 0).action(TGBot.Actions.Setu)
-    //       })
-    //       .then((that: HandleMessage) => {
-    //         return that.run()
-    //       })
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/在吗/).reply(`爪巴`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.run()
-    //   })
     function praseWorker(keys, worker, item) {
         if ((0, IsInArray_1.default)(keys, "admin")) {
             const AdminWorkflows = item.admin;
@@ -56577,184 +56616,6 @@ async function Text(ctx) {
         }
         await worker.run();
     });
-    // await new TGBot.HandleMessage(ctx)
-    //   .re(/百度|度娘|baidu|谷歌|google|Google|bing|必应/).action(TGBot.Actions.SearchEngineLink)
-    //   .then((that: HandleMessage) => {
-    //     return that.run()
-    //   })
-    // await new TGBot.HandleMessage(ctx)
-    //   .cmd('help').reply("no help")
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('unsplash').setArg('k', 'nature,water,sky,blue,sea').action(TGBot.Actions.Unsplash)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('cat').setArg('k', 'cat').action(TGBot.Actions.Unsplash)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('dog').setArg('k', 'dog').action(TGBot.Actions.Unsplash)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('bing').setArg('d', '0').action(TGBot.Actions.Bing)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('soul').action(TGBot.Actions.Soul)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('hitokoto').action(TGBot.Actions.Hitokoto)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('acg').action(TGBot.Actions.Happypic)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('nbnhhsh').setArg('k', 'nb').action(TGBot.Actions.Nbnhhsh)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('thum').setArg('u', 'https://www.google.com/').setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('translate').setArg('k', 'CoCo').setArg('t', 'zh-cn').action(TGBot.Actions.GoogleTranslate)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('demd5').setArg('k', 'eb62f6b9306db575c2d596b1279627a4').action(TGBot.Actions.DecryptMd5)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('dns').setArg('n', 'github.com').setArg('t', 'A').setArg('u', 'cloudflare').setArg('e', '1.0.0.1').action(TGBot.Actions.DNSQuery)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cmd('poet').action(TGBot.Actions.Poet)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.pass().action(TGBot.Actions.InterruptRepetition)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/^:/).action(TGBot.Actions.WolframAlpha)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/^。{1,}$/).action(TGBot.Actions.Balloon)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/来点(\S*)笑话/).action(TGBot.Actions.Niubi)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/https:\/\/|http:\/\//).setArg('w', '1024').setArg('h', '1200').setArg('t', '1').action(TGBot.Actions.Thum)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/(^hi$)|(hi[^\w])|(^hello$)|(hello[^\w])/).reply(`Hey there`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/^\?$/).reply(`???`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/^？$/).reply(`？？？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/你好/).reply(`Hello!`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/在？|在\?/).reply(`有事？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/你的主人|your master/).action(TGBot.Actions.ReplyMaster)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/早呀|早上|哦哈呦|起床啦/).reply(`新的一天也要加油鸭`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/^晚安|哦呀斯密|睡觉了|该睡了$/).reply(`晚安`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["怎么", "啊"]).reply(`不告诉你`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["发", "色图"]).reply(`有色图？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["看", "色图"]).reply(`色图在哪儿？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["发", "涩图"]).reply(`有涩图？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["看", "涩图"]).reply(`涩图在哪儿？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["来点", "色图"]).reply(`让我找找`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["来点", "涩图"]).reply(`让我找找`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/^不够(色)|(涩)$/).reply(`让我找找`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["我", "应该"]).reply(`确实`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["不舒服"]).reply(`多喝热水`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["你", "怎么"]).reply(`你在教我做事？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["你", "去"]).reply(`你在教我做事？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["变成", "了", "光"]).reply(`我也想要变成光`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["明明是我先来的"]).reply(`为什么会变成这样呢……`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["怎么样"]).reply(`就这？`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["其实"]).reply(`真的吗？我不信。`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["厉害"]).reply(`腻害`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["恭喜"]).reply(`恭喜`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["bing", "壁纸"]).setArg('d', '0').action(TGBot.Actions.Bing)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.run()
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.cleanStatus()
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["来点", "色图"]).action(TGBot.Actions.Setu)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["来点", "涩图"]).action(TGBot.Actions.Setu)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["来点", "色色"]).action(TGBot.Actions.Setu)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["来点", "涩涩"]).action(TGBot.Actions.Setu)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.re(/^不够(色)|(涩)$/).action(TGBot.Actions.Setu)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.includes(["来", "诗"]).action(TGBot.Actions.Poet)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.pass().action(TGBot.Actions.EmojiToSticker)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.setRandom(50).action(TGBot.Actions.ReplaceMa)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.setRandom(1).reply(`然后呢?`)
-    //   })
-    //   .then((that: HandleMessage) => {
-    //     return that.run()
-    //   })
 }
 exports["default"] = Text;
 
@@ -56767,16 +56628,21 @@ exports["default"] = Text;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Start_1 = __webpack_require__(9170);
+const Help_1 = __webpack_require__(2735);
+const Sticker_1 = __webpack_require__(4745);
 const Catch_1 = __webpack_require__(653);
+const Message_1 = __webpack_require__(9292);
+const Mention_1 = __webpack_require__(806);
 const Text_1 = __webpack_require__(7848);
 function BotModel(bot) {
-    // bot.start(Start);
-    // bot.help(Help);
-    // bot.on("sticker", Sticker);
+    bot.start(Start_1.default);
+    bot.help(Help_1.default);
+    bot.on("sticker", Sticker_1.default);
     // bot.mention(/.*/, Mention);
-    // bot.hears(/^@.*/, Mention);
+    bot.hears(/^@.*/, Mention_1.default);
     bot.on("text", Text_1.default);
-    // bot.on("message", Message);
+    bot.on("message", Message_1.default);
     bot.catch(Catch_1.default);
 }
 exports["default"] = BotModel;
