@@ -35,7 +35,7 @@ const text: any = {
   },
 };
 
-const Headers: any = {
+const Headers = {
   js,
   html,
   json,

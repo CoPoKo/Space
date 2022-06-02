@@ -36801,7 +36801,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!doctype html>\r\n<html lang=\"zh\">\r\n<head>\r\n\t<meta charset=\"UTF-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"> \r\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n\t<title>API</title>\r\n\t<link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN::/mhg@0.0.16/css/api.css\">\r\n</head>\r\n<body>\r\n    <div class=\"card\">\r\n    <div class=\"products\">\r\n        <div product-id=\"1\" product-color-a=\"#e64c10\" product-color-b=\"-webkit-linear-gradient(to right, #F6B352, #e64c10)\" product-color-c=\"linear-gradient(to right, #F6B352, #e64c10)\" class=\"product active\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613735399000.svg\"/></div>\r\n        <h1 class=\"title\">Public API</h1>\r\n        <p class=\"description\">对外公开的 API 工具箱</p>\r\n        </div>\r\n        <div product-id=\"2\" product-color-a=\"#00bfa5\" product-color-b=\"-webkit-linear-gradient(to right, #a7ffeb, #00bfa5)\" product-color-c=\"linear-gradient(to right, #a7ffeb, #00bfa5)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613736405000.svg\"/></div>\r\n        <h1 class=\"title\">Bing 壁纸 API</h1>\r\n        <p class=\"description\">\r\n          /bing<br>\r\n          可获取一张 Bing 壁纸\r\n        </p>\r\n        </div>\r\n        <div product-id=\"3\" product-color-a=\"#2962ff\" product-color-b=\"-webkit-linear-gradient(to right, #82b1ff, #2962ff)\" product-color-c=\"linear-gradient(to right, #82b1ff, #2962ff)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738304000.svg\"/></div>\r\n          <h1 class=\"title\">Sitich</h1>\r\n          <p class=\"description\">\r\n            /sitich<br>\r\n            实验品626\r\n          </p>\r\n        </div>\r\n        <div product-id=\"4\" product-color-a=\"#546e7a\" product-color-b=\"-webkit-linear-gradient(to right, #90a4ae, #546e7a)\" product-color-c=\"linear-gradient(to right, #90a4ae, #546e7a)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738900000.svg\"/></div>\r\n          <h1 class=\"title\">Soul</h1>\r\n          <p class=\"description\">\r\n            /soul<br>\r\n            可获取随机一条 毒鸡汤\r\n          </p>\r\n        </div>\r\n        <div product-id=\"5\" product-color-a=\"#aa00ff\" product-color-b=\"-webkit-linear-gradient(to right, #ea80fc, #aa00ff)\" product-color-c=\"linear-gradient(to right, #ea80fc, #aa00ff)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613739294000.svg\"/></div>\r\n          <h1 class=\"title\">Hitokoto</h1>\r\n          <p class=\"description\">\r\n            /hitokoto<br>\r\n            可获取随机一条 强大的一言\r\n          </p>\r\n        </div>\r\n        <div product-id=\"13\" product-color-a=\"#dd2c00\" product-color-b=\"-webkit-linear-gradient(to right, #ff9e80, #dd2c00)\" product-color-c=\"linear-gradient(to right, #ff9e80, #dd2c00)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613809194000.svg\"/></div>\r\n          <h1 class=\"title\">Unsplash</h1>\r\n          <p class=\"description\">\r\n            /unsplash<br>\r\n            可获取随机一张 Unsplash 图片\r\n          </p>\r\n        </div>\r\n        <div product-id=\"14\" product-color-a=\"#dd2c00\" product-color-b=\"-webkit-linear-gradient(to right, #ff8a65, #f4511e)\" product-color-c=\"linear-gradient(to right, #ff8a65, #f4511e)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1614067520000.svg\"/></div>\r\n          <h1 class=\"title\">ACG</h1>\r\n          <p class=\"description\">\r\n            /acg<br>\r\n            可获取随机一张 ACG 图片\r\n          </p>\r\n        </div>\r\n    </div>\r\n    <div class=\"footer\"><a id=\"prev\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Prev</a><a id=\"next\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Next</a></div>\r\n    </div>\r\n\t<script src=\"::CDN::/jquery@2.2.4\"></script>\r\n\t<script type=\"text/javascript\" src=\"::CDN::/mhg@0.0.16/js/api.js\"></script>\r\n</body>\r\n</html>";
+var code = "<!doctype html>\r\n<html lang=\"zh\">\r\n<head>\r\n\t<meta charset=\"UTF-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"> \r\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n\t<title>API</title>\r\n\t<link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN::/mhg@0.0.16/css/api.css\">\r\n</head>\r\n<body>\r\n    <div class=\"card\">\r\n    <div class=\"products\">\r\n        <div product-id=\"1\" product-color-a=\"#e64c10\" product-color-b=\"-webkit-linear-gradient(to right, #F6B352, #e64c10)\" product-color-c=\"linear-gradient(to right, #F6B352, #e64c10)\" class=\"product active\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613735399000.svg\"/></div>\r\n        <h1 class=\"title\">Public API</h1>\r\n        <p class=\"description\">对外公开的 API 工具箱</p>\r\n        </div>\r\n        <div product-id=\"2\" product-color-a=\"#00bfa5\" product-color-b=\"-webkit-linear-gradient(to right, #a7ffeb, #00bfa5)\" product-color-c=\"linear-gradient(to right, #a7ffeb, #00bfa5)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613736405000.svg\"/></div>\r\n        <h1 class=\"title\">Bing 壁纸 API</h1>\r\n        <p class=\"description\">\r\n          /bing<br><br>\r\n          可获取一张 Bing 壁纸\r\n        </p>\r\n        </div>\r\n        <div product-id=\"3\" product-color-a=\"#2962ff\" product-color-b=\"-webkit-linear-gradient(to right, #82b1ff, #2962ff)\" product-color-c=\"linear-gradient(to right, #82b1ff, #2962ff)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738304000.svg\"/></div>\r\n          <h1 class=\"title\">Sitich</h1>\r\n          <p class=\"description\">\r\n            /sitich<br><br>\r\n            实验品626\r\n          </p>\r\n        </div>\r\n        <div product-id=\"4\" product-color-a=\"#546e7a\" product-color-b=\"-webkit-linear-gradient(to right, #90a4ae, #546e7a)\" product-color-c=\"linear-gradient(to right, #90a4ae, #546e7a)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738900000.svg\"/></div>\r\n          <h1 class=\"title\">Soul</h1>\r\n          <p class=\"description\">\r\n            /soul<br><br>\r\n            可获取随机一条 毒鸡汤\r\n          </p>\r\n        </div>\r\n        <div product-id=\"5\" product-color-a=\"#aa00ff\" product-color-b=\"-webkit-linear-gradient(to right, #ea80fc, #aa00ff)\" product-color-c=\"linear-gradient(to right, #ea80fc, #aa00ff)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613739294000.svg\"/></div>\r\n          <h1 class=\"title\">Hitokoto</h1>\r\n          <p class=\"description\">\r\n            /hitokoto<br><br>\r\n            可获取随机一条 强大的一言\r\n          </p>\r\n        </div>\r\n        <div product-id=\"13\" product-color-a=\"#dd2c00\" product-color-b=\"-webkit-linear-gradient(to right, #ff9e80, #dd2c00)\" product-color-c=\"linear-gradient(to right, #ff9e80, #dd2c00)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613809194000.svg\"/></div>\r\n          <h1 class=\"title\">Unsplash</h1>\r\n          <p class=\"description\">\r\n            /unsplash<br><br>\r\n            可获取随机一张 Unsplash 图片\r\n          </p>\r\n        </div>\r\n        <div product-id=\"14\" product-color-a=\"#dd2c00\" product-color-b=\"-webkit-linear-gradient(to right, #ff8a65, #f4511e)\" product-color-c=\"linear-gradient(to right, #ff8a65, #f4511e)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1614067520000.svg\"/></div>\r\n          <h1 class=\"title\">ACG</h1>\r\n          <p class=\"description\">\r\n            /acg<br><br>\r\n            可获取随机一张 ACG 图片\r\n          </p>\r\n        </div>\r\n    </div>\r\n    <div class=\"footer\"><a id=\"prev\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Prev</a><a id=\"next\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Next</a></div>\r\n    </div>\r\n\t<script src=\"::CDN::/jquery@2.2.4\"></script>\r\n\t<script type=\"text/javascript\" src=\"::CDN::/mhg@0.0.16/js/api.js\"></script>\r\n</body>\r\n</html>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -56129,6 +56129,41 @@ exports["default"] = PDF;
 
 /***/ }),
 
+/***/ 2075:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function PrivacyPolicy(ctx) {
+    const path = ctx.pathname;
+    const set = await Space_1.default.Helpers.Setting("GitHub");
+    const GITHUBTOKEN = set.GITHUBTOKEN;
+    if (path.startsWith('/privacy-policy')) {
+        if (path.startsWith('/privacy-policy/privacy-policy.md')) {
+            let page = await fetch("https://raw.githubusercontent.com/MHuiG/profile-private/master/privacy-policy/privacy-policy.md", {
+                headers: {
+                    Accept: "application/vnd.github.v3.raw",
+                    Authorization: "token " + GITHUBTOKEN
+                }
+            }).then(res => res.text());
+            return new Response(page, Space_1.default.Helpers.Headers.html);
+        }
+        let page = await fetch("https://raw.githubusercontent.com/MHuiG/profile-private/master/privacy-policy/index.html", {
+            headers: {
+                Accept: "application/vnd.github.v3.raw",
+                Authorization: "token " + GITHUBTOKEN
+            }
+        }).then(res => res.text());
+        return new Response(page, Space_1.default.Helpers.Headers.html);
+    }
+}
+exports["default"] = PrivacyPolicy;
+
+
+/***/ }),
+
 /***/ 8619:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -56139,11 +56174,13 @@ const GithubEvent_1 = __webpack_require__(3545);
 const PDF_1 = __webpack_require__(2365);
 const Color_1 = __webpack_require__(9940);
 const API_1 = __webpack_require__(3092);
+const PrivacyPolicy_1 = __webpack_require__(2075);
 const Pages = {
     GithubEvent: GithubEvent_1.default,
     PDF: PDF_1.default,
     Color: Color_1.default,
     API: API_1.default,
+    PrivacyPolicy: PrivacyPolicy_1.default,
 };
 exports["default"] = Pages;
 
@@ -57933,6 +57970,7 @@ async function handleSpace(event) {
         router.get("/github-event").action(Space_1.default.Actions.Pages.GithubEvent);
         router.get("/pdf").action(Space_1.default.Actions.Pages.PDF);
         router.get("/color").action(Space_1.default.Actions.Pages.Color);
+        router.get("/privacy-policy/").action(Space_1.default.Actions.Pages.PrivacyPolicy);
         // OPEN API
         router.get("/bing").action(Space_1.default.Actions.API.BingImgInfo);
         router.get("/sitich").action(Space_1.default.Actions.API.Sitich);

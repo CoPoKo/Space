@@ -47,6 +47,7 @@ async function handleSpace(event: FetchEvent) {
     router.get("/github-event").action(Space.Actions.Pages.GithubEvent);
     router.get("/pdf").action(Space.Actions.Pages.PDF);
     router.get("/color").action(Space.Actions.Pages.Color);
+    router.get("/privacy-policy/").action(Space.Actions.Pages.PrivacyPolicy);
     // OPEN API
     router.get("/bing").action(Space.Actions.API.BingImgInfo);
     router.get("/sitich").action(Space.Actions.API.Sitich);
