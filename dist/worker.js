@@ -36793,6 +36793,20 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 
 /***/ }),
 
+/***/ 1181:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<html lang=\"en\">\r\n\r\n<head>\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta charset=\"UTF-8\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <meta http-equiv='x-dns-prefetch-control' content='on' />\r\n  <link rel='dns-prefetch' href='::PRECONNECT::' />\r\n  <link rel=\"preconnect\" href=\"::PRECONNECT::\" crossorigin>\r\n  <title>树洞 - Tree Hollow</title>\r\n  <link href=\"::CDN::/bootstrap@3.3.7/dist/css/bootstrap.min.css\" rel=\"stylesheet\" />\r\n  <script src=\"::CDN::/jquery@3.1.1\"></script>\r\n  <script src=\"::CDN::/bootstrap@3.3.7/dist/js/bootstrap.min.js\"></script>\r\n  <style>\r\n    body {\r\n      background: #f8f8f8;\r\n    }\r\n  </style>\r\n</head>\r\n\r\n<body>\r\n  <div id=\"wrap\" style=\"width: 1000px;margin: 0 auto;\">\r\n    <textarea style=\"height:35%;margin-top:15px;\" class=\"form-control\" id=\"TreeHollow\"></textarea><br />\r\n    <button type=\"button\" onclick=\"post()\" class=\"btn btn-default btn-lg btn-block\">Submit</button><br /><br />\r\n\r\n    <div id=\"TreeHollowBlock\"></div>\r\n    <button id=\"more\" type=\"button\" onclick=\"get(window.TreeHollow.point)\"\r\n      class=\"btn btn-default btn-lg btn-block\">MORE</button><br /><br />\r\n  </div>\r\n\r\n  <script src=\"::CDN::/marked@3/marked.min.js\"></script>\r\n  <script src=\"https://static.mhuig.top/gh/leizongmin/js-xss@1.0.8/dist/xss.min.js\"></script>\r\n  <script type=\"text/javascript\">\r\n    function addBlock(s) {\r\n      sd = '<div class=\"panel panel-default\">' +\r\n        '<div class=\"panel-body\">' +\r\n        s +\r\n        '</div>' +\r\n        '</div>'\r\n      document.getElementById(\"TreeHollowBlock\").innerHTML += sd\r\n    }\r\n    window.TreeHollow = {}\r\n    window.TreeHollow.point = \"top\"\r\n    const get = (i) => {\r\n      if (!i) {\r\n        addBlock(\"是的，有底洞\");\r\n        document.querySelector(\"#more\").style.display = \"none\"\r\n      } else {\r\n        fetch(\"/tree-hollow/next?id=\" + window.TreeHollow.point).then(res => res.json()).then(res => {\r\n          addBlock(marked(filterXSS(res[\"text\"])), \"success\", 0);\r\n          console.log(res[\"point\"]);\r\n          window.TreeHollow.point = res[\"point\"]\r\n        })\r\n      }\r\n    }\r\n    get(window.TreeHollow.point)\r\n    const post = () => {\r\n      if (document.getElementById(\"TreeHollow\").value) {\r\n        fetch(\"/tree-hollow\", {\r\n          method: \"POST\",\r\n          headers: {\r\n            \"Content-Type\": \"application/json\"\r\n          },\r\n          body: document.getElementById(\"TreeHollow\").value\r\n        }).then(res => res.json()).then(res => {\r\n          if (res.sucess) {\r\n            window.location.reload();\r\n          }\r\n        })\r\n      }\r\n    }\r\n  </script>\r\n</body>\r\n\r\n</html>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
 /***/ 835:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -36801,7 +36815,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!doctype html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n  <title>API</title>\r\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN::/mhg@0.0.16/css/api.css\">\r\n</head>\r\n\r\n<body>\r\n  <div class=\"card\">\r\n    <div class=\"products\">\r\n      <div product-id=\"1\" product-color-a=\"#e64c10\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #F6B352, #e64c10)\"\r\n        product-color-c=\"linear-gradient(to right, #F6B352, #e64c10)\" class=\"product active\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613735399000.svg\" /></div>\r\n        <h1 class=\"title\">Public API</h1>\r\n        <p class=\"description\">对外公开的 API 工具箱</p>\r\n      </div>\r\n      <div product-id=\"2\" product-color-a=\"#00bfa5\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #a7ffeb, #00bfa5)\"\r\n        product-color-c=\"linear-gradient(to right, #a7ffeb, #00bfa5)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613736405000.svg\" /></div>\r\n        <h1 class=\"title\">Bing 壁纸 API</h1>\r\n        <p class=\"description\">\r\n          /bing<br><br>\r\n          可获取一张 Bing 壁纸\r\n        </p>\r\n      </div>\r\n      <div product-id=\"14\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff8a65, #f4511e)\"\r\n        product-color-c=\"linear-gradient(to right, #ff8a65, #f4511e)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1614067520000.svg\" /></div>\r\n        <h1 class=\"title\">ACG</h1>\r\n        <p class=\"description\">\r\n          /acg<br><br>\r\n          可获取随机一张 ACG 图片\r\n        </p>\r\n      </div>\r\n      <div product-id=\"3\" product-color-a=\"#2962ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #82b1ff, #2962ff)\"\r\n        product-color-c=\"linear-gradient(to right, #82b1ff, #2962ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738304000.svg\" /></div>\r\n        <h1 class=\"title\">Sitich</h1>\r\n        <p class=\"description\">\r\n          /sitich<br><br>\r\n          实验品626\r\n        </p>\r\n      </div>\r\n      <div product-id=\"4\" product-color-a=\"#546e7a\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #90a4ae, #546e7a)\"\r\n        product-color-c=\"linear-gradient(to right, #90a4ae, #546e7a)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738900000.svg\" /></div>\r\n        <h1 class=\"title\">Soul</h1>\r\n        <p class=\"description\">\r\n          /soul<br><br>\r\n          可获取随机一条 毒鸡汤\r\n        </p>\r\n      </div>\r\n      <div product-id=\"5\" product-color-a=\"#aa00ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ea80fc, #aa00ff)\"\r\n        product-color-c=\"linear-gradient(to right, #ea80fc, #aa00ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613739294000.svg\" /></div>\r\n        <h1 class=\"title\">Hitokoto</h1>\r\n        <p class=\"description\">\r\n          /hitokoto<br><br>\r\n          可获取随机一条 强大的一言\r\n        </p>\r\n      </div>\r\n      <div product-id=\"13\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff9e80, #dd2c00)\"\r\n        product-color-c=\"linear-gradient(to right, #ff9e80, #dd2c00)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613809194000.svg\" /></div>\r\n        <h1 class=\"title\">Unsplash</h1>\r\n        <p class=\"description\">\r\n          /unsplash<br><br>\r\n          可获取随机一张 Unsplash 图片\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#017923\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #59B373, #017923)\"\r\n        product-color-c=\"linear-gradient(to right, #59B373, #017923)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1614064417000.svg\" /></div>\r\n        <h1 class=\"title\">API Source</h1>\r\n        <p class=\"description\">\r\n          /apisource<br><br>\r\n          API 源代码\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1626252854000.svg\" /></div>\r\n        <h1 class=\"title\">Privacy Policy</h1>\r\n        <p class=\"description\">\r\n          /privacy-policy<br><br>\r\n          隐私政策\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613742624000.svg\" /></div>\r\n        <h1 class=\"title\">Contact</h1>\r\n        <p class=\"description\">\r\n          /contact<br><br>\r\n          联系我们\r\n        </p>\r\n      </div>\r\n    </div>\r\n    <div class=\"footer\"><a id=\"prev\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Prev</a><a\r\n        id=\"next\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Next</a></div>\r\n  </div>\r\n  <script src=\"::CDN::/jquery@2.2.4\"></script>\r\n  <script type=\"text/javascript\" src=\"::CDN::/mhg@0.0.16/js/api.js\"></script>\r\n</body>\r\n\r\n</html>";
+var code = "<!doctype html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n  <title>API</title>\r\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN::/mhg@0.0.16/css/api.css\">\r\n</head>\r\n\r\n<body>\r\n  <div class=\"card\">\r\n    <div class=\"products\">\r\n      <div product-id=\"1\" product-color-a=\"#e64c10\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #F6B352, #e64c10)\"\r\n        product-color-c=\"linear-gradient(to right, #F6B352, #e64c10)\" class=\"product active\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613735399000.svg\" /></div>\r\n        <h1 class=\"title\">Public API</h1>\r\n        <p class=\"description\">对外公开的 API 工具箱</p>\r\n      </div>\r\n      <div product-id=\"2\" product-color-a=\"#00bfa5\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #a7ffeb, #00bfa5)\"\r\n        product-color-c=\"linear-gradient(to right, #a7ffeb, #00bfa5)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613736405000.svg\" /></div>\r\n        <h1 class=\"title\">Bing 壁纸 API</h1>\r\n        <p class=\"description\">\r\n          /bing<br><br>\r\n          可获取一张 Bing 壁纸\r\n        </p>\r\n      </div>\r\n      <div product-id=\"14\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff8a65, #f4511e)\"\r\n        product-color-c=\"linear-gradient(to right, #ff8a65, #f4511e)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1614067520000.svg\" /></div>\r\n        <h1 class=\"title\">ACG</h1>\r\n        <p class=\"description\">\r\n          /acg<br><br>\r\n          可获取随机一张 ACG 图片\r\n        </p>\r\n      </div>\r\n      <div product-id=\"3\" product-color-a=\"#2962ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #82b1ff, #2962ff)\"\r\n        product-color-c=\"linear-gradient(to right, #82b1ff, #2962ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738304000.svg\" /></div>\r\n        <h1 class=\"title\">Sitich</h1>\r\n        <p class=\"description\">\r\n          /sitich<br><br>\r\n          实验品626\r\n        </p>\r\n      </div>\r\n      <div product-id=\"4\" product-color-a=\"#546e7a\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #90a4ae, #546e7a)\"\r\n        product-color-c=\"linear-gradient(to right, #90a4ae, #546e7a)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613738900000.svg\" /></div>\r\n        <h1 class=\"title\">Soul</h1>\r\n        <p class=\"description\">\r\n          /soul<br><br>\r\n          可获取随机一条 毒鸡汤\r\n        </p>\r\n      </div>\r\n      <div product-id=\"5\" product-color-a=\"#aa00ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ea80fc, #aa00ff)\"\r\n        product-color-c=\"linear-gradient(to right, #ea80fc, #aa00ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613739294000.svg\" /></div>\r\n        <h1 class=\"title\">Hitokoto</h1>\r\n        <p class=\"description\">\r\n          /hitokoto<br><br>\r\n          可获取随机一条 强大的一言\r\n        </p>\r\n      </div>\r\n      <div product-id=\"13\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff9e80, #dd2c00)\"\r\n        product-color-c=\"linear-gradient(to right, #ff9e80, #dd2c00)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613809194000.svg\" /></div>\r\n        <h1 class=\"title\">Unsplash</h1>\r\n        <p class=\"description\">\r\n          /unsplash<br><br>\r\n          可获取随机一张 Unsplash 图片\r\n        </p>\r\n      </div>\r\n      <!-- <div product-id=\"end\" product-color-a=\"#017923\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #59B373, #017923)\"\r\n        product-color-c=\"linear-gradient(to right, #59B373, #017923)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1614064417000.svg\" /></div>\r\n        <h1 class=\"title\">API Source</h1>\r\n        <p class=\"description\">\r\n          /apisource<br><br>\r\n          API 源代码\r\n        </p>\r\n      </div> -->\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1626252854000.svg\" /></div>\r\n        <h1 class=\"title\">Privacy Policy</h1>\r\n        <p class=\"description\">\r\n          /privacy-policy<br><br>\r\n          隐私政策\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN::/imbox@0.0.3/data/1613742624000.svg\" /></div>\r\n        <h1 class=\"title\">Contact</h1>\r\n        <p class=\"description\">\r\n          /contact<br><br>\r\n          联系我们\r\n        </p>\r\n      </div>\r\n    </div>\r\n    <div class=\"footer\"><a id=\"prev\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Prev</a><a\r\n        id=\"next\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Next</a></div>\r\n  </div>\r\n  <script src=\"::CDN::/jquery@2.2.4\"></script>\r\n  <script type=\"text/javascript\" src=\"::CDN::/mhg@0.0.16/js/api.js\"></script>\r\n</body>\r\n\r\n</html>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -56176,6 +56190,41 @@ exports["default"] = PrivacyPolicy;
 
 /***/ }),
 
+/***/ 7592:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function TreeHollow(ctx) {
+    const path = ctx.pathname;
+    if (ctx.method == "GET" && (path === "/tree-hollow/" || path === "/tree-hollow")) {
+        return new Response(Space_1.default.Renderers.TreeHollow, Space_1.default.Helpers.Headers.html);
+    }
+    if (ctx.method == "GET") {
+        let id = ctx.getParam('id');
+        if (id == "top") {
+            id = await Space_1.default.API.RKV.Get("TreeHollowID");
+        }
+        if (path.startsWith("/tree-hollow/next")) {
+            return await fetch(`https://ipfs.infura.io/ipfs/${id}`);
+        }
+    }
+    if (ctx.method == "POST") {
+        const hash = await Space_1.default.API.IPFS.Put(JSON.stringify({
+            text: await ctx.request.text(),
+            point: await Space_1.default.API.RKV.Get("TreeHollowID")
+        })).then(e => e.json()).then((e) => e.Hash);
+        await Space_1.default.API.RKV.Put("TreeHollowID", hash);
+        return new Response(JSON.stringify({ sucess: 1 }), Space_1.default.Helpers.Headers.json);
+    }
+}
+exports["default"] = TreeHollow;
+
+
+/***/ }),
+
 /***/ 8619:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -56187,12 +56236,14 @@ const PDF_1 = __webpack_require__(2365);
 const Color_1 = __webpack_require__(9940);
 const API_1 = __webpack_require__(3092);
 const PrivacyPolicy_1 = __webpack_require__(2075);
+const TreeHollow_1 = __webpack_require__(7592);
 const Pages = {
     GithubEvent: GithubEvent_1.default,
     PDF: PDF_1.default,
     Color: Color_1.default,
     API: API_1.default,
     PrivacyPolicy: PrivacyPolicy_1.default,
+    TreeHollow: TreeHollow_1.default,
 };
 exports["default"] = Pages;
 
@@ -56291,8 +56342,8 @@ exports["default"] = Actions;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.space_dns_prefetch = exports.space_cdn = exports.space_static_version = void 0;
 exports.space_static_version = "1.0.1653038935402";
-exports.space_cdn = "https://fastly.jsdelivr.net/npm";
-exports.space_dns_prefetch = "https://fastly.jsdelivr.net";
+exports.space_cdn = "https://static.mhuig.top/npm";
+exports.space_dns_prefetch = "https://static.mhuig.top";
 
 
 /***/ }),
@@ -56773,6 +56824,7 @@ const auth = (__webpack_require__(3979)/* ["default"] */ .Z);
 const dash_father = (__webpack_require__(7892)/* ["default"] */ .Z);
 const ipfs = (__webpack_require__(8890)/* ["default"] */ .Z);
 const api = (__webpack_require__(835)/* ["default"] */ .Z);
+const TreeHollow = (__webpack_require__(1181)/* ["default"] */ .Z);
 function cdn(page) {
     page = page.replace(/::CDN_SPACE::/g, Config_1.space_cdn + "/@copoko/space-static@" + Config_1.space_static_version);
     page = page.replace(/::CDN::/g, Config_1.space_cdn);
@@ -56795,11 +56847,12 @@ dash_nav_1.dash_nav.forEach(item => {
     dash[item] = cdn(DashPage(item));
 });
 const Renderers = {
+    dash: dash,
     erorr: cdn(erorr),
     auth: cdn(auth),
     ipfs: cdn(ipfs),
     api: cdn(api),
-    dash: dash,
+    TreeHollow: cdn(TreeHollow),
 };
 exports["default"] = Renderers;
 
@@ -57985,6 +58038,8 @@ async function handleSpace(event) {
         router.get("/privacy-policy").action(Space_1.default.Actions.Pages.PrivacyPolicy);
         router.get("/contact").action(Space_1.default.Actions.Pages.PrivacyPolicy);
         router.get("/apisource").action(Space_1.default.Actions.Pages.PrivacyPolicy);
+        router.get("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow);
+        router.post("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow);
         // OPEN API
         router.get("/bing").action(Space_1.default.Actions.API.BingImgInfo);
         router.get("/sitich").action(Space_1.default.Actions.API.Sitich);

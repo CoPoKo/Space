@@ -50,6 +50,8 @@ async function handleSpace(event: FetchEvent) {
     router.get("/privacy-policy").action(Space.Actions.Pages.PrivacyPolicy);
     router.get("/contact").action(Space.Actions.Pages.PrivacyPolicy);
     router.get("/apisource").action(Space.Actions.Pages.PrivacyPolicy);
+    router.get("/tree-hollow").action(Space.Actions.Pages.TreeHollow);
+    router.post("/tree-hollow").action(Space.Actions.Pages.TreeHollow);
     // OPEN API
     router.get("/bing").action(Space.Actions.API.BingImgInfo);
     router.get("/sitich").action(Space.Actions.API.Sitich);

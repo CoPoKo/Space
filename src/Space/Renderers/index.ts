@@ -5,6 +5,7 @@ const auth = require('./Pages/auth.html').default
 const dash_father = require('./Pages/dash/dash.html').default
 const ipfs = require('./Pages/ipfs.html').default
 const api = require('./Pages/api.html').default
+const TreeHollow = require('./Pages/TreeHollow.html').default
 
 function cdn(page: string) {
   page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
@@ -32,10 +33,11 @@ dash_nav.forEach(item => {
 })
 
 const Renderers = {
+  dash: dash,
   erorr: cdn(erorr),
   auth: cdn(auth),
   ipfs: cdn(ipfs),
   api: cdn(api),
-  dash: dash,
+  TreeHollow: cdn(TreeHollow),
 };
 export default Renderers;
