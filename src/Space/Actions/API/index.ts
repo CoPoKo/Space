@@ -1,4 +1,5 @@
 import KV from "./KV"
+import RKV from "./RKV"
 import GoogleTranslate from "./GoogleTranslate"
 import GoogleSearch from "./GoogleSearch"
 import WolframAlpha from "./WolframAlpha"
@@ -24,6 +25,7 @@ import IPFS from "./IPFS"
 
 const API = {
   KV,
+  RKV,
   GoogleTranslate,
   GoogleSearch,
   WolframAlpha,

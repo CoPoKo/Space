@@ -54178,6 +54178,27 @@ const CF = {
             headers: header_cf,
         }));
     },
+    // 规则集API https://developers.cloudflare.com/ruleset-engine/rulesets-api/
+    getHttpRequestLateTransform: function () {
+        return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/phases/http_request_late_transform/entrypoint", {
+            method: "GET",
+            headers: header_cf,
+        }));
+    },
+    postRulesToRulesets: function (id, data) {
+        return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/" + id + "/rules", {
+            method: "POST",
+            headers: header_cf,
+            body: data,
+        }));
+    },
+    patchRulesToRulesets: function (set_id, rule_id, data) {
+        return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/" + set_id + "/rules/" + rule_id, {
+            method: "PATCH",
+            headers: header_cf,
+            body: data,
+        }));
+    },
 };
 exports["default"] = CF;
 
@@ -54417,7 +54438,7 @@ const IPFS = {
         }));
     },
     Get: async (hash) => {
-        return await fetch("https://cloudflare-ipfs.com/ipfs/" + hash);
+        return await fetch("https://ipfs.infura.io/ipfs/" + hash);
     }
 };
 exports["default"] = IPFS;
@@ -54610,6 +54631,99 @@ async function Poet(opt = {}) {
     return poet;
 }
 exports["default"] = Poet;
+
+
+/***/ }),
+
+/***/ 9888:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+const CF_1 = __webpack_require__(1046);
+async function getMeta() {
+    let ruleSet = await CF_1.default.getHttpRequestLateTransform().then(e => { return e.json(); }).then((e) => {
+        return {
+            id: e?.result?.id,
+            rules: e?.result?.rules
+        };
+    });
+    let rule = ruleSet.rules.find((e) => e.description === "Ruleset KV");
+    if (!rule) {
+        await CF_1.default.postRulesToRulesets(ruleSet.id, JSON.stringify({
+            "action": "rewrite",
+            "action_parameters": {
+                "headers": {
+                    "X-RKV-IP": {
+                        "operation": "set",
+                        "expression": "ip.src"
+                    },
+                }
+            },
+            "expression": "(http.cookie eq \"RKV-IPFS-QmbJWAESqCsf4RFCqEY7jecCashj8usXiyDNfKtZCwwzGb-RKV-IPFS\")",
+            "description": "Ruleset KV",
+            "enabled": false
+        }));
+        ruleSet = await CF_1.default.getHttpRequestLateTransform().then(e => { return e.json(); }).then((e) => {
+            return {
+                id: e?.result?.id,
+                rules: e?.result?.rules
+            };
+        });
+        rule = ruleSet.rules.find((e) => e.description === "Ruleset KV");
+    }
+    const Hash = rule.expression.match(/RKV-IPFS-(.*)-RKV-IPFS/i)[1];
+    const meta = await Space_1.default.API.IPFS.Get(Hash).then(e => { return e.json(); });
+    return {
+        setId: ruleSet.id,
+        ruleId: rule.id,
+        meta: meta,
+    };
+}
+async function patchRulesetKVRule(meta, setId, ruleId) {
+    const hash = await Space_1.default.API.IPFS.Put(JSON.stringify(meta)).then(e => { return e.json(); }).then((e) => { return e.Hash; });
+    await CF_1.default.patchRulesToRulesets(setId, ruleId, JSON.stringify({
+        "action": "rewrite",
+        "action_parameters": {
+            "headers": {
+                "X-RKV-IP": {
+                    "operation": "set",
+                    "expression": "ip.src"
+                },
+            }
+        },
+        "expression": "(http.cookie eq \"RKV-IPFS-" + hash + "-RKV-IPFS\")",
+        "description": "Ruleset KV",
+        "enabled": false
+    }));
+}
+const RKV = {
+    Put: async (key, value) => {
+        const M = await getMeta();
+        const meta = M.meta;
+        meta[key] = value;
+        await patchRulesetKVRule(meta, M.setId, M.ruleId);
+    },
+    Delete: async (key) => {
+        const M = await getMeta();
+        const meta = M.meta;
+        delete meta[key];
+        await patchRulesetKVRule(meta, M.setId, M.ruleId);
+    },
+    Get: async (key) => {
+        const M = await getMeta();
+        const meta = M.meta;
+        if (meta[key]) {
+            return meta[key];
+        }
+        else {
+            return null;
+        }
+    }
+};
+exports["default"] = RKV;
 
 
 /***/ }),
@@ -54845,6 +54959,7 @@ exports["default"] = ZH;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const KV_1 = __webpack_require__(5518);
+const RKV_1 = __webpack_require__(9888);
 const GoogleTranslate_1 = __webpack_require__(6770);
 const GoogleSearch_1 = __webpack_require__(7754);
 const WolframAlpha_1 = __webpack_require__(5977);
@@ -54871,6 +54986,7 @@ const NPMUpload_1 = __webpack_require__(2214);
 const CF_1 = __webpack_require__(1046);
 const API = {
     KV: KV_1.default,
+    RKV: RKV_1.default,
     GoogleTranslate: GoogleTranslate_1.default,
     GoogleSearch: GoogleSearch_1.default,
     WolframAlpha: WolframAlpha_1.default,
@@ -55165,7 +55281,7 @@ async function Get(ctx) {
         return new Response(Space_1.default.Renderers.ipfs, Space_1.default.Helpers.Headers.html);
     }
     const url = new URL(request.url);
-    url.hostname = "cloudflare-ipfs.com";
+    url.hostname = "ipfs.infura.io";
     return await fetch(url.toString(), request);
 }
 async function Put(ctx) {
@@ -55220,8 +55336,14 @@ exports["default"] = IP;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function Get(ctx) {
-    const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
-    const key = body.key;
+    let key;
+    if (ctx.method === "GET") {
+        key = ctx.getParam("key");
+    }
+    else {
+        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+        key = body.key;
+    }
     const value = await Space_1.default.API.KV.Get(key);
     return new Response(JSON.stringify({
         sucess: 1,
@@ -55230,9 +55352,17 @@ async function Get(ctx) {
     }), Space_1.default.Helpers.Headers.json);
 }
 async function Put(ctx) {
-    const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
-    const key = body.key;
-    const value = body.value;
+    let key;
+    let value;
+    if (ctx.method === "GET") {
+        key = ctx.getParam("key");
+        value = ctx.getParam("value");
+    }
+    else {
+        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+        key = body.key;
+        value = body.value;
+    }
     await Space_1.default.API.KV.Put(key, value);
     return new Response(JSON.stringify({
         sucess: 1,
@@ -55241,8 +55371,14 @@ async function Put(ctx) {
     }), Space_1.default.Helpers.Headers.json);
 }
 async function Delete(ctx) {
-    const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
-    const key = body.key;
+    let key;
+    if (ctx.method === "GET") {
+        key = ctx.getParam("key");
+    }
+    else {
+        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+        key = body.key;
+    }
     await Space_1.default.API.KV.Delete(key);
     return new Response(JSON.stringify({
         sucess: 1,
@@ -55315,6 +55451,72 @@ async function Poet(ctx) {
     return new Response(ans, Space_1.default.Helpers.Headers.json);
 }
 exports["default"] = Poet;
+
+
+/***/ }),
+
+/***/ 2123:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function Get(ctx) {
+    let key;
+    if (ctx.method === "GET") {
+        key = ctx.getParam("key");
+    }
+    else {
+        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+        key = body.key;
+    }
+    let res = await Space_1.default.API.RKV.Get(key);
+    return new Response(JSON.stringify({
+        sucess: 1,
+        key: key,
+        value: res,
+    }), Space_1.default.Helpers.Headers.json);
+}
+async function Put(ctx) {
+    let key;
+    let value;
+    if (ctx.method === "GET") {
+        key = ctx.getParam("key");
+        value = ctx.getParam("value");
+    }
+    else {
+        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+        key = body.key;
+        value = body.value;
+    }
+    await Space_1.default.API.RKV.Put(key, value);
+    return new Response(JSON.stringify({
+        sucess: 1,
+        key: key,
+    }), Space_1.default.Helpers.Headers.json);
+}
+async function Delete(ctx) {
+    let key;
+    if (ctx.method === "GET") {
+        key = ctx.getParam("key");
+    }
+    else {
+        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request).then((e) => JSON.parse(e));
+        key = body.key;
+    }
+    await Space_1.default.API.RKV.Delete(key);
+    return new Response(JSON.stringify({
+        sucess: 1,
+        key: key,
+    }), Space_1.default.Helpers.Headers.json);
+}
+const HKV = {
+    Get,
+    Put,
+    Delete,
+};
+exports["default"] = HKV;
 
 
 /***/ }),
@@ -55441,6 +55643,7 @@ exports["default"] = ZH;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const KV_1 = __webpack_require__(4210);
+const RKV_1 = __webpack_require__(2123);
 const GoogleTranslate_1 = __webpack_require__(1373);
 const GoogleSearch_1 = __webpack_require__(8387);
 const WolframAlpha_1 = __webpack_require__(2158);
@@ -55465,6 +55668,7 @@ const NPMUpload_1 = __webpack_require__(7048);
 const IPFS_1 = __webpack_require__(8778);
 const API = {
     KV: KV_1.default,
+    RKV: RKV_1.default,
     GoogleTranslate: GoogleTranslate_1.default,
     GoogleSearch: GoogleSearch_1.default,
     WolframAlpha: WolframAlpha_1.default,
@@ -57607,6 +57811,15 @@ async function handleSpace(event) {
         router.post("/space/api/kv/get").action(Space_1.default.Actions.API.KV.Get);
         router.post("/space/api/kv/put").action(Space_1.default.Actions.API.KV.Put);
         router.post("/space/api/kv/delete").action(Space_1.default.Actions.API.KV.Delete);
+        router.get("/space/api/kv/get").action(Space_1.default.Actions.API.KV.Get);
+        router.get("/space/api/kv/put").action(Space_1.default.Actions.API.KV.Put);
+        router.get("/space/api/kv/delete").action(Space_1.default.Actions.API.KV.Delete);
+        router.post("/space/api/rkv/get").action(Space_1.default.Actions.API.RKV.Get);
+        router.post("/space/api/rkv/put").action(Space_1.default.Actions.API.RKV.Put);
+        router.post("/space/api/rkv/delete").action(Space_1.default.Actions.API.RKV.Delete);
+        router.get("/space/api/rkv/get").action(Space_1.default.Actions.API.RKV.Get);
+        router.get("/space/api/rkv/put").action(Space_1.default.Actions.API.RKV.Put);
+        router.get("/space/api/rkv/delete").action(Space_1.default.Actions.API.RKV.Delete);
         router.get("/space/api/GoogleTranslate").action(Space_1.default.Actions.API.GoogleTranslate);
         router.get("/space/api/GoogleSearch").action(Space_1.default.Actions.API.GoogleSearch);
         router.get("/space/api/WolframAlpha").action(Space_1.default.Actions.API.WolframAlpha);

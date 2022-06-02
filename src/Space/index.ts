@@ -95,6 +95,19 @@ async function handleSpace(event: FetchEvent) {
     router.post("/space/api/kv/get").action(Space.Actions.API.KV.Get);
     router.post("/space/api/kv/put").action(Space.Actions.API.KV.Put);
     router.post("/space/api/kv/delete").action(Space.Actions.API.KV.Delete);
+
+    router.get("/space/api/kv/get").action(Space.Actions.API.KV.Get);
+    router.get("/space/api/kv/put").action(Space.Actions.API.KV.Put);
+    router.get("/space/api/kv/delete").action(Space.Actions.API.KV.Delete);
+
+    router.post("/space/api/rkv/get").action(Space.Actions.API.RKV.Get);
+    router.post("/space/api/rkv/put").action(Space.Actions.API.RKV.Put);
+    router.post("/space/api/rkv/delete").action(Space.Actions.API.RKV.Delete);
+
+    router.get("/space/api/rkv/get").action(Space.Actions.API.RKV.Get);
+    router.get("/space/api/rkv/put").action(Space.Actions.API.RKV.Put);
+    router.get("/space/api/rkv/delete").action(Space.Actions.API.RKV.Delete);
+
     router.get("/space/api/GoogleTranslate").action(Space.Actions.API.GoogleTranslate);
     router.get("/space/api/GoogleSearch").action(Space.Actions.API.GoogleSearch);
     router.get("/space/api/WolframAlpha").action(Space.Actions.API.WolframAlpha);

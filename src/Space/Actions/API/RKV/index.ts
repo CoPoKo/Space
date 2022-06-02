@@ -9,12 +9,12 @@ async function Get(ctx: Router) {
     const body = await Space.Helpers.ReadRequest.Body(ctx.request).then((e: any) => JSON.parse(e))
     key = body.key;
   }
-  const value = await Space.API.KV.Get(key);
+  let res = await Space.API.RKV.Get(key)
   return new Response(
     JSON.stringify({
       sucess: 1,
       key: key,
-      value: value,
+      value: res,
     }),
     Space.Helpers.Headers.json
   );
@@ -30,12 +30,11 @@ async function Put(ctx: Router) {
     key = body.key;
     value = body.value;
   }
-  await Space.API.KV.Put(key, value);
+  await Space.API.RKV.Put(key, value)
   return new Response(
     JSON.stringify({
       sucess: 1,
       key: key,
-      value: value,
     }),
     Space.Helpers.Headers.json
   );
@@ -48,7 +47,7 @@ async function Delete(ctx: Router) {
     const body = await Space.Helpers.ReadRequest.Body(ctx.request).then((e: any) => JSON.parse(e))
     key = body.key;
   }
-  await Space.API.KV.Delete(key);
+  await Space.API.RKV.Delete(key)
   return new Response(
     JSON.stringify({
       sucess: 1,
@@ -58,9 +57,9 @@ async function Delete(ctx: Router) {
   );
 }
 
-const KV = {
+const RKV = {
   Get,
   Put,
   Delete,
 };
-export default KV;
+export default RKV;

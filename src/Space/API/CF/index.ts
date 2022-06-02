@@ -70,5 +70,26 @@ const CF = {
       headers: header_cf,
     }));
   },
+  // 规则集API https://developers.cloudflare.com/ruleset-engine/rulesets-api/
+  getHttpRequestLateTransform: function () {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/phases/http_request_late_transform/entrypoint", {
+      method: "GET",
+      headers: header_cf,
+    }));
+  },
+  postRulesToRulesets: function (id: string, data: any) {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/" + id + "/rules", {
+      method: "POST",
+      headers: header_cf,
+      body: data,
+    }));
+  },
+  patchRulesToRulesets: function (set_id: string, rule_id: string, data: any) {
+    return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/" + set_id + "/rules/" + rule_id, {
+      method: "PATCH",
+      headers: header_cf,
+      body: data,
+    }));
+  },
 };
 export default CF;

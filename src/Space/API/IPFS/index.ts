@@ -18,7 +18,7 @@ const IPFS = {
     }));
   },
   Get: async (hash: string) => {
-    return await fetch("https://cloudflare-ipfs.com/ipfs/" + hash);
+    return await fetch("https://ipfs.infura.io/ipfs/" + hash);
   }
 };
 export default IPFS;
