@@ -53,7 +53,7 @@
         addBlock("是的，有底洞");
         document.querySelector("#more").style.display = "none"
       } else {
-        fetch("/tree-hollow/next?id=" + window.TreeHollow.point).then(res => res.json()).then(res => {
+        fetch("/tree-hollow/next?id=" + window.TreeHollow.point + "&t=" + new Date().getTime()).then(res => res.json()).then(res => {
           addBlock(marked.parse(filterXSS(res["text"])), "success", 0);
           console.log(res["point"]);
           window.TreeHollow.point = res["point"]
