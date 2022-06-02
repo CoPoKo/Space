@@ -9,32 +9,38 @@
   <link rel='dns-prefetch' href='::PRECONNECT::' />
   <link rel="preconnect" href="::PRECONNECT::" crossorigin>
   <title>树洞 - Tree Hollow</title>
-  <link href="::CDN::/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="::CDN::/jquery@3.1.1"></script>
-  <script src="::CDN::/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="::CDN::/github-markdown-css@5/github-markdown-light.min.css">
+  <link href="::CDN::/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="::CDN::/bootstrap@5/dist/js/bootstrap.min.js"></script>
   <style>
-    body {
-      background: #f8f8f8;
+    #TreeHollow {
+      height: 35%;
+      margin-top: 15px;
     }
   </style>
 </head>
 
-<body>
-  <div id="wrap" style="width: 1000px;margin: 0 auto;">
-    <textarea style="height:35%;margin-top:15px;" class="form-control" id="TreeHollow"></textarea><br />
-    <button type="button" onclick="post()" class="btn btn-default btn-lg btn-block">Submit</button><br /><br />
-
+<body class="markdown-body">
+  <div id="wrap" class="container">
+    <textarea class="form-control" id="TreeHollow"></textarea>
+    <br />
+    <div class="d-grid gap-1">
+      <button type="button" onclick="post()" class="btn btn-primary btn-lg btn-block">Submit</button>
+    </div>
+    <br /><br />
     <div id="TreeHollowBlock"></div>
-    <button id="more" type="button" onclick="get(window.TreeHollow.point)"
-      class="btn btn-default btn-lg btn-block">MORE</button><br /><br />
+    <div class="d-grid gap-1">
+      <button id="more" type="button" onclick="get(window.TreeHollow.point)"
+        class="btn btn-primary btn-lg btn-block">MORE</button>
+    </div>
+    <br /><br />
   </div>
-
-  <script src="::CDN::/marked@3/marked.min.js"></script>
-  <script src="https://static.mhuig.top/gh/leizongmin/js-xss@1.0.8/dist/xss.min.js"></script>
+  <script src="::CDN::/marked@4/marked.min.js"></script>
+  <script src="::PRECONNECT::/gh/leizongmin/js-xss@1/dist/xss.min.js"></script>
   <script type="text/javascript">
     function addBlock(s) {
-      sd = '<div class="panel panel-default">' +
-        '<div class="panel-body">' +
+      sd = '<div class="card">' +
+        '<div class="card-body">' +
         s +
         '</div>' +
         '</div>'
@@ -48,7 +54,7 @@
         document.querySelector("#more").style.display = "none"
       } else {
         fetch("/tree-hollow/next?id=" + window.TreeHollow.point).then(res => res.json()).then(res => {
-          addBlock(marked(filterXSS(res["text"])), "success", 0);
+          addBlock(marked.parse(filterXSS(res["text"])), "success", 0);
           console.log(res["point"]);
           window.TreeHollow.point = res["point"]
         })
