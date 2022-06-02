@@ -54682,7 +54682,7 @@ async function getMeta() {
         meta: meta,
     };
 }
-async function patchRulesetKVRule(meta, setId, ruleId) {
+async function patchMeta(meta, setId, ruleId) {
     const hash = await Space_1.default.API.IPFS.Put(JSON.stringify(meta)).then(e => { return e.json(); }).then((e) => { return e.Hash; });
     await CF_1.default.patchRulesToRulesets(setId, ruleId, JSON.stringify({
         "action": "rewrite",
@@ -54704,13 +54704,13 @@ const RKV = {
         const M = await getMeta();
         const meta = M.meta;
         meta[key] = value;
-        await patchRulesetKVRule(meta, M.setId, M.ruleId);
+        await patchMeta(meta, M.setId, M.ruleId);
     },
     Delete: async (key) => {
         const M = await getMeta();
         const meta = M.meta;
         delete meta[key];
-        await patchRulesetKVRule(meta, M.setId, M.ruleId);
+        await patchMeta(meta, M.setId, M.ruleId);
     },
     Get: async (key) => {
         const M = await getMeta();
@@ -55511,12 +55511,12 @@ async function Delete(ctx) {
         key: key,
     }), Space_1.default.Helpers.Headers.json);
 }
-const HKV = {
+const RKV = {
     Get,
     Put,
     Delete,
 };
-exports["default"] = HKV;
+exports["default"] = RKV;
 
 
 /***/ }),

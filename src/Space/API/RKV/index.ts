@@ -39,7 +39,7 @@ async function getMeta() {
     meta: meta,
   }
 }
-async function patchRulesetKVRule(meta: any, setId: string, ruleId: string) {
+async function patchMeta(meta: any, setId: string, ruleId: string) {
   const hash = await Space.API.IPFS.Put(JSON.stringify(meta)).then(e => { return e.json() }).then((e: any) => { return e.Hash })
   await CF.patchRulesToRulesets(setId, ruleId, JSON.stringify({
     "action": "rewrite",
@@ -62,13 +62,13 @@ const RKV = {
     const M = await getMeta()
     const meta = M.meta
     meta[key] = value
-    await patchRulesetKVRule(meta, M.setId, M.ruleId)
+    await patchMeta(meta, M.setId, M.ruleId)
   },
   Delete: async (key: string) => {
     const M = await getMeta()
     const meta = M.meta
     delete meta[key]
-    await patchRulesetKVRule(meta, M.setId, M.ruleId)
+    await patchMeta(meta, M.setId, M.ruleId)
   },
   Get: async (key: string) => {
     const M = await getMeta()
