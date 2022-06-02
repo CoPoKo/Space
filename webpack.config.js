@@ -20,6 +20,14 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+        options: {
+          sources: false,
+          minimize: false,
+        },
+      },
       { test: /\.tsx?$/, loader: "ts-loader" },
       { test: /\.ya?ml$/, use: 'yaml-loader' },
     ]
