@@ -36793,6 +36793,13 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 
 /***/ }),
 
+/***/ 1685:
+/***/ ((module) => {
+
+module.exports = "<!doctype html>\r\n<html lang=\"zh\">\r\n<head>\r\n\t<meta charset=\"UTF-8\">\r\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"> \r\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n\t<title>API</title>\r\n\t<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fastly.jsdelivr.net/npm/mhg@0.0.16/css/api.css\">\r\n</head>\r\n<body>\r\n    <div class=\"card\">\r\n    <div class=\"products\">\r\n        <div product-id=\"1\" product-color-a=\"#e64c10\" product-color-b=\"-webkit-linear-gradient(to right, #F6B352, #e64c10)\" product-color-c=\"linear-gradient(to right, #F6B352, #e64c10)\" class=\"product active\">\r\n        <div class=\"thumbnail\"><img src=\"https://fastly.jsdelivr.net/npm/imbox@0.0.3/data/1613735399000.svg\"/></div>\r\n        <h1 class=\"title\">Public API</h1>\r\n        <p class=\"description\">对外公开的 API 工具箱</p>\r\n        </div>\r\n        <div product-id=\"2\" product-color-a=\"#00bfa5\" product-color-b=\"-webkit-linear-gradient(to right, #a7ffeb, #00bfa5)\" product-color-c=\"linear-gradient(to right, #a7ffeb, #00bfa5)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"https://fastly.jsdelivr.net/npm/imbox@0.0.3/data/1613736405000.svg\"/></div>\r\n        <h1 class=\"title\">Bing 壁纸 API</h1>\r\n        <p class=\"description\">\r\n          /bing<br>\r\n          可获取一张 Bing 壁纸\r\n        </p>\r\n        </div>\r\n        <div product-id=\"3\" product-color-a=\"#2962ff\" product-color-b=\"-webkit-linear-gradient(to right, #82b1ff, #2962ff)\" product-color-c=\"linear-gradient(to right, #82b1ff, #2962ff)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"https://fastly.jsdelivr.net/npm/imbox@0.0.3/data/1613738304000.svg\"/></div>\r\n          <h1 class=\"title\">Sitich</h1>\r\n          <p class=\"description\">\r\n            /sitich<br>\r\n            实验品626\r\n          </p>\r\n        </div>\r\n        <div product-id=\"4\" product-color-a=\"#546e7a\" product-color-b=\"-webkit-linear-gradient(to right, #90a4ae, #546e7a)\" product-color-c=\"linear-gradient(to right, #90a4ae, #546e7a)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"https://fastly.jsdelivr.net/npm/imbox@0.0.3/data/1613738900000.svg\"/></div>\r\n          <h1 class=\"title\">Soul</h1>\r\n          <p class=\"description\">\r\n            /soul<br>\r\n            可获取随机一条 毒鸡汤\r\n          </p>\r\n        </div>\r\n        <div product-id=\"5\" product-color-a=\"#aa00ff\" product-color-b=\"-webkit-linear-gradient(to right, #ea80fc, #aa00ff)\" product-color-c=\"linear-gradient(to right, #ea80fc, #aa00ff)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"https://fastly.jsdelivr.net/npm/imbox@0.0.3/data/1613739294000.svg\"/></div>\r\n          <h1 class=\"title\">Hitokoto</h1>\r\n          <p class=\"description\">\r\n            /hitokoto<br>\r\n            可获取随机一条 强大的一言\r\n          </p>\r\n        </div>\r\n        <div product-id=\"13\" product-color-a=\"#dd2c00\" product-color-b=\"-webkit-linear-gradient(to right, #ff9e80, #dd2c00)\" product-color-c=\"linear-gradient(to right, #ff9e80, #dd2c00)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"https://fastly.jsdelivr.net/npm/imbox@0.0.3/data/1613809194000.svg\"/></div>\r\n          <h1 class=\"title\">Unsplash</h1>\r\n          <p class=\"description\">\r\n            /unsplash<br>\r\n            可获取随机一张 Unsplash 图片\r\n          </p>\r\n        </div>\r\n        <div product-id=\"14\" product-color-a=\"#dd2c00\" product-color-b=\"-webkit-linear-gradient(to right, #ff8a65, #f4511e)\" product-color-c=\"linear-gradient(to right, #ff8a65, #f4511e)\" class=\"product\">\r\n          <div class=\"thumbnail\"><img src=\"https://fastly.jsdelivr.net/npm/imbox@0.0.3/data/1614067520000.svg\"/></div>\r\n          <h1 class=\"title\">ACG</h1>\r\n          <p class=\"description\">\r\n            /acg<br>\r\n            可获取随机一张 ACG 图片\r\n          </p>\r\n        </div>\r\n    </div>\r\n    <div class=\"footer\"><a id=\"prev\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Prev</a><a id=\"next\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Next</a></div>\r\n    </div>\r\n\t<script src=\"https://fastly.jsdelivr.net/npm/jquery@2.2.4\"></script>\r\n\t<script type=\"text/javascript\" src=\"https://fastly.jsdelivr.net/npm/mhg@0.0.16/js/api.js\"></script>\r\n</body>\r\n</html>";
+
+/***/ }),
+
 /***/ 6096:
 /***/ ((module) => {
 
@@ -55925,6 +55932,21 @@ exports["default"] = Link;
 
 /***/ }),
 
+/***/ 3092:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function API(ctx) {
+    return new Response(Space_1.default.Renderers.api, Space_1.default.Helpers.Headers.html);
+}
+exports["default"] = API;
+
+
+/***/ }),
+
 /***/ 9940:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -55985,10 +56007,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const GithubEvent_1 = __webpack_require__(3545);
 const PDF_1 = __webpack_require__(2365);
 const Color_1 = __webpack_require__(9940);
+const API_1 = __webpack_require__(3092);
 const Pages = {
     GithubEvent: GithubEvent_1.default,
     PDF: PDF_1.default,
     Color: Color_1.default,
+    API: API_1.default,
 };
 exports["default"] = Pages;
 
@@ -56356,28 +56380,44 @@ class Router {
             this.status[key] = value;
             return this;
         };
-        this.get = (path) => {
+        this.get = (path, eq = false) => {
             if (this.status.action)
                 return this;
             if (this.status.filterPath)
                 return this;
             if (this.method == "GET") {
                 if (this.pathname.startsWith(path)) {
-                    this.status.filterPath = 1;
-                    this.status.path = path;
+                    if (eq) {
+                        if (this.pathname == path) {
+                            this.status.filterPath = 1;
+                            this.status.path = path;
+                        }
+                    }
+                    else {
+                        this.status.filterPath = 1;
+                        this.status.path = path;
+                    }
                 }
             }
             return this;
         };
-        this.post = (path) => {
+        this.post = (path, eq = false) => {
             if (this.status.action)
                 return this;
             if (this.status.filterPath)
                 return this;
             if (this.method == "POST") {
                 if (this.pathname.startsWith(path)) {
-                    this.status.filterPath = 1;
-                    this.status.path = path;
+                    if (eq) {
+                        if (this.pathname == path) {
+                            this.status.filterPath = 1;
+                            this.status.path = path;
+                        }
+                    }
+                    else {
+                        this.status.filterPath = 1;
+                        this.status.path = path;
+                    }
                 }
             }
             return this;
@@ -56553,6 +56593,7 @@ const auth = __webpack_require__(6096);
 const robots = __webpack_require__(2547);
 const dash_father = __webpack_require__(7138);
 const ipfs = __webpack_require__(5401);
+const api = __webpack_require__(1685);
 function cdn(page) {
     page = page.replace(/::CDN_SPACE::/g, Config_1.space_cdn + "/@copoko/space-static@" + Config_1.space_static_version);
     page = page.replace(/::CDN::/g, Config_1.space_cdn);
@@ -56578,6 +56619,7 @@ const Renderers = {
     erorr: cdn(erorr),
     auth: cdn(auth),
     ipfs: cdn(ipfs),
+    api: cdn(api),
     robots: robots,
     dash: dash,
 };
@@ -57758,6 +57800,7 @@ async function handleSpace(event) {
         router.post(Telegraf_BOT_WEBHOOK).action(Space_1.default.Actions.TelegrafWebhook);
         /////////////////////////////////////////////////////////////////////
         // OPEN Pages
+        router.get("/", true).action(Space_1.default.Actions.Pages.API);
         router.get("/github-event").action(Space_1.default.Actions.Pages.GithubEvent);
         router.get("/pdf").action(Space_1.default.Actions.Pages.PDF);
         router.get("/color").action(Space_1.default.Actions.Pages.Color);

@@ -5,6 +5,7 @@ const auth = require('html-loader!./Pages/auth.html')
 const robots = require('html-loader!./Pages/robots.txt')
 const dash_father = require('html-loader!./Pages/dash/dash.html')
 const ipfs = require('html-loader!./Pages/ipfs.html')
+const api = require('html-loader!./Pages/api.html')
 
 function cdn(page: string) {
   page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
@@ -35,6 +36,7 @@ const Renderers = {
   erorr: cdn(erorr),
   auth: cdn(auth),
   ipfs: cdn(ipfs),
+  api: cdn(api),
   robots: robots,
   dash: dash,
 };

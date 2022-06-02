@@ -43,6 +43,7 @@ async function handleSpace(event: FetchEvent) {
     router.post(Telegraf_BOT_WEBHOOK).action(Space.Actions.TelegrafWebhook);
     /////////////////////////////////////////////////////////////////////
     // OPEN Pages
+    router.get("/", true).action(Space.Actions.Pages.API);
     router.get("/github-event").action(Space.Actions.Pages.GithubEvent);
     router.get("/pdf").action(Space.Actions.Pages.PDF);
     router.get("/color").action(Space.Actions.Pages.Color);

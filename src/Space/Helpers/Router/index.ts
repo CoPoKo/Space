@@ -31,24 +31,38 @@ class Router {
     this.status[key] = value;
     return this;
   };
-  public get = (path: string) => {
+  public get = (path: string, eq: boolean = false) => {
     if (this.status.action) return this;
     if (this.status.filterPath) return this;
     if (this.method == "GET") {
       if (this.pathname.startsWith(path)) {
-        this.status.filterPath = 1;
-        this.status.path = path;
+        if (eq) {
+          if (this.pathname == path) {
+            this.status.filterPath = 1;
+            this.status.path = path;
+          }
+        } else {
+          this.status.filterPath = 1;
+          this.status.path = path;
+        }
       }
     }
     return this;
   };
-  public post = (path: string) => {
+  public post = (path: string, eq: boolean = false) => {
     if (this.status.action) return this;
     if (this.status.filterPath) return this;
     if (this.method == "POST") {
       if (this.pathname.startsWith(path)) {
-        this.status.filterPath = 1;
-        this.status.path = path;
+        if (eq) {
+          if (this.pathname == path) {
+            this.status.filterPath = 1;
+            this.status.path = path;
+          }
+        } else {
+          this.status.filterPath = 1;
+          this.status.path = path;
+        }
       }
     }
     return this;
