@@ -19,14 +19,12 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Space from "../../Space";
-async function ErrorResponse(msg: string, status: number = 500, headers = Space.Helpers.Headers.html) {
-  msg = msg.replace(/\n/g, "<br>")
-  return new Response(
-    Space.Renderers.erorr.replace(/::ErrorInfo::/g, msg),
-    Object.assign({
-      status: status,
-    }, headers)
-  );
+export default interface RSSContext {
+  title: string;
+  url: string;
+  active: boolean;
+  errorTime: number;
+  notify: boolean;
+  lastPost: string;
+  lastUpdateTime: string;
 }
-export default ErrorResponse;

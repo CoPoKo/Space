@@ -159,7 +159,7 @@ async function handleSpace(event: FetchEvent) {
       return await Space.Helpers.ErrorResponse("Ooops...", 403);
     }
   } catch (error) {
-    return await Space.Helpers.ErrorResponse(error, 500);
+    return await Space.Helpers.ErrorResponse(error.stack, 500);
   }
 }
 export default handleSpace;
