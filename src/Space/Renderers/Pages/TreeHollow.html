@@ -9,12 +9,13 @@
   <link rel='dns-prefetch' href='::PRECONNECT::' />
   <link rel="preconnect" href="::PRECONNECT::" crossorigin>
   <title>树洞 - Tree Hollow</title>
+  <meta name="keywords" content="树洞,Tree Hollow">
+  <meta name="description" content="树洞 - Tree Hollow">
   <link rel="stylesheet" href="::CDN::/github-markdown-css@5/github-markdown-light.css">
   <link href="::CDN::/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet" />
   <script src="::CDN::/bootstrap@5/dist/js/bootstrap.min.js"></script>
   <style>
     #TreeHollow {
-      height: 35%;
       margin-top: 15px;
     }
   </style>
@@ -22,7 +23,7 @@
 
 <body class="markdown-body">
   <div id="wrap" class="container">
-    <textarea class="form-control" id="TreeHollow"></textarea>
+    <textarea class="form-control" id="TreeHollow" rows="15"></textarea>
     <br />
     <div class="d-grid gap-1">
       <button type="button" onclick="post()" class="btn btn-primary btn-lg btn-block">Submit</button>
@@ -33,18 +34,18 @@
       <button id="more" type="button" onclick="get(window.TreeHollow.point)"
         class="btn btn-primary btn-lg btn-block">MORE</button>
     </div>
-    <br /><br />
   </div>
   <script src="::CDN::/marked@4/marked.min.js"></script>
   <script src="::PRECONNECT::/gh/leizongmin/js-xss@1/dist/xss.min.js"></script>
   <script type="text/javascript">
     function addBlock(s) {
-      sd = '<div class="card">' +
+      let div = document.createElement("div")
+      div.innerHTML = '<div class="card">' +
         '<div class="card-body">' +
         s +
         '</div>' +
         '</div>'
-      document.getElementById("TreeHollowBlock").innerHTML += sd
+      document.getElementById("TreeHollowBlock").appendChild(div)
     }
     window.TreeHollow = {}
     window.TreeHollow.point = "top"

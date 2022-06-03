@@ -10,6 +10,14 @@ async function TreeHollow(ctx: Router) {
     let id = ctx.getParam('id')
     if (id == "top") {
       id = await Space.API.RKV.Get("TreeHollowID")
+      if (!id) {
+        const hash = await Space.API.IPFS.Put(JSON.stringify({
+          text: "这里是树洞，还是个有底洞。",
+          point: null
+        })).then(e => e.json()).then((e: any) => e.Hash)
+        await Space.API.RKV.Put("TreeHollowID", hash)
+        id = await Space.API.RKV.Get("TreeHollowID")
+      }
     }
     if (path.startsWith("/tree-hollow/next")) {
       return await fetch(`https://ipfs.infura.io/ipfs/${id}`)
