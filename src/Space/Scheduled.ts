@@ -21,6 +21,7 @@
 */
 import bot from './TelegrafBot'
 import Space from './Space'
+import Setting from './Helpers/Setting';
 
 async function handleScheduled(event: ScheduledEvent) {
   const Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
@@ -31,9 +32,10 @@ async function handleScheduled(event: ScheduledEvent) {
     await Space.API.CF.setSecurityLevel("essentially_off")
   }
   if (Hours == 6 && Minutes == 0) {
+    const set = await Setting("TelegrafBot")
+    const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID
     const ans = await Space.API.BingImgInfo();
-    // chattitle: "喵喵喵" chatid: -1001531720445
-    await bot.telegram.sendPhoto("-1001531720445", ans.url, { "caption": ans.copyright });
+    await bot.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
   }
 }
 
