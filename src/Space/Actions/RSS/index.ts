@@ -23,7 +23,7 @@ import Router from "../../Helpers/Router";
 import Space from "../../Space";
 
 async function RSS(ctx: Router) {
-  let feed = await Space.API.ParseRSS("https://hin.cool/atom.xml")
+  let feed = await Space.API.ParseRSS("")
   return new Response(JSON.stringify(feed))
 }
 
