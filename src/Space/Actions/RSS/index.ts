@@ -19,28 +19,12 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Auth from "./Auth"
-import Robots from "./Robots"
-import Dash from "./Dash"
-import API from "./API"
-import Link from "./Link"
-import Pages from "./Pages"
-import Favicon from "./Favicon"
-import TelegrafWebhook from "./TelegrafWebhook"
-import Admin from "./Admin"
-import RSS from "./RSS"
+import Router from "../../Helpers/Router";
+import Space from "../../Space";
 
-const Actions = {
-  Auth,
-  Robots,
-  Dash,
-  API,
-  Link,
-  Pages,
-  Favicon,
-  TelegrafWebhook,
-  Admin,
-  RSS,
-};
+async function RSS(ctx: Router) {
+  let feed = await Space.API.ParseRSS("https://hin.cool/atom.xml")
+  return new Response(JSON.stringify(feed))
+}
 
-export default Actions;
+export default RSS;

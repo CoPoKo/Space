@@ -19,28 +19,9 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Auth from "./Auth"
-import Robots from "./Robots"
-import Dash from "./Dash"
-import API from "./API"
-import Link from "./Link"
-import Pages from "./Pages"
-import Favicon from "./Favicon"
-import TelegrafWebhook from "./TelegrafWebhook"
-import Admin from "./Admin"
-import RSS from "./RSS"
-
-const Actions = {
-  Auth,
-  Robots,
-  Dash,
-  API,
-  Link,
-  Pages,
-  Favicon,
-  TelegrafWebhook,
-  Admin,
-  RSS,
-};
-
-export default Actions;
+import Parser = require('rss-parser');
+const parser = new Parser();
+async function ParseRSS(url: string) {
+  return fetch(url).then(res => res.text()).then(e => { return parser.parseString(e) })
+}
+export default ParseRSS;

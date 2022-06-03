@@ -45,6 +45,7 @@ import Nbnhhsh from "./Nbnhhsh"
 import IPFS from "./IPFS"
 import NPMUpload from "./NPMUpload"
 import CF from "./CF"
+import ParseRSS from "./ParseRSS"
 
 const API = {
   KV,
@@ -73,6 +74,7 @@ const API = {
   IPFS,
   NPMUpload,
   CF,
+  ParseRSS,
 };
 
 export default API;

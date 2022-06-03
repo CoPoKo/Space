@@ -94,6 +94,7 @@ async function handleSpace(event: FetchEvent) {
     router.get("/ipfs/api/add").action(Space.Actions.API.IPFS.Put);
     router.get("/ipfs").action(Space.Actions.API.IPFS.Get);
     router.post("/api/v0/").action(Space.Actions.API.IPFS.Put);
+    router.get("/rss").action(Space.Actions.RSS);
     /////////////////////////////////////////////////////////////////////
     // Header Auth
     router.get("/Admin").action(Space.Actions.Admin);
