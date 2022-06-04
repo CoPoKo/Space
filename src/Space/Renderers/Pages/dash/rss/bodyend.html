@@ -36,10 +36,10 @@
     const off = `<span class="badge badge-danger">OFF</span></a>`;
     return `<tr>
       <td><a href="${it.url}" target="_blank" rel="noopener noreferrer">${it.title}</a></td>
-      <td><a href="javascript:changeStatus('${it.url}')">${it.status ? on : off}</a></td>
-      <td><a href="javascript:changeNotify('${it.url}')">${it.notify ? on : off}</a></td>
+      <td><a url="${it.url}" onclick="changeStatus(this)" href="#">${it.status ? on : off}</a></td>
+      <td><a url="${it.url}" onclick="changeNotify(this)" href="#">${it.notify ? on : off}</a></td>
       <td class="project-actions text-right">
-        <a id="delete-${it.url}" onclick="DeleteCtrlItem(this)" class="btn btn-danger btn-sm">
+        <a url="${it.url}" onclick="DeleteCtrlItem(this)" class="btn btn-danger btn-sm">
           <i class="fas fa-trash"> </i>
           Delete
         </a>
@@ -64,7 +64,7 @@
   }
   rendererRSSCtrlList()
   function DeleteCtrlItem(it) {
-    const url = it.id.split("delete-")[1];
+    const url = it.getAttribute("url");
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -104,14 +104,14 @@
       }
     })
   }
-  function changeStatus(url) {
+  function changeStatus(it) {
     fetch(`/space/api/RSSSUB/status`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        url: url
+        url: it.getAttribute("url")
       })
     }).then(function (response) {
       return response.json();
@@ -131,15 +131,16 @@
         title: `Change Status Failed`
       })
     });
+    return false;
   }
-  function changeNotify(url) {
+  function changeNotify(it) {
     fetch(`/space/api/RSSSUB/notify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        url: url
+        url: it.getAttribute("url")
       })
     }).then(function (response) {
       return response.json();
@@ -159,6 +160,7 @@
         title: `Change Notify Failed`
       })
     });
+    return false;
   }
   function rendererRSSResult() {
     fetch("/space/api/RSSSUB/").then(function (response) {
