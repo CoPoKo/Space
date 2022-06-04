@@ -28,7 +28,6 @@ import Pages from "./Pages"
 import Favicon from "./Favicon"
 import TelegrafWebhook from "./TelegrafWebhook"
 import Admin from "./Admin"
-import RSS from "./RSS"
 
 const Actions = {
   Auth,
@@ -40,7 +39,6 @@ const Actions = {
   Favicon,
   TelegrafWebhook,
   Admin,
-  RSS,
 };
 
 export default Actions;

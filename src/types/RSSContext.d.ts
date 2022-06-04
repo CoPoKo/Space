@@ -22,9 +22,10 @@
 export default interface RSSContext {
   title: string;
   url: string;
-  active: boolean;
+  status: boolean;
   errorTime: number;
   notify: boolean;
   lastPost: string;
+  lastLink: string;
   lastUpdateTime: string;
 }

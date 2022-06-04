@@ -94,7 +94,6 @@ async function handleSpace(event: FetchEvent) {
     router.get("/ipfs/api/add").action(Space.Actions.API.IPFS.Put);
     router.get("/ipfs").action(Space.Actions.API.IPFS.Get);
     router.post("/api/v0/").action(Space.Actions.API.IPFS.Put);
-    router.get("/rss").action(Space.Actions.RSS);
     /////////////////////////////////////////////////////////////////////
     // Header Auth
     router.get("/Admin").action(Space.Actions.Admin);
@@ -140,6 +139,8 @@ async function handleSpace(event: FetchEvent) {
     router.get("/space/api/GoogleSearch").action(Space.Actions.API.GoogleSearch);
     router.get("/space/api/WolframAlpha").action(Space.Actions.API.WolframAlpha);
     router.post("/space/api/NPMUpload").action(Space.Actions.API.NPMUpload);
+    router.get("/space/api/RSSSUB").action(Space.Actions.API.RSSSUB);
+    router.post("/space/api/RSSSUB").action(Space.Actions.API.RSSSUB);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // 启动 action

@@ -37289,7 +37289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  \r\n</script>";
+var code = "<script>\r\n  function Subscribe(it) {\r\n    const rss_input = document.getElementById(\"rss-input\").value;\r\n    if (!rss_input) {\r\n      return;\r\n    }\r\n    fetch(`/space/api/RSSSUB/add`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: rss_input\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add RSS Success`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Add RSS Failed`\r\n      })\r\n    });\r\n  }\r\n  function getRSSCtrlItem(it) {\r\n    const on = `<span class=\"badge badge-success\">ON</span>`;\r\n    const off = `<span class=\"badge badge-danger\">OFF</span></a>`;\r\n    return `<tr>\r\n      <td><a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\">${it.title}</a></td>\r\n      <td><a href=\"javascript:changeStatus('${it.url}')\">${it.status ? on : off}</a></td>\r\n      <td><a href=\"javascript:changeNotify('${it.url}')\">${it.notify ? on : off}</a></td>\r\n      <td class=\"project-actions text-right\">\r\n        <a id=\"delete-${it.url}\" onclick=\"DeleteCtrlItem(this)\" class=\"btn btn-danger btn-sm\">\r\n          <i class=\"fas fa-trash\"> </i>\r\n          Delete\r\n        </a>\r\n      </td>\r\n    </tr>`\r\n  }\r\n  function rendererRSSCtrlList() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-ctrl-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSCtrlItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n      rendererRSSResult();\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  rendererRSSCtrlList()\r\n  function DeleteCtrlItem(it) {\r\n    const url = it.id.split(\"delete-\")[1];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        fetch(`/space/api/RSSSUB/delete`, {\r\n          method: 'POST',\r\n          headers: {\r\n            'Content-Type': 'application/json'\r\n          },\r\n          body: JSON.stringify({\r\n            url: url\r\n          })\r\n        }).then(function (response) {\r\n          return response.json();\r\n        }).then(function (json) {\r\n          console.log(json);\r\n          if (json.success) {\r\n            rendererRSSCtrlList()\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Delete RSS Success`\r\n            })\r\n          }\r\n        }).catch(function (error) {\r\n          console.log(error);\r\n          Toast.fire({\r\n            icon: 'error',\r\n            title: `Delete RSS Failed`\r\n          })\r\n        });\r\n      }\r\n    })\r\n  }\r\n  function changeStatus(url) {\r\n    fetch(`/space/api/RSSSUB/status`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: url\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Status Success`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Status Failed`\r\n      })\r\n    });\r\n  }\r\n  function changeNotify(url) {\r\n    fetch(`/space/api/RSSSUB/notify`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: url\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Notify Success`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Notify Failed`\r\n      })\r\n    });\r\n  }\r\n  function rendererRSSResult() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-result-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSResultItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  function getRSSResultItem(it) {\r\n    return `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${it.title}</h3></a>\r\n                  <a href=\"${it.lastLink}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <span class=\"text-muted\">${it.lastLink}</span>\r\n                  </a>\r\n                  <p class=\"mb-0\">${it.lastPost}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n  }\r\n\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -37304,7 +37304,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!-- Content Header (Page header) -->\r\n<section class=\"content-header\">\r\n  <div class=\"container-fluid\">\r\n    <h2 class=\"text-center display-4\">RSS Subscription</h2>\r\n  </div>\r\n</section>\r\n\r\n<!-- Main content -->\r\n<section class=\"content\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-8 offset-md-2\">\r\n        <div class=\"input-group input-group-lg\">\r\n          <input id=\"search-input\" type=\"search\" class=\"form-control form-control-lg\" placeholder=\"Type feed here\">\r\n          <div class=\"input-group-append\">\r\n            <button class=\"btn btn-lg btn-default\" onclick=\"Subscribe()\">\r\n              <i class=\"fa-solid fa-rss\"></i>\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row mt-3\">\r\n      <div class=\"col-md-10 offset-md-1\">\r\n        <div class=\"list-group\">\r\n\r\n          <div id=\"wolframalpha-search-result\"></div>\r\n          <div id=\"google-search-result\"></div>\r\n\r\n        </div>\r\n      </div>\r\n    </div>\r\n</section>";
+var code = "<!-- Content Header (Page header) -->\r\n<section class=\"content-header\">\r\n  <div class=\"container-fluid\">\r\n    <h2 class=\"text-center display-4\">RSS Subscription</h2>\r\n  </div>\r\n</section>\r\n\r\n<!-- Main content -->\r\n<section class=\"content\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-8 offset-md-2\">\r\n        <div class=\"input-group input-group-lg\">\r\n          <input id=\"rss-input\" type=\"search\" class=\"form-control form-control-lg\" placeholder=\"Type feed here\">\r\n          <div class=\"input-group-append\">\r\n            <button class=\"btn btn-lg btn-default\" onclick=\"Subscribe()\">\r\n              <i class=\"fa-solid fa-rss\"></i>\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row mt-3\">\r\n      <div class=\"col-md-10 offset-md-1\">\r\n        <div class=\"list-group\">\r\n\r\n          <div class=\"card\">\r\n            <div class=\"card-body p-0\" style=\"display: block;\">\r\n              <div class=\"table-responsive\">\r\n                <table class=\"table m-0\">\r\n                  <thead>\r\n                    <tr>\r\n                      <th>Tittle</th>\r\n                      <th>Status</th>\r\n                      <th>Notify</th>\r\n                      <th style=\"width: 20%\"></th>\r\n                    </tr>\r\n                  </thead>\r\n                  <tbody id=\"rss-ctrl-list\">\r\n\r\n\r\n                  </tbody>\r\n                </table>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n\r\n          <div id=\"rss-result-list\"></div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n</section>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -37379,7 +37379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\nfunction rendererProjects(){\r\n  Space.KV.Get(\"setting\").then(function (response) {\r\n  console.log(response);\r\n  Space.Setting=JSON.parse(response.value);\r\n  if (response.sucess&&!response.value) {\r\n    Space.KV.Put(\"setting\",\"{}\")\r\n    Space.Setting={};\r\n  }\r\n  CARD_HTML=\"\";\r\n  Object.keys(Space.Setting).forEach(e=>{\r\n    CARD_HTML+=getCard(e);\r\n  });\r\n  document.getElementById(\"card-set\").innerHTML=CARD_HTML;\r\n});\r\n}\r\nrendererProjects();\r\n\r\nfunction getKVItem(it,key,value){\r\n  return `<tr>\r\n    <td>\r\n      <p>${key}</p>\r\n    </td>\r\n    <td>\r\n      <p>${value}</p>\r\n    </td>\r\n    <td class=\"project-actions text-right\">\r\n      <a id=\"edit-${it}-${key}\" onclick=\"EditKVItem(this)\" class=\"btn btn-info btn-sm\">\r\n        <i class=\"fas fa-pencil-alt\"> </i>\r\n        Edit\r\n      </a>\r\n      <a id=\"delete-${it}-${key}\" onclick=\"DeleteKVItem(this)\" class=\"btn btn-danger btn-sm\">\r\n        <i class=\"fas fa-trash\"> </i>\r\n        Delete\r\n      </a>\r\n    </td>\r\n  </tr>`;\r\n}\r\nfunction getCard(it){\r\n  KVItem_HTML=\"\"\r\n  Object.keys(Space.Setting[it]).forEach(e=>{\r\n    KVItem_HTML+=getKVItem(it,e,Space.Setting[it][e]);\r\n  });\r\n  return `<div class=\"card collapsed-card\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\" title=\"Collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button id=\"delete-project-${it}\" type=\"button\" class=\"btn btn-tool\" title=\"Remove\" onclick=\"ProjectDelete(this)\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body p-0\" style=\"display: none;\">\r\n    <table class=\"table table-striped projects\">\r\n      <thead>\r\n        <tr>\r\n          <th>Key</th>\r\n          <th>Value</th>\r\n          <th style=\"width: 20%\"></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        ${KVItem_HTML}\r\n      </tbody>\r\n    </table>\r\n    <button id=\"add-kv-${it}\" type=\"button\" class=\"btn btn-block btn-primary btn-lg\" onclick=\"ProjectAddKV(this)\">Add KV</button>\r\n  </div>\r\n</div>`\r\n}\r\n\r\n$(\"#add-project\").click((e)=>{\r\n  Swal.fire({\r\n    title: 'Type your project name',\r\n    input: 'text',\r\n    inputAttributes: {\r\n      autocapitalize: 'off'\r\n    },\r\n    showCancelButton: true,\r\n    confirmButtonText: 'Add',\r\n    showLoaderOnConfirm: true,\r\n    preConfirm: (key) => {\r\n      Space.Setting[key]={}\r\n      return Space.KV.Put(\"setting\",JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n        .catch(error => {\r\n          Swal.showValidationMessage(\r\n            `Request failed: ${error}`\r\n          )\r\n        })\r\n    },\r\n    allowOutsideClick: () => !Swal.isLoading()\r\n  }).then((result) => {\r\n    console.log(result);\r\n    if (result.isConfirmed) {\r\n      if (result.value.sucess) {\r\n        rendererProjects();\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add Project Success`\r\n        })\r\n      }\r\n    }\r\n  })\r\n})\r\nfunction ProjectAddKV(it){\r\n  let project=it.id.split(\"-\")[2];\r\n  Swal.fire({\r\n    title: 'Type your key Value',\r\n    html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\"><br/>' +\r\n    '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\">',\r\n    inputAttributes: {\r\n      autocapitalize: 'off'\r\n    },\r\n    showCancelButton: true,\r\n    confirmButtonText: 'Add',\r\n    showLoaderOnConfirm: true,\r\n    preConfirm: () => {\r\n      let key = document.getElementById('swal-input1').value;\r\n      let value = document.getElementById('swal-input2').value;\r\n      Space.Setting[project][key]=value;\r\n      console.log(Space.Setting);\r\n      return Space.KV.Put(\"setting\",JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n        .catch(error => {\r\n          Swal.showValidationMessage(\r\n            `Request failed: ${error}`\r\n          )\r\n        })\r\n    },\r\n    allowOutsideClick: () => !Swal.isLoading()\r\n  }).then((result) => {\r\n    console.log(result);\r\n    if (result.isConfirmed) {\r\n      if (result.value.sucess) {\r\n        rendererProjects();\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add KV Success`\r\n        })\r\n      }\r\n    }\r\n  })\r\n}\r\nfunction ProjectDelete(it) {\r\n  let project=it.id.split(\"-\")[2];\r\n  Swal.fire({\r\n    title: 'Are you sure?',\r\n    text: \"You won't be able to revert this!\",\r\n    icon: 'warning',\r\n    showCancelButton: true,\r\n    confirmButtonColor: '#3085d6',\r\n    cancelButtonColor: '#d33',\r\n    confirmButtonText: 'Yes, delete it!'\r\n  }).then((result) => {\r\n    if (result.value) {\r\n      delete Space.Setting[project];\r\n      Space.KV.Put(\"setting\",JSON.stringify(Space.Setting)).then(function (response) {\r\n        console.log(response);\r\n        if (response.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Deleted Project ${project}`\r\n          })\r\n        }\r\n      })\r\n    }\r\n  })\r\n}\r\nfunction EditKVItem(it) {\r\n  let project=it.id.split(\"-\")[1];\r\n  let key=it.id.split(\"-\")[2];\r\n  let value = Space.Setting[project][key];\r\n  Swal.fire({\r\n    title: 'Type your key Value',\r\n    html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\" value=\"'+key+'\"><br/>' +\r\n    '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\" value=\"'+value+'\">',\r\n    inputAttributes: {\r\n      autocapitalize: 'off'\r\n    },\r\n    showCancelButton: true,\r\n    confirmButtonText: 'Edit',\r\n    showLoaderOnConfirm: true,\r\n    preConfirm: () => {\r\n      delete Space.Setting[project][it.id.split(\"-\")[2]];\r\n      let key = document.getElementById('swal-input1').value;\r\n      let value = document.getElementById('swal-input2').value;\r\n      Space.Setting[project][key]=value;\r\n      console.log(Space.Setting);\r\n      return Space.KV.Put(\"setting\",JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n        .catch(error => {\r\n          Swal.showValidationMessage(\r\n            `Request failed: ${error}`\r\n          )\r\n        })\r\n    },\r\n    allowOutsideClick: () => !Swal.isLoading()\r\n  }).then((result) => {\r\n    console.log(result);\r\n    if (result.isConfirmed) {\r\n      if (result.value.sucess) {\r\n        rendererProjects();\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Editd KV ${key}`\r\n        })\r\n      }\r\n    }\r\n  })\r\n}\r\nfunction DeleteKVItem(it) {\r\n  let project=it.id.split(\"-\")[1];\r\n  let key=it.id.split(\"-\")[2];\r\n  Swal.fire({\r\n    title: 'Are you sure?',\r\n    text: \"You won't be able to revert this!\",\r\n    icon: 'warning',\r\n    showCancelButton: true,\r\n    confirmButtonColor: '#3085d6',\r\n    cancelButtonColor: '#d33',\r\n    confirmButtonText: 'Yes, delete it!'\r\n  }).then((result) => {\r\n    if (result.value) {\r\n      delete Space.Setting[project][key];\r\n      Space.KV.Put(\"setting\",JSON.stringify(Space.Setting)).then(function (response) {\r\n        console.log(response);\r\n        if (response.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Deleted KV ${key}`\r\n          })\r\n        }\r\n      })\r\n    }\r\n  })\r\n}\r\n\r\n</script>";
+var code = "<script>\r\n  function rendererProjects() {\r\n    Space.KV.Get(\"setting\").then(function (response) {\r\n      console.log(response);\r\n      Space.Setting = JSON.parse(response.value);\r\n      if (response.sucess && !response.value) {\r\n        Space.KV.Put(\"setting\", \"{}\")\r\n        Space.Setting = {};\r\n      }\r\n      CARD_HTML = \"\";\r\n      Object.keys(Space.Setting).forEach(e => {\r\n        CARD_HTML += getCard(e);\r\n      });\r\n      document.getElementById(\"card-set\").innerHTML = CARD_HTML;\r\n    });\r\n  }\r\n  rendererProjects();\r\n\r\n  function getKVItem(it, key, value) {\r\n    return `<tr>\r\n    <td>\r\n      <p>${key}</p>\r\n    </td>\r\n    <td>\r\n      <p>${value}</p>\r\n    </td>\r\n    <td class=\"project-actions text-right\">\r\n      <a id=\"edit-${it}-${key}\" onclick=\"EditKVItem(this)\" class=\"btn btn-info btn-sm\">\r\n        <i class=\"fas fa-pencil-alt\"> </i>\r\n        Edit\r\n      </a>\r\n      <a id=\"delete-${it}-${key}\" onclick=\"DeleteKVItem(this)\" class=\"btn btn-danger btn-sm\">\r\n        <i class=\"fas fa-trash\"> </i>\r\n        Delete\r\n      </a>\r\n    </td>\r\n  </tr>`;\r\n  }\r\n  function getCard(it) {\r\n    KVItem_HTML = \"\"\r\n    Object.keys(Space.Setting[it]).forEach(e => {\r\n      KVItem_HTML += getKVItem(it, e, Space.Setting[it][e]);\r\n    });\r\n    return `<div class=\"card collapsed-card\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\" title=\"Collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button id=\"delete-project-${it}\" type=\"button\" class=\"btn btn-tool\" title=\"Remove\" onclick=\"ProjectDelete(this)\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body p-0\" style=\"display: none;\">\r\n    <table class=\"table table-striped projects\">\r\n      <thead>\r\n        <tr>\r\n          <th>Key</th>\r\n          <th>Value</th>\r\n          <th style=\"width: 20%\"></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        ${KVItem_HTML}\r\n      </tbody>\r\n    </table>\r\n    <button id=\"add-kv-${it}\" type=\"button\" class=\"btn btn-block btn-primary btn-lg\" onclick=\"ProjectAddKV(this)\">Add KV</button>\r\n  </div>\r\n</div>`\r\n  }\r\n\r\n  $(\"#add-project\").click((e) => {\r\n    Swal.fire({\r\n      title: 'Type your project name',\r\n      input: 'text',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: (key) => {\r\n        Space.Setting[key] = {}\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add Project Success`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  })\r\n  function ProjectAddKV(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add KV Success`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function ProjectDelete(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted Project ${project}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n  function EditKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    let value = Space.Setting[project][key];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\" value=\"' + key + '\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\" value=\"' + value + '\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Edit',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        delete Space.Setting[project][it.id.split(\"-\")[2]];\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Editd KV ${key}`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function DeleteKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project][key];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted KV ${key}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -59065,6 +59065,81 @@ exports["default"] = RKV;
 
 /***/ }),
 
+/***/ 7851:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function RSSSUB(ctx) {
+    const path = ctx.pathname;
+    if (ctx.method === "GET") {
+        let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
+        if (!sub) {
+            sub = [];
+        }
+        return new Response(JSON.stringify(sub));
+    }
+    else if (ctx.method === "POST") {
+        const body = await ctx.request.json();
+        const url = body.url;
+        if (path.startsWith("/space/api/RSSSUB/add")) {
+            const feed = await Space_1.default.API.ParseRSS(url);
+            const rss = {
+                title: feed.title,
+                url: url,
+                status: true,
+                errorTime: 0,
+                notify: true,
+                lastPost: feed.items[0]?.title,
+                lastLink: feed.items[0]?.link,
+                lastUpdateTime: feed.items[0]?.pubDate,
+            };
+            let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
+            if (!sub) {
+                sub = [];
+            }
+            sub.push(rss);
+            // 去重
+            sub = sub.filter((item, index, self) => {
+                return self.findIndex(t => t.url === item.url) === index;
+            });
+            await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+            return new Response(JSON.stringify({ success: 1, sub: sub }));
+        }
+        if (path.startsWith("/space/api/RSSSUB/delete")) {
+            let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
+            // 删除键为url的项
+            sub = sub.filter((item) => item.url !== url);
+            await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+            return new Response(JSON.stringify({ success: 1, sub: sub, url: url }));
+        }
+        if (path.startsWith("/space/api/RSSSUB/status")) {
+            let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
+            const index = sub.findIndex((item) => item.url === url);
+            if (index !== -1) {
+                sub[index].status = !sub[index].status;
+            }
+            await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+            return new Response(JSON.stringify({ success: 1 }));
+        }
+        if (path.startsWith("/space/api/RSSSUB/notify")) {
+            let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
+            const index = sub.findIndex((item) => item.url === url);
+            if (index !== -1) {
+                sub[index].notify = !sub[index].notify;
+            }
+            await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+            return new Response(JSON.stringify({ success: 1 }));
+        }
+    }
+}
+exports["default"] = RSSSUB;
+
+
+/***/ }),
+
 /***/ 3970:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -59252,6 +59327,7 @@ const DNSQuery_1 = __webpack_require__(5166);
 const Thum_1 = __webpack_require__(763);
 const NPMUpload_1 = __webpack_require__(7048);
 const IPFS_1 = __webpack_require__(8778);
+const RSSSUB_1 = __webpack_require__(7851);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -59277,6 +59353,7 @@ const API = {
     Thum: Thum_1.default,
     NPMUpload: NPMUpload_1.default,
     IPFS: IPFS_1.default,
+    RSSSUB: RSSSUB_1.default,
 };
 exports["default"] = API;
 
@@ -59839,22 +59916,6 @@ exports["default"] = Pages;
 
 /***/ }),
 
-/***/ 5253:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Space_1 = __webpack_require__(7619);
-async function RSS(ctx) {
-    let feed = await Space_1.default.API.ParseRSS("https://hin.cool/atom.xml");
-    return new Response(JSON.stringify(feed));
-}
-exports["default"] = RSS;
-
-
-/***/ }),
-
 /***/ 1368:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -59986,7 +60047,6 @@ const Pages_1 = __webpack_require__(8619);
 const Favicon_1 = __webpack_require__(3969);
 const TelegrafWebhook_1 = __webpack_require__(3733);
 const Admin_1 = __webpack_require__(447);
-const RSS_1 = __webpack_require__(5253);
 const Actions = {
     Auth: Auth_1.default,
     Robots: Robots_1.default,
@@ -59997,7 +60057,6 @@ const Actions = {
     Favicon: Favicon_1.default,
     TelegrafWebhook: TelegrafWebhook_1.default,
     Admin: Admin_1.default,
-    RSS: RSS_1.default,
 };
 exports["default"] = Actions;
 
@@ -62553,7 +62612,6 @@ async function handleSpace(event) {
         router.get("/ipfs/api/add").action(Space_1.default.Actions.API.IPFS.Put);
         router.get("/ipfs").action(Space_1.default.Actions.API.IPFS.Get);
         router.post("/api/v0/").action(Space_1.default.Actions.API.IPFS.Put);
-        router.get("/rss").action(Space_1.default.Actions.RSS);
         /////////////////////////////////////////////////////////////////////
         // Header Auth
         router.get("/Admin").action(Space_1.default.Actions.Admin);
@@ -62596,6 +62654,8 @@ async function handleSpace(event) {
         router.get("/space/api/GoogleSearch").action(Space_1.default.Actions.API.GoogleSearch);
         router.get("/space/api/WolframAlpha").action(Space_1.default.Actions.API.WolframAlpha);
         router.post("/space/api/NPMUpload").action(Space_1.default.Actions.API.NPMUpload);
+        router.get("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB);
+        router.post("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB);
         /////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////
         // 启动 action

@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <div class="input-group input-group-lg">
-          <input id="search-input" type="search" class="form-control form-control-lg" placeholder="Type feed here">
+          <input id="rss-input" type="search" class="form-control form-control-lg" placeholder="Type feed here">
           <div class="input-group-append">
             <button class="btn btn-lg btn-default" onclick="Subscribe()">
               <i class="fa-solid fa-rss"></i>
@@ -24,8 +24,29 @@
       <div class="col-md-10 offset-md-1">
         <div class="list-group">
 
+          <div class="card">
+            <div class="card-body p-0" style="display: block;">
+              <div class="table-responsive">
+                <table class="table m-0">
+                  <thead>
+                    <tr>
+                      <th>Tittle</th>
+                      <th>Status</th>
+                      <th>Notify</th>
+                      <th style="width: 20%"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="rss-ctrl-list">
 
 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="rss-result-list"></div>
         </div>
       </div>
     </div>

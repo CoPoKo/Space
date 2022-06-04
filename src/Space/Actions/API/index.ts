@@ -43,6 +43,7 @@ import DNSQuery from "./DNSQuery"
 import Thum from "./Thum"
 import NPMUpload from "./NPMUpload"
 import IPFS from "./IPFS"
+import RSSSUB from "./RSSSUB"
 
 const API = {
   KV,
@@ -69,6 +70,7 @@ const API = {
   Thum,
   NPMUpload,
   IPFS,
+  RSSSUB,
 };
 
 export default API;
