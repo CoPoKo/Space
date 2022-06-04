@@ -57810,6 +57810,7 @@ async function ParseRSS(url) {
     return fetch(url).then(res => res.text()).then(e => { return parser.parseString(e); });
 }
 exports["default"] = ParseRSS;
+// 注；这个破函数在定时任务ScheduledEvent中会超时 FetchEvent不会超时
 
 
 /***/ }),
@@ -60866,6 +60867,7 @@ exports["default"] = Renderers;
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
+/* provided dependency */ var console = __webpack_require__(5108);
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 /*!
@@ -60904,6 +60906,73 @@ async function handleScheduled(event) {
         const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
         const ans = await Space_1.default.API.BingImgInfo();
         await TelegrafBot_1.default.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
+    }
+    if (Hours == 7 && Minutes == 0) {
+        const set = await (0, Setting_1.default)("TelegrafBot");
+        const ADMIN_GROUP_ID = set.TEST_GROUP_ID;
+        const RSSset = await (0, Setting_1.default)("RSS");
+        const RSSAPI = RSSset.API;
+        let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
+        if (!sub) {
+            sub = [];
+        }
+        for await (const item of sub) {
+            if (!item.status) {
+                return;
+            }
+            if (item.errorTime > 10) {
+                return;
+            }
+            const res = await fetch(`${RSSAPI}/api/xml2json`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                body: JSON.stringify({
+                    url: item.url,
+                }),
+            });
+            const feed = await res.json();
+            try {
+                if (feed.items[0]?.pubDate != item.lastUpdateTime) {
+                    const rss = {
+                        title: feed.title,
+                        url: item.url,
+                        status: item.status,
+                        errorTime: 0,
+                        notify: item.notify,
+                        lastPost: feed.items[0]?.title,
+                        lastLink: feed.items[0]?.link,
+                        lastUpdateTime: feed.items[0]?.pubDate,
+                    };
+                    sub = sub.filter((it) => it.url !== item.url);
+                    sub.push(rss);
+                    await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+                    console.log(sub);
+                    if (rss.notify) {
+                        await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${rss.lastPost}\n <a href="${rss.lastLink}">Link</a>\n`, { parse_mode: "HTML" });
+                    }
+                }
+            }
+            catch (error) {
+                const rss = {
+                    title: item.title,
+                    url: item.url,
+                    status: item.status,
+                    errorTime: item.errorTime + 1,
+                    notify: item.notify,
+                    lastPost: item.lastPost,
+                    lastLink: item.lastLink,
+                    lastUpdateTime: item.lastUpdateTime,
+                };
+                sub = sub.filter((it) => it.url !== item.url);
+                sub.push(rss);
+                await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+                if (rss.errorTime >= 10) {
+                    await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n 连续多次失败，已暂停订阅。`, { parse_mode: "HTML" });
+                }
+            }
+        }
     }
 }
 function UTC8Hours(Hours) {
