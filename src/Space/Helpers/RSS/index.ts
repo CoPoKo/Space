@@ -43,6 +43,7 @@ const add = async (url: string) => {
     lastPost: feed.items[0]?.title,
     lastLink: feed.items[0]?.link,
     lastUpdateTime: feed.items[0]?.pubDate,
+    lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
   };
   let sub = await list()
   sub.push(rss);
@@ -86,12 +87,17 @@ const update = async () => {
           lastPost: feed.items[0]?.title,
           lastLink: feed.items[0]?.link,
           lastUpdateTime: feed.items[0]?.pubDate,
+          lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
         };
         sub = sub.filter((it: any) => it.url !== item.url);
         sub.push(rss);
         await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
         if (rss.notify) {
-          await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${rss.lastPost}\n <a href="${rss.lastLink}">Link</a>\n`, { parse_mode: "HTML" });
+          for (const iterator of feed.items) {
+            if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
+              await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>\n <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, { parse_mode: "HTML" });
+            }
+          }
         }
       }
     } catch (error) {
@@ -104,6 +110,7 @@ const update = async () => {
         lastPost: item.lastPost,
         lastLink: item.lastLink,
         lastUpdateTime: item.lastUpdateTime,
+        lastPostView: item.lastPostView
       };
       sub = sub.filter((it: any) => it.url !== item.url);
       sub.push(rss);
@@ -113,10 +120,35 @@ const update = async () => {
   }
   return sub
 }
+const page = async (tittle: string, content: string) => {
+  const html = `<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${tittle}</title>
+    <style>
+      article{
+        margin: 0 auto;
+        max-width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>${tittle}</h1>
+      ${content}
+    </article>
+    </body>
+  </html>`
+  const hash = await Space.API.IPFS.Put(html, "text/html").then(e => { return e.json() }).then((e: any) => { return e.Hash })
+  return "https://ipfs.infura.io/ipfs/" + hash
+}
 const RSS = {
   list,
   add,
   del,
   update,
+  page,
 };
 export default RSS;

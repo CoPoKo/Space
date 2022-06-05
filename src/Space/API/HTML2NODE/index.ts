@@ -19,26 +19,14 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-const IPFS = {
-  Put: async (s: string, type?: string) => {
-    if (!s) {
-      s = "Hello World!"
-    }
-    if (!type) {
-      type = "text/plain"
-    }
-    const formdata = new FormData();
-    formdata.append("file", new Blob([Buffer.from(s)], { type: type }));
-    return await fetch(new Request(COPOKO_API + "/api/v0/add", {
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-      },
-      body: formdata,
-    }));
-  },
-  Get: async (hash: string) => {
-    return await fetch("https://ipfs.infura.io/ipfs/" + hash);
-  }
-};
-export default IPFS;
+
+async function HTML2NODE(html: string) {
+  return fetch(`${COPOKO_API}/api/html2node`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({ content: html }),
+  }).then(res => res.text());
+}
+export default HTML2NODE;

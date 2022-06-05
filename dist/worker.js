@@ -37289,7 +37289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  function Subscribe(it) {\r\n    const rss_input = document.getElementById(\"rss-input\").value;\r\n    if (!rss_input) {\r\n      return;\r\n    }\r\n    fetch(`/space/api/RSSSUB/add`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: rss_input\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add RSS Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Add RSS Failed`\r\n      })\r\n    });\r\n  }\r\n  function getRSSCtrlItem(it) {\r\n    const on = `<span class=\"badge badge-success\">ON</span>`;\r\n    const off = `<span class=\"badge badge-danger\">OFF</span></a>`;\r\n    return `<tr>\r\n      <td><a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\">${it.title}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeStatus(this)\" href=\"#\">${it.status ? on : off}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeNotify(this)\" href=\"#\">${it.notify ? on : off}</a></td>\r\n      <td class=\"project-actions text-right\">\r\n        <a url=\"${it.url}\" onclick=\"DeleteCtrlItem(this)\" class=\"btn btn-danger btn-sm\">\r\n          <i class=\"fas fa-trash\"> </i>\r\n          Delete\r\n        </a>\r\n      </td>\r\n    </tr>`\r\n  }\r\n  function rendererRSSCtrlList() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-ctrl-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSCtrlItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n      rendererRSSResult();\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  rendererRSSCtrlList()\r\n  function DeleteCtrlItem(it) {\r\n    const url = it.getAttribute(\"url\");\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        fetch(`/space/api/RSSSUB/delete`, {\r\n          method: 'POST',\r\n          headers: {\r\n            'Content-Type': 'application/json'\r\n          },\r\n          body: JSON.stringify({\r\n            url: url\r\n          })\r\n        }).then(function (response) {\r\n          return response.json();\r\n        }).then(function (json) {\r\n          console.log(json);\r\n          if (json.success) {\r\n            rendererRSSCtrlList()\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Delete RSS Successfully`\r\n            })\r\n          }\r\n        }).catch(function (error) {\r\n          console.log(error);\r\n          Toast.fire({\r\n            icon: 'error',\r\n            title: `Delete RSS Failed`\r\n          })\r\n        });\r\n      }\r\n    })\r\n  }\r\n  function changeStatus(it) {\r\n    fetch(`/space/api/RSSSUB/status`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Status Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Status Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function changeNotify(it) {\r\n    fetch(`/space/api/RSSSUB/notify`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Notify Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Notify Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function rendererRSSResult() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-result-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSResultItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  function getRSSResultItem(it) {\r\n    return `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${it.title}</h3></a>\r\n                  <a href=\"${it.lastLink}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <span class=\"text-muted\">${it.lastLink}</span>\r\n                  </a>\r\n                  <p class=\"mb-0\">${it.lastPost}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n  }\r\n  fetch(\"/space/api/RSSSUB/update\").catch(e => { })\r\n</script>";
+var code = "<script>\r\n  function Subscribe(it) {\r\n    const rss_input = document.getElementById(\"rss-input\").value;\r\n    if (!rss_input) {\r\n      return;\r\n    }\r\n    fetch(`/space/api/RSSSUB/add`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: rss_input\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add RSS Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Add RSS Failed`\r\n      })\r\n    });\r\n  }\r\n  function getRSSCtrlItem(it) {\r\n    const on = `<span class=\"badge badge-success\">ON</span>`;\r\n    const off = `<span class=\"badge badge-danger\">OFF</span></a>`;\r\n    return `<tr>\r\n      <td><a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\">${it.title}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeStatus(this)\" href=\"#\">${it.status ? on : off}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeNotify(this)\" href=\"#\">${it.notify ? on : off}</a></td>\r\n      <td class=\"project-actions text-right\">\r\n        <a url=\"${it.url}\" onclick=\"DeleteCtrlItem(this)\" class=\"btn btn-danger btn-sm\">\r\n          <i class=\"fas fa-trash\"> </i>\r\n          Delete\r\n        </a>\r\n      </td>\r\n    </tr>`\r\n  }\r\n  function rendererRSSCtrlList() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-ctrl-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSCtrlItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n      rendererRSSResult();\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  rendererRSSCtrlList()\r\n  function DeleteCtrlItem(it) {\r\n    const url = it.getAttribute(\"url\");\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        fetch(`/space/api/RSSSUB/delete`, {\r\n          method: 'POST',\r\n          headers: {\r\n            'Content-Type': 'application/json'\r\n          },\r\n          body: JSON.stringify({\r\n            url: url\r\n          })\r\n        }).then(function (response) {\r\n          return response.json();\r\n        }).then(function (json) {\r\n          console.log(json);\r\n          if (json.success) {\r\n            rendererRSSCtrlList()\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Delete RSS Successfully`\r\n            })\r\n          }\r\n        }).catch(function (error) {\r\n          console.log(error);\r\n          Toast.fire({\r\n            icon: 'error',\r\n            title: `Delete RSS Failed`\r\n          })\r\n        });\r\n      }\r\n    })\r\n  }\r\n  function changeStatus(it) {\r\n    fetch(`/space/api/RSSSUB/status`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Status Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Status Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function changeNotify(it) {\r\n    fetch(`/space/api/RSSSUB/notify`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Notify Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Notify Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function rendererRSSResult() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-result-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSResultItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  function getRSSResultItem(it) {\r\n    return `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${it.title}</h3></a>\r\n                  <a href=\"${it.lastLink}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <span class=\"text-muted\">${it.lastLink}</span>\r\n                  </a>\r\n                  <a href=\"${it.lastPostView}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <p class=\"mb-0\">${it.lastPost}</p>\r\n                  </a>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n  }\r\n  fetch(\"/space/api/RSSSUB/update\").catch(e => { })\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -57419,6 +57419,47 @@ exports["default"] = GoogleTranslate;
 
 /***/ }),
 
+/***/ 9927:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+async function HTML2NODE(html) {
+    return fetch(`${COPOKO_API}/api/html2node`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ content: html }),
+    }).then(res => res.text());
+}
+exports["default"] = HTML2NODE;
+
+
+/***/ }),
+
 /***/ 9383:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -57523,12 +57564,15 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * ==========================================================================
 */
 const IPFS = {
-    Put: async (s) => {
+    Put: async (s, type) => {
         if (!s) {
             s = "Hello World!";
         }
+        if (!type) {
+            type = "text/plain";
+        }
         const formdata = new FormData();
-        formdata.append("file", new Blob([Buffer.from(s)], { type: "text/plain" }));
+        formdata.append("file", new Blob([Buffer.from(s)], { type: type }));
         return await fetch(new Request(COPOKO_API + "/api/v0/add", {
             method: "POST",
             headers: {
@@ -58470,6 +58514,7 @@ const NPMUpload_1 = __webpack_require__(2214);
 const CF_1 = __webpack_require__(1046);
 const ParseRSS_1 = __webpack_require__(5859);
 const XML2JSON_1 = __webpack_require__(1674);
+const HTML2NODE_1 = __webpack_require__(9927);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -58499,6 +58544,7 @@ const API = {
     CF: CF_1.default,
     ParseRSS: ParseRSS_1.default,
     XML2JSON: XML2JSON_1.default,
+    HTML2NODE: HTML2NODE_1.default,
 };
 exports["default"] = API;
 
@@ -60489,6 +60535,7 @@ const add = async (url) => {
         lastPost: feed.items[0]?.title,
         lastLink: feed.items[0]?.link,
         lastUpdateTime: feed.items[0]?.pubDate,
+        lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
     };
     let sub = await list();
     sub.push(rss);
@@ -60533,12 +60580,17 @@ const update = async () => {
                     lastPost: feed.items[0]?.title,
                     lastLink: feed.items[0]?.link,
                     lastUpdateTime: feed.items[0]?.pubDate,
+                    lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
                 };
                 sub = sub.filter((it) => it.url !== item.url);
                 sub.push(rss);
                 await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
                 if (rss.notify) {
-                    await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${rss.lastPost}\n <a href="${rss.lastLink}">Link</a>\n`, { parse_mode: "HTML" });
+                    for (const iterator of feed.items) {
+                        if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
+                            await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>\n <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, { parse_mode: "HTML" });
+                        }
+                    }
                 }
             }
         }
@@ -60552,6 +60604,7 @@ const update = async () => {
                 lastPost: item.lastPost,
                 lastLink: item.lastLink,
                 lastUpdateTime: item.lastUpdateTime,
+                lastPostView: item.lastPostView
             };
             sub = sub.filter((it) => it.url !== item.url);
             sub.push(rss);
@@ -60561,11 +60614,36 @@ const update = async () => {
     }
     return sub;
 };
+const page = async (tittle, content) => {
+    const html = `<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${tittle}</title>
+    <style>
+      article{
+        margin: 0 auto;
+        max-width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>${tittle}</h1>
+      ${content}
+    </article>
+    </body>
+  </html>`;
+    const hash = await Space_1.default.API.IPFS.Put(html, "text/html").then(e => { return e.json(); }).then((e) => { return e.Hash; });
+    return "https://ipfs.infura.io/ipfs/" + hash;
+};
 const RSS = {
     list,
     add,
     del,
     update,
+    page,
 };
 exports["default"] = RSS;
 

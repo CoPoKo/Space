@@ -28,4 +28,5 @@ export default interface RSSContext {
   lastPost: string;
   lastLink: string;
   lastUpdateTime: string;
+  lastPostView: string;
 }

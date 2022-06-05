@@ -19,7 +19,6 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import RSSContext from "../../../../types/RSSContext";
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
