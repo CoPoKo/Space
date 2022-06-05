@@ -57376,7 +57376,7 @@ exports["default"] = GoogleSearch;
 /***/ }),
 
 /***/ 6770:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
@@ -57402,11 +57402,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-const Space_1 = __webpack_require__(7619);
 const GoogleTranslate = async (s, conf) => {
-    const set = await Space_1.default.Helpers.Setting("GoogleTranslate");
-    const translate_api = set.API;
-    return fetch(translate_api, {
+    return fetch(COPOKO_API + "/api/translate", {
         method: "POST",
         headers: {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
@@ -57525,17 +57522,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-const Space_1 = __webpack_require__(7619);
 const IPFS = {
     Put: async (s) => {
         if (!s) {
             s = "Hello World!";
         }
-        const set = await Space_1.default.Helpers.Setting("IPFS");
-        const API = set.API;
         const formdata = new FormData();
         formdata.append("file", new Blob([Buffer.from(s)], { type: "text/plain" }));
-        return await fetch(new Request(API + "/api/v0/add", {
+        return await fetch(new Request(COPOKO_API + "/api/v0/add", {
             method: "POST",
             headers: {
                 "accept": "application/json",
@@ -60910,8 +60904,6 @@ async function handleScheduled(event) {
     if (Hours == 7 && Minutes == 0) {
         const set = await (0, Setting_1.default)("TelegrafBot");
         const ADMIN_GROUP_ID = set.TEST_GROUP_ID;
-        const RSSset = await (0, Setting_1.default)("RSS");
-        const RSSAPI = RSSset.API;
         let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
         if (!sub) {
             sub = [];
@@ -60923,7 +60915,7 @@ async function handleScheduled(event) {
             if (item.errorTime > 10) {
                 return;
             }
-            const res = await fetch(`${RSSAPI}/api/xml2json`, {
+            const res = await fetch(`${COPOKO_API}/api/xml2json`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",

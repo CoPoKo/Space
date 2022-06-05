@@ -41,8 +41,6 @@ async function handleScheduled(event: ScheduledEvent) {
   if (Hours == 7 && Minutes == 0) {
     const set = await Setting("TelegrafBot")
     const ADMIN_GROUP_ID = set.TEST_GROUP_ID
-    const RSSset = await Setting("RSS")
-    const RSSAPI = RSSset.API
     let sub: RSSContext[] = await Space.API.KV.Get("RSSSUB").then(JSON.parse);
     if (!sub) {
       sub = []
@@ -55,7 +53,7 @@ async function handleScheduled(event: ScheduledEvent) {
       if (item.errorTime > 10) {
         return
       }
-      const res = await fetch(`${RSSAPI}/api/xml2json`, {
+      const res = await fetch(`${COPOKO_API}/api/xml2json`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",

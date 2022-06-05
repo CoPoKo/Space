@@ -37,6 +37,8 @@ command = "npm run build"
 crons = ["* * * * *"]
 
 [vars]
+COPOKO_API = "https://api.copoko.vercel.app"
+
 AUTH_PAGE = "/xxxxx"
 MY_REFERER = "xxxxxxxx"
 

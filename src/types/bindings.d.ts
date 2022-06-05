@@ -22,6 +22,7 @@
 export { };
 
 declare global {
+  const COPOKO_API: string;
   const AUTH_PAGE: string;
   const MY_REFERER: string;
   const SpaceName: string;
