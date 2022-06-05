@@ -42,6 +42,7 @@ import ReplyMaster from "./ReplyMaster";
 import ChatID from "./ChatID";
 import WebhookInfo from "./WebhookInfo";
 import CoCoShell from "./CoCoShell";
+import RSS from "./RSS";
 
 const Actions = {
   Niubi,
@@ -67,6 +68,7 @@ const Actions = {
   ChatID,
   WebhookInfo,
   CoCoShell,
+  RSS,
 };
 
 export default Actions;

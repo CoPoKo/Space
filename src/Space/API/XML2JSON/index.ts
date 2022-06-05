@@ -19,32 +19,25 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Headers from './Headers';
-import ErrorResponse from './ErrorResponse';
-import Router from './Router';
-import Cookie from './Cookie';
-import ReadRequest from './ReadRequest';
-import Captcha from './Captcha';
-import Setting from './Setting';
-import Fetch from './Fetch';
-import Security from './Security';
-import RandomNum from './RandomNum';
-import IsInArray from './IsInArray';
-import RSS from './RSS';
 
-const Helpers = {
-  Headers,
-  ErrorResponse,
-  Router,
-  Cookie,
-  ReadRequest,
-  Captcha,
-  Setting,
-  Fetch,
-  Security,
-  RandomNum,
-  IsInArray,
-  RSS,
-};
+import Space from "../../Space";
 
-export default Helpers;
+async function XML2JSON(url: string) {
+  const res = await fetch(`${COPOKO_API}/api/xml2json`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      url: url,
+    }),
+  })
+  try {
+    const json: any = await res.json()
+    return json
+  } catch (error) {
+    const json = await Space.API.ParseRSS(url)
+    return json
+  }
+}
+export default XML2JSON;

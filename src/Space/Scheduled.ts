@@ -22,7 +22,6 @@
 import bot from './TelegrafBot'
 import Space from './Space'
 import Setting from './Helpers/Setting';
-import RSSContext from '../types/RSSContext';
 
 async function handleScheduled(event: ScheduledEvent) {
   const Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
@@ -39,72 +38,8 @@ async function handleScheduled(event: ScheduledEvent) {
     await bot.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
   }
   if (Hours == 7 && Minutes == 0) {
-    const set = await Setting("TelegrafBot")
-    const ADMIN_GROUP_ID = set.TEST_GROUP_ID
-    let sub: RSSContext[] = await Space.API.KV.Get("RSSSUB").then(JSON.parse);
-    if (!sub) {
-      sub = []
-    }
-
-    for await (const item of sub) {
-      if (!item.status) {
-        return
-      }
-      if (item.errorTime > 10) {
-        return
-      }
-      const res = await fetch(`${COPOKO_API}/api/xml2json`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify({
-          url: item.url,
-        }),
-      });
-      const feed: any = await res.json();
-      try {
-        if (feed.items[0]?.pubDate != item.lastUpdateTime) {
-          const rss: RSSContext = {
-            title: feed.title,
-            url: item.url,
-            status: item.status,
-            errorTime: 0,
-            notify: item.notify,
-            lastPost: feed.items[0]?.title,
-            lastLink: feed.items[0]?.link,
-            lastUpdateTime: feed.items[0]?.pubDate,
-          };
-          sub = sub.filter((it: any) => it.url !== item.url);
-          sub.push(rss);
-          await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
-          console.log(sub);
-          if (rss.notify) {
-            await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${rss.lastPost}\n <a href="${rss.lastLink}">Link</a>\n`, { parse_mode: "HTML" });
-          }
-        }
-      } catch (error) {
-        const rss: RSSContext = {
-          title: item.title,
-          url: item.url,
-          status: item.status,
-          errorTime: item.errorTime + 1,
-          notify: item.notify,
-          lastPost: item.lastPost,
-          lastLink: item.lastLink,
-          lastUpdateTime: item.lastUpdateTime,
-        };
-        sub = sub.filter((it: any) => it.url !== item.url);
-        sub.push(rss);
-        await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
-        if (rss.errorTime >= 10) {
-          await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n 连续多次失败，已暂停订阅。`, { parse_mode: "HTML" });
-        }
-      }
-    }
+    await Space.Helpers.RSS.update();
   }
-
-
 }
 
 function UTC8Hours(Hours: number) {

@@ -36,6 +36,11 @@
             p: getMe
             q: null
           action: CoCoShell
+        - cmd: rss
+          arg:
+            k: list
+            q: null
+          action: RSS
       else:
         - re: 在吗
           reply: 爪巴
@@ -112,7 +117,7 @@
       action: Balloon
     - re: 来点(\S*)笑话
       action: Niubi
-    - re: https:\/\/|http:\/\/
+    - re: ^https:\/\/|http:\/\/
       arg:
         w: 1024
         h: 1200

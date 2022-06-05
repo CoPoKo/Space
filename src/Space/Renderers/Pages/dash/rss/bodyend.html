@@ -20,7 +20,7 @@
         rendererRSSCtrlList()
         Toast.fire({
           icon: 'success',
-          title: `Add RSS Success`
+          title: `Add RSS Successfully`
         })
       }
     }).catch(function (error) {
@@ -91,7 +91,7 @@
             rendererRSSCtrlList()
             Toast.fire({
               icon: 'success',
-              title: `Delete RSS Success`
+              title: `Delete RSS Successfully`
             })
           }
         }).catch(function (error) {
@@ -121,7 +121,7 @@
         rendererRSSCtrlList()
         Toast.fire({
           icon: 'success',
-          title: `Change Status Success`
+          title: `Change Status Successfully`
         })
       }
     }).catch(function (error) {
@@ -150,7 +150,7 @@
         rendererRSSCtrlList()
         Toast.fire({
           icon: 'success',
-          title: `Change Notify Success`
+          title: `Change Notify Successfully`
         })
       }
     }).catch(function (error) {
@@ -192,5 +192,5 @@
             </div>
           </div>`;
   }
-
+  fetch("/space/api/RSSSUB/update").catch(e => { })
 </script>

@@ -25,4 +25,4 @@ async function ParseRSS(url: string) {
   return fetch(url).then(res => res.text()).then(e => { return parser.parseString(e) })
 }
 export default ParseRSS;
-// 注；这个破函数在定时任务ScheduledEvent中会超时 FetchEvent不会超时
+// 注；这个破函数在定时任务 ScheduledEvent 中会超时 FetchEvent不会超时

@@ -28835,7 +28835,7 @@ defineCurve('secp256k1', {
 
 
 var BN = __webpack_require__(3785);
-var HmacDRBG = __webpack_require__(9352);
+var HmacDRBG = __webpack_require__(2156);
 var utils = __webpack_require__(953);
 var curves = __webpack_require__(5427);
 var rand = __webpack_require__(9931);
@@ -36999,7 +36999,7 @@ exports.shr64_lo = shr64_lo;
 
 /***/ }),
 
-/***/ 9352:
+/***/ 2156:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -37289,7 +37289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  function Subscribe(it) {\r\n    const rss_input = document.getElementById(\"rss-input\").value;\r\n    if (!rss_input) {\r\n      return;\r\n    }\r\n    fetch(`/space/api/RSSSUB/add`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: rss_input\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add RSS Success`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Add RSS Failed`\r\n      })\r\n    });\r\n  }\r\n  function getRSSCtrlItem(it) {\r\n    const on = `<span class=\"badge badge-success\">ON</span>`;\r\n    const off = `<span class=\"badge badge-danger\">OFF</span></a>`;\r\n    return `<tr>\r\n      <td><a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\">${it.title}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeStatus(this)\" href=\"#\">${it.status ? on : off}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeNotify(this)\" href=\"#\">${it.notify ? on : off}</a></td>\r\n      <td class=\"project-actions text-right\">\r\n        <a url=\"${it.url}\" onclick=\"DeleteCtrlItem(this)\" class=\"btn btn-danger btn-sm\">\r\n          <i class=\"fas fa-trash\"> </i>\r\n          Delete\r\n        </a>\r\n      </td>\r\n    </tr>`\r\n  }\r\n  function rendererRSSCtrlList() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-ctrl-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSCtrlItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n      rendererRSSResult();\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  rendererRSSCtrlList()\r\n  function DeleteCtrlItem(it) {\r\n    const url = it.getAttribute(\"url\");\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        fetch(`/space/api/RSSSUB/delete`, {\r\n          method: 'POST',\r\n          headers: {\r\n            'Content-Type': 'application/json'\r\n          },\r\n          body: JSON.stringify({\r\n            url: url\r\n          })\r\n        }).then(function (response) {\r\n          return response.json();\r\n        }).then(function (json) {\r\n          console.log(json);\r\n          if (json.success) {\r\n            rendererRSSCtrlList()\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Delete RSS Success`\r\n            })\r\n          }\r\n        }).catch(function (error) {\r\n          console.log(error);\r\n          Toast.fire({\r\n            icon: 'error',\r\n            title: `Delete RSS Failed`\r\n          })\r\n        });\r\n      }\r\n    })\r\n  }\r\n  function changeStatus(it) {\r\n    fetch(`/space/api/RSSSUB/status`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Status Success`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Status Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function changeNotify(it) {\r\n    fetch(`/space/api/RSSSUB/notify`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Notify Success`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Notify Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function rendererRSSResult() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-result-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSResultItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  function getRSSResultItem(it) {\r\n    return `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${it.title}</h3></a>\r\n                  <a href=\"${it.lastLink}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <span class=\"text-muted\">${it.lastLink}</span>\r\n                  </a>\r\n                  <p class=\"mb-0\">${it.lastPost}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n  }\r\n\r\n</script>";
+var code = "<script>\r\n  function Subscribe(it) {\r\n    const rss_input = document.getElementById(\"rss-input\").value;\r\n    if (!rss_input) {\r\n      return;\r\n    }\r\n    fetch(`/space/api/RSSSUB/add`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: rss_input\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add RSS Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Add RSS Failed`\r\n      })\r\n    });\r\n  }\r\n  function getRSSCtrlItem(it) {\r\n    const on = `<span class=\"badge badge-success\">ON</span>`;\r\n    const off = `<span class=\"badge badge-danger\">OFF</span></a>`;\r\n    return `<tr>\r\n      <td><a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\">${it.title}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeStatus(this)\" href=\"#\">${it.status ? on : off}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeNotify(this)\" href=\"#\">${it.notify ? on : off}</a></td>\r\n      <td class=\"project-actions text-right\">\r\n        <a url=\"${it.url}\" onclick=\"DeleteCtrlItem(this)\" class=\"btn btn-danger btn-sm\">\r\n          <i class=\"fas fa-trash\"> </i>\r\n          Delete\r\n        </a>\r\n      </td>\r\n    </tr>`\r\n  }\r\n  function rendererRSSCtrlList() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-ctrl-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSCtrlItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n      rendererRSSResult();\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  rendererRSSCtrlList()\r\n  function DeleteCtrlItem(it) {\r\n    const url = it.getAttribute(\"url\");\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        fetch(`/space/api/RSSSUB/delete`, {\r\n          method: 'POST',\r\n          headers: {\r\n            'Content-Type': 'application/json'\r\n          },\r\n          body: JSON.stringify({\r\n            url: url\r\n          })\r\n        }).then(function (response) {\r\n          return response.json();\r\n        }).then(function (json) {\r\n          console.log(json);\r\n          if (json.success) {\r\n            rendererRSSCtrlList()\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Delete RSS Successfully`\r\n            })\r\n          }\r\n        }).catch(function (error) {\r\n          console.log(error);\r\n          Toast.fire({\r\n            icon: 'error',\r\n            title: `Delete RSS Failed`\r\n          })\r\n        });\r\n      }\r\n    })\r\n  }\r\n  function changeStatus(it) {\r\n    fetch(`/space/api/RSSSUB/status`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Status Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Status Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function changeNotify(it) {\r\n    fetch(`/space/api/RSSSUB/notify`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Notify Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Notify Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function rendererRSSResult() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-result-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSResultItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  function getRSSResultItem(it) {\r\n    return `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${it.title}</h3></a>\r\n                  <a href=\"${it.lastLink}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <span class=\"text-muted\">${it.lastLink}</span>\r\n                  </a>\r\n                  <p class=\"mb-0\">${it.lastPost}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n  }\r\n  fetch(\"/space/api/RSSSUB/update\").catch(e => { })\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -37379,7 +37379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  function rendererProjects() {\r\n    Space.KV.Get(\"setting\").then(function (response) {\r\n      console.log(response);\r\n      Space.Setting = JSON.parse(response.value);\r\n      if (response.sucess && !response.value) {\r\n        Space.KV.Put(\"setting\", \"{}\")\r\n        Space.Setting = {};\r\n      }\r\n      CARD_HTML = \"\";\r\n      Object.keys(Space.Setting).forEach(e => {\r\n        CARD_HTML += getCard(e);\r\n      });\r\n      document.getElementById(\"card-set\").innerHTML = CARD_HTML;\r\n    });\r\n  }\r\n  rendererProjects();\r\n\r\n  function getKVItem(it, key, value) {\r\n    return `<tr>\r\n    <td>\r\n      <p>${key}</p>\r\n    </td>\r\n    <td>\r\n      <p>${value}</p>\r\n    </td>\r\n    <td class=\"project-actions text-right\">\r\n      <a id=\"edit-${it}-${key}\" onclick=\"EditKVItem(this)\" class=\"btn btn-info btn-sm\">\r\n        <i class=\"fas fa-pencil-alt\"> </i>\r\n        Edit\r\n      </a>\r\n      <a id=\"delete-${it}-${key}\" onclick=\"DeleteKVItem(this)\" class=\"btn btn-danger btn-sm\">\r\n        <i class=\"fas fa-trash\"> </i>\r\n        Delete\r\n      </a>\r\n    </td>\r\n  </tr>`;\r\n  }\r\n  function getCard(it) {\r\n    KVItem_HTML = \"\"\r\n    Object.keys(Space.Setting[it]).forEach(e => {\r\n      KVItem_HTML += getKVItem(it, e, Space.Setting[it][e]);\r\n    });\r\n    return `<div class=\"card collapsed-card\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\" title=\"Collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button id=\"delete-project-${it}\" type=\"button\" class=\"btn btn-tool\" title=\"Remove\" onclick=\"ProjectDelete(this)\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body p-0\" style=\"display: none;\">\r\n    <table class=\"table table-striped projects\">\r\n      <thead>\r\n        <tr>\r\n          <th>Key</th>\r\n          <th>Value</th>\r\n          <th style=\"width: 20%\"></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        ${KVItem_HTML}\r\n      </tbody>\r\n    </table>\r\n    <button id=\"add-kv-${it}\" type=\"button\" class=\"btn btn-block btn-primary btn-lg\" onclick=\"ProjectAddKV(this)\">Add KV</button>\r\n  </div>\r\n</div>`\r\n  }\r\n\r\n  $(\"#add-project\").click((e) => {\r\n    Swal.fire({\r\n      title: 'Type your project name',\r\n      input: 'text',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: (key) => {\r\n        Space.Setting[key] = {}\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add Project Success`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  })\r\n  function ProjectAddKV(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add KV Success`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function ProjectDelete(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted Project ${project}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n  function EditKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    let value = Space.Setting[project][key];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\" value=\"' + key + '\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\" value=\"' + value + '\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Edit',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        delete Space.Setting[project][it.id.split(\"-\")[2]];\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Editd KV ${key}`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function DeleteKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project][key];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted KV ${key}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n\r\n</script>";
+var code = "<script>\r\n  function rendererProjects() {\r\n    Space.KV.Get(\"setting\").then(function (response) {\r\n      console.log(response);\r\n      Space.Setting = JSON.parse(response.value);\r\n      if (response.sucess && !response.value) {\r\n        Space.KV.Put(\"setting\", \"{}\")\r\n        Space.Setting = {};\r\n      }\r\n      CARD_HTML = \"\";\r\n      Object.keys(Space.Setting).forEach(e => {\r\n        CARD_HTML += getCard(e);\r\n      });\r\n      document.getElementById(\"card-set\").innerHTML = CARD_HTML;\r\n    });\r\n  }\r\n  rendererProjects();\r\n\r\n  function getKVItem(it, key, value) {\r\n    return `<tr>\r\n    <td>\r\n      <p>${key}</p>\r\n    </td>\r\n    <td>\r\n      <p>${value}</p>\r\n    </td>\r\n    <td class=\"project-actions text-right\">\r\n      <a id=\"edit-${it}-${key}\" onclick=\"EditKVItem(this)\" class=\"btn btn-info btn-sm\">\r\n        <i class=\"fas fa-pencil-alt\"> </i>\r\n        Edit\r\n      </a>\r\n      <a id=\"delete-${it}-${key}\" onclick=\"DeleteKVItem(this)\" class=\"btn btn-danger btn-sm\">\r\n        <i class=\"fas fa-trash\"> </i>\r\n        Delete\r\n      </a>\r\n    </td>\r\n  </tr>`;\r\n  }\r\n  function getCard(it) {\r\n    KVItem_HTML = \"\"\r\n    Object.keys(Space.Setting[it]).forEach(e => {\r\n      KVItem_HTML += getKVItem(it, e, Space.Setting[it][e]);\r\n    });\r\n    return `<div class=\"card collapsed-card\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\" title=\"Collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button id=\"delete-project-${it}\" type=\"button\" class=\"btn btn-tool\" title=\"Remove\" onclick=\"ProjectDelete(this)\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body p-0\" style=\"display: none;\">\r\n    <table class=\"table table-striped projects\">\r\n      <thead>\r\n        <tr>\r\n          <th>Key</th>\r\n          <th>Value</th>\r\n          <th style=\"width: 20%\"></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        ${KVItem_HTML}\r\n      </tbody>\r\n    </table>\r\n    <button id=\"add-kv-${it}\" type=\"button\" class=\"btn btn-block btn-primary btn-lg\" onclick=\"ProjectAddKV(this)\">Add KV</button>\r\n  </div>\r\n</div>`\r\n  }\r\n\r\n  $(\"#add-project\").click((e) => {\r\n    Swal.fire({\r\n      title: 'Type your project name',\r\n      input: 'text',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: (key) => {\r\n        Space.Setting[key] = {}\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add Project Successfully`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  })\r\n  function ProjectAddKV(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add KV Successfully`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function ProjectDelete(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted Project ${project}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n  function EditKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    let value = Space.Setting[project][key];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\" value=\"' + key + '\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\" value=\"' + value + '\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Edit',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        delete Space.Setting[project][it.id.split(\"-\")[2]];\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Editd KV ${key}`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function DeleteKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project][key];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted KV ${key}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -57804,7 +57804,7 @@ async function ParseRSS(url) {
     return fetch(url).then(res => res.text()).then(e => { return parser.parseString(e); });
 }
 exports["default"] = ParseRSS;
-// 注；这个破函数在定时任务ScheduledEvent中会超时 FetchEvent不会超时
+// 注；这个破函数在定时任务 ScheduledEvent 中会超时 FetchEvent不会超时
 
 
 /***/ }),
@@ -58290,6 +58290,58 @@ exports["default"] = WolframAlpha;
 
 /***/ }),
 
+/***/ 1674:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function XML2JSON(url) {
+    const res = await fetch(`${COPOKO_API}/api/xml2json`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+            url: url,
+        }),
+    });
+    try {
+        const json = await res.json();
+        return json;
+    }
+    catch (error) {
+        const json = await Space_1.default.API.ParseRSS(url);
+        return json;
+    }
+}
+exports["default"] = XML2JSON;
+
+
+/***/ }),
+
 /***/ 1647:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -58417,6 +58469,7 @@ const IPFS_1 = __webpack_require__(9763);
 const NPMUpload_1 = __webpack_require__(2214);
 const CF_1 = __webpack_require__(1046);
 const ParseRSS_1 = __webpack_require__(5859);
+const XML2JSON_1 = __webpack_require__(1674);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -58445,6 +58498,7 @@ const API = {
     NPMUpload: NPMUpload_1.default,
     CF: CF_1.default,
     ParseRSS: ParseRSS_1.default,
+    XML2JSON: XML2JSON_1.default,
 };
 exports["default"] = API;
 
@@ -59070,45 +59124,23 @@ const Space_1 = __webpack_require__(7619);
 async function RSSSUB(ctx) {
     const path = ctx.pathname;
     if (ctx.method === "GET") {
-        let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
-        if (!sub) {
-            sub = [];
-        }
+        const sub = await Space_1.default.Helpers.RSS.list();
         return new Response(JSON.stringify(sub));
     }
     else if (ctx.method === "POST") {
         const body = await ctx.request.json();
         const url = body.url;
         if (path.startsWith("/space/api/RSSSUB/add")) {
-            const feed = await Space_1.default.API.ParseRSS(url);
-            const rss = {
-                title: feed.title,
-                url: url,
-                status: true,
-                errorTime: 0,
-                notify: true,
-                lastPost: feed.items[0]?.title,
-                lastLink: feed.items[0]?.link,
-                lastUpdateTime: feed.items[0]?.pubDate,
-            };
-            let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
-            if (!sub) {
-                sub = [];
-            }
-            sub.push(rss);
-            // 去重
-            sub = sub.filter((item, index, self) => {
-                return self.findIndex(t => t.url === item.url) === index;
-            });
-            await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+            const sub = await Space_1.default.Helpers.RSS.add(url);
             return new Response(JSON.stringify({ success: 1, sub: sub }));
         }
         if (path.startsWith("/space/api/RSSSUB/delete")) {
-            let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
-            // 删除键为url的项
-            sub = sub.filter((item) => item.url !== url);
-            await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+            const sub = await Space_1.default.Helpers.RSS.del(url);
             return new Response(JSON.stringify({ success: 1, sub: sub, url: url }));
+        }
+        if (path.startsWith("/space/api/RSSSUB/update")) {
+            const sub = await Space_1.default.Helpers.RSS.update();
+            return new Response(JSON.stringify({ success: 1 }));
         }
         if (path.startsWith("/space/api/RSSSUB/status")) {
             let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
@@ -60058,7 +60090,7 @@ exports["default"] = Actions;
 
 /***/ }),
 
-/***/ 2156:
+/***/ 3867:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -60405,6 +60437,137 @@ function IsInArray(arr, value) {
     return false;
 }
 exports["default"] = IsInArray;
+
+
+/***/ }),
+
+/***/ 648:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+const TelegrafBot_1 = __webpack_require__(1535);
+const Setting_1 = __webpack_require__(7425);
+const list = async () => {
+    let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
+    if (!sub) {
+        sub = [];
+    }
+    return sub;
+};
+const add = async (url) => {
+    const feed = await Space_1.default.API.XML2JSON(url);
+    const rss = {
+        title: feed.title,
+        url: url,
+        status: true,
+        errorTime: 0,
+        notify: true,
+        lastPost: feed.items[0]?.title,
+        lastLink: feed.items[0]?.link,
+        lastUpdateTime: feed.items[0]?.pubDate,
+    };
+    let sub = await list();
+    sub.push(rss);
+    // 去重
+    sub = sub.filter((item, index, self) => {
+        return self.findIndex(t => t.url === item.url) === index;
+    });
+    await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+    return sub;
+};
+const del = async (url) => {
+    let sub = await list();
+    if (url.startsWith("https://") || url.startsWith("http://")) {
+        sub = sub.filter((item) => item.url !== url);
+    }
+    else {
+        sub = sub.filter((item) => item.title !== url);
+    }
+    await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+    return sub;
+};
+const update = async () => {
+    const set = await (0, Setting_1.default)("TelegrafBot");
+    const ADMIN_GROUP_ID = set.TEST_GROUP_ID;
+    let sub = await list();
+    for await (const item of sub) {
+        if (!item.status) {
+            return;
+        }
+        if (item.errorTime > 0) {
+            return;
+        }
+        const feed = await Space_1.default.API.XML2JSON(item.url);
+        try {
+            if (feed.items[0]?.pubDate != item.lastUpdateTime) {
+                const rss = {
+                    title: feed.title,
+                    url: item.url,
+                    status: item.status,
+                    errorTime: 0,
+                    notify: item.notify,
+                    lastPost: feed.items[0]?.title,
+                    lastLink: feed.items[0]?.link,
+                    lastUpdateTime: feed.items[0]?.pubDate,
+                };
+                sub = sub.filter((it) => it.url !== item.url);
+                sub.push(rss);
+                await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+                if (rss.notify) {
+                    await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${rss.lastPost}\n <a href="${rss.lastLink}">Link</a>\n`, { parse_mode: "HTML" });
+                }
+            }
+        }
+        catch (error) {
+            const rss = {
+                title: item.title,
+                url: item.url,
+                status: item.status,
+                errorTime: item.errorTime + 1,
+                notify: item.notify,
+                lastPost: item.lastPost,
+                lastLink: item.lastLink,
+                lastUpdateTime: item.lastUpdateTime,
+            };
+            sub = sub.filter((it) => it.url !== item.url);
+            sub.push(rss);
+            await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
+            await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`, { parse_mode: "HTML" });
+        }
+    }
+    return sub;
+};
+const RSS = {
+    list,
+    add,
+    del,
+    update,
+};
+exports["default"] = RSS;
 
 
 /***/ }),
@@ -60779,6 +60942,7 @@ const Fetch_1 = __webpack_require__(76);
 const Security_1 = __webpack_require__(2781);
 const RandomNum_1 = __webpack_require__(3590);
 const IsInArray_1 = __webpack_require__(9232);
+const RSS_1 = __webpack_require__(648);
 const Helpers = {
     Headers: Headers_1.default,
     ErrorResponse: ErrorResponse_1.default,
@@ -60791,6 +60955,7 @@ const Helpers = {
     Security: Security_1.default,
     RandomNum: RandomNum_1.default,
     IsInArray: IsInArray_1.default,
+    RSS: RSS_1.default,
 };
 exports["default"] = Helpers;
 
@@ -60815,7 +60980,7 @@ exports.dash_nav = ["home", "search", "npm", "rss", "setting"];
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Config_1 = __webpack_require__(2156);
+const Config_1 = __webpack_require__(3867);
 const dash_nav_1 = __webpack_require__(4356);
 const erorr = (__webpack_require__(3913)/* ["default"] */ .Z);
 const auth = (__webpack_require__(3979)/* ["default"] */ .Z);
@@ -60861,7 +61026,6 @@ exports["default"] = Renderers;
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
-/* provided dependency */ var console = __webpack_require__(5108);
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 /*!
@@ -60902,69 +61066,7 @@ async function handleScheduled(event) {
         await TelegrafBot_1.default.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
     }
     if (Hours == 7 && Minutes == 0) {
-        const set = await (0, Setting_1.default)("TelegrafBot");
-        const ADMIN_GROUP_ID = set.TEST_GROUP_ID;
-        let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
-        if (!sub) {
-            sub = [];
-        }
-        for await (const item of sub) {
-            if (!item.status) {
-                return;
-            }
-            if (item.errorTime > 10) {
-                return;
-            }
-            const res = await fetch(`${COPOKO_API}/api/xml2json`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                },
-                body: JSON.stringify({
-                    url: item.url,
-                }),
-            });
-            const feed = await res.json();
-            try {
-                if (feed.items[0]?.pubDate != item.lastUpdateTime) {
-                    const rss = {
-                        title: feed.title,
-                        url: item.url,
-                        status: item.status,
-                        errorTime: 0,
-                        notify: item.notify,
-                        lastPost: feed.items[0]?.title,
-                        lastLink: feed.items[0]?.link,
-                        lastUpdateTime: feed.items[0]?.pubDate,
-                    };
-                    sub = sub.filter((it) => it.url !== item.url);
-                    sub.push(rss);
-                    await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
-                    console.log(sub);
-                    if (rss.notify) {
-                        await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${rss.lastPost}\n <a href="${rss.lastLink}">Link</a>\n`, { parse_mode: "HTML" });
-                    }
-                }
-            }
-            catch (error) {
-                const rss = {
-                    title: item.title,
-                    url: item.url,
-                    status: item.status,
-                    errorTime: item.errorTime + 1,
-                    notify: item.notify,
-                    lastPost: item.lastPost,
-                    lastLink: item.lastLink,
-                    lastUpdateTime: item.lastUpdateTime,
-                };
-                sub = sub.filter((it) => it.url !== item.url);
-                sub.push(rss);
-                await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
-                if (rss.errorTime >= 10) {
-                    await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n 连续多次失败，已暂停订阅。`, { parse_mode: "HTML" });
-                }
-            }
-        }
+        await Space_1.default.Helpers.RSS.update();
     }
 }
 function UTC8Hours(Hours) {
@@ -61696,6 +61798,73 @@ exports["default"] = Poet;
 
 /***/ }),
 
+/***/ 3891:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+const Space_1 = __webpack_require__(7619);
+const RSS = async (that) => {
+    const ctx = that.ctx;
+    if (that.args.k == "list") {
+        const sub = await Space_1.default.Helpers.RSS.list();
+        let text = "";
+        for (const i in sub) {
+            text += `[${sub[i].title}](${sub[i].url})\n`;
+        }
+        await ctx.reply(text);
+    }
+    if (that.args.k == "add") {
+        try {
+            const url = that.args.q;
+            await Space_1.default.Helpers.RSS.add(url);
+            await ctx.reply("Add Successfully");
+        }
+        catch (error) {
+            await ctx.reply("Add failed");
+        }
+    }
+    if (that.args.k == "delete") {
+        try {
+            const url = that.args.q;
+            await Space_1.default.Helpers.RSS.del(url);
+            await ctx.reply("Delete Successfully");
+        }
+        catch (error) {
+            await ctx.reply("Delete failed");
+        }
+    }
+    if (that.args.k == "update") {
+        await Space_1.default.Helpers.RSS.update();
+    }
+};
+exports["default"] = RSS;
+
+
+/***/ }),
+
 /***/ 3158:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -62131,6 +62300,7 @@ const ReplyMaster_1 = __webpack_require__(4997);
 const ChatID_1 = __webpack_require__(2348);
 const WebhookInfo_1 = __webpack_require__(260);
 const CoCoShell_1 = __webpack_require__(8767);
+const RSS_1 = __webpack_require__(3891);
 const Actions = {
     Niubi: Niubi_1.default,
     Unsplash: Unsplash_1.default,
@@ -62155,6 +62325,7 @@ const Actions = {
     ChatID: ChatID_1.default,
     WebhookInfo: WebhookInfo_1.default,
     CoCoShell: CoCoShell_1.default,
+    RSS: RSS_1.default,
 };
 exports["default"] = Actions;
 
@@ -70285,7 +70456,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'},{cmd:'rss',arg:{k:'list',q:null},action:'RSS'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'^https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]}]);
 
 /***/ }),
 

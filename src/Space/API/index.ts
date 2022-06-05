@@ -46,6 +46,7 @@ import IPFS from "./IPFS"
 import NPMUpload from "./NPMUpload"
 import CF from "./CF"
 import ParseRSS from "./ParseRSS"
+import XML2JSON from "./XML2JSON"
 
 const API = {
   KV,
@@ -75,6 +76,7 @@ const API = {
   NPMUpload,
   CF,
   ParseRSS,
+  XML2JSON,
 };
 
 export default API;
