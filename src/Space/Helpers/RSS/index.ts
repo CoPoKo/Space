@@ -23,6 +23,7 @@
 import RSSContext from "../../../types/RSSContext";
 import Space from "../../Space";
 import bot from "../../TelegrafBot";
+import HandleMessage from "../../TelegrafBot/TGBot/HandleMessage";
 import Setting from "../Setting";
 
 const list = async () => {
@@ -64,9 +65,7 @@ const del = async (url: string) => {
   await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
   return sub
 }
-const update = async () => {
-  const set = await Setting("TelegrafBot")
-  const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
+const update = async (that?: HandleMessage) => {
   let sub = await list()
   for await (const item of sub) {
     if (!item.status) {
@@ -95,7 +94,7 @@ const update = async () => {
         if (rss.notify) {
           for (const iterator of feed.items) {
             if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
-              await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>  <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, { parse_mode: "HTML" });
+              await sendMessage(`<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>  <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, that)
             }
           }
         }
@@ -115,7 +114,7 @@ const update = async () => {
       sub = sub.filter((it: any) => it.url !== item.url);
       sub.push(rss);
       await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
-      await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`, { parse_mode: "HTML" });
+      await sendMessage(`<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`, that)
     }
   }
   return sub
@@ -145,16 +144,15 @@ const page = async (tittle: string, content: string) => {
   const hash = await Space.API.IPFS.Put(html, "text/html").then(e => { return e.json() }).then((e: any) => { return e.Hash })
   return "https://ipfs.infura.io/ipfs/" + hash
 }
-const last = async () => {
-  const set = await Setting("TelegrafBot")
-  const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
+const last = async (that?: HandleMessage) => {
   let sub = await list()
   for await (const item of sub) {
     if (!item.status) {
       return
     }
     if (item.notify) {
-      await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${item.title}</b>\n ${item.lastPost}\n <a href="${item.lastLink}">Link</a>  <a href="${item.lastPostView}">View</a>\n`, { parse_mode: "HTML" });
+      const msg = `<b>${item.title}</b>\n ${item.lastPost}\n <a href="${item.lastLink}">Link</a>  <a href="${item.lastPostView}">View</a>\n`
+      await sendMessage(msg, that)
     }
   }
 }
@@ -167,3 +165,13 @@ const RSS = {
   last,
 };
 export default RSS;
+
+async function sendMessage(msg: string, that?: HandleMessage) {
+  if (that) {
+    await that.ctx.reply(msg, { parse_mode: "HTML" })
+  } else {
+    const set = await Setting("TelegrafBot")
+    const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
+    await bot.telegram.sendMessage(ADMIN_GROUP_ID, msg, { parse_mode: "HTML" });
+  }
+}

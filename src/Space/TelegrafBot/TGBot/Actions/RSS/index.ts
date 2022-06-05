@@ -54,7 +54,7 @@ const RSS = async (that: HandleMessage) => {
     await Space.Helpers.RSS.update();
   }
   if (that.args.k == "last") {
-    await Space.Helpers.RSS.last();
+    await Space.Helpers.RSS.last(that);
   }
 };
 
