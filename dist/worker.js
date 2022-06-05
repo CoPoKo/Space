@@ -59139,7 +59139,7 @@ async function RSSSUB(ctx) {
             return new Response(JSON.stringify({ success: 1, sub: sub, url: url }));
         }
         if (path.startsWith("/space/api/RSSSUB/update")) {
-            const sub = await Space_1.default.Helpers.RSS.update();
+            await Space_1.default.Helpers.RSS.update();
             return new Response(JSON.stringify({ success: 1 }));
         }
         if (path.startsWith("/space/api/RSSSUB/status")) {
@@ -62135,7 +62135,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 */
 const Space_1 = __webpack_require__(7619);
 const Thum = async (that) => {
-    if (that.type == 'reg') {
+    if (that.type == 're') {
         const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message["text"]);
         if (arr && Array.isArray(arr) && arr[1]) {
             that.args.u = arr[0];

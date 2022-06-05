@@ -23,7 +23,7 @@ import Space from "../../../../Space";
 import HandleMessage from "../../HandleMessage";
 
 const Thum = async (that: HandleMessage) => {
-  if (that.type == 'reg') {
+  if (that.type == 're') {
     const arr = /(https:\/\/|http:\/\/)[^\ ]*/.exec(that.ctx.message["text"])
     if (arr && Array.isArray(arr) && arr[1]) {
       that.args.u = arr[0];
