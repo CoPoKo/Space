@@ -60559,7 +60559,7 @@ const del = async (url) => {
 };
 const update = async () => {
     const set = await (0, Setting_1.default)("TelegrafBot");
-    const ADMIN_GROUP_ID = set.TEST_GROUP_ID;
+    const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID;
     let sub = await list();
     for await (const item of sub) {
         if (!item.status) {
@@ -60615,6 +60615,7 @@ const update = async () => {
     return sub;
 };
 const page = async (tittle, content) => {
+    content = content.replace(/<img.*?>/g, "");
     const html = `<html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -60640,7 +60641,7 @@ const page = async (tittle, content) => {
 };
 const last = async () => {
     const set = await (0, Setting_1.default)("TelegrafBot");
-    const ADMIN_GROUP_ID = set.TEST_GROUP_ID;
+    const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID;
     let sub = await list();
     for await (const item of sub) {
         if (!item.status) {
