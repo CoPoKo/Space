@@ -60588,7 +60588,7 @@ const update = async () => {
                 if (rss.notify) {
                     for (const iterator of feed.items) {
                         if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
-                            await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>\n <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, { parse_mode: "HTML" });
+                            await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>  <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, { parse_mode: "HTML" });
                         }
                     }
                 }
@@ -60638,12 +60638,26 @@ const page = async (tittle, content) => {
     const hash = await Space_1.default.API.IPFS.Put(html, "text/html").then(e => { return e.json(); }).then((e) => { return e.Hash; });
     return "https://ipfs.infura.io/ipfs/" + hash;
 };
+const last = async () => {
+    const set = await (0, Setting_1.default)("TelegrafBot");
+    const ADMIN_GROUP_ID = set.TEST_GROUP_ID;
+    let sub = await list();
+    for await (const item of sub) {
+        if (!item.status) {
+            return;
+        }
+        if (item.notify) {
+            await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${item.title}</b>\n ${item.lastPost}\n <a href="${item.lastLink}">Link</a>  <a href="${item.lastPostView}">View</a>\n`, { parse_mode: "HTML" });
+        }
+    }
+};
 const RSS = {
     list,
     add,
     del,
     update,
     page,
+    last,
 };
 exports["default"] = RSS;
 
@@ -61936,6 +61950,9 @@ const RSS = async (that) => {
     }
     if (that.args.k == "update") {
         await Space_1.default.Helpers.RSS.update();
+    }
+    if (that.args.k == "last") {
+        await Space_1.default.Helpers.RSS.last();
     }
 };
 exports["default"] = RSS;

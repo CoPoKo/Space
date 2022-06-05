@@ -53,6 +53,9 @@ const RSS = async (that: HandleMessage) => {
   if (that.args.k == "update") {
     await Space.Helpers.RSS.update();
   }
+  if (that.args.k == "last") {
+    await Space.Helpers.RSS.last();
+  }
 };
 
 export default RSS;

@@ -95,7 +95,7 @@ const update = async () => {
         if (rss.notify) {
           for (const iterator of feed.items) {
             if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
-              await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>\n <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, { parse_mode: "HTML" });
+              await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>  <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, { parse_mode: "HTML" });
             }
           }
         }
@@ -144,11 +144,25 @@ const page = async (tittle: string, content: string) => {
   const hash = await Space.API.IPFS.Put(html, "text/html").then(e => { return e.json() }).then((e: any) => { return e.Hash })
   return "https://ipfs.infura.io/ipfs/" + hash
 }
+const last = async () => {
+  const set = await Setting("TelegrafBot")
+  const ADMIN_GROUP_ID = set.TEST_GROUP_ID
+  let sub = await list()
+  for await (const item of sub) {
+    if (!item.status) {
+      return
+    }
+    if (item.notify) {
+      await bot.telegram.sendMessage(ADMIN_GROUP_ID, `<b>${item.title}</b>\n ${item.lastPost}\n <a href="${item.lastLink}">Link</a>  <a href="${item.lastPostView}">View</a>\n`, { parse_mode: "HTML" });
+    }
+  }
+}
 const RSS = {
   list,
   add,
   del,
   update,
   page,
+  last,
 };
 export default RSS;
