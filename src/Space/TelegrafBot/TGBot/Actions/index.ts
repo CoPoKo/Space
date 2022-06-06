@@ -44,6 +44,7 @@ import WebhookInfo from "./WebhookInfo";
 import CoCoShell from "./CoCoShell";
 import RSS from "./RSS";
 import BracketMatch from "./BracketMatch";
+import NPMUpload from "./NPMUpload";
 
 const Actions = {
   Niubi,
@@ -71,6 +72,7 @@ const Actions = {
   CoCoShell,
   RSS,
   BracketMatch,
+  NPMUpload,
 };
 
 export default Actions;

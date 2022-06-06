@@ -33,9 +33,8 @@ function BotModel(bot: Telegraf<Context<Update>>) {
   bot.start(Start);
   bot.help(Help);
   bot.on("sticker", Sticker);
-  // bot.mention(/.*/, Mention);
   bot.hears(/^@.*/, Mention);
-  bot.on("text", Text);
+  bot.on(["text", 'document', 'photo'], Text);
   bot.on("message", Message);
   bot.catch(Catch);
 }

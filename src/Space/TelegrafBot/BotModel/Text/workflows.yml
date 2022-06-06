@@ -41,6 +41,10 @@
             k: list
             q: null
           action: RSS
+        - cmd: npm
+          arg:
+            k: start
+          action: NPMUpload
       else:
         - re: 在吗
           reply: 爪巴
@@ -60,6 +64,10 @@
 - workflow:
     - random: 100
       action: BracketMatch
+- workflow:
+    - admin:
+        - random: 100
+          action: NPMUpload
 - workflow:
     - cmd: help
       reply: no help

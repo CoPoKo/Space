@@ -73,6 +73,18 @@ class HandleMessage {
     if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
       this.chatid = ctx.message.chat.id
     }
+    if (ctx.message && ctx.message["document"]) {
+      this.file = true
+      this.document = ctx.message["document"]
+      this.file_id = this.document.file_id
+      this.file_name = this.document.file_name
+      this.file_mime_type = this.document.mime_type
+    }
+    if (ctx.message && ctx.message["photo"]) {
+      this.file = true
+      this.photo = ctx.message["photo"]
+      this.file_id = this.photo[this.photo.length - 1].file_id
+    }
   }
   public cleanStatus = function () {
     this.status = 0;

@@ -61469,7 +61469,7 @@ async function Catch(err, ctx) {
     await ctx.reply(`Ooops...`);
     const set = await (0, Setting_1.default)("TelegrafBot");
     const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID;
-    const msg = `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx);
+    const msg = `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx, null, 2);
     await ctx.telegram.sendMessage(ADMIN_GROUP_ID, msg);
     // ctx.reply(msg);
     await Space_1.default.Helpers.Notify.Danger(`Error TelegrafBot`, msg.replace(/\n/g, "<br>"));
@@ -61618,9 +61618,8 @@ function BotModel(bot) {
     bot.start(Start_1.default);
     bot.help(Help_1.default);
     bot.on("sticker", Sticker_1.default);
-    // bot.mention(/.*/, Mention);
     bot.hears(/^@.*/, Mention_1.default);
-    bot.on("text", Text_1.default);
+    bot.on(["text", 'document', 'photo'], Text_1.default);
     bot.on("message", Message_1.default);
     bot.catch(Catch_1.default);
 }
@@ -62053,6 +62052,75 @@ const InterruptRepetition = async (that) => {
     }
 };
 exports["default"] = InterruptRepetition;
+
+
+/***/ }),
+
+/***/ 6401:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+const Space_1 = __webpack_require__(7619);
+const NPMUpload = async (that) => {
+    let NPMUploadStatus = "stop";
+    const ctx = that.ctx;
+    const k = that?.args?.k;
+    if (k == "start") {
+        NPMUploadStatus = "start";
+        await Space_1.default.API.KV.Put("NPMUploadStatus", NPMUploadStatus);
+        await ctx.reply(`Upload to NPM package is started.`);
+    }
+    else if (k == "stop") {
+        NPMUploadStatus = "stop";
+        await Space_1.default.API.KV.Put("NPMUploadStatus", NPMUploadStatus);
+        await ctx.reply(`Upload to NPM package is stoped.`);
+    }
+    else if (that.file) {
+        NPMUploadStatus = await Space_1.default.API.KV.Get("NPMUploadStatus");
+        if (NPMUploadStatus == "start") {
+            const file_id = that.file_id;
+            await ctx.reply(`Uploading...`);
+            if (file_id) {
+                const file_link = await ctx.telegram.getFileLink(file_id);
+                const file_name = file_link.href.split("/").pop();
+                const file_blob = await fetch(file_link.href).then(res => res.blob());
+                const file_mime_type = that.file_mime_type || "application/octet-stream";
+                const file = new File([file_blob], file_name, { type: file_mime_type });
+                const ans = await Space_1.default.API.NPMUpload(file);
+                if (ans.status.toString().startsWith("20")) {
+                    await ctx.reply(ans.body.replace(/<br\/>/g, "\n"), { parse_mode: "HTML" });
+                }
+                else {
+                    await ctx.reply(`Uploading Failed!\n${ans.body}`);
+                }
+            }
+        }
+    }
+};
+exports["default"] = NPMUpload;
 
 
 /***/ }),
@@ -62694,6 +62762,7 @@ const WebhookInfo_1 = __webpack_require__(260);
 const CoCoShell_1 = __webpack_require__(8767);
 const RSS_1 = __webpack_require__(3891);
 const BracketMatch_1 = __webpack_require__(5911);
+const NPMUpload_1 = __webpack_require__(6401);
 const Actions = {
     Niubi: Niubi_1.default,
     Unsplash: Unsplash_1.default,
@@ -62720,6 +62789,7 @@ const Actions = {
     CoCoShell: CoCoShell_1.default,
     RSS: RSS_1.default,
     BracketMatch: BracketMatch_1.default,
+    NPMUpload: NPMUpload_1.default,
 };
 exports["default"] = Actions;
 
@@ -62939,6 +63009,18 @@ class HandleMessage {
             this.new_chat_members_list = ctx.message["new_chat_members"];
         if (ctx.message && ctx.message.chat && ctx.message.chat.id) {
             this.chatid = ctx.message.chat.id;
+        }
+        if (ctx.message && ctx.message["document"]) {
+            this.file = true;
+            this.document = ctx.message["document"];
+            this.file_id = this.document.file_id;
+            this.file_name = this.document.file_name;
+            this.file_mime_type = this.document.mime_type;
+        }
+        if (ctx.message && ctx.message["photo"]) {
+            this.file = true;
+            this.photo = ctx.message["photo"];
+            this.file_id = this.photo[this.photo.length - 1].file_id;
         }
     }
 }
@@ -70858,7 +70940,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'},{cmd:'rss',arg:{k:'list',q:null},action:'RSS'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{random:100,action:'BracketMatch'}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'^https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'},{cmd:'rss',arg:{k:'list',q:null},action:'RSS'},{cmd:'npm',arg:{k:'start'},action:'NPMUpload'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{random:100,action:'BracketMatch'}]},{workflow:[{admin:[{random:100,action:'NPMUpload'}]}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'^https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]}]);
 
 /***/ }),
 

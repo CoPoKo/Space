@@ -28,7 +28,7 @@ async function Catch(err: string, ctx: Context<Update>) {
   await ctx.reply(`Ooops...`);
   const set = await Setting("TelegrafBot")
   const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID
-  const msg = `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx)
+  const msg = `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx, null, 2)
   await ctx.telegram.sendMessage(ADMIN_GROUP_ID, msg)
   // ctx.reply(msg);
   await Space.Helpers.Notify.Danger(`Error TelegrafBot`, msg.replace(/\n/g, "<br>"))
