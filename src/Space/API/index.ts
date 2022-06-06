@@ -48,6 +48,7 @@ import CF from "./CF"
 import ParseRSS from "./ParseRSS"
 import XML2JSON from "./XML2JSON"
 import HTML2NODE from "./HTML2NODE"
+import Notify from "./Notify"
 
 const API = {
   KV,
@@ -79,6 +80,7 @@ const API = {
   ParseRSS,
   XML2JSON,
   HTML2NODE,
+  Notify,
 };
 
 export default API;

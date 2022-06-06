@@ -19,36 +19,28 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Headers from './Headers';
-import ErrorResponse from './ErrorResponse';
-import Router from './Router';
-import Cookie from './Cookie';
-import ReadRequest from './ReadRequest';
-import Captcha from './Captcha';
-import Setting from './Setting';
-import Fetch from './Fetch';
-import Security from './Security';
-import RandomNum from './RandomNum';
-import IsInArray from './IsInArray';
-import RSS from './RSS';
-import Notify from './Notify';
-import UUID from './UUID';
+import Space from "../../Space";
 
-const Helpers = {
-  Headers,
-  ErrorResponse,
-  Router,
-  Cookie,
-  ReadRequest,
-  Captcha,
-  Setting,
-  Fetch,
-  Security,
-  RandomNum,
-  IsInArray,
-  RSS,
-  Notify,
-  UUID,
+async function Success(title: string, content: string) {
+  const notify = new Space.API.Notify.SpaceNotify("success", title, content);
+  await Space.API.Notify.Put(notify)
+}
+async function Warning(title: string, content: string) {
+  const notify = new Space.API.Notify.SpaceNotify("warning", title, content);
+  await Space.API.Notify.Put(notify)
+}
+async function Danger(title: string, content: string) {
+  const notify = new Space.API.Notify.SpaceNotify("danger", title, content);
+  await Space.API.Notify.Put(notify)
+}
+async function Primary(title: string, content: string) {
+  const notify = new Space.API.Notify.SpaceNotify("primary", title, content);
+  await Space.API.Notify.Put(notify)
+}
+
+export default {
+  Success,
+  Warning,
+  Danger,
+  Primary,
 };
-
-export default Helpers;

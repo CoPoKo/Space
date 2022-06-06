@@ -141,7 +141,15 @@ async function handleSpace(event: FetchEvent) {
     router.post("/space/api/NPMUpload").action(Space.Actions.API.NPMUpload);
     router.get("/space/api/RSSSUB").action(Space.Actions.API.RSSSUB);
     router.post("/space/api/RSSSUB").action(Space.Actions.API.RSSSUB);
+
+    router.post("/space/api/notify").action(Space.Actions.API.Notify);
+    router.get("/space/api/notify").action(Space.Actions.API.Notify);
     /////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+    // test
+    router.get("/space/testError").action(async () => {
+      throw new Error("test Error")
+    })
     /////////////////////////////////////////////////////////////////////
     // 启动 action
     if (router.status.action) {

@@ -44,6 +44,7 @@ import Thum from "./Thum"
 import NPMUpload from "./NPMUpload"
 import IPFS from "./IPFS"
 import RSSSUB from "./RSSSUB"
+import Notify from "./Notify"
 
 const API = {
   KV,
@@ -71,6 +72,7 @@ const API = {
   NPMUpload,
   IPFS,
   RSSSUB,
+  Notify,
 };
 
 export default API;

@@ -94,7 +94,9 @@ const update = async (that?: HandleMessage) => {
         if (rss.notify) {
           for (const iterator of feed.items) {
             if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
-              await sendMessage(`<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>  <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, that)
+              const msg = `<b>${rss.title}</b>\n ${iterator.title}\n <a target="_blank" rel="noopener noreferrer" href="${iterator.link}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${await page(iterator.title, iterator.content)}">View</a>\n`
+              await sendMessage(msg, that)
+              await Space.Helpers.Notify.Success(`RSS: ${rss.title}`, msg.replace(/\n/g, "<br>"))
             }
           }
         }
@@ -114,7 +116,9 @@ const update = async (that?: HandleMessage) => {
       sub = sub.filter((it: any) => it.url !== item.url);
       sub.push(rss);
       await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
-      await sendMessage(`<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`, that)
+      const msg = `<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`
+      await sendMessage(msg, that)
+      await Space.Helpers.Notify.Danger(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"))
     }
   }
   return sub
@@ -151,8 +155,9 @@ const last = async (that?: HandleMessage) => {
       return
     }
     if (item.notify) {
-      const msg = `<b>${item.title}</b>\n ${item.lastPost}\n <a href="${item.lastLink}">Link</a>  <a href="${item.lastPostView}">View</a>\n`
+      const msg = `<b>${item.title}</b>\n ${item.lastPost}\n <a target="_blank" rel="noopener noreferrer" href="${item.lastLink}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${item.lastPostView}">View</a>\n`
       await sendMessage(msg, that)
+      await Space.Helpers.Notify.Primary(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"))
     }
   }
 }

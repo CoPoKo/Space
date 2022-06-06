@@ -19,36 +19,11 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Headers from './Headers';
-import ErrorResponse from './ErrorResponse';
-import Router from './Router';
-import Cookie from './Cookie';
-import ReadRequest from './ReadRequest';
-import Captcha from './Captcha';
-import Setting from './Setting';
-import Fetch from './Fetch';
-import Security from './Security';
-import RandomNum from './RandomNum';
-import IsInArray from './IsInArray';
-import RSS from './RSS';
-import Notify from './Notify';
-import UUID from './UUID';
-
-const Helpers = {
-  Headers,
-  ErrorResponse,
-  Router,
-  Cookie,
-  ReadRequest,
-  Captcha,
-  Setting,
-  Fetch,
-  Security,
-  RandomNum,
-  IsInArray,
-  RSS,
-  Notify,
-  UUID,
-};
-
-export default Helpers;
+function UUID() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+export default UUID;

@@ -19,36 +19,25 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Headers from './Headers';
-import ErrorResponse from './ErrorResponse';
-import Router from './Router';
-import Cookie from './Cookie';
-import ReadRequest from './ReadRequest';
-import Captcha from './Captcha';
-import Setting from './Setting';
-import Fetch from './Fetch';
-import Security from './Security';
-import RandomNum from './RandomNum';
-import IsInArray from './IsInArray';
-import RSS from './RSS';
-import Notify from './Notify';
-import UUID from './UUID';
 
-const Helpers = {
-  Headers,
-  ErrorResponse,
-  Router,
-  Cookie,
-  ReadRequest,
-  Captcha,
-  Setting,
-  Fetch,
-  Security,
-  RandomNum,
-  IsInArray,
-  RSS,
-  Notify,
-  UUID,
-};
+import Router from "../../../Helpers/Router";
+import Space from "../../../Space"
 
-export default Helpers;
+async function Notify(ctx: Router) {
+  if (ctx.method == "GET") {
+    const data = await Space.API.Notify.Get()
+    return new Response(JSON.stringify(data))
+  }
+  if (ctx.method == "POST") {
+    const body = await Space.Helpers.ReadRequest.Body(ctx.request)
+    const data = JSON.parse(body)
+    const action = data.action
+    if (action == "delete") {
+      const id = data.id
+      const n = await Space.API.Notify.Delete(id)
+      return new Response(JSON.stringify(n))
+    }
+
+  }
+}
+export default Notify;

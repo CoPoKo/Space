@@ -54,12 +54,14 @@ async function setUnderAttack(a: number, b: number, c: number) {
   }
   if (a > b) {
     await Space.API.CF.setSecurityLevel("under_attack")
+    await Space.Helpers.Notify.Warning(`Under Attack`, "Your account is under attack")
   }
   if (a > c) {
     const routesresult = await Space.API.CF.getRoutes().then((e: any) => e.json()).then(e => e.result)
     const routeid = routesresult.find((e: any) => e.script == WORKERNAME)?.id
     if (routeid) {
       await Space.API.CF.deleteRouteById(routeid)
+      await Space.Helpers.Notify.Warning(`Under Attack`, "The worker route has been deleted")
     }
   }
 }

@@ -37199,7 +37199,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "";
+var code = "<script>\r\n  function NotifyCard(it) {\r\n    return `<div id=\"${it.id}\" class=\"card collapsed-card card-${it.type}\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it.title}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"maximize\">\r\n        <i class=\"fas fa-expand\"></i>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button action=\"${it.id}\" onclick=\"removeNotifyCard(this)\" type=\"button\" class=\"btn btn-tool\" data-card-widget=\"remove\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body\">\r\n    ${it.content}\r\n  </div>\r\n</div>`\r\n  }\r\n  fetch(\"/space/api/notify\").then(function (response) {\r\n    return response.json();\r\n  }).then(function (data) {\r\n    console.log(data);\r\n    if (data.length > 0) {\r\n      data.reverse()\r\n      var notify = document.getElementById(\"notify\");\r\n      notify.innerHTML = \"\";\r\n      for (var i = 0; i < data.length; i++) {\r\n        var div = document.createElement(\"div\");\r\n        div.innerHTML = NotifyCard(data[i]);\r\n        notify.appendChild(div);\r\n      }\r\n    }\r\n  });\r\n  function removeNotifyCard(it) {\r\n    const id = it.getAttribute(\"action\");\r\n    fetch(\"/space/api/notify\", {\r\n      method: \"POST\",\r\n      headers: {\r\n        \"Content-Type\": \"application/json\"\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        action: \"delete\"\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (data) {\r\n      console.log(data);\r\n      if (data.length > 0) {\r\n        data.reverse()\r\n        var notify = document.getElementById(\"notify\");\r\n        notify.innerHTML = \"\";\r\n        for (var i = 0; i < data.length; i++) {\r\n          var div = document.createElement(\"div\");\r\n          div.innerHTML = NotifyCard(data[i]);\r\n          notify.appendChild(div);\r\n        }\r\n      }\r\n    });\r\n  }\r\n\r\n\r\n\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -37214,7 +37214,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<div class=\"container-fluid\">\r\n  <h2 class=\"text-center display-4\">Home</h2>\r\n</div>";
+var code = "<div class=\"container-fluid\">\r\n  <h2 class=\"text-center display-4\">Home</h2>\r\n</div>\r\n\r\n<div id=\"notify\"></div>\r\n";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -57815,6 +57815,80 @@ exports["default"] = Niubi;
 
 /***/ }),
 
+/***/ 8899:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+class SpaceNotify {
+    constructor(type, title, content) {
+        this.type = type;
+        this.title = title;
+        this.content = content;
+        this.id = Space_1.default.Helpers.UUID();
+        this.time = new Date().toISOString();
+    }
+    toJSON() {
+        return {
+            type: this.type,
+            title: this.title,
+            content: this.content,
+            time: this.time,
+            id: this.id
+        };
+    }
+    fromJSON(json) {
+        this.type = json.type;
+        this.title = json.title;
+        this.content = json.content;
+        this.time = json.time;
+        this.id = json.id;
+    }
+}
+async function Get() {
+    let data = await Space_1.default.API.KV.Get("SpaceNotify").then(JSON.parse);
+    if (!data) {
+        data = [];
+    }
+    return data;
+}
+async function Put(Notify) {
+    const data = await Get();
+    data.push(Notify.toJSON());
+    await Space_1.default.API.KV.Put("SpaceNotify", JSON.stringify(data));
+    return data;
+}
+async function Delete(id) {
+    const data = await Get();
+    const index = data.findIndex((item) => item.id === id);
+    if (index !== -1) {
+        data.splice(index, 1);
+        await Space_1.default.API.KV.Put("SpaceNotify", JSON.stringify(data));
+    }
+    return data;
+}
+async function Update(id, Notify) {
+    const data = await Get();
+    const index = data.findIndex((item) => item.id === id);
+    if (index !== -1) {
+        data[index] = Notify.toJSON();
+        await Space_1.default.API.KV.Put("SpaceNotify", JSON.stringify(data));
+    }
+    return data;
+}
+exports["default"] = {
+    Get,
+    Put,
+    Delete,
+    Update,
+    SpaceNotify,
+};
+
+
+/***/ }),
+
 /***/ 5859:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -58515,6 +58589,7 @@ const CF_1 = __webpack_require__(1046);
 const ParseRSS_1 = __webpack_require__(5859);
 const XML2JSON_1 = __webpack_require__(1674);
 const HTML2NODE_1 = __webpack_require__(9927);
+const Notify_1 = __webpack_require__(8899);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -58545,6 +58620,7 @@ const API = {
     ParseRSS: ParseRSS_1.default,
     XML2JSON: XML2JSON_1.default,
     HTML2NODE: HTML2NODE_1.default,
+    Notify: Notify_1.default,
 };
 exports["default"] = API;
 
@@ -59070,6 +59146,55 @@ exports["default"] = Niubi;
 
 /***/ }),
 
+/***/ 7065:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function Notify(ctx) {
+    if (ctx.method == "GET") {
+        const data = await Space_1.default.API.Notify.Get();
+        return new Response(JSON.stringify(data));
+    }
+    if (ctx.method == "POST") {
+        const body = await Space_1.default.Helpers.ReadRequest.Body(ctx.request);
+        const data = JSON.parse(body);
+        const action = data.action;
+        if (action == "delete") {
+            const id = data.id;
+            const n = await Space_1.default.API.Notify.Delete(id);
+            return new Response(JSON.stringify(n));
+        }
+    }
+}
+exports["default"] = Notify;
+
+
+/***/ }),
+
 /***/ 7124:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -59401,6 +59526,7 @@ const Thum_1 = __webpack_require__(763);
 const NPMUpload_1 = __webpack_require__(7048);
 const IPFS_1 = __webpack_require__(8778);
 const RSSSUB_1 = __webpack_require__(7851);
+const Notify_1 = __webpack_require__(7065);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -59427,6 +59553,7 @@ const API = {
     NPMUpload: NPMUpload_1.default,
     IPFS: IPFS_1.default,
     RSSSUB: RSSSUB_1.default,
+    Notify: Notify_1.default,
 };
 exports["default"] = API;
 
@@ -60308,6 +60435,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function ErrorResponse(msg, status = 500, headers = Space_1.default.Helpers.Headers.html) {
     msg = msg.replace(/\n/g, "<br>");
+    if (status == 500) {
+        await Space_1.default.Helpers.Notify.Danger(`Error ${status}`, msg);
+    }
     return new Response(Space_1.default.Renderers.erorr.replace(/::ErrorInfo::/g, msg), Object.assign({
         status: status,
     }, headers));
@@ -60487,6 +60617,60 @@ exports["default"] = IsInArray;
 
 /***/ }),
 
+/***/ 3402:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+const Space_1 = __webpack_require__(7619);
+async function Success(title, content) {
+    const notify = new Space_1.default.API.Notify.SpaceNotify("success", title, content);
+    await Space_1.default.API.Notify.Put(notify);
+}
+async function Warning(title, content) {
+    const notify = new Space_1.default.API.Notify.SpaceNotify("warning", title, content);
+    await Space_1.default.API.Notify.Put(notify);
+}
+async function Danger(title, content) {
+    const notify = new Space_1.default.API.Notify.SpaceNotify("danger", title, content);
+    await Space_1.default.API.Notify.Put(notify);
+}
+async function Primary(title, content) {
+    const notify = new Space_1.default.API.Notify.SpaceNotify("primary", title, content);
+    await Space_1.default.API.Notify.Put(notify);
+}
+exports["default"] = {
+    Success,
+    Warning,
+    Danger,
+    Primary,
+};
+
+
+/***/ }),
+
 /***/ 648:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -60586,7 +60770,9 @@ const update = async (that) => {
                 if (rss.notify) {
                     for (const iterator of feed.items) {
                         if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
-                            await sendMessage(`<b>${rss.title}</b>\n ${iterator.title}\n <a href="${iterator.link}">Link</a>  <a href="${await page(iterator.title, iterator.content)}">View</a>\n`, that);
+                            const msg = `<b>${rss.title}</b>\n ${iterator.title}\n <a target="_blank" rel="noopener noreferrer" href="${iterator.link}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${await page(iterator.title, iterator.content)}">View</a>\n`;
+                            await sendMessage(msg, that);
+                            await Space_1.default.Helpers.Notify.Success(`RSS: ${rss.title}`, msg.replace(/\n/g, "<br>"));
                         }
                     }
                 }
@@ -60607,7 +60793,9 @@ const update = async (that) => {
             sub = sub.filter((it) => it.url !== item.url);
             sub.push(rss);
             await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
-            await sendMessage(`<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`, that);
+            const msg = `<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`;
+            await sendMessage(msg, that);
+            await Space_1.default.Helpers.Notify.Danger(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"));
         }
     }
     return sub;
@@ -60644,8 +60832,9 @@ const last = async (that) => {
             return;
         }
         if (item.notify) {
-            const msg = `<b>${item.title}</b>\n ${item.lastPost}\n <a href="${item.lastLink}">Link</a>  <a href="${item.lastPostView}">View</a>\n`;
+            const msg = `<b>${item.title}</b>\n ${item.lastPost}\n <a target="_blank" rel="noopener noreferrer" href="${item.lastLink}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${item.lastPostView}">View</a>\n`;
             await sendMessage(msg, that);
+            await Space_1.default.Helpers.Notify.Primary(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"));
         }
     }
 };
@@ -60945,12 +61134,14 @@ async function setUnderAttack(a, b, c) {
     }
     if (a > b) {
         await Space_1.default.API.CF.setSecurityLevel("under_attack");
+        await Space_1.default.Helpers.Notify.Warning(`Under Attack`, "Your account is under attack");
     }
     if (a > c) {
         const routesresult = await Space_1.default.API.CF.getRoutes().then((e) => e.json()).then(e => e.result);
         const routeid = routesresult.find((e) => e.script == WORKERNAME)?.id;
         if (routeid) {
             await Space_1.default.API.CF.deleteRouteById(routeid);
+            await Space_1.default.Helpers.Notify.Warning(`Under Attack`, "The worker route has been deleted");
         }
     }
 }
@@ -61004,6 +61195,44 @@ exports["default"] = Setting;
 
 /***/ }),
 
+/***/ 4181:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+function UUID() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+        var r = (Math.random() * 16) | 0, v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
+exports["default"] = UUID;
+
+
+/***/ }),
+
 /***/ 1378:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -61043,6 +61272,8 @@ const Security_1 = __webpack_require__(2781);
 const RandomNum_1 = __webpack_require__(3590);
 const IsInArray_1 = __webpack_require__(9232);
 const RSS_1 = __webpack_require__(648);
+const Notify_1 = __webpack_require__(3402);
+const UUID_1 = __webpack_require__(4181);
 const Helpers = {
     Headers: Headers_1.default,
     ErrorResponse: ErrorResponse_1.default,
@@ -61056,6 +61287,8 @@ const Helpers = {
     RandomNum: RandomNum_1.default,
     IsInArray: IsInArray_1.default,
     RSS: RSS_1.default,
+    Notify: Notify_1.default,
+    UUID: UUID_1.default,
 };
 exports["default"] = Helpers;
 
@@ -62991,7 +63224,14 @@ async function handleSpace(event) {
         router.post("/space/api/NPMUpload").action(Space_1.default.Actions.API.NPMUpload);
         router.get("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB);
         router.post("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB);
+        router.post("/space/api/notify").action(Space_1.default.Actions.API.Notify);
+        router.get("/space/api/notify").action(Space_1.default.Actions.API.Notify);
         /////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////
+        // test
+        router.get("/space/testError").action(async () => {
+            throw new Error("test Error");
+        });
         /////////////////////////////////////////////////////////////////////
         // 启动 action
         if (router.status.action) {

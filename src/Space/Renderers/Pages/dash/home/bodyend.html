@@ -1,0 +1,68 @@
+<script>
+  function NotifyCard(it) {
+    return `<div id="${it.id}" class="card collapsed-card card-${it.type}">
+  <div class="card-header">
+    <h3 class="card-title">${it.title}</h3>
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="maximize">
+        <i class="fas fa-expand"></i>
+      </button>
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-plus"></i>
+      </button>
+      <button action="${it.id}" onclick="removeNotifyCard(this)" type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    ${it.content}
+  </div>
+</div>`
+  }
+  fetch("/space/api/notify").then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    console.log(data);
+    if (data.length > 0) {
+      data.reverse()
+      var notify = document.getElementById("notify");
+      notify.innerHTML = "";
+      for (var i = 0; i < data.length; i++) {
+        var div = document.createElement("div");
+        div.innerHTML = NotifyCard(data[i]);
+        notify.appendChild(div);
+      }
+    }
+  });
+  function removeNotifyCard(it) {
+    const id = it.getAttribute("action");
+    fetch("/space/api/notify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id,
+        action: "delete"
+      })
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      console.log(data);
+      if (data.length > 0) {
+        data.reverse()
+        var notify = document.getElementById("notify");
+        notify.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+          var div = document.createElement("div");
+          div.innerHTML = NotifyCard(data[i]);
+          notify.appendChild(div);
+        }
+      }
+    });
+  }
+
+
+
+</script>
