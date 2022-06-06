@@ -58,6 +58,9 @@
     - random: 100
       action: InterruptRepetition
 - workflow:
+    - random: 100
+      action: BracketMatch
+- workflow:
     - cmd: help
       reply: no help
     - cmd: unsplash

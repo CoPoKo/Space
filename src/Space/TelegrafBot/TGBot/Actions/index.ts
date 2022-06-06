@@ -43,6 +43,7 @@ import ChatID from "./ChatID";
 import WebhookInfo from "./WebhookInfo";
 import CoCoShell from "./CoCoShell";
 import RSS from "./RSS";
+import BracketMatch from "./BracketMatch";
 
 const Actions = {
   Niubi,
@@ -69,6 +70,7 @@ const Actions = {
   WebhookInfo,
   CoCoShell,
   RSS,
+  BracketMatch,
 };
 
 export default Actions;
