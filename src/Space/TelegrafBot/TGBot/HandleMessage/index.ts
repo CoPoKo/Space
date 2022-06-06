@@ -53,12 +53,14 @@ class HandleMessage {
   public status: number;
   public triggerTotalNum: number;
   public triggerPassNum: number;
+  public isBot: boolean;
   public fun: Function[];
   [x: string]: any;
   constructor(ctx: Context<Update>) {
     this.ctx = ctx;
     this.message = ctx.message["text"];
     this.username = ctx.message.from.username;
+    this.isBot = ctx.message.from.is_bot;
     this.args = {};
     this.status = 0;
     this.triggerTotalNum = 0;
@@ -201,7 +203,7 @@ class HandleMessage {
     return this;
   };
   public run = async function () {
-    if (this.status) {
+    if (this.status && !this.isBot) {
       this.fun.forEach(async (e: () => any) => {
         await e();
       })

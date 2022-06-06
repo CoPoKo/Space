@@ -62916,7 +62916,7 @@ class HandleMessage {
             return this;
         };
         this.run = async function () {
-            if (this.status) {
+            if (this.status && !this.isBot) {
                 this.fun.forEach(async (e) => {
                     await e();
                 });
@@ -62926,6 +62926,7 @@ class HandleMessage {
         this.ctx = ctx;
         this.message = ctx.message["text"];
         this.username = ctx.message.from.username;
+        this.isBot = ctx.message.from.is_bot;
         this.args = {};
         this.status = 0;
         this.triggerTotalNum = 0;
