@@ -1,1 +1,1 @@
-export const dash_nav = ["home", "search", "npm", "rss", "setting"]
+export const dash_nav = ["home", "search", "npm", "rss", "calendar", "setting"]

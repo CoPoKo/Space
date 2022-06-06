@@ -37162,6 +37162,51 @@ var code = "<!--\r\n * =========================================================
 
 /***/ }),
 
+/***/ 7907:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<script src=\"::CDN::/jquery-ui-dist@1.13.1/jquery-ui.min.js\"></script>\r\n<script src=\"::CDN::/fullcalendar@5.11.0/main.min.js\"></script>\r\n<script>\r\n  $(function () {\r\n    function ini_events(ele) {\r\n      ele.each(function () {\r\n        var eventObject = {\r\n          title: $.trim($(this).text())\r\n        }\r\n        $(this).data('eventObject', eventObject)\r\n        $(this).draggable({\r\n          zIndex: 1070,\r\n          revert: true,\r\n          revertDuration: 0\r\n        })\r\n\r\n      })\r\n    }\r\n    ini_events($('#external-events div.external-event'))\r\n    var date = new Date()\r\n    var d = date.getDate(),\r\n      m = date.getMonth(),\r\n      y = date.getFullYear()\r\n    var Calendar = FullCalendar.Calendar;\r\n    var Draggable = FullCalendar.Draggable;\r\n    var containerEl = document.getElementById('external-events');\r\n    var checkbox = document.getElementById('drop-remove');\r\n    var calendarEl = document.getElementById('calendar');\r\n    new Draggable(containerEl, {\r\n      itemSelector: '.external-event',\r\n      eventData: function (eventEl) {\r\n        return {\r\n          title: eventEl.innerText,\r\n          backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),\r\n          borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),\r\n          textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),\r\n        };\r\n      }\r\n    });\r\n    window.calendar = new Calendar(calendarEl, {\r\n      headerToolbar: {\r\n        left: 'prev,next today',\r\n        center: 'title',\r\n        right: 'dayGridMonth,timeGridWeek,timeGridDay'\r\n      },\r\n      themeSystem: 'bootstrap',\r\n      events: [],\r\n      editable: true,\r\n      selectable: true,\r\n      droppable: true,\r\n      drop: function (info) {\r\n        console.log(\"drop\", info);\r\n        if (checkbox.checked) {\r\n          info.draggedEl.parentNode.removeChild(info.draggedEl);\r\n          saveDraggableEvent();\r\n        }\r\n      },\r\n      eventDragStop: function (info) {\r\n        console.log(\"eventDragStop\", info);\r\n        saveEventSource();\r\n      },\r\n      eventResizeStop: function (info) {\r\n        console.log(\"eventResizeStop\", info);\r\n        saveEventSource();\r\n      },\r\n      eventReceive: function (info) {\r\n        console.log(\"eventReceive\", info);\r\n        saveEventSource();\r\n      },\r\n    });\r\n    calendar.render();\r\n    var currColor = '#3c8dbc'\r\n    $('#color-chooser > li > a').click(function (e) {\r\n      e.preventDefault()\r\n      currColor = $(this).css('color')\r\n      $('#add-new-event').css({\r\n        'background-color': currColor,\r\n        'border-color': currColor\r\n      })\r\n    })\r\n    $('#add-new-event').click(function (e) {\r\n      e.preventDefault()\r\n      var val = $('#new-event').val()\r\n      if (val.length == 0) {\r\n        return\r\n      }\r\n      var event = $('<div />')\r\n      event.css({\r\n        'background-color': currColor,\r\n        'border-color': currColor,\r\n        'color': '#fff'\r\n      }).addClass('external-event')\r\n      event.text(val)\r\n      $('#external-events').prepend(event)\r\n      ini_events(event)\r\n      $('#new-event').val('')\r\n      saveDraggableEvent();\r\n    })\r\n    $(\"#deleteallevents\").click(function (e) {\r\n      e.preventDefault()\r\n      window.calendar.removeAllEvents()\r\n      saveDraggableEvent();\r\n      saveEventSource();\r\n    })\r\n  })\r\n  fetch(\"/space/api/calendar/EventSource\").then(function (response) {\r\n    return response.json();\r\n  }).then(function (json) {\r\n    console.log(json);\r\n    calendar.addEventSource(json)\r\n  });\r\n  function saveEventSource() {\r\n    setTimeout(function () {\r\n      const data = window.calendar.getEvents()\r\n      fetch(\"/space/api/calendar/EventSource\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(data),\r\n        headers: {\r\n          \"Content-Type\": \"application/json\"\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (json) {\r\n        console.log(json);\r\n      });\r\n    }, 1000);\r\n  }\r\n  function saveDraggableEvent() {\r\n    setTimeout(function () {\r\n      const ele = document.querySelectorAll(\"#external-events .external-event\")\r\n      const data = []\r\n      ele.forEach(function (e) {\r\n        data.push({\r\n          title: e.innerText,\r\n          backgroundColor: window.getComputedStyle(e, null).getPropertyValue('background-color'),\r\n          borderColor: window.getComputedStyle(e, null).getPropertyValue('background-color'),\r\n          textColor: window.getComputedStyle(e, null).getPropertyValue('color'),\r\n        })\r\n      })\r\n      fetch(\"/space/api/calendar/DraggableEvent\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(data),\r\n        headers: {\r\n          \"Content-Type\": \"application/json\"\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (json) {\r\n        console.log(json);\r\n      });\r\n    }, 1000);\r\n  }\r\n  function getDraggableEvent() {\r\n    fetch(\"/space/api/calendar/DraggableEvent\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      json.forEach(function (e) {\r\n        const event = $('<div />')\r\n        event.css({\r\n          'background-color': e.backgroundColor,\r\n          'border-color': e.borderColor,\r\n          'color': e.textColor,\r\n        }).addClass('external-event')\r\n        event.text(e.title)\r\n        $('#external-events').prepend(event)\r\n      })\r\n    });\r\n  }\r\n  getDraggableEvent()\r\n\r\n  // window.calendar.removeAllEvents()\r\n  // JSON.stringify(window.calendar.getEvents())\r\n  // calendar.addEventSource([\r\n  //       {\r\n  //         title: 'All Day Event2',\r\n  //         start: new Date(),\r\n  //         backgroundColor: '#f56954', //red\r\n  //         borderColor: '#f56954', //red\r\n  //         allDay: true\r\n  //       },\r\n  //     ])\r\n  // window.calendar.getEvents()[0].remove()\r\n</script>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 250:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<!-- Content Header (Page header) -->\r\n<section class=\"content-header\">\r\n  <div class=\"container-fluid\">\r\n    <h2 class=\"text-center display-4\">Calendar</h2>\r\n  </div>\r\n</section>\r\n<link rel=\"stylesheet\" href=\"::CDN::/fullcalendar@5.11.0/main.css\">\r\n<!-- Main content -->\r\n<section class=\"content\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-3\">\r\n        <div class=\"sticky-top mb-3\">\r\n          <div class=\"card\">\r\n            <div class=\"card-header\">\r\n              <h4 class=\"card-title\">Draggable Events</h4>\r\n            </div>\r\n            <div class=\"card-body\">\r\n              <div id=\"external-events\">\r\n                <div class=\"checkbox\">\r\n                  <label for=\"drop-remove\">\r\n                    <input type=\"checkbox\" id=\"drop-remove\">\r\n                    remove after drop\r\n                  </label>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"card\">\r\n            <div class=\"card-header\">\r\n              <h3 class=\"card-title\">Create Event</h3>\r\n            </div>\r\n            <div class=\"card-body\">\r\n              <div class=\"btn-group\" style=\"width: 100%; margin-bottom: 10px;\">\r\n                <ul class=\"fc-color-picker\" id=\"color-chooser\">\r\n                  <li><a class=\"text-primary\" href=\"#\"><i class=\"fas fa-square\"></i></a></li>\r\n                  <li><a class=\"text-warning\" href=\"#\"><i class=\"fas fa-square\"></i></a></li>\r\n                  <li><a class=\"text-success\" href=\"#\"><i class=\"fas fa-square\"></i></a></li>\r\n                  <li><a class=\"text-danger\" href=\"#\"><i class=\"fas fa-square\"></i></a></li>\r\n                  <li><a class=\"text-muted\" href=\"#\"><i class=\"fas fa-square\"></i></a></li>\r\n                </ul>\r\n              </div>\r\n              <div class=\"input-group\">\r\n                <input id=\"new-event\" type=\"text\" class=\"form-control\" placeholder=\"Event Title\">\r\n                <div class=\"input-group-append\">\r\n                  <button id=\"add-new-event\" type=\"button\" class=\"btn btn-primary\">Add</button>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"card\">\r\n            <div class=\"card-header\">\r\n              <h3 class=\"card-title\">Dangerous zone</h3>\r\n            </div>\r\n            <div class=\"card-body\">\r\n              <button type=\"button\" id=\"deleteallevents\" class=\"btn btn-block btn-danger btn-lg\">Delete All Events</button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"col-md-9\">\r\n        <div class=\"card card-primary\">\r\n          <div class=\"card-body p-0\">\r\n            <div id=\"calendar\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</section>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 8084:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<li class=\"nav-item\">\r\n  <a href=\"/space/dash/calendar\" class=\"nav-link\">\r\n    <i class=\"nav-icon fa-solid fa-calendar-days\"></i>\r\n    <p>\r\n      Calendar\r\n    </p>\r\n  </a>\r\n</li>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
 /***/ 7892:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -57164,6 +57209,64 @@ exports["default"] = CF;
 
 /***/ }),
 
+/***/ 3863:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+const Space_1 = __webpack_require__(7619);
+async function GetCalendarEventSource() {
+    const data = await Space_1.default.API.KV.Get("CalendarEventSource");
+    if (!data) {
+        return [];
+    }
+    return JSON.parse(data);
+}
+async function PutCalendarEventSource(data) {
+    await Space_1.default.API.KV.Put("CalendarEventSource", JSON.stringify(data));
+}
+async function GetCalendarDraggableEvent() {
+    const data = await Space_1.default.API.KV.Get("CalendarDraggableEvent");
+    if (!data) {
+        return [];
+    }
+    return JSON.parse(data);
+}
+async function PutCalendarDraggableEvent(data) {
+    await Space_1.default.API.KV.Put("CalendarDraggableEvent", JSON.stringify(data));
+}
+exports["default"] = {
+    GetCalendarEventSource,
+    GetCalendarDraggableEvent,
+    PutCalendarEventSource,
+    PutCalendarDraggableEvent,
+};
+
+
+/***/ }),
+
 /***/ 9470:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -58591,6 +58694,7 @@ const ParseRSS_1 = __webpack_require__(5859);
 const XML2JSON_1 = __webpack_require__(1674);
 const HTML2NODE_1 = __webpack_require__(9927);
 const Notify_1 = __webpack_require__(8899);
+const Calendar_1 = __webpack_require__(3863);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -58622,6 +58726,7 @@ const API = {
     XML2JSON: XML2JSON_1.default,
     HTML2NODE: HTML2NODE_1.default,
     Notify: Notify_1.default,
+    Calendar: Calendar_1.default,
 };
 exports["default"] = API;
 
@@ -58797,6 +58902,42 @@ async function BingImgInfo(ctx) {
     return fetch(ans.url);
 }
 exports["default"] = BingImgInfo;
+
+
+/***/ }),
+
+/***/ 3828:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function Calendar(ctx) {
+    const path = ctx.pathname;
+    if (ctx.method == "GET") {
+        if (path.startsWith("/space/api/calendar/EventSource")) {
+            const data = await Space_1.default.API.Calendar.GetCalendarEventSource();
+            return new Response(JSON.stringify(data));
+        }
+        if (path.startsWith("/space/api/calendar/DraggableEvent")) {
+            const data = await Space_1.default.API.Calendar.GetCalendarDraggableEvent();
+            return new Response(JSON.stringify(data));
+        }
+    }
+    if (ctx.method == "POST") {
+        const body = await ctx.request.json();
+        if (path.startsWith("/space/api/calendar/EventSource")) {
+            await Space_1.default.API.Calendar.PutCalendarEventSource(body);
+            return new Response(JSON.stringify({ success: 1, data: body }));
+        }
+        if (path.startsWith("/space/api/calendar/DraggableEvent")) {
+            await Space_1.default.API.Calendar.PutCalendarDraggableEvent(body);
+            return new Response(JSON.stringify({ success: 1, data: body }));
+        }
+    }
+}
+exports["default"] = Calendar;
 
 
 /***/ }),
@@ -59528,6 +59669,7 @@ const NPMUpload_1 = __webpack_require__(7048);
 const IPFS_1 = __webpack_require__(8778);
 const RSSSUB_1 = __webpack_require__(7851);
 const Notify_1 = __webpack_require__(7065);
+const Calendar_1 = __webpack_require__(3828);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -59555,6 +59697,7 @@ const API = {
     IPFS: IPFS_1.default,
     RSSSUB: RSSSUB_1.default,
     Notify: Notify_1.default,
+    Calendar: Calendar_1.default,
 };
 exports["default"] = API;
 
@@ -61303,7 +61446,7 @@ exports["default"] = Helpers;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.dash_nav = void 0;
-exports.dash_nav = ["home", "search", "npm", "rss", "setting"];
+exports.dash_nav = ["home", "search", "npm", "rss", "calendar", "setting"];
 
 
 /***/ }),
@@ -63367,6 +63510,8 @@ async function handleSpace(event) {
         router.post("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB);
         router.post("/space/api/notify").action(Space_1.default.Actions.API.Notify);
         router.get("/space/api/notify").action(Space_1.default.Actions.API.Notify);
+        router.get("/space/api/calendar").action(Space_1.default.Actions.API.Calendar);
+        router.post("/space/api/calendar").action(Space_1.default.Actions.API.Calendar);
         /////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////
         // test
@@ -70959,6 +71104,7 @@ function extend() {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./calendar/bodyend.html": 7907,
 	"./home/bodyend.html": 3938,
 	"./npm/bodyend.html": 5070,
 	"./rss/bodyend.html": 8295,
@@ -70992,6 +71138,7 @@ webpackContext.id = 1492;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./calendar/content.html": 250,
 	"./home/content.html": 687,
 	"./npm/content.html": 8072,
 	"./rss/content.html": 3193,
@@ -71025,6 +71172,7 @@ webpackContext.id = 2632;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./calendar/nav-item.html": 8084,
 	"./home/nav-item.html": 853,
 	"./npm/nav-item.html": 867,
 	"./rss/nav-item.html": 8951,

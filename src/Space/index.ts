@@ -144,6 +144,9 @@ async function handleSpace(event: FetchEvent) {
 
     router.post("/space/api/notify").action(Space.Actions.API.Notify);
     router.get("/space/api/notify").action(Space.Actions.API.Notify);
+
+    router.get("/space/api/calendar").action(Space.Actions.API.Calendar);
+    router.post("/space/api/calendar").action(Space.Actions.API.Calendar);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     // test

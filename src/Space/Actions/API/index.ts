@@ -45,6 +45,7 @@ import NPMUpload from "./NPMUpload"
 import IPFS from "./IPFS"
 import RSSSUB from "./RSSSUB"
 import Notify from "./Notify"
+import Calendar from "./Calendar"
 
 const API = {
   KV,
@@ -73,6 +74,7 @@ const API = {
   IPFS,
   RSSSUB,
   Notify,
+  Calendar,
 };
 
 export default API;
