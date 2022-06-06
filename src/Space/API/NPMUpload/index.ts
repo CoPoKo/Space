@@ -65,6 +65,7 @@ async function NPMUpload(file: any) {
     const data = JSON.parse(p.body);
     const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
     const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
+    await Space.Helpers.Notify.Success(`NPM Upload`, ss)
     return {
       status: p.status,
       body: ss

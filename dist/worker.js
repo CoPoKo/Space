@@ -57704,6 +57704,7 @@ async function NPMUpload(file) {
         const data = JSON.parse(p.body);
         const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
         const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`;
+        await Space_1.default.Helpers.Notify.Success(`NPM Upload`, ss);
         return {
             status: p.status,
             body: ss
@@ -61463,12 +61464,15 @@ exports["default"] = Space;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Setting_1 = __webpack_require__(7425);
+const Space_1 = __webpack_require__(7619);
 async function Catch(err, ctx) {
     await ctx.reply(`Ooops...`);
     const set = await (0, Setting_1.default)("TelegrafBot");
     const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID;
-    await ctx.telegram.sendMessage(ADMIN_GROUP_ID, `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx));
-    // ctx.reply(`Ooops, encountered an error for ${ctx.updateType}:\n` + err+`\n  ctx:\n`+JSON.stringify(ctx));
+    const msg = `Ooops, encountered an error for ${ctx.updateType}:\n` + err + `\nInfo for ctx:\n` + JSON.stringify(ctx);
+    await ctx.telegram.sendMessage(ADMIN_GROUP_ID, msg);
+    // ctx.reply(msg);
+    await Space_1.default.Helpers.Notify.Danger(`Error TelegrafBot`, msg.replace(/\n/g, "<br>"));
 }
 exports["default"] = Catch;
 
