@@ -62,7 +62,111 @@
       }
     });
   }
+</script>
+<script src="::CDN::/jquery-ui-dist@1.13.1/jquery-ui.min.js"></script>
+<script>
+  $(function () {
+    $('.todo-list').sortable({
+      placeholder: 'sort-highlight',
+      handle: '.handle',
+      forcePlaceholderSize: true,
+      zIndex: 999999
+    })
+  })
 
-
-
+  Space.KV.Get("CalendarEventSource").then(e => {
+    if (e.sucess) {
+      const data = JSON.parse(e.value)
+      window.toDoEvents = []
+      let HTML = ""
+      document.getElementById("todo-list").innerHTML = ""
+      data.forEach(item => {
+        let date;
+        if (item.end) {
+          date = new Date(item.end).getTime()
+        } else {
+          date = new Date(item.start).getTime()
+        }
+        toDoEvents.push({
+          title: item.title,
+          id: btoa(item.title + date),
+          date: date,
+          checked: false,
+        })
+      })
+      toDoEvents.sort((a, b) => {
+        return a.date - b.date
+      })
+      Space.KV.Get("CalendarToDoEvent").then(e => {
+        if (e.sucess) {
+          const data = JSON.parse(e.value)
+          toDoEvents.forEach(item => {
+            data.forEach(item2 => {
+              if (item.id === item2.id) {
+                item.checked = item2.checked
+              }
+            })
+          })
+          toDoEvents.forEach(item => {
+            HTML += getToDoItem(item)
+          })
+          document.getElementById("todo-list").innerHTML = HTML
+          saveToDoEvents()
+        }
+      })
+    }
+  })
+  function saveToDoEvents() {
+    toDoEvents = toDoEvents.filter(item => {
+      return item.date > new Date().getTime()
+    })
+    Space.KV.Put("CalendarToDoEvent", JSON.stringify(toDoEvents))
+  }
+  function getToDoItem(it) {
+    const time = Space.friendlyFeatureTime(it.date)
+    let type;
+    if (time) {
+      if (time.includes("month")) {
+        type = "secondary"
+      }
+      if (time.includes("week")) {
+        type = "info"
+      }
+      if (time.includes("day")) {
+        type = "primary"
+      }
+      if (time.includes("days")) {
+        type = "success"
+      }
+      if (time.includes("hour")) {
+        type = "warning"
+      }
+      if (time.includes("min")) {
+        type = "danger"
+      }
+      return `<li ${it.checked ? 'class="done"' : ''}>
+        <span class="handle ui-sortable-handle">
+          <i class="fas fa-ellipsis-v"></i>
+          <i class="fas fa-ellipsis-v"></i>
+        </span>
+        <div class="icheck-primary d-inline ml-2" id="${it.id}">
+          <input type="checkbox" value="" name="todo" onclick="onClickToDo(this)" id="todoCheck-${it.id}" ${it.checked ? "checked" : ""}>
+          <label for="todoCheck-${it.id}"></label>
+        </div>
+        <span class="text">${it.title}</span>
+        <small class="badge badge-${type}"><i class="far fa-clock"></i>${time}</small>
+      </li>`
+    }
+    return ""
+  }
+  function onClickToDo(it) {
+    const id = it.id.split("todoCheck-")[1]
+    console.log(id);
+    toDoEvents.forEach(item => {
+      if (item.id == id) {
+        item.checked = !item.checked
+      }
+    })
+    saveToDoEvents()
+  }
 </script>
