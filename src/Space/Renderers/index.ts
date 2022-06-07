@@ -1,4 +1,4 @@
-import { space_static_version, space_cdn, space_dns_prefetch } from "../Config"
+import { space_static_version, space_npm_cdn, space_gh_cdn } from "../Config"
 import { dash_nav } from "./Pages/dash/dash_nav"
 const erorr = require('./Pages/error.html').default
 const auth = require('./Pages/auth.html').default
@@ -8,9 +8,9 @@ const api = require('./Pages/api.html').default
 const TreeHollow = require('./Pages/TreeHollow.html').default
 
 function cdn(page: string) {
-  page = page.replace(/::CDN_SPACE::/g, space_cdn + "/@copoko/space-static@" + space_static_version)
-  page = page.replace(/::CDN::/g, space_cdn)
-  page = page.replace(/::PRECONNECT::/g, space_dns_prefetch)
+  page = page.replace(/::CDN_SPACE::/g, space_npm_cdn + "/@copoko/space-static@" + space_static_version)
+  page = page.replace(/::CDN_NPM::/g, space_npm_cdn)
+  page = page.replace(/::CDN_GH::/g, space_gh_cdn)
   return page
 }
 

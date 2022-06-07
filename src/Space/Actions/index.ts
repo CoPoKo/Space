@@ -28,6 +28,7 @@ import Pages from "./Pages"
 import Favicon from "./Favicon"
 import TelegrafWebhook from "./TelegrafWebhook"
 import Admin from "./Admin"
+import CDN from "./CDN"
 
 const Actions = {
   Auth,
@@ -39,6 +40,7 @@ const Actions = {
   Favicon,
   TelegrafWebhook,
   Admin,
+  CDN,
 };
 
 export default Actions;

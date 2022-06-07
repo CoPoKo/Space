@@ -73,6 +73,13 @@ async function handleSpace(event: FetchEvent) {
     router.get("/apisource").action(Space.Actions.Pages.PrivacyPolicy);
     router.get("/tree-hollow").action(Space.Actions.Pages.TreeHollow);
     router.post("/tree-hollow").action(Space.Actions.Pages.TreeHollow);
+    // OPEN CDN
+    router.get("/npm/").action(Space.Actions.CDN);
+    router.get("/gh/").action(Space.Actions.CDN);
+    router.get("/wp/").action(Space.Actions.CDN);
+    router.get("/twemoji/").action(Space.Actions.CDN);
+    router.get("/gitraw/").action(Space.Actions.CDN);
+    router.get("/gist/").action(Space.Actions.CDN);
     // OPEN API
     router.get("/bing").action(Space.Actions.API.BingImgInfo);
     router.get("/sitich").action(Space.Actions.API.Sitich);
