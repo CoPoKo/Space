@@ -63,17 +63,7 @@
     });
   }
 </script>
-<script src="::CDN::/jquery-ui-dist@1.13.1/jquery-ui.min.js"></script>
 <script>
-  $(function () {
-    $('.todo-list').sortable({
-      placeholder: 'sort-highlight',
-      handle: '.handle',
-      forcePlaceholderSize: true,
-      zIndex: 999999
-    })
-  })
-
   Space.KV.Get("CalendarEventSource").then(e => {
     if (e.sucess) {
       const data = JSON.parse(e.value)
@@ -89,31 +79,39 @@
         }
         toDoEvents.push({
           title: item.title,
-          id: btoa(item.title + date),
+          id: btoa(encodeURIComponent(item.title + date)),
           date: date,
           checked: false,
         })
       })
-      toDoEvents.sort((a, b) => {
-        return a.date - b.date
-      })
-      Space.KV.Get("CalendarToDoEvent").then(e => {
-        if (e.sucess) {
-          const data = JSON.parse(e.value)
-          toDoEvents.forEach(item => {
-            data.forEach(item2 => {
-              if (item.id === item2.id) {
-                item.checked = item2.checked
-              }
+      if (toDoEvents.length) {
+        toDoEvents.sort((a, b) => {
+          return a.date - b.date
+        })
+        Space.KV.Get("CalendarToDoEvent").then(e => {
+          if (e.sucess) {
+            const data = JSON.parse(e.value)
+            toDoEvents.forEach(item => {
+              data.forEach(item2 => {
+                if (item.id === item2.id) {
+                  item.checked = item2.checked
+                }
+              })
             })
-          })
-          toDoEvents.forEach(item => {
-            HTML += getToDoItem(item)
-          })
-          document.getElementById("todo-list").innerHTML = HTML
-          saveToDoEvents()
-        }
-      })
+            toDoEvents = toDoEvents.filter(item => {
+              return item.date > new Date().getTime()
+            })
+            toDoEvents.forEach(item => {
+              HTML += getToDoItem(item)
+            })
+            if (toDoEvents.length) {
+              document.getElementById("todo-list").innerHTML = HTML
+              document.getElementById("todo").style.display = "block"
+              saveToDoEvents()
+            }
+          }
+        })
+      }
     }
   })
   function saveToDoEvents() {
@@ -145,10 +143,6 @@
         type = "danger"
       }
       return `<li ${it.checked ? 'class="done"' : ''}>
-        <span class="handle ui-sortable-handle">
-          <i class="fas fa-ellipsis-v"></i>
-          <i class="fas fa-ellipsis-v"></i>
-        </span>
         <div class="icheck-primary d-inline ml-2" id="${it.id}">
           <input type="checkbox" value="" name="todo" onclick="onClickToDo(this)" id="todoCheck-${it.id}" ${it.checked ? "checked" : ""}>
           <label for="todoCheck-${it.id}"></label>
