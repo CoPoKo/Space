@@ -63555,56 +63555,57 @@ async function handleSpace(event) {
         // 以下非鉴权路由
         /////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////
-        router.get("/favicon.ico").action(Space_1.default.Actions.Favicon);
-        router.get("/robots.txt").action(Space_1.default.Actions.Robots);
-        router.get(AUTH_PAGE).action(Space_1.default.Actions.Auth.AuthPage);
-        router.post("/space/auth" + AUTH_PAGE).action(Space_1.default.Actions.Auth.CheckAuth);
-        // 安全跳转
-        router.get("/link").action(Space_1.default.Actions.Link);
-        // Telegraf Webhook
-        router.post(Telegraf_BOT_WEBHOOK).action(Space_1.default.Actions.TelegrafWebhook);
-        /////////////////////////////////////////////////////////////////////
-        // OPEN Pages
-        router.get("/", true).action(Space_1.default.Actions.Pages.API);
-        router.get("/github-event").action(Space_1.default.Actions.Pages.GithubEvent);
-        router.get("/pdf").action(Space_1.default.Actions.Pages.PDF);
-        router.get("/color").action(Space_1.default.Actions.Pages.Color);
-        router.get("/privacy-policy").action(Space_1.default.Actions.Pages.PrivacyPolicy);
-        router.get("/contact").action(Space_1.default.Actions.Pages.PrivacyPolicy);
-        router.get("/apisource").action(Space_1.default.Actions.Pages.PrivacyPolicy);
-        router.get("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow);
-        router.post("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow);
-        // OPEN CDN
-        router.get("/npm/").action(Space_1.default.Actions.CDN);
-        router.get("/gh/").action(Space_1.default.Actions.CDN);
-        router.get("/wp/").action(Space_1.default.Actions.CDN);
-        router.get("/twemoji/").action(Space_1.default.Actions.CDN);
-        router.get("/gitraw/").action(Space_1.default.Actions.CDN);
-        router.get("/gist/").action(Space_1.default.Actions.CDN);
-        // OPEN API
-        router.get("/bing").action(Space_1.default.Actions.API.BingImgInfo);
-        router.get("/sitich").action(Space_1.default.Actions.API.Sitich);
-        router.get("/soul").action(Space_1.default.Actions.API.Soul);
-        router.get("/hitokoto").action(Space_1.default.Actions.API.Hitokoto);
-        router.get("/unsplash").action(Space_1.default.Actions.API.Unsplash);
-        router.get("/acg").action(Space_1.default.Actions.API.ACG);
-        router.get("/niubi").action(Space_1.default.Actions.API.Niubi);
-        router.get("/ipinfo").action(Space_1.default.Actions.API.IP);
-        router.get("/decrypt").action(Space_1.default.Actions.API.DecryptMd5);
-        router.get("/zh").action(Space_1.default.Actions.API.ZH);
-        router.get("/person").action(Space_1.default.Actions.API.thispersondoesnotexist);
-        router.get("/waifu").action(Space_1.default.Actions.API.thiswaifudoesnotexist);
-        router.get("/anime").action(Space_1.default.Actions.API.thisanimedoesnotexist);
-        router.get("/poet").action(Space_1.default.Actions.API.Poet);
-        router.get("/happypic").action(Space_1.default.Actions.API.Happypic);
-        router.get("/dns").action(Space_1.default.Actions.API.DNSQuery);
-        router.get("/thum").action(Space_1.default.Actions.API.Thum);
-        router.get("/ipfs/api/add").action(Space_1.default.Actions.API.IPFS.Put);
-        router.get("/ipfs").action(Space_1.default.Actions.API.IPFS.Get);
-        router.post("/api/v0/").action(Space_1.default.Actions.API.IPFS.Put);
-        /////////////////////////////////////////////////////////////////////
-        // Header Auth
-        router.get("/Admin").action(Space_1.default.Actions.Admin);
+        router
+            .get("/favicon.ico").action(Space_1.default.Actions.Favicon)
+            .get("/robots.txt").action(Space_1.default.Actions.Robots)
+            .get(AUTH_PAGE).action(Space_1.default.Actions.Auth.AuthPage)
+            .post("/space/auth" + AUTH_PAGE).action(Space_1.default.Actions.Auth.CheckAuth)
+            // 安全跳转
+            .get("/link").action(Space_1.default.Actions.Link)
+            // Telegraf Webhook
+            .post(Telegraf_BOT_WEBHOOK).action(Space_1.default.Actions.TelegrafWebhook)
+            /////////////////////////////////////////////////////////////////////
+            // OPEN Pages
+            .get("/", true).action(Space_1.default.Actions.Pages.API)
+            .get("/github-event").action(Space_1.default.Actions.Pages.GithubEvent)
+            .get("/pdf").action(Space_1.default.Actions.Pages.PDF)
+            .get("/color").action(Space_1.default.Actions.Pages.Color)
+            .get("/privacy-policy").action(Space_1.default.Actions.Pages.PrivacyPolicy)
+            .get("/contact").action(Space_1.default.Actions.Pages.PrivacyPolicy)
+            .get("/apisource").action(Space_1.default.Actions.Pages.PrivacyPolicy)
+            .get("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow)
+            .post("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow)
+            // OPEN CDN
+            .get("/npm/").action(Space_1.default.Actions.CDN)
+            .get("/gh/").action(Space_1.default.Actions.CDN)
+            .get("/wp/").action(Space_1.default.Actions.CDN)
+            .get("/twemoji/").action(Space_1.default.Actions.CDN)
+            .get("/gitraw/").action(Space_1.default.Actions.CDN)
+            .get("/gist/").action(Space_1.default.Actions.CDN)
+            // OPEN API
+            .get("/bing").action(Space_1.default.Actions.API.BingImgInfo)
+            .get("/sitich").action(Space_1.default.Actions.API.Sitich)
+            .get("/soul").action(Space_1.default.Actions.API.Soul)
+            .get("/hitokoto").action(Space_1.default.Actions.API.Hitokoto)
+            .get("/unsplash").action(Space_1.default.Actions.API.Unsplash)
+            .get("/acg").action(Space_1.default.Actions.API.ACG)
+            .get("/niubi").action(Space_1.default.Actions.API.Niubi)
+            .get("/ipinfo").action(Space_1.default.Actions.API.IP)
+            .get("/decrypt").action(Space_1.default.Actions.API.DecryptMd5)
+            .get("/zh").action(Space_1.default.Actions.API.ZH)
+            .get("/person").action(Space_1.default.Actions.API.thispersondoesnotexist)
+            .get("/waifu").action(Space_1.default.Actions.API.thiswaifudoesnotexist)
+            .get("/anime").action(Space_1.default.Actions.API.thisanimedoesnotexist)
+            .get("/poet").action(Space_1.default.Actions.API.Poet)
+            .get("/happypic").action(Space_1.default.Actions.API.Happypic)
+            .get("/dns").action(Space_1.default.Actions.API.DNSQuery)
+            .get("/thum").action(Space_1.default.Actions.API.Thum)
+            .get("/ipfs/api/add").action(Space_1.default.Actions.API.IPFS.Put)
+            .get("/ipfs").action(Space_1.default.Actions.API.IPFS.Get)
+            .post("/api/v0/").action(Space_1.default.Actions.API.IPFS.Put)
+            /////////////////////////////////////////////////////////////////////
+            // Header Auth
+            .get("/Admin").action(Space_1.default.Actions.Admin);
         /////////////////////////////////////////////////////////////////////
         // 以上非 Cookie 鉴权路由
         // Cookie 鉴权
@@ -63628,32 +63629,33 @@ async function handleSpace(event) {
         /////////////////////////////////////////////////////////////////////
         // api
         /////////////////////////////////////////////////////////////////////
-        router.post("/space/api/kv/get").action(Space_1.default.Actions.API.KV.Get);
-        router.post("/space/api/kv/put").action(Space_1.default.Actions.API.KV.Put);
-        router.post("/space/api/kv/delete").action(Space_1.default.Actions.API.KV.Delete);
-        router.get("/space/api/kv/get").action(Space_1.default.Actions.API.KV.Get);
-        router.get("/space/api/kv/put").action(Space_1.default.Actions.API.KV.Put);
-        router.get("/space/api/kv/delete").action(Space_1.default.Actions.API.KV.Delete);
-        router.post("/space/api/rkv/get").action(Space_1.default.Actions.API.RKV.Get);
-        router.post("/space/api/rkv/put").action(Space_1.default.Actions.API.RKV.Put);
-        router.post("/space/api/rkv/delete").action(Space_1.default.Actions.API.RKV.Delete);
-        router.get("/space/api/rkv/get").action(Space_1.default.Actions.API.RKV.Get);
-        router.get("/space/api/rkv/put").action(Space_1.default.Actions.API.RKV.Put);
-        router.get("/space/api/rkv/delete").action(Space_1.default.Actions.API.RKV.Delete);
-        router.get("/space/api/GoogleTranslate").action(Space_1.default.Actions.API.GoogleTranslate);
-        router.get("/space/api/GoogleSearch").action(Space_1.default.Actions.API.GoogleSearch);
-        router.get("/space/api/WolframAlpha").action(Space_1.default.Actions.API.WolframAlpha);
-        router.post("/space/api/NPMUpload").action(Space_1.default.Actions.API.NPMUpload);
-        router.get("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB);
-        router.post("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB);
-        router.post("/space/api/notify").action(Space_1.default.Actions.API.Notify);
-        router.get("/space/api/notify").action(Space_1.default.Actions.API.Notify);
-        router.get("/space/api/calendar").action(Space_1.default.Actions.API.Calendar);
-        router.post("/space/api/calendar").action(Space_1.default.Actions.API.Calendar);
-        /////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////
-        // test
-        router.get("/space/testError").action(async () => {
+        router
+            .post("/space/api/kv/get").action(Space_1.default.Actions.API.KV.Get)
+            .post("/space/api/kv/put").action(Space_1.default.Actions.API.KV.Put)
+            .post("/space/api/kv/delete").action(Space_1.default.Actions.API.KV.Delete)
+            .get("/space/api/kv/get").action(Space_1.default.Actions.API.KV.Get)
+            .get("/space/api/kv/put").action(Space_1.default.Actions.API.KV.Put)
+            .get("/space/api/kv/delete").action(Space_1.default.Actions.API.KV.Delete)
+            .post("/space/api/rkv/get").action(Space_1.default.Actions.API.RKV.Get)
+            .post("/space/api/rkv/put").action(Space_1.default.Actions.API.RKV.Put)
+            .post("/space/api/rkv/delete").action(Space_1.default.Actions.API.RKV.Delete)
+            .get("/space/api/rkv/get").action(Space_1.default.Actions.API.RKV.Get)
+            .get("/space/api/rkv/put").action(Space_1.default.Actions.API.RKV.Put)
+            .get("/space/api/rkv/delete").action(Space_1.default.Actions.API.RKV.Delete)
+            .get("/space/api/GoogleTranslate").action(Space_1.default.Actions.API.GoogleTranslate)
+            .get("/space/api/GoogleSearch").action(Space_1.default.Actions.API.GoogleSearch)
+            .get("/space/api/WolframAlpha").action(Space_1.default.Actions.API.WolframAlpha)
+            .post("/space/api/NPMUpload").action(Space_1.default.Actions.API.NPMUpload)
+            .get("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB)
+            .post("/space/api/RSSSUB").action(Space_1.default.Actions.API.RSSSUB)
+            .post("/space/api/notify").action(Space_1.default.Actions.API.Notify)
+            .get("/space/api/notify").action(Space_1.default.Actions.API.Notify)
+            .get("/space/api/calendar").action(Space_1.default.Actions.API.Calendar)
+            .post("/space/api/calendar").action(Space_1.default.Actions.API.Calendar)
+            /////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////
+            // test
+            .get("/space/testError").action(async () => {
             throw new Error("test Error");
         });
         /////////////////////////////////////////////////////////////////////
