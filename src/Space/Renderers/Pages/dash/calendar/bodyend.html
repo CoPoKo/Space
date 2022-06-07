@@ -41,7 +41,7 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
       themeSystem: 'bootstrap',
       events: [],
@@ -66,6 +66,14 @@
       eventReceive: function (info) {
         console.log("eventReceive", info);
         saveEventSource();
+      },
+      eventClick: function (info) {
+        console.log("eventClick", info);
+        deleteEvent(info)
+      },
+      select: function (info) {
+        console.log("select", info);
+        addSelectEvent(info)
       },
     });
     calendar.render();
@@ -110,6 +118,37 @@
         if (result.value) {
           window.calendar.removeAllEvents()
           saveDraggableEvent();
+          saveEventSource();
+        }
+      })
+    })
+    $("#deletealloldevents").click(function (e) {
+      e.preventDefault()
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          window.calendar.getEvents().forEach(function (e) {
+            let myday = new Date().getTime()
+            if (e.allDay) {
+              myday = new Date().getTime() - 60 * 60 * 24 * 1000
+            }
+            if (e.end) {
+              if (e.end.getTime() < myday) {
+                e.remove()
+              }
+            } else {
+              if (e.start.getTime() < myday) {
+                e.remove()
+              }
+            }
+          })
           saveEventSource();
         }
       })
@@ -180,17 +219,60 @@
     });
   }
   getDraggableEvent()
-
-  // window.calendar.removeAllEvents()
-  // JSON.stringify(window.calendar.getEvents())
-  // calendar.addEventSource([
-  //       {
-  //         title: 'All Day Event2',
-  //         start: new Date(),
-  //         backgroundColor: '#f56954', //red
-  //         borderColor: '#f56954', //red
-  //         allDay: true
-  //       },
-  //     ])
-  // window.calendar.getEvents()[0].remove()
+  function deleteEvent(info) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        window.calendar.getEvents().find(function (e) {
+          return e.title == info.event.title && e.start.getTime() == info.event.start.getTime()
+        }).remove()
+        saveEventSource()
+      }
+    })
+  }
+  function addSelectEvent(info) {
+    // input
+    Swal.fire({
+      title: 'Add Event',
+      html:
+        '<input id="swal-input1" class="swal2-input" placeholder="Title">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          $('#swal-input1').val(),
+        ]
+      }
+    }).then((result) => {
+      if (result.value) {
+        const [title] = result.value
+        window.calendar.addEventSource([
+          {
+            title: title,
+            start: info.start,
+            end: info.end,
+            allDay: info.allDay,
+            backgroundColor: 'rgb(0, 86, 179)',
+            borderColor: 'rgb(0, 86, 179)',
+          }
+        ])
+        saveEventSource()
+      }
+    })
+  }
 </script>
+<style>
+  .fc .fc-list-sticky .fc-list-day>* {
+    background: unset !important;
+  }
+
+  .fc .fc-list-event:hover td {
+    background: unset !important;
+  }
+</style>
