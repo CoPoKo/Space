@@ -42815,38 +42815,6 @@ function splitParameters(str) {
 
 /***/ }),
 
-/***/ 3300:
-/***/ ((module, exports) => {
-
-"use strict";
-
-
-// ref: https://github.com/tc39/proposal-global
-var getGlobal = function () {
-	// the only reliable means to get the global object is
-	// `Function('return this')()`
-	// However, this causes CSP violations in Chrome apps.
-	if (typeof self !== 'undefined') { return self; }
-	if (typeof window !== 'undefined') { return window; }
-	if (typeof global !== 'undefined') { return global; }
-	throw new Error('unable to locate global object');
-}
-
-var global = getGlobal();
-
-module.exports = exports = global.fetch;
-
-// Needed for TypeScript and Webpack.
-if (global.fetch) {
-	exports["default"] = global.fetch.bind(global);
-}
-
-exports.Headers = global.Headers;
-exports.Request = global.Request;
-exports.Response = global.Response;
-
-/***/ }),
-
 /***/ 4244:
 /***/ ((module) => {
 
@@ -56931,6 +56899,38 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
+
+/***/ }),
+
+/***/ 8042:
+/***/ ((module, exports) => {
+
+"use strict";
+
+
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
+
+// Needed for TypeScript and Webpack.
+if (global.fetch) {
+	exports["default"] = global.fetch.bind(global);
+}
+
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
 
 /***/ }),
 
@@ -72899,7 +72899,7 @@ const crypto = __webpack_require__(5835);
 const fs = __webpack_require__(5437);
 const https = __webpack_require__(9267);
 const path = __webpack_require__(6470);
-const node_fetch_1 = __webpack_require__(3300);
+const node_fetch_1 = __webpack_require__(8042);
 const check_1 = __webpack_require__(7893);
 const compact_1 = __webpack_require__(3377);
 const multipart_stream_1 = __webpack_require__(8149);
