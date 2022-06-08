@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-export const space_static_version = "1.0.1653038935402"
+export const space_static_version = "1.0.1654651704501"
 export const space_npm_cdn = "/npm"
 export const space_gh_cdn = "/gh"
 
