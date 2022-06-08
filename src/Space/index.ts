@@ -156,6 +156,9 @@ async function handleSpace(event: FetchEvent) {
 
       .get("/space/api/calendar").action(Space.Actions.API.Calendar)
       .post("/space/api/calendar").action(Space.Actions.API.Calendar)
+
+      .get("/space/api/Hole").action(Space.Actions.API.Hole)
+      .post("/space/api/Hole").action(Space.Actions.API.Hole)
       /////////////////////////////////////////////////////////////////////
       /////////////////////////////////////////////////////////////////////
       // test

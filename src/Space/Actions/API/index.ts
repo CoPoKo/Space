@@ -46,6 +46,7 @@ import IPFS from "./IPFS"
 import RSSSUB from "./RSSSUB"
 import Notify from "./Notify"
 import Calendar from "./Calendar"
+import Hole from "./Hole"
 
 const API = {
   KV,
@@ -75,6 +76,7 @@ const API = {
   RSSSUB,
   Notify,
   Calendar,
+  Hole,
 };
 
 export default API;

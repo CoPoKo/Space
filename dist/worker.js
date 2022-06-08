@@ -37235,6 +37235,51 @@ var code = "<script>\r\n  Space = {}\r\n  Space.helper = {\r\n    headers_json: 
 
 /***/ }),
 
+/***/ 6992:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<script>\r\n  \r\n</script>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 8115:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<!-- Content Header (Page header) -->\r\n<section class=\"content-header\">\r\n  <div class=\"container-fluid\">\r\n    <h2 class=\"text-center display-4\">Search</h2>\r\n  </div>\r\n</section>\r\n\r\n<!-- Main content -->\r\n<section class=\"content\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-8 offset-md-2\">\r\n        <div class=\"input-group input-group-lg\">\r\n          <input id=\"search-input\" type=\"search\" class=\"form-control form-control-lg\" placeholder=\"Type your keywords here\">\r\n          <div class=\"input-group-append\">\r\n            <button class=\"btn btn-lg btn-default\" onclick=\"SpaceSearch()\">\r\n              <i class=\"fa fa-search\"></i>\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row mt-3\">\r\n      <div class=\"col-md-10 offset-md-1\">\r\n        <div class=\"list-group\">\r\n\r\n          <div id=\"wolframalpha-search-result\"></div>\r\n          <div id=\"google-search-result\"></div>\r\n\r\n        </div>\r\n      </div>\r\n    </div>\r\n</section>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 6014:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<li class=\"nav-item\">\r\n  <a href=\"/space/dash/hole\" class=\"nav-link\">\r\n    <i class=\"nav-icon fa-solid fa-tree\"></i>\r\n    <p>\r\n      Tree Hollow\r\n    </p>\r\n  </a>\r\n</li>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
 /***/ 3938:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -59081,6 +59126,26 @@ exports["default"] = Hitokoto;
 
 /***/ }),
 
+/***/ 3490:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+async function Hole(ctx) {
+    const path = ctx.pathname;
+    if (path.startsWith("/space/api/Hole")) {
+        if (ctx.method === "GET") {
+        }
+        else if (ctx.method === "POST") {
+        }
+    }
+}
+exports["default"] = Hole;
+
+
+/***/ }),
+
 /***/ 8778:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -59627,6 +59692,7 @@ const IPFS_1 = __webpack_require__(8778);
 const RSSSUB_1 = __webpack_require__(7851);
 const Notify_1 = __webpack_require__(7065);
 const Calendar_1 = __webpack_require__(3828);
+const Hole_1 = __webpack_require__(3490);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -59655,6 +59721,7 @@ const API = {
     RSSSUB: RSSSUB_1.default,
     Notify: Notify_1.default,
     Calendar: Calendar_1.default,
+    Hole: Hole_1.default,
 };
 exports["default"] = API;
 
@@ -61534,7 +61601,7 @@ exports["default"] = Helpers;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.dash_nav = void 0;
-exports.dash_nav = ["home", "search", "npm", "rss", "calendar", "setting"];
+exports.dash_nav = ["home", "search", "npm", "rss", "calendar", "hole", "setting"];
 
 
 /***/ }),
@@ -63609,6 +63676,8 @@ async function handleSpace(event) {
             .get("/space/api/notify").action(Space_1.default.Actions.API.Notify)
             .get("/space/api/calendar").action(Space_1.default.Actions.API.Calendar)
             .post("/space/api/calendar").action(Space_1.default.Actions.API.Calendar)
+            .get("/space/api/Hole").action(Space_1.default.Actions.API.Hole)
+            .post("/space/api/Hole").action(Space_1.default.Actions.API.Hole)
             /////////////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////
             // test
@@ -71202,6 +71271,7 @@ function extend() {
 
 var map = {
 	"./calendar/bodyend.html": 7907,
+	"./hole/bodyend.html": 6992,
 	"./home/bodyend.html": 3938,
 	"./npm/bodyend.html": 5070,
 	"./rss/bodyend.html": 8295,
@@ -71236,6 +71306,7 @@ webpackContext.id = 1492;
 
 var map = {
 	"./calendar/content.html": 250,
+	"./hole/content.html": 8115,
 	"./home/content.html": 687,
 	"./npm/content.html": 8072,
 	"./rss/content.html": 3193,
@@ -71270,6 +71341,7 @@ webpackContext.id = 2632;
 
 var map = {
 	"./calendar/nav-item.html": 8084,
+	"./hole/nav-item.html": 6014,
 	"./home/nav-item.html": 853,
 	"./npm/nav-item.html": 867,
 	"./rss/nav-item.html": 8951,
