@@ -1,5 +1,7 @@
 # CoPoKo Space
 
+[![](https://img.shields.io/npm/v/@copoko/space.svg?style=flat-square)](https://www.npmjs.com/package/@copoko/space)
+
 CoPoKo Space
 
 ## License
