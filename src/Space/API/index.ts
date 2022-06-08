@@ -47,7 +47,6 @@ import NPMUpload from "./NPMUpload"
 import CF from "./CF"
 import ParseRSS from "./ParseRSS"
 import XML2JSON from "./XML2JSON"
-import HTML2NODE from "./HTML2NODE"
 import Notify from "./Notify"
 import Calendar from "./Calendar"
 
@@ -80,7 +79,6 @@ const API = {
   CF,
   ParseRSS,
   XML2JSON,
-  HTML2NODE,
   Notify,
   Calendar,
 };

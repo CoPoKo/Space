@@ -57522,47 +57522,6 @@ exports["default"] = GoogleTranslate;
 
 /***/ }),
 
-/***/ 9927:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-/*!
- * ==========================================================================
- * "CoPoKo Space" License
- * GNU General Public License version 3.0 (GPLv3)
- * ==========================================================================
- * This file is part of "CoPoKo Space"
- *
- * "CoPoKo Space" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "CoPoKo Space" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
- * ==========================================================================
-*/
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-async function HTML2NODE(html) {
-    return fetch(`${COPOKO_API}/api/html2node`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ content: html }),
-    }).then(res => res.text());
-}
-exports["default"] = HTML2NODE;
-
-
-/***/ }),
-
 /***/ 9383:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -58692,7 +58651,6 @@ const NPMUpload_1 = __webpack_require__(2214);
 const CF_1 = __webpack_require__(1046);
 const ParseRSS_1 = __webpack_require__(5859);
 const XML2JSON_1 = __webpack_require__(1674);
-const HTML2NODE_1 = __webpack_require__(9927);
 const Notify_1 = __webpack_require__(8899);
 const Calendar_1 = __webpack_require__(3863);
 const API = {
@@ -58724,7 +58682,6 @@ const API = {
     CF: CF_1.default,
     ParseRSS: ParseRSS_1.default,
     XML2JSON: XML2JSON_1.default,
-    HTML2NODE: HTML2NODE_1.default,
     Notify: Notify_1.default,
     Calendar: Calendar_1.default,
 };

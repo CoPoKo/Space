@@ -17,3 +17,4 @@ renovate.json
 SECURITY.md
 *.toml
 src
+wrangler.toml.template
