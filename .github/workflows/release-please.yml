@@ -11,7 +11,7 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
-          package-name: hexo-theme-volantis
+          package-name: "@copoko/space"
   npm-publish:
     if: ${{ contains(github.event.head_commit.message, 'chore') && contains(github.event.head_commit.message, 'release') && github.repository == 'CoPoKo/Space' }}
     runs-on: ubuntu-latest
