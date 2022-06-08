@@ -1,0 +1,15 @@
+name: PR update
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  autoupdate:
+    if: github.repository == 'CoPoKo/Space'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: update all prs
+        uses: maxkomarychev/pr-updater-action@v1.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

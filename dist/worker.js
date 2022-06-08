@@ -60566,7 +60566,7 @@ exports.space_gh_cdn = exports.space_npm_cdn = exports.space_static_version = vo
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-exports.space_static_version = "1.0.1653038935402";
+exports.space_static_version = "1.0.1654651704501";
 exports.space_npm_cdn = "/npm";
 exports.space_gh_cdn = "/gh";
 
