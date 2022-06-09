@@ -49,5 +49,9 @@ async function Hole(ctx: Router) {
       }
     }
   }
+  if (path.startsWith("/hpp/api/gethpptalk")) {
+    const data = await Space.API.Hole.GetHole();
+    return new Response(JSON.stringify(data), Space.Helpers.Headers.json);
+  }
 }
 export default Hole;

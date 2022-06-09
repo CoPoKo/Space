@@ -59270,6 +59270,10 @@ async function Hole(ctx) {
             }
         }
     }
+    if (path.startsWith("/hpp/api/gethpptalk")) {
+        const data = await Space_1.default.API.Hole.GetHole();
+        return new Response(JSON.stringify(data), Space_1.default.Helpers.Headers.json);
+    }
 }
 exports["default"] = Hole;
 
@@ -63757,6 +63761,7 @@ async function handleSpace(event) {
             .get("/ipfs/api/add").action(Space_1.default.Actions.API.IPFS.Put)
             .get("/ipfs").action(Space_1.default.Actions.API.IPFS.Get)
             .post("/api/v0/").action(Space_1.default.Actions.API.IPFS.Put)
+            .post("/hpp/api/gethpptalk").action(Space_1.default.Actions.API.Hole)
             /////////////////////////////////////////////////////////////////////
             // Header Auth
             .get("/Admin").action(Space_1.default.Actions.Admin);
