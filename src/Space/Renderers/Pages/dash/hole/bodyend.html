@@ -9,7 +9,6 @@
   function summernoteInit(id) {
     $(id).summernote({
       tabsize: 2,
-      height: 100,
       toolbar: [
         ['style', ['style']],
         ['font', ['bold', 'underline', 'clear']],
@@ -152,8 +151,8 @@
   function EditHole(it) {
     const id = it.getAttribute("it")
     const hole = document.querySelector("#hole-" + id)
-    const text = hole.innerText
-    hole.innerText = ""
+    const text = hole.innerHTML
+    hole.innerHTML = ""
     summernoteInit('#compose-textarea-' + id)
     $('#compose-textarea-' + id).summernote('code', text)
     document.querySelector('#card-footer-' + id).style.display = "block"
