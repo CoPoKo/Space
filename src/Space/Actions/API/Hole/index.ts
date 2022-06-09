@@ -51,6 +51,11 @@ async function Hole(ctx: Router) {
   }
   if (path.startsWith("/hpp/api/gethpptalk")) {
     const data = await Space.API.Hole.GetHole();
+    data.forEach((hole: HoleContext) => {
+      if (!hole.visible) {
+        data.splice(data.indexOf(hole), 1);
+      }
+    })
     return new Response(JSON.stringify(data), Space.Helpers.Headers.json);
   }
 }

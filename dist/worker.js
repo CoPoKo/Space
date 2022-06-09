@@ -59272,6 +59272,11 @@ async function Hole(ctx) {
     }
     if (path.startsWith("/hpp/api/gethpptalk")) {
         const data = await Space_1.default.API.Hole.GetHole();
+        data.forEach((hole) => {
+            if (!hole.visible) {
+                data.splice(data.indexOf(hole), 1);
+            }
+        });
         return new Response(JSON.stringify(data), Space_1.default.Helpers.Headers.json);
     }
 }
