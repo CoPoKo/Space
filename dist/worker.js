@@ -37244,7 +37244,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<link href=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.css\" rel=\"stylesheet\">\r\n<script src=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.js\"></script>\r\n<script>\r\n  $(function () {\r\n    $('#compose-textarea').summernote()\r\n  })\r\n  // $('#compose-textarea').summernote('code')\r\n  // $('#compose-textarea').summernote('insertText', 'Hello, world');\r\n</script>";
+var code = "<link href=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.css\" rel=\"stylesheet\">\r\n<script src=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.js\"></script>\r\n<script>\r\n  $(function () {\r\n    summernoteInit('#compose-textarea')\r\n  })\r\n  // $('#compose-textarea').summernote('code')\r\n  // $('#compose-textarea').summernote('insertText', 'Hello, world');\r\n  function summernoteInit(id) {\r\n    $(id).summernote({\r\n      tabsize: 2,\r\n      height: 100,\r\n      toolbar: [\r\n        ['style', ['style']],\r\n        ['font', ['bold', 'underline', 'clear']],\r\n        ['color', ['color']],\r\n        ['para', ['ul', 'ol', 'paragraph']],\r\n        ['table', ['table']],\r\n        ['insert', ['link', 'picture', 'video']],\r\n        ['view', ['fullscreen', 'codeview']]\r\n      ]\r\n    })\r\n  }\r\n  function SubmitHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString(),\r\n      visible: true,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function DraftHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString(),\r\n      visible: false,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function getHoleItem(e) {\r\n    return `\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <h3 class=\"card-title\">${e.time}</h3>\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <div id=\"hole-${e.id}\">\r\n            ${e.content}\r\n          </div>\r\n          <textarea id=\"compose-textarea-${e.id}\" class=\"form-control\" style=\"display: none;\"></textarea>\r\n        </div>\r\n        <div id=\"card-footer-${e.id}\" class=\"card-footer\" style=\"display: none;\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" type=\"button\" onclick=\"SubmitHoleItem(this)\" class=\"btn btn-primary\">Submit</button>\r\n          </div>\r\n          <button type=\"button\" onclick=\"$('#compose-textarea-${e.id}').summernote('code','')\"\r\n            class=\"btn btn-default\">Discard</button>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" onclick=\"EditHole(this)\" type=\"button\" class=\"btn btn-default\">Edit</button>\r\n            <button it=\"${e.id}\" onclick=\"VisibleHole(this)\" type=\"button\" class=\"btn btn-default\">${e.visible ? \"Hide\" : \"Show\"}</button>\r\n            <button it=\"${e.id}\" onclick=\"DeleteHole(this)\" type=\"button\" class=\"btn btn-default\">Delete</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      `\r\n  }\r\n  function DeleteHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Delete', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({ id: id })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function VisibleHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Visible', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function renderList(data) {\r\n    $('#hole-list').html(\"\")\r\n    data.reverse()\r\n    data.forEach(e => {\r\n      $('#hole-list').append(getHoleItem(e))\r\n    })\r\n  }\r\n  fetch(\"/space/api/Hole\").then(e => {\r\n    return e.json()\r\n  }).then(data => {\r\n    console.log(data)\r\n    renderList(data)\r\n  })\r\n  function EditHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const hole = document.querySelector(\"#hole-\" + id)\r\n    const text = hole.innerText\r\n    hole.innerText = \"\"\r\n    summernoteInit('#compose-textarea-' + id)\r\n    $('#compose-textarea-' + id).summernote('code', text)\r\n    document.querySelector('#card-footer-' + id).style.display = \"block\"\r\n  }\r\n  function SubmitHoleItem(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const content = $('#compose-textarea-' + id).summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n    }\r\n    fetch('/space/api/Hole/Edit', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        hole: data\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -37259,7 +37259,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!-- Content Header (Page header) -->\r\n<section class=\"content-header\">\r\n  <div class=\"container-fluid\">\r\n    <h2 class=\"text-center display-4\">Tree Hollow</h2>\r\n  </div>\r\n</section>\r\n\r\n<!-- Main content -->\r\n<section class=\"content\">\r\n    <div class=\"card-body\">\r\n      <div class=\"form-group\">\r\n        <textarea id=\"compose-textarea\" class=\"form-control\" style=\"height: 300px\">\r\n            <!-- <h1><u>Heading Of Message</u></h1>\r\n            <h4>Subheading</h4>\r\n            <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain\r\n              was born and I will give you a complete account of the system, and expound the actual teachings\r\n              of the great explorer of the truth, the master-builder of human happiness. No one rejects,\r\n              dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know\r\n              how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again\r\n              is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain,\r\n              but because occasionally circumstances occur in which toil and pain can procure him some great\r\n              pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise,\r\n              except to obtain some advantage from it? But who has any right to find fault with a man who\r\n              chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that\r\n              produces no resultant pleasure? On the other hand, we denounce with righteous indignation and\r\n              dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so\r\n              blinded by desire, that they cannot foresee</p>\r\n            <ul>\r\n              <li>List item one</li>\r\n              <li>List item two</li>\r\n              <li>List item three</li>\r\n              <li>List item four</li>\r\n            </ul>\r\n            <p>Thank you,</p>\r\n            <p>John Doe</p> -->\r\n          </textarea>\r\n      </div>\r\n    </div>\r\n    <!-- /.card-body -->\r\n    <div class=\"card-footer\">\r\n      <div class=\"float-right\">\r\n        <button type=\"button\" class=\"btn btn-default\"><i class=\"fas fa-pencil-alt\"></i> Draft</button>\r\n        <button type=\"submit\" class=\"btn btn-primary\"><i class=\"far fa-envelope\"></i> Send</button>\r\n      </div>\r\n      <button type=\"reset\" class=\"btn btn-default\"><i class=\"fas fa-times\"></i> Discard</button>\r\n    </div>\r\n    <!-- /.card-footer -->\r\n  </div>\r\n  <!-- /.card -->\r\n\r\n</section>";
+var code = "<!-- Content Header (Page header) -->\r\n<section class=\"content-header\">\r\n  <div class=\"container-fluid\">\r\n    <h2 class=\"text-center display-4\">Tree Hollow</h2>\r\n  </div>\r\n</section>\r\n\r\n<!-- Main content -->\r\n<section class=\"content\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"card-body\">\r\n      <div class=\"form-group\">\r\n        <textarea id=\"compose-textarea\" class=\"form-control\" style=\"display: none;\"></textarea>\r\n      </div>\r\n    </div>\r\n    <div class=\"card-footer\">\r\n      <div class=\"float-right\">\r\n        <button type=\"button\" onclick=\"DraftHole()\" class=\"btn btn-default\">Draft</button>\r\n        <button type=\"button\" onclick=\"SubmitHole()\" class=\"btn btn-primary\">Submit</button>\r\n      </div>\r\n      <button type=\"button\" onclick=\"$('#compose-textarea').summernote('code','')\"\r\n        class=\"btn btn-default\">Discard</button>\r\n    </div>\r\n    <div id=\"hole-list\"></div>\r\n  </div>\r\n</section>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -57642,6 +57642,114 @@ exports["default"] = Hitokoto;
 
 /***/ }),
 
+/***/ 49:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+class Hole {
+    constructor(hole) {
+        this.id = hole.id;
+        this.avatar = hole.avatar;
+        this.content = hole.content;
+        this.name = hole.name;
+        this.time = hole.time;
+        this.visible = hole.visible;
+        this.like = hole.like;
+    }
+    async init() {
+        const set = await Space_1.default.Helpers.Setting("Hole");
+        this.name = set.name;
+        this.avatar = set.avatar;
+        this.id = Space_1.default.Helpers.UUID();
+        return this.toJSON();
+    }
+    toJSON() {
+        return {
+            id: this.id,
+            avatar: this.avatar,
+            content: this.content,
+            name: this.name,
+            time: this.time,
+            visible: this.visible,
+            like: this.like
+        };
+    }
+    fromJSON(json) {
+        if (json.id)
+            this.id = json.id;
+        if (json.avatar)
+            this.avatar = json.avatar;
+        if (json.content)
+            this.content = json.content;
+        if (json.name)
+            this.name = json.name;
+        if (json.time)
+            this.time = json.time;
+        if (json.visible)
+            this.visible = json.visible;
+        if (json.like)
+            this.like = json.like;
+    }
+}
+async function GetHole() {
+    const data = await Space_1.default.API.KV.Get("Hole");
+    if (data) {
+        return JSON.parse(data);
+    }
+    else {
+        return [];
+    }
+}
+async function PutHole(hole) {
+    const data = await GetHole();
+    const item = await new Hole(hole).init();
+    data.push(item);
+    await Space_1.default.API.KV.Put("Hole", JSON.stringify(data));
+    return data;
+}
+async function DeleteHole(id) {
+    const data = await GetHole();
+    const item = data.find((item) => item.id === id);
+    if (item) {
+        data.splice(data.indexOf(item), 1);
+        await Space_1.default.API.KV.Put("Hole", JSON.stringify(data));
+    }
+    return data;
+}
+async function EditHole(id, hole) {
+    const data = await GetHole();
+    const item = data.find((item) => item.id === id);
+    if (item) {
+        const it = new Hole(item);
+        it.fromJSON(hole);
+        data.splice(data.indexOf(item), 1, it.toJSON());
+        await Space_1.default.API.KV.Put("Hole", JSON.stringify(data));
+    }
+    return data;
+}
+async function VisibleHole(id) {
+    const data = await GetHole();
+    const item = data.find((item) => item.id === id);
+    if (item) {
+        item.visible = !item.visible;
+        await Space_1.default.API.KV.Put("Hole", JSON.stringify(data));
+    }
+    return data;
+}
+exports["default"] = {
+    GetHole,
+    PutHole,
+    DeleteHole,
+    EditHole,
+    VisibleHole,
+};
+
+
+/***/ }),
+
 /***/ 9763:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -58698,6 +58806,7 @@ const ParseRSS_1 = __webpack_require__(5859);
 const XML2JSON_1 = __webpack_require__(1674);
 const Notify_1 = __webpack_require__(8899);
 const Calendar_1 = __webpack_require__(3863);
+const Hole_1 = __webpack_require__(49);
 const API = {
     KV: KV_1.default,
     RKV: RKV_1.default,
@@ -58729,6 +58838,7 @@ const API = {
     XML2JSON: XML2JSON_1.default,
     Notify: Notify_1.default,
     Calendar: Calendar_1.default,
+    Hole: Hole_1.default,
 };
 exports["default"] = API;
 
@@ -59127,17 +59237,37 @@ exports["default"] = Hitokoto;
 /***/ }),
 
 /***/ 3490:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
 async function Hole(ctx) {
     const path = ctx.pathname;
     if (path.startsWith("/space/api/Hole")) {
         if (ctx.method === "GET") {
+            const data = await Space_1.default.API.Hole.GetHole();
+            return new Response(JSON.stringify(data));
         }
         else if (ctx.method === "POST") {
+            const data = await ctx.request.json();
+            if (path.startsWith("/space/api/Hole/Put")) {
+                const hole = await Space_1.default.API.Hole.PutHole(data);
+                return new Response(JSON.stringify({ success: 1, hole: hole }));
+            }
+            if (path.startsWith("/space/api/Hole/Delete")) {
+                const hole = await Space_1.default.API.Hole.DeleteHole(data.id);
+                return new Response(JSON.stringify({ success: 1, hole: hole }));
+            }
+            if (path.startsWith("/space/api/Hole/Edit")) {
+                const hole = await Space_1.default.API.Hole.EditHole(data.id, data.hole);
+                return new Response(JSON.stringify({ success: 1, hole: hole }));
+            }
+            if (path.startsWith("/space/api/Hole/Visible")) {
+                const hole = await Space_1.default.API.Hole.VisibleHole(data.id);
+                return new Response(JSON.stringify({ success: 1, hole: hole }));
+            }
         }
     }
 }

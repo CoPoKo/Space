@@ -49,6 +49,7 @@ import ParseRSS from "./ParseRSS"
 import XML2JSON from "./XML2JSON"
 import Notify from "./Notify"
 import Calendar from "./Calendar"
+import Hole from "./Hole"
 
 const API = {
   KV,
@@ -81,6 +82,7 @@ const API = {
   XML2JSON,
   Notify,
   Calendar,
+  Hole,
 };
 
 export default API;

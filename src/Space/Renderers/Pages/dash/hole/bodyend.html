@@ -2,8 +2,185 @@
 <script src="::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.js"></script>
 <script>
   $(function () {
-    $('#compose-textarea').summernote()
+    summernoteInit('#compose-textarea')
   })
   // $('#compose-textarea').summernote('code')
   // $('#compose-textarea').summernote('insertText', 'Hello, world');
+  function summernoteInit(id) {
+    $(id).summernote({
+      tabsize: 2,
+      height: 100,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'codeview']]
+      ]
+    })
+  }
+  function SubmitHole() {
+    const content = $('#compose-textarea').summernote('code')
+    if (!content) return
+    const data = {
+      content: content,
+      time: new Date().toLocaleString(),
+      visible: true,
+      like: 0,
+    }
+    fetch('/space/api/Hole/Put', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(function (response) {
+      return response.json()
+    }).then(function (data) {
+      console.log(data)
+      if (data.success) {
+        renderList(data.hole)
+        $('#compose-textarea').summernote('code', "")
+      }
+    })
+  }
+  function DraftHole() {
+    const content = $('#compose-textarea').summernote('code')
+    if (!content) return
+    const data = {
+      content: content,
+      time: new Date().toLocaleString(),
+      visible: false,
+      like: 0,
+    }
+    fetch('/space/api/Hole/Put', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(function (response) {
+      return response.json()
+    }).then(function (data) {
+      console.log(data)
+      if (data.success) {
+        renderList(data.hole)
+        $('#compose-textarea').summernote('code', "")
+      }
+    })
+  }
+  function getHoleItem(e) {
+    return `
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">${e.time}</h3>
+        </div>
+        <div class="card-body">
+          <div id="hole-${e.id}">
+            ${e.content}
+          </div>
+          <textarea id="compose-textarea-${e.id}" class="form-control" style="display: none;"></textarea>
+        </div>
+        <div id="card-footer-${e.id}" class="card-footer" style="display: none;">
+          <div class="float-right">
+            <button it="${e.id}" type="button" onclick="SubmitHoleItem(this)" class="btn btn-primary">Submit</button>
+          </div>
+          <button type="button" onclick="$('#compose-textarea-${e.id}').summernote('code','')"
+            class="btn btn-default">Discard</button>
+        </div>
+        <div class="card-footer">
+          <div class="float-right">
+            <button it="${e.id}" onclick="EditHole(this)" type="button" class="btn btn-default">Edit</button>
+            <button it="${e.id}" onclick="VisibleHole(this)" type="button" class="btn btn-default">${e.visible ? "Hide" : "Show"}</button>
+            <button it="${e.id}" onclick="DeleteHole(this)" type="button" class="btn btn-default">Delete</button>
+          </div>
+        </div>
+      </div>
+      `
+  }
+  function DeleteHole(it) {
+    const id = it.getAttribute("it")
+    fetch('/space/api/Hole/Delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: id })
+    }).then(function (response) {
+      return response.json()
+    }).then(function (data) {
+      console.log(data)
+      if (data.success) {
+        renderList(data.hole)
+      }
+    })
+  }
+  function VisibleHole(it) {
+    const id = it.getAttribute("it")
+    fetch('/space/api/Hole/Visible', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: id,
+      })
+    }).then(function (response) {
+      return response.json()
+    }).then(function (data) {
+      console.log(data)
+      if (data.success) {
+        renderList(data.hole)
+      }
+    })
+  }
+  function renderList(data) {
+    $('#hole-list').html("")
+    data.reverse()
+    data.forEach(e => {
+      $('#hole-list').append(getHoleItem(e))
+    })
+  }
+  fetch("/space/api/Hole").then(e => {
+    return e.json()
+  }).then(data => {
+    console.log(data)
+    renderList(data)
+  })
+  function EditHole(it) {
+    const id = it.getAttribute("it")
+    const hole = document.querySelector("#hole-" + id)
+    const text = hole.innerText
+    hole.innerText = ""
+    summernoteInit('#compose-textarea-' + id)
+    $('#compose-textarea-' + id).summernote('code', text)
+    document.querySelector('#card-footer-' + id).style.display = "block"
+  }
+  function SubmitHoleItem(it) {
+    const id = it.getAttribute("it")
+    const content = $('#compose-textarea-' + id).summernote('code')
+    if (!content) return
+    const data = {
+      content: content,
+    }
+    fetch('/space/api/Hole/Edit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: id,
+        hole: data
+      })
+    }).then(function (response) {
+      return response.json()
+    }).then(function (data) {
+      console.log(data)
+      if (data.success) {
+        renderList(data.hole)
+      }
+    })
+  }
 </script>
