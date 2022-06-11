@@ -49,7 +49,19 @@ async function Hole(ctx: Router) {
       }
     }
   }
-  if (path.startsWith("/hpp/api/gethpptalk")) {
+  if (path.startsWith("/hole")) {
+    if (path.startsWith("/hole/like")) {
+      const holes = await Space.API.Hole.GetHole();
+      const data: any = await ctx.request.json();
+      const id = data.id;
+      const hole = holes.find((h: { id: string; }) => h.id === id);
+      if (hole) {
+        const like = hole.like + 1;
+        const m = await Space.API.Hole.EditHole(id, { like: like });
+        return new Response(JSON.stringify(m), Space.Helpers.Headers.json);
+      }
+      return new Response(JSON.stringify(holes), Space.Helpers.Headers.json);
+    }
     const data = await Space.API.Hole.GetHole();
     data.forEach((hole: HoleContext) => {
       if (!hole.visible) {
