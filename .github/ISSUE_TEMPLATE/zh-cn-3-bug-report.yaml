@@ -1,4 +1,4 @@
-name: 反馈：主题的代码错误
+name: 反馈：代码错误
 description: 此模板适用于您已经定位到了问题的具体所在，不需要协助定位问题。报告给开发者予以修复。
 title: "【反馈】："
 labels: bug-report
