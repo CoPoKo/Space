@@ -1,4 +1,5 @@
 import { space_static_version, space_npm_cdn, space_gh_cdn } from "../Config"
+import Version from "../API/Version"
 import { dash_nav } from "./Pages/dash/dash_nav"
 const erorr = require('./Pages/error.html').default
 const auth = require('./Pages/auth.html').default
@@ -6,8 +7,15 @@ const dash_father = require('./Pages/dash/dash.html').default
 const ipfs = require('./Pages/ipfs.html').default
 const api = require('./Pages/api.html').default
 const TreeHollow = require('./Pages/TreeHollow.html').default
+const version = Version()
+
+function makeVersion(page: string) {
+  page = page.replace(/<\/body>/, `<script>console.log("CoPoKo Space v${version}")</script><\/body>`)
+  return page
+}
 
 function cdn(page: string) {
+  page = makeVersion(page)
   page = page.replace(/::CDN_SPACE::/g, space_npm_cdn + "/@copoko/space-static@" + space_static_version)
   page = page.replace(/::CDN_NPM::/g, space_npm_cdn)
   page = page.replace(/::CDN_GH::/g, space_gh_cdn)
