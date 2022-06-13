@@ -19,6 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
+import Version from "./Version"
 import KV from "./KV"
 import RKV from "./RKV"
 import GoogleTranslate from "./GoogleTranslate"
@@ -52,6 +53,7 @@ import Calendar from "./Calendar"
 import Hole from "./Hole"
 
 const API = {
+  Version,
   KV,
   RKV,
   GoogleTranslate,

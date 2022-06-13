@@ -57,6 +57,7 @@ async function handleSpace(event: FetchEvent) {
     router
       .get("/favicon.ico").action(Space.Actions.Favicon)
       .get("/robots.txt").action(Space.Actions.Robots)
+      .get("/version").action(Space.Actions.Version)
       .get(AUTH_PAGE).action(Space.Actions.Auth.AuthPage)
       .post("/space/auth" + AUTH_PAGE).action(Space.Actions.Auth.CheckAuth)
       // 安全跳转

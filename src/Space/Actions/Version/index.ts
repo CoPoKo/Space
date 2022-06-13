@@ -19,30 +19,8 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Auth from "./Auth"
-import Robots from "./Robots"
-import Dash from "./Dash"
-import API from "./API"
-import Link from "./Link"
-import Pages from "./Pages"
-import Favicon from "./Favicon"
-import TelegrafWebhook from "./TelegrafWebhook"
-import Admin from "./Admin"
-import CDN from "./CDN"
-import Version from "./Version"
-
-const Actions = {
-  Auth,
-  Robots,
-  Dash,
-  API,
-  Link,
-  Pages,
-  Favicon,
-  TelegrafWebhook,
-  Admin,
-  CDN,
-  Version,
-};
-
-export default Actions;
+import Space from "../../Space";
+async function Version() {
+  return new Response(Space.API.Version(), Space.Helpers.Headers.text);
+}
+export default Version;
