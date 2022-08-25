@@ -73,8 +73,8 @@ async function handleSpace(event: FetchEvent) {
       .get("/privacy-policy").action(Space.Actions.Pages.PrivacyPolicy)
       .get("/contact").action(Space.Actions.Pages.PrivacyPolicy)
       .get("/apisource").action(Space.Actions.Pages.PrivacyPolicy)
-      .get("/tree-hollow").action(Space.Actions.Pages.TreeHollow)
-      .post("/tree-hollow").action(Space.Actions.Pages.TreeHollow)
+      // .get("/tree-hollow").action(Space.Actions.Pages.TreeHollow)
+      // .post("/tree-hollow").action(Space.Actions.Pages.TreeHollow)
       // OPEN CDN
       .get("/npm/").action(Space.Actions.CDN)
       .get("/gh/").action(Space.Actions.CDN)

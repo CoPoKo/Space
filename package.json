@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "pub": "wrangler publish",
+    "l": "wrangler publish --dry-run --outdir=dist",
     "build": "webpack -c webpack.config.js"
   },
   "repository": {

@@ -16444,8 +16444,7 @@ exports.q = serialize;
  * @private
  */
 
-var decode = decodeURIComponent;
-var encode = encodeURIComponent;
+var __toString = Object.prototype.toString
 
 /**
  * RegExp to match field-content in RFC 7230 sec 3.2
@@ -16476,31 +16475,42 @@ function parse(str, options) {
 
   var obj = {}
   var opt = options || {};
-  var pairs = str.split(';')
   var dec = opt.decode || decode;
 
-  for (var i = 0; i < pairs.length; i++) {
-    var pair = pairs[i];
-    var index = pair.indexOf('=')
+  var index = 0
+  while (index < str.length) {
+    var eqIdx = str.indexOf('=', index)
 
-    // skip things that don't look like key=value
-    if (index < 0) {
-      continue;
+    // no more cookie pairs
+    if (eqIdx === -1) {
+      break
     }
 
-    var key = pair.substring(0, index).trim()
+    var endIdx = str.indexOf(';', index)
+
+    if (endIdx === -1) {
+      endIdx = str.length
+    } else if (endIdx < eqIdx) {
+      // backtrack on prior semicolon
+      index = str.lastIndexOf(';', eqIdx - 1) + 1
+      continue
+    }
+
+    var key = str.slice(index, eqIdx).trim()
 
     // only assign once
-    if (undefined == obj[key]) {
-      var val = pair.substring(index + 1, pair.length).trim()
+    if (undefined === obj[key]) {
+      var val = str.slice(eqIdx + 1, endIdx).trim()
 
       // quoted values
-      if (val[0] === '"') {
+      if (val.charCodeAt(0) === 0x22) {
         val = val.slice(1, -1)
       }
 
       obj[key] = tryDecode(val, dec);
     }
+
+    index = endIdx + 1
   }
 
   return obj;
@@ -16569,11 +16579,13 @@ function serialize(name, val, options) {
   }
 
   if (opt.expires) {
-    if (typeof opt.expires.toUTCString !== 'function') {
+    var expires = opt.expires
+
+    if (!isDate(expires) || isNaN(expires.valueOf())) {
       throw new TypeError('option expires is invalid');
     }
 
-    str += '; Expires=' + opt.expires.toUTCString();
+    str += '; Expires=' + expires.toUTCString()
   }
 
   if (opt.httpOnly) {
@@ -16582,6 +16594,26 @@ function serialize(name, val, options) {
 
   if (opt.secure) {
     str += '; Secure';
+  }
+
+  if (opt.priority) {
+    var priority = typeof opt.priority === 'string'
+      ? opt.priority.toLowerCase()
+      : opt.priority
+
+    switch (priority) {
+      case 'low':
+        str += '; Priority=Low'
+        break
+      case 'medium':
+        str += '; Priority=Medium'
+        break
+      case 'high':
+        str += '; Priority=High'
+        break
+      default:
+        throw new TypeError('option priority is invalid')
+    }
   }
 
   if (opt.sameSite) {
@@ -16607,6 +16639,42 @@ function serialize(name, val, options) {
   }
 
   return str;
+}
+
+/**
+ * URL-decode string value. Optimized to skip native call when no %.
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+
+function decode (str) {
+  return str.indexOf('%') !== -1
+    ? decodeURIComponent(str)
+    : str
+}
+
+/**
+ * URL-encode value.
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+
+function encode (val) {
+  return encodeURIComponent(val)
+}
+
+/**
+ * Determine if value is a Date.
+ *
+ * @param {*} val
+ * @private
+ */
+
+function isDate (val) {
+  return __toString.call(val) === '[object Date]' ||
+    val instanceof Date
 }
 
 /**
@@ -35323,6 +35391,7 @@ var $concat = bind.call(Function.call, Array.prototype.concat);
 var $spliceApply = bind.call(Function.apply, Array.prototype.splice);
 var $replace = bind.call(Function.call, String.prototype.replace);
 var $strSlice = bind.call(Function.call, String.prototype.slice);
+var $exec = bind.call(Function.call, RegExp.prototype.exec);
 
 /* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
 var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
@@ -35378,6 +35447,9 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 		throw new $TypeError('"allowMissing" argument must be a boolean');
 	}
 
+	if ($exec(/^%?[^%]*%?$/g, name) === null) {
+		throw new $SyntaxError('`%` may not be present anywhere but at the beginning and end of the intrinsic name');
+	}
 	var parts = stringToPath(name);
 	var intrinsicBaseName = parts.length > 0 ? parts[0] : '';
 
@@ -37215,7 +37287,7 @@ var code = "<li class=\"nav-item\">\r\n  <a href=\"/space/dash/calendar\" class=
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!--\n * ==========================================================================\n * \"CoPoKo Space\" License\n * GNU General Public License version 3.0 (GPLv3)\n * ==========================================================================\n * This file is part of \"CoPoKo Space\"\n *\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\n * it under the terms of the GNU General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU General Public License for more details.\n *\n * You should have received a copy of the GNU General Public License\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\n * ==========================================================================\n-->\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta robots=\"noindex, nofollow\" />\n  <meta name=\"renderer\" content=\"webkit\" />\n  <meta name=\"force-rendering\" content=\"webkit\" />\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\n  <meta name=\"HandheldFriendly\" content=\"True\" />\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\n  <meta content=\"no-transform\" http-equiv=\"Cache-Control\" />\n  <meta content=\"no-siteapp\" http-equiv=\"Cache-Control\" />\n  <title>CoPoKo Space</title>\n  <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback\">\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@fortawesome/fontawesome-free@6/css/all.min.css\">\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@sweetalert2/theme-bootstrap-4@5.0.11/bootstrap-4.min.css\">\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/admin-lte@3.1.0/dist/css/adminlte.min.css\">\n  <style>\n    ::-webkit-scrollbar-track-piece {\n      background-color: #f8f8f8;\n    }\n    ::-webkit-scrollbar {\n      width: 9px;\n      height: 9px;\n    }\n    ::-webkit-scrollbar-thumb {\n      background-color: #49b1f5;\n      background-image: -webkit--webkit-linear-gradient(\n        45deg,\n        rgba(255, 255, 255, 0.4) 25%,\n        transparent 25%,\n        transparent 50%,\n        rgba(255, 255, 255, 0.4) 50%,\n        rgba(255, 255, 255, 0.4) 75%,\n        transparent 75%,\n        transparent\n      );\n      background-image: -webkit--moz-linear-gradient(\n        45deg,\n        rgba(255, 255, 255, 0.4) 25%,\n        transparent 25%,\n        transparent 50%,\n        rgba(255, 255, 255, 0.4) 50%,\n        rgba(255, 255, 255, 0.4) 75%,\n        transparent 75%,\n        transparent\n      );\n      background-image: -webkit--o-linear-gradient(\n        45deg,\n        rgba(255, 255, 255, 0.4) 25%,\n        transparent 25%,\n        transparent 50%,\n        rgba(255, 255, 255, 0.4) 50%,\n        rgba(255, 255, 255, 0.4) 75%,\n        transparent 75%,\n        transparent\n      );\n      background-image: -webkit--ms-linear-gradient(\n        45deg,\n        rgba(255, 255, 255, 0.4) 25%,\n        transparent 25%,\n        transparent 50%,\n        rgba(255, 255, 255, 0.4) 50%,\n        rgba(255, 255, 255, 0.4) 75%,\n        transparent 75%,\n        transparent\n      );\n      background-image: -webkit-linear-gradient(\n        45deg,\n        rgba(255, 255, 255, 0.4) 25%,\n        transparent 25%,\n        transparent 50%,\n        rgba(255, 255, 255, 0.4) 50%,\n        rgba(255, 255, 255, 0.4) 75%,\n        transparent 75%,\n        transparent\n      );\n      border-radius: 2em;\n    }\n    ::-webkit-scrollbar-thumb:hover {\n      background-color: #49b1f6;\n    }\n    .brand-text{\n      text-align: center !important;\n      display: block !important;\n    }\n    input{\n      color: inherit !important;\n    }\n    .content-wrapper{\n      min-height: unset !important;\n    }\n  </style>\n</head>\n<body class=\"hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed\">\n<div class=\"wrapper\">\n\n  <!-- Navbar -->\n  <nav class=\"main-header navbar navbar-expand navbar-dark\">\n    <!-- Left navbar links -->\n    <ul class=\"navbar-nav\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-widget=\"pushmenu\" href=\"#\" role=\"button\"><i class=\"fas fa-bars\"></i></a>\n      </li>\n    </ul>\n\n    <!-- Right navbar links -->\n    <ul class=\"navbar-nav ml-auto\">\n\n    </ul>\n  </nav>\n  <!-- /.navbar -->\n\n  <!-- Main Sidebar Container -->\n  <aside class=\"main-sidebar sidebar-dark-primary elevation-4\">\n    <!-- Brand Logo -->\n    <a href=\"/space/dash\" class=\"brand-link\">\n      <span class=\"brand-text font-weight-light\">CoPoKo Space</span>\n    </a>\n\n    <!-- Sidebar -->\n    <div class=\"sidebar\">\n\n      <!-- Sidebar Menu -->\n      <nav class=\"mt-2\">\n        <ul class=\"nav nav-pills nav-sidebar flex-column\" data-widget=\"treeview\" role=\"menu\" data-accordion=\"false\">\n          ::DASH_NAV::\n        </ul>\n      </nav>\n      <!-- /.sidebar-menu -->\n\n  \n    </div>\n    <!-- /.sidebar -->\n  </aside>\n\n  <!-- Content Wrapper. Contains page content -->\n  <div class=\"content-wrapper\">\n    <!-- Main content -->\n    ::DASH_CONTENT::\n    <!-- /.content -->\n  </div>\n  <!-- /.content-wrapper -->\n\n</div>\n<!-- ./wrapper -->\n\n<!-- REQUIRED SCRIPTS -->\n<script src=\"::CDN_NPM::/jquery@3.6.0/dist/jquery.min.js\"></script>\n<script src=\"::CDN_NPM::/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js\"></script>\n<script src=\"::CDN_NPM::/sweetalert2@11.4.14/dist/sweetalert2.min.js\"></script>\n<script src=\"::CDN_NPM::/admin-lte@3.1.0/dist/js/adminlte.min.js\"></script>\n\n\n::DASH_UTIL::\n\n::DASH_BODYEND::\n\n</body>\n</html>\n";
+var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <meta content=\"no-transform\" http-equiv=\"Cache-Control\" />\r\n  <meta content=\"no-siteapp\" http-equiv=\"Cache-Control\" />\r\n  <title>CoPoKo Space</title>\r\n  <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@fortawesome/fontawesome-free@6/css/all.min.css\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@sweetalert2/theme-bootstrap-4@5.0.11/bootstrap-4.min.css\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/admin-lte@3.1.0/dist/css/adminlte.min.css\">\r\n  <style>\r\n    ::-webkit-scrollbar-track-piece {\r\n      background-color: #f8f8f8;\r\n    }\r\n    ::-webkit-scrollbar {\r\n      width: 9px;\r\n      height: 9px;\r\n    }\r\n    ::-webkit-scrollbar-thumb {\r\n      background-color: #49b1f5;\r\n      background-image: -webkit--webkit-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--moz-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--o-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--ms-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      border-radius: 2em;\r\n    }\r\n    ::-webkit-scrollbar-thumb:hover {\r\n      background-color: #49b1f6;\r\n    }\r\n    .brand-text{\r\n      text-align: center !important;\r\n      display: block !important;\r\n    }\r\n    input{\r\n      color: inherit !important;\r\n    }\r\n    .content-wrapper{\r\n      min-height: unset !important;\r\n    }\r\n  </style>\r\n</head>\r\n<body class=\"hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed\">\r\n<div class=\"wrapper\">\r\n\r\n  <!-- Navbar -->\r\n  <nav class=\"main-header navbar navbar-expand navbar-dark\">\r\n    <!-- Left navbar links -->\r\n    <ul class=\"navbar-nav\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" data-widget=\"pushmenu\" href=\"#\" role=\"button\"><i class=\"fas fa-bars\"></i></a>\r\n      </li>\r\n    </ul>\r\n\r\n    <!-- Right navbar links -->\r\n    <ul class=\"navbar-nav ml-auto\">\r\n\r\n    </ul>\r\n  </nav>\r\n  <!-- /.navbar -->\r\n\r\n  <!-- Main Sidebar Container -->\r\n  <aside class=\"main-sidebar sidebar-dark-primary elevation-4\">\r\n    <!-- Brand Logo -->\r\n    <a href=\"/space/dash\" class=\"brand-link\">\r\n      <span class=\"brand-text font-weight-light\">CoPoKo Space</span>\r\n    </a>\r\n\r\n    <!-- Sidebar -->\r\n    <div class=\"sidebar\">\r\n\r\n      <!-- Sidebar Menu -->\r\n      <nav class=\"mt-2\">\r\n        <ul class=\"nav nav-pills nav-sidebar flex-column\" data-widget=\"treeview\" role=\"menu\" data-accordion=\"false\">\r\n          ::DASH_NAV::\r\n        </ul>\r\n      </nav>\r\n      <!-- /.sidebar-menu -->\r\n\r\n  \r\n    </div>\r\n    <!-- /.sidebar -->\r\n  </aside>\r\n\r\n  <!-- Content Wrapper. Contains page content -->\r\n  <div class=\"content-wrapper\">\r\n    <!-- Main content -->\r\n    ::DASH_CONTENT::\r\n    <!-- /.content -->\r\n  </div>\r\n  <!-- /.content-wrapper -->\r\n\r\n</div>\r\n<!-- ./wrapper -->\r\n\r\n<!-- REQUIRED SCRIPTS -->\r\n<script src=\"::CDN_NPM::/jquery@3.6.0/dist/jquery.min.js\"></script>\r\n<script src=\"::CDN_NPM::/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js\"></script>\r\n<script src=\"::CDN_NPM::/sweetalert2@11.4.14/dist/sweetalert2.min.js\"></script>\r\n<script src=\"::CDN_NPM::/admin-lte@3.1.0/dist/js/adminlte.min.js\"></script>\r\n\r\n\r\n::DASH_UTIL::\r\n\r\n::DASH_BODYEND::\r\n\r\n</body>\r\n</html>\r\n";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -42857,6 +42929,38 @@ function splitParameters(str) {
   return parameters;
 }
 
+
+/***/ }),
+
+/***/ 83300:
+/***/ ((module, exports) => {
+
+"use strict";
+
+
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
+
+// Needed for TypeScript and Webpack.
+if (global.fetch) {
+	exports["default"] = global.fetch.bind(global);
+}
+
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
 
 /***/ }),
 
@@ -54469,13 +54573,8 @@ function parse (text, reviver, options) {
     if (reviver !== null && typeof reviver === 'object') {
       options = reviver
       reviver = undefined
-    } else {
-      options = {}
     }
   }
-
-  const protoAction = options.protoAction || 'error'
-  const constructorAction = options.constructorAction || 'error'
 
   if (hasBuffer && Buffer.isBuffer(text)) {
     text = text.toString()
@@ -54489,13 +54588,16 @@ function parse (text, reviver, options) {
   // Parse normally, allowing exceptions
   const obj = JSON.parse(text, reviver)
 
-  // options: 'error' (default) / 'remove' / 'ignore'
-  if (protoAction === 'ignore' && constructorAction === 'ignore') {
+  // Ignore null and non-objects
+  if (obj === null || typeof obj !== 'object') {
     return obj
   }
 
-  // Ignore null and non-objects
-  if (obj === null || typeof obj !== 'object') {
+  const protoAction = (options && options.protoAction) || 'error'
+  const constructorAction = (options && options.constructorAction) || 'error'
+
+  // options: 'error' (default) / 'remove' / 'ignore'
+  if (protoAction === 'ignore' && constructorAction === 'ignore') {
     return obj
   }
 
@@ -54514,12 +54616,10 @@ function parse (text, reviver, options) {
   }
 
   // Scan result for proto keys
-  scan(obj, { protoAction, constructorAction })
-
-  return obj
+  return filter(obj, { protoAction, constructorAction, safe: options && options.safe })
 }
 
-function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
+function filter (obj, { protoAction = 'error', constructorAction = 'error', safe } = {}) {
   let next = [obj]
 
   while (next.length) {
@@ -54528,7 +54628,9 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
 
     for (const node of nodes) {
       if (protoAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
-        if (protoAction === 'error') {
+        if (safe === true) {
+          return null
+        } else if (protoAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
@@ -54538,7 +54640,9 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
       if (constructorAction !== 'ignore' &&
           Object.prototype.hasOwnProperty.call(node, 'constructor') &&
           Object.prototype.hasOwnProperty.call(node.constructor, 'prototype')) { // Avoid calling node.hasOwnProperty directly
-        if (constructorAction === 'error') {
+        if (safe === true) {
+          return null
+        } else if (constructorAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
@@ -54548,16 +54652,17 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
       for (const key in node) {
         const value = node[key]
         if (value && typeof value === 'object') {
-          next.push(node[key])
+          next.push(value)
         }
       }
     }
   }
+  return obj
 }
 
 function safeParse (text, reviver) {
   try {
-    return parse(text, reviver)
+    return parse(text, reviver, { safe: true })
   } catch (ignoreError) {
     return null
   }
@@ -54565,7 +54670,7 @@ function safeParse (text, reviver) {
 
 module.exports = {
   parse,
-  scan,
+  scan: filter,
   safeParse
 }
 
@@ -56947,38 +57052,6 @@ function simpleEnd(buf) {
 
 /***/ }),
 
-/***/ 98042:
-/***/ ((module, exports) => {
-
-"use strict";
-
-
-// ref: https://github.com/tc39/proposal-global
-var getGlobal = function () {
-	// the only reliable means to get the global object is
-	// `Function('return this')()`
-	// However, this causes CSP violations in Chrome apps.
-	if (typeof self !== 'undefined') { return self; }
-	if (typeof window !== 'undefined') { return window; }
-	if (typeof global !== 'undefined') { return global; }
-	throw new Error('unable to locate global object');
-}
-
-var global = getGlobal();
-
-module.exports = exports = global.fetch;
-
-// Needed for TypeScript and Webpack.
-if (global.fetch) {
-	exports["default"] = global.fetch.bind(global);
-}
-
-exports.Headers = global.Headers;
-exports.Request = global.Request;
-exports.Response = global.Response;
-
-/***/ }),
-
 /***/ 75475:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -57797,7 +57870,7 @@ const IPFS = {
         }));
     },
     Get: async (hash) => {
-        return await fetch("https://ipfs.infura.io/ipfs/" + hash);
+        return await fetch("https://ipfs.io/ipfs/" + hash);
     }
 };
 exports["default"] = IPFS;
@@ -59349,7 +59422,7 @@ async function Get(ctx) {
         return new Response(Space_1.default.Renderers.ipfs, Space_1.default.Helpers.Headers.html);
     }
     const url = new URL(request.url);
-    url.hostname = "ipfs.infura.io";
+    url.hostname = "ipfs.io";
     return await fetch(url.toString(), request);
 }
 async function Put(ctx) {
@@ -60518,7 +60591,7 @@ async function TreeHollow(ctx) {
             }
         }
         if (path.startsWith("/tree-hollow/next")) {
-            return await fetch(`https://ipfs.infura.io/ipfs/${id}`);
+            return await fetch(`https://ipfs.io/ipfs/${id}`);
         }
     }
     if (ctx.method == "POST") {
@@ -61267,7 +61340,7 @@ const update = async (that) => {
                     lastPost: feed.items[0]?.title,
                     lastLink: feed.items[0]?.link,
                     lastUpdateTime: feed.items[0]?.pubDate,
-                    lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
+                    lastPostView: item.url //await page(feed.items[0]?.title, feed.items[0]?.content)
                 };
                 sub = sub.filter((it) => it.url !== item.url);
                 sub.push(rss);
@@ -61328,7 +61401,7 @@ const page = async (tittle, content) => {
     </body>
   </html>`;
     const hash = await Space_1.default.API.IPFS.Put(html, "text/html").then(e => { return e.json(); }).then((e) => { return e.Hash; });
-    return "https://ipfs.infura.io/ipfs/" + hash;
+    return "https://ipfs.io/ipfs/" + hash;
 };
 const last = async (that) => {
     let sub = await list();
@@ -63811,8 +63884,8 @@ async function handleSpace(event) {
             .get("/privacy-policy").action(Space_1.default.Actions.Pages.PrivacyPolicy)
             .get("/contact").action(Space_1.default.Actions.Pages.PrivacyPolicy)
             .get("/apisource").action(Space_1.default.Actions.Pages.PrivacyPolicy)
-            .get("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow)
-            .post("/tree-hollow").action(Space_1.default.Actions.Pages.TreeHollow)
+            // .get("/tree-hollow").action(Space.Actions.Pages.TreeHollow)
+            // .post("/tree-hollow").action(Space.Actions.Pages.TreeHollow)
             // OPEN CDN
             .get("/npm/").action(Space_1.default.Actions.CDN)
             .get("/gh/").action(Space_1.default.Actions.CDN)
@@ -73143,7 +73216,7 @@ const crypto = __webpack_require__(55835);
 const fs = __webpack_require__(95437);
 const https = __webpack_require__(79267);
 const path = __webpack_require__(26470);
-const node_fetch_1 = __webpack_require__(98042);
+const node_fetch_1 = __webpack_require__(83300);
 const check_1 = __webpack_require__(47893);
 const compact_1 = __webpack_require__(63377);
 const multipart_stream_1 = __webpack_require__(38149);
@@ -75572,7 +75645,7 @@ module.exports = JSON.parse('{"100":"Continue","101":"Switching Protocols","102"
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.3","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.8.3"},"devDependencies":{"@cloudflare/workers-types":"^3.11.0","html-loader":"^3.1.0","node-polyfill-webpack-plugin":"^1.1.4","ts-loader":"^9.3.0","typescript":"^4.7.2","webpack":"^5.72.1","webpack-cli":"^4.9.2","yaml-loader":"^0.8.0"}}');
+module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.3","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.8.3"},"devDependencies":{"@cloudflare/workers-types":"^3.11.0","html-loader":"^3.1.0","node-polyfill-webpack-plugin":"^1.1.4","ts-loader":"^9.3.0","typescript":"^4.7.2","webpack":"^5.72.1","webpack-cli":"^4.9.2","yaml-loader":"^0.8.0"}}');
 
 /***/ })
 

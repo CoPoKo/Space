@@ -41,7 +41,7 @@ async function TreeHollow(ctx: Router) {
       }
     }
     if (path.startsWith("/tree-hollow/next")) {
-      return await fetch(`https://ipfs.infura.io/ipfs/${id}`)
+      return await fetch(`https://ipfs.io/ipfs/${id}`)
     }
   }
   if (ctx.method == "POST") {

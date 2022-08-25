@@ -86,7 +86,7 @@ const update = async (that?: HandleMessage) => {
           lastPost: feed.items[0]?.title,
           lastLink: feed.items[0]?.link,
           lastUpdateTime: feed.items[0]?.pubDate,
-          lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
+          lastPostView: item.url //await page(feed.items[0]?.title, feed.items[0]?.content)
         };
         sub = sub.filter((it: any) => it.url !== item.url);
         sub.push(rss);
@@ -146,7 +146,7 @@ const page = async (tittle: string, content: string) => {
     </body>
   </html>`
   const hash = await Space.API.IPFS.Put(html, "text/html").then(e => { return e.json() }).then((e: any) => { return e.Hash })
-  return "https://ipfs.infura.io/ipfs/" + hash
+  return "https://ipfs.io/ipfs/" + hash
 }
 const last = async (that?: HandleMessage) => {
   let sub = await list()

@@ -29,7 +29,7 @@ async function Get(ctx: Router) {
     return new Response(Space.Renderers.ipfs, Space.Helpers.Headers.html);
   }
   const url = new URL(request.url)
-  url.hostname = "ipfs.infura.io"
+  url.hostname = "ipfs.io"
   return await fetch(url.toString(), request)
 }
 async function Put(ctx: Router) {

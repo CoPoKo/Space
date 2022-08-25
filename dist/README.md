@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "space" generated at 2022-08-25T07:37:02.220Z.
