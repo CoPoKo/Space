@@ -21,7 +21,7 @@
 */
 import Parser = require('rss-parser');
 const parser = new Parser();
-async function ParseRSS(url: string) {
+async function ParseRSS(url: string): Promise<{ [key: string]: any; } & Parser.Output<{ [key: string]: any; }>> {
   return fetch(url).then(res => res.text()).then(e => { return parser.parseString(e) })
 }
 export default ParseRSS;

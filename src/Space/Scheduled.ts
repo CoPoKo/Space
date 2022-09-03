@@ -23,7 +23,7 @@ import bot from './TelegrafBot'
 import Space from './Space'
 import Setting from './Helpers/Setting';
 
-async function handleScheduled(event: ScheduledEvent) {
+async function handleScheduled(event: ScheduledEvent): Promise<void> {
   const Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
   const Minutes = new Date(event.scheduledTime).getMinutes()
 
@@ -42,7 +42,7 @@ async function handleScheduled(event: ScheduledEvent) {
   }
 }
 
-function UTC8Hours(Hours: number) {
+function UTC8Hours(Hours: number): number {
   let UTC8Hours = Hours + 8
   if (UTC8Hours > 24) {
     UTC8Hours = UTC8Hours - 24

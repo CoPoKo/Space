@@ -26,15 +26,15 @@ import bot from "../../TelegrafBot";
 import HandleMessage from "../../TelegrafBot/TGBot/HandleMessage";
 import Setting from "../Setting";
 
-const list = async () => {
+async function list(): Promise<RSSContext[]> {
   let sub: RSSContext[] = await Space.API.KV.Get("RSSSUB").then(JSON.parse);
   if (!sub) {
-    sub = []
+    sub = [];
   }
-  return sub
+  return sub;
 }
-const add = async (url: string) => {
-  const feed = await Space.API.XML2JSON(url)
+async function add(url: string): Promise<RSSContext[]> {
+  const feed = await Space.API.XML2JSON(url);
   const rss: RSSContext = {
     title: feed.title,
     url: url,
@@ -46,33 +46,33 @@ const add = async (url: string) => {
     lastUpdateTime: feed.items[0]?.pubDate,
     lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
   };
-  let sub = await list()
+  let sub = await list();
   sub.push(rss);
   // 去重
   sub = sub.filter((item: { url: any; }, index: any, self: any[]) => {
-    return self.findIndex(t => t.url === item.url) === index
+    return self.findIndex(t => t.url === item.url) === index;
   });
   await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
-  return sub
+  return sub;
 }
-const del = async (url: string) => {
-  let sub = await list()
+async function del(url: string): Promise<RSSContext[]> {
+  let sub = await list();
   if (url.startsWith("https://") || url.startsWith("http://")) {
     sub = sub.filter((item: any) => item.url !== url);
   } else {
     sub = sub.filter((item: any) => item.title !== url);
   }
   await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
-  return sub
+  return sub;
 }
-const update = async (that?: HandleMessage) => {
-  let sub = await list()
+async function update(that?: HandleMessage): Promise<RSSContext[]> {
+  let sub = await list();
   for await (const item of sub) {
     if (!item.status) {
-      return
+      return;
     }
     if (item.errorTime > 0) {
-      return
+      return;
     }
     const feed: any = await Space.API.XML2JSON(item.url);
     try {
@@ -86,7 +86,7 @@ const update = async (that?: HandleMessage) => {
           lastPost: feed.items[0]?.title,
           lastLink: feed.items[0]?.link,
           lastUpdateTime: feed.items[0]?.pubDate,
-          lastPostView: item.url //await page(feed.items[0]?.title, feed.items[0]?.content)
+          lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
         };
         sub = sub.filter((it: any) => it.url !== item.url);
         sub.push(rss);
@@ -94,9 +94,9 @@ const update = async (that?: HandleMessage) => {
         if (rss.notify) {
           for (const iterator of feed.items) {
             if (new Date(iterator.pubDate) > new Date(item.lastUpdateTime)) {
-              const msg = `<b>${rss.title}</b>\n ${iterator.title}\n <a target="_blank" rel="noopener noreferrer" href="${iterator.link}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${await page(iterator.title, iterator.content)}">View</a>\n`
-              await sendMessage(msg, that)
-              await Space.Helpers.Notify.Success(`RSS: ${rss.title}`, msg.replace(/\n/g, "<br>"))
+              const msg = `<b>${rss.title}</b>\n ${iterator.title}\n <a target="_blank" rel="noopener noreferrer" href="${iterator.link}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${await page(iterator.title, iterator.content)}">View</a>\n`;
+              await sendMessage(msg, that);
+              await Space.Helpers.Notify.Success(`RSS: ${rss.title}`, msg.replace(/\n/g, "<br>"));
             }
           }
         }
@@ -116,15 +116,15 @@ const update = async (that?: HandleMessage) => {
       sub = sub.filter((it: any) => it.url !== item.url);
       sub.push(rss);
       await Space.API.KV.Put("RSSSUB", JSON.stringify(sub));
-      const msg = `<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`
-      await sendMessage(msg, that)
-      await Space.Helpers.Notify.Danger(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"))
+      const msg = `<b>${rss.title}</b>\n 订阅失败，已暂停订阅。`;
+      await sendMessage(msg, that);
+      await Space.Helpers.Notify.Danger(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"));
     }
   }
-  return sub
+  return sub;
 }
-const page = async (tittle: string, content: string) => {
-  content = content.replace(/<img.*?>/g, "")
+async function page(tittle: string, content: string): Promise<string> {
+  content = content.replace(/<img.*?>/g, "");
   const html = `<html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -144,34 +144,25 @@ const page = async (tittle: string, content: string) => {
       ${content}
     </article>
     </body>
-  </html>`
-  const hash = await Space.API.IPFS.Put(html, "text/html").then(e => { return e.json() }).then((e: any) => { return e.Hash })
-  return "https://ipfs.io/ipfs/" + hash
+  </html>`;
+  const key = await Space.API.NPMData.Put(html)
+  return "https://" + WORKERROUTE.replace("/*", '') + "/rss-view/" + key;
 }
-const last = async (that?: HandleMessage) => {
-  let sub = await list()
+async function last(that?: HandleMessage): Promise<void> {
+  let sub = await list();
   for await (const item of sub) {
     if (!item.status) {
-      return
+      return;
     }
     if (item.notify) {
-      const msg = `<b>${item.title}</b>\n ${item.lastPost}\n <a target="_blank" rel="noopener noreferrer" href="${item.lastLink}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${item.lastPostView}">View</a>\n`
-      await sendMessage(msg, that)
-      await Space.Helpers.Notify.Primary(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"))
+      const msg = `<b>${item.title}</b>\n ${item.lastPost}\n <a target="_blank" rel="noopener noreferrer" href="${item.lastLink}">Link</a>  <a target="_blank" rel="noopener noreferrer" href="${item.lastPostView}">View</a>\n`;
+      await sendMessage(msg, that);
+      await Space.Helpers.Notify.Primary(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"));
     }
   }
 }
-const RSS = {
-  list,
-  add,
-  del,
-  update,
-  page,
-  last,
-};
-export default RSS;
 
-async function sendMessage(msg: string, that?: HandleMessage) {
+async function sendMessage(msg: string, that?: HandleMessage): Promise<void> {
   if (that) {
     await that.ctx.reply(msg, { parse_mode: "HTML" })
   } else {
@@ -180,3 +171,12 @@ async function sendMessage(msg: string, that?: HandleMessage) {
     await bot.telegram.sendMessage(ADMIN_GROUP_ID, msg, { parse_mode: "HTML" });
   }
 }
+
+export default {
+  list,
+  add,
+  del,
+  update,
+  page,
+  last,
+};

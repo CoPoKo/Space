@@ -24,6 +24,10 @@ import Space from "../../../Space"
 
 async function RSSSUB(ctx: Router) {
   const path = ctx.pathname;
+  if (path.startsWith("/space/api/RSSSUB/update")) {
+    await Space.Helpers.RSS.update();
+    return new Response(JSON.stringify({ success: 1}))
+  }
   if (ctx.method === "GET") {
     const sub = await Space.Helpers.RSS.list();
     return new Response(JSON.stringify(sub))
@@ -37,10 +41,6 @@ async function RSSSUB(ctx: Router) {
     if (path.startsWith("/space/api/RSSSUB/delete")) {
       const sub = await Space.Helpers.RSS.del(url);
       return new Response(JSON.stringify({ success: 1, sub: sub, url: url }))
-    }
-    if (path.startsWith("/space/api/RSSSUB/update")) {
-      await Space.Helpers.RSS.update();
-      return new Response(JSON.stringify({ success: 1}))
     }
     if (path.startsWith("/space/api/RSSSUB/status")) {
       let sub = await Space.API.KV.Get("RSSSUB").then(JSON.parse);

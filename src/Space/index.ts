@@ -105,6 +105,7 @@ async function handleSpace(event: FetchEvent) {
       .get("/ipfs").action(Space.Actions.API.IPFS.Get)
       // .post("/api/v0/").action(Space.Actions.API.IPFS.Put)
       .post("/hole").action(Space.Actions.API.Hole)
+      .get("/rss-view/").action(Space.Actions.API.RssView)
       /////////////////////////////////////////////////////////////////////
       // Header Auth
       .get("/Admin").action(Space.Actions.Admin)

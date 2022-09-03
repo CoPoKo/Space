@@ -19,43 +19,13 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Space from "../../../../Space";
-import HandleMessage from "../../HandleMessage";
+import Router from "../../../Helpers/Router";
+import Space from "../../../Space"
 
-const RSS = async (that: HandleMessage): Promise<void> => {
-  const ctx = that.ctx
-  if (that.args.k == "list") {
-    const sub = await Space.Helpers.RSS.list();
-    let text = "";
-    for (const i in sub) {
-      text += `[${sub[i].title}](${sub[i].url})\n`
-    }
-    await ctx.reply(text)
-  }
-  if (that.args.k == "add") {
-    try {
-      const url = that.args.q
-      await Space.Helpers.RSS.add(url);
-      await ctx.reply("Add Successfully")
-    } catch (error) {
-      await ctx.reply("Add failed")
-    }
-  }
-  if (that.args.k == "delete") {
-    try {
-      const url = that.args.q
-      await Space.Helpers.RSS.del(url);
-      await ctx.reply("Delete Successfully")
-    } catch (error) {
-      await ctx.reply("Delete failed")
-    }
-  }
-  if (that.args.k == "update") {
-    await Space.Helpers.RSS.update();
-  }
-  if (that.args.k == "last") {
-    await Space.Helpers.RSS.last(that);
-  }
-};
-
-export default RSS;
+async function RssView(ctx: Router): Promise<Response> {
+  const path = ctx.pathname;
+  const key = path.replace("/rss-view/","")
+  const html = await Space.API.NPMData.Get(key)
+  return new Response(html,Space.Helpers.Headers.html)
+}
+export default RssView;

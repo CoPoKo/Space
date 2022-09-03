@@ -34,7 +34,7 @@ import RSS from './RSS';
 import Notify from './Notify';
 import UUID from './UUID';
 
-const Helpers = {
+export default {
   Headers,
   ErrorResponse,
   Router,
@@ -49,6 +49,4 @@ const Helpers = {
   RSS,
   Notify,
   UUID,
-};
-
-export default Helpers;
+};;

@@ -31,7 +31,7 @@ import Admin from "./Admin"
 import CDN from "./CDN"
 import Version from "./Version"
 
-const Actions = {
+export default {
   Auth,
   Robots,
   Dash,
@@ -43,6 +43,4 @@ const Actions = {
   Admin,
   CDN,
   Version,
-};
-
-export default Actions;
+};;

@@ -64240,7 +64240,7 @@ async function patchMeta(meta, setId, ruleId) {
         "enabled": false
     }));
 }
-const RKV = {
+exports["default"] = {
     Put: async (key, value) => {
         const M = await getMeta();
         const meta = M.meta;
@@ -64264,7 +64264,7 @@ const RKV = {
         }
     }
 };
-exports["default"] = RKV;
+;
 
 
 /***/ }),
@@ -65574,12 +65574,11 @@ async function Delete(ctx) {
         key: key,
     }), Space_1.default.Helpers.Headers.json);
 }
-const RKV = {
+exports["default"] = {
     Get,
     Put,
     Delete,
 };
-exports["default"] = RKV;
 
 
 /***/ }),
@@ -65593,6 +65592,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 async function RSSSUB(ctx) {
     const path = ctx.pathname;
+    if (path.startsWith("/space/api/RSSSUB/update")) {
+        await Space_1.default.Helpers.RSS.update();
+        return new Response(JSON.stringify({ success: 1 }));
+    }
     if (ctx.method === "GET") {
         const sub = await Space_1.default.Helpers.RSS.list();
         return new Response(JSON.stringify(sub));
@@ -65607,10 +65610,6 @@ async function RSSSUB(ctx) {
         if (path.startsWith("/space/api/RSSSUB/delete")) {
             const sub = await Space_1.default.Helpers.RSS.del(url);
             return new Response(JSON.stringify({ success: 1, sub: sub, url: url }));
-        }
-        if (path.startsWith("/space/api/RSSSUB/update")) {
-            await Space_1.default.Helpers.RSS.update();
-            return new Response(JSON.stringify({ success: 1 }));
         }
         if (path.startsWith("/space/api/RSSSUB/status")) {
             let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
@@ -65633,6 +65632,24 @@ async function RSSSUB(ctx) {
     }
 }
 exports["default"] = RSSSUB;
+
+
+/***/ }),
+
+/***/ 72579:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function RssView(ctx) {
+    const path = ctx.pathname;
+    const key = path.replace("/rss-view/", "");
+    const html = await Space_1.default.API.NPMData.Get(key);
+    return new Response(html, Space_1.default.Helpers.Headers.html);
+}
+exports["default"] = RssView;
 
 
 /***/ }),
@@ -65828,7 +65845,8 @@ const RSSSUB_1 = __webpack_require__(47851);
 const Notify_1 = __webpack_require__(7065);
 const Calendar_1 = __webpack_require__(13828);
 const Hole_1 = __webpack_require__(23490);
-const API = {
+const RssView_1 = __webpack_require__(72579);
+exports["default"] = {
     KV: KV_1.default,
     RKV: RKV_1.default,
     GoogleTranslate: GoogleTranslate_1.default,
@@ -65857,8 +65875,8 @@ const API = {
     Notify: Notify_1.default,
     Calendar: Calendar_1.default,
     Hole: Hole_1.default,
+    RssView: RssView_1.default,
 };
-exports["default"] = API;
 
 
 /***/ }),
@@ -66710,7 +66728,7 @@ const TelegrafWebhook_1 = __webpack_require__(53733);
 const Admin_1 = __webpack_require__(30447);
 const CDN_1 = __webpack_require__(22846);
 const Version_1 = __webpack_require__(74570);
-const Actions = {
+exports["default"] = {
     Auth: Auth_1.default,
     Robots: Robots_1.default,
     Dash: Dash_1.default,
@@ -66723,7 +66741,7 @@ const Actions = {
     CDN: CDN_1.default,
     Version: Version_1.default,
 };
-exports["default"] = Actions;
+;
 
 
 /***/ }),
@@ -67166,14 +67184,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
 const TelegrafBot_1 = __webpack_require__(71535);
 const Setting_1 = __webpack_require__(77425);
-const list = async () => {
+async function list() {
     let sub = await Space_1.default.API.KV.Get("RSSSUB").then(JSON.parse);
     if (!sub) {
         sub = [];
     }
     return sub;
-};
-const add = async (url) => {
+}
+async function add(url) {
     const feed = await Space_1.default.API.XML2JSON(url);
     const rss = {
         title: feed.title,
@@ -67194,8 +67212,8 @@ const add = async (url) => {
     });
     await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
     return sub;
-};
-const del = async (url) => {
+}
+async function del(url) {
     let sub = await list();
     if (url.startsWith("https://") || url.startsWith("http://")) {
         sub = sub.filter((item) => item.url !== url);
@@ -67205,8 +67223,8 @@ const del = async (url) => {
     }
     await Space_1.default.API.KV.Put("RSSSUB", JSON.stringify(sub));
     return sub;
-};
-const update = async (that) => {
+}
+async function update(that) {
     let sub = await list();
     for await (const item of sub) {
         if (!item.status) {
@@ -67227,7 +67245,7 @@ const update = async (that) => {
                     lastPost: feed.items[0]?.title,
                     lastLink: feed.items[0]?.link,
                     lastUpdateTime: feed.items[0]?.pubDate,
-                    lastPostView: item.url //await page(feed.items[0]?.title, feed.items[0]?.content)
+                    lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
                 };
                 sub = sub.filter((it) => it.url !== item.url);
                 sub.push(rss);
@@ -67264,8 +67282,8 @@ const update = async (that) => {
         }
     }
     return sub;
-};
-const page = async (tittle, content) => {
+}
+async function page(tittle, content) {
     content = content.replace(/<img.*?>/g, "");
     const html = `<html lang="en">
   <head>
@@ -67287,10 +67305,10 @@ const page = async (tittle, content) => {
     </article>
     </body>
   </html>`;
-    const hash = await Space_1.default.API.IPFS.Put(html, "text/html").then(e => { return e.json(); }).then((e) => { return e.Hash; });
-    return "https://ipfs.io/ipfs/" + hash;
-};
-const last = async (that) => {
+    const key = await Space_1.default.API.NPMData.Put(html);
+    return "https://" + WORKERROUTE.replace("/*", '') + "/rss-view/" + key;
+}
+async function last(that) {
     let sub = await list();
     for await (const item of sub) {
         if (!item.status) {
@@ -67302,16 +67320,7 @@ const last = async (that) => {
             await Space_1.default.Helpers.Notify.Primary(`RSS: ${item.title}`, msg.replace(/\n/g, "<br>"));
         }
     }
-};
-const RSS = {
-    list,
-    add,
-    del,
-    update,
-    page,
-    last,
-};
-exports["default"] = RSS;
+}
 async function sendMessage(msg, that) {
     if (that) {
         await that.ctx.reply(msg, { parse_mode: "HTML" });
@@ -67322,6 +67331,14 @@ async function sendMessage(msg, that) {
         await TelegrafBot_1.default.telegram.sendMessage(ADMIN_GROUP_ID, msg, { parse_mode: "HTML" });
     }
 }
+exports["default"] = {
+    list,
+    add,
+    del,
+    update,
+    page,
+    last,
+};
 
 
 /***/ }),
@@ -67739,7 +67756,7 @@ const IsInArray_1 = __webpack_require__(79232);
 const RSS_1 = __webpack_require__(90648);
 const Notify_1 = __webpack_require__(53402);
 const UUID_1 = __webpack_require__(44181);
-const Helpers = {
+exports["default"] = {
     Headers: Headers_1.default,
     ErrorResponse: ErrorResponse_1.default,
     Router: Router_1.default,
@@ -67755,7 +67772,7 @@ const Helpers = {
     Notify: Notify_1.default,
     UUID: UUID_1.default,
 };
-exports["default"] = Helpers;
+;
 
 
 /***/ }),
@@ -69804,6 +69821,7 @@ async function handleSpace(event) {
             .get("/ipfs").action(Space_1.default.Actions.API.IPFS.Get)
             // .post("/api/v0/").action(Space.Actions.API.IPFS.Put)
             .post("/hole").action(Space_1.default.Actions.API.Hole)
+            .get("/rss-view/").action(Space_1.default.Actions.API.RssView)
             /////////////////////////////////////////////////////////////////////
             // Header Auth
             .get("/Admin").action(Space_1.default.Actions.Admin);

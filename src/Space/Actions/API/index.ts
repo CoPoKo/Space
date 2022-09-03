@@ -47,8 +47,9 @@ import RSSSUB from "./RSSSUB"
 import Notify from "./Notify"
 import Calendar from "./Calendar"
 import Hole from "./Hole"
+import RssView from "./RssView"
 
-const API = {
+export default {
   KV,
   RKV,
   GoogleTranslate,
@@ -77,6 +78,5 @@ const API = {
   Notify,
   Calendar,
   Hole,
+  RssView,
 };
-
-export default API;
