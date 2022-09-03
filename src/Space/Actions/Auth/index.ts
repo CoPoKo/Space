@@ -21,12 +21,13 @@
 */
 import Router from "../../Helpers/Router";
 import Space from "../../Space";
-const SHA256 = require("crypto-js/sha256");
-async function AuthPage(_ctx: any) {
+import SHA256 = require("crypto-js/sha256");
+
+async function AuthPage(_ctx: Router): Promise<Response> {
   const html = Space.Renderers.auth.replace(/::reCAPTCHA_CLIENT::/g, reCAPTCHA_CLIENT).replace(/::AUTH_PAGE::/g, AUTH_PAGE)
   return new Response(html, Space.Helpers.Headers.html);
 }
-async function CheckAuth(ctx: Router) {
+async function CheckAuth(ctx: Router): Promise<Response> {
   const auth = await Space.Helpers.ReadRequest.Body(ctx.request).then(JSON.parse)
   const token = auth.token;
   const secret = reCAPTCHA_SERVER;
@@ -58,7 +59,7 @@ async function CheckAuth(ctx: Router) {
     Space.Helpers.Headers.json
   );
 }
-async function CheckCookieAuth(event: FetchEvent) {
+async function CheckCookieAuth(event: FetchEvent): Promise<Response | "PASS"> {
   return Space.Helpers.Cookie
     .get(event.request, "_copoko_space_cookie_auth")
     .then(async (_copoko_space_cookie_auth) => {
@@ -72,9 +73,9 @@ async function CheckCookieAuth(event: FetchEvent) {
       return await Space.Helpers.ErrorResponse("NO PERMISSION TO ACCESS THE SERVICE", 403);
     });
 }
-const Auth = {
+
+export default {
   CheckAuth,
   CheckCookieAuth,
   AuthPage,
 };
-export default Auth;

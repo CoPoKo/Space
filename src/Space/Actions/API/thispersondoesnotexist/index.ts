@@ -21,7 +21,7 @@
 */
 import Space from "../../../Space"
 
-async function thispersondoesnotexist() {
+async function thispersondoesnotexist(): Promise<Response> {
   return Space.API.thispersondoesnotexist().then(fetch)
 }
 export default thispersondoesnotexist;

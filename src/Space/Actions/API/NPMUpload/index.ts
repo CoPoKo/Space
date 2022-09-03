@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function NPMUpload(ctx: Router) {
+async function NPMUpload(ctx: Router): Promise<Response> {
   const request = ctx.request;
   const formData = await request.formData()
   const file = formData.get("file")

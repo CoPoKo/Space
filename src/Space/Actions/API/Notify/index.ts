@@ -23,7 +23,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function Notify(ctx: Router) {
+async function Notify(ctx: Router): Promise<Response> {
   if (ctx.method == "GET") {
     const data = await Space.API.Notify.Get()
     return new Response(JSON.stringify(data))

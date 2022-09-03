@@ -25,7 +25,7 @@ import TGBot from ".."
 import IsInArray from "../../../Helpers/IsInArray"
 import HandleMessage from "../HandleMessage"
 
-function parseWorker(keys: string[], worker: HandleMessage, item: any) {
+function parseWorker(keys: string[], worker: HandleMessage, item: any): void {
   if (IsInArray(keys, "admin")) {
     const AdminWorkflows = item.admin
     const ElseWorkflows = item.else
@@ -71,7 +71,7 @@ function parseWorker(keys: string[], worker: HandleMessage, item: any) {
     worker.action(TGBot.Actions[item.action])
   }
 }
-function ParseWorkflow(ctx: Context<Update>, workflows: any[]) {
+function ParseWorkflow(ctx: Context<Update>, workflows: any[]): void {
   workflows.forEach(async (workflow: any) => {
     const worker: HandleMessage = new TGBot.HandleMessage(ctx)
     for (const item of workflow.workflow) {

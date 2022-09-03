@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-async function thispersondoesnotexist() {
+async function thispersondoesnotexist(): Promise<string> {
   return "https://thispersondoesnotexist.com/image";
 }
 export default thispersondoesnotexist;

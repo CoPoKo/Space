@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-async function Unsplash(keywords: string) {
+async function Unsplash(keywords: string): Promise<string> {
   if (!keywords) {
     keywords = "nature,water,sky,blue,sea"
   }

@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function TreeHollow(ctx: Router) {
+async function TreeHollow(ctx: Router): Promise<Response> {
   const path = ctx.pathname
   if (ctx.method == "GET" && (path === "/tree-hollow/" || path === "/tree-hollow")) {
     return new Response(Space.Renderers.TreeHollow, Space.Helpers.Headers.html)

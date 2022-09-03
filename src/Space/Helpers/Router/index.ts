@@ -45,14 +45,14 @@ class Router {
       path: 0,
     };
   }
-  public getParam = (key: string) => {
+  public getParam = (key: string): string => {
     return this.searchParams.get(key);
   };
-  public setStatus = (key: string, value: number) => {
+  public setStatus = (key: string, value: number): this => {
     this.status[key] = value;
     return this;
   };
-  public get = (path: string, eq: boolean = false) => {
+  public get = (path: string, eq: boolean = false): this => {
     if (this.status.action) return this;
     if (this.status.filterPath) return this;
     if (this.method == "GET") {
@@ -70,7 +70,7 @@ class Router {
     }
     return this;
   };
-  public post = (path: string, eq: boolean = false) => {
+  public post = (path: string, eq: boolean = false): this => {
     if (this.status.action) return this;
     if (this.status.filterPath) return this;
     if (this.method == "POST") {
@@ -88,7 +88,7 @@ class Router {
     }
     return this;
   };
-  public action = function (call: Function) {
+  public action = function (call: Function): any {
     if (this.status.action) return this;
     if (this.status.filterPath) {
       this.status.action = 1;

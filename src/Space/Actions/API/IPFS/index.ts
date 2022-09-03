@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space";
 
-async function Get(ctx: Router) {
+async function Get(ctx: Router): Promise<Response> {
   const request = ctx.request
   const path = ctx.pathname
   if (path == "/ipfs/" || path == "/ipfs") {
@@ -32,7 +32,7 @@ async function Get(ctx: Router) {
   url.hostname = "ipfs.io"
   return await fetch(url.toString(), request)
 }
-async function Put(ctx: Router) {
+async function Put(ctx: Router): Promise<Response> {
   const request = ctx.request
   if (ctx.method == "POST") {
     const set = await Space.Helpers.Setting("IPFS");
@@ -47,8 +47,7 @@ async function Put(ctx: Router) {
   return new Response(sc, Space.Helpers.Headers.js);
 }
 
-const IPFS = {
+export default {
   Get,
   Put,
 };
-export default IPFS;

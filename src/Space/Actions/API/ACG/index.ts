@@ -21,7 +21,7 @@
 */
 import Space from "../../../Space"
 
-async function ACG() {
+async function ACG(): Promise<Response> {
   return Space.API.ACG().then(fetch)
 }
 export default ACG;

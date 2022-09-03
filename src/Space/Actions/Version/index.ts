@@ -20,7 +20,7 @@
  * ==========================================================================
 */
 import Space from "../../Space";
-async function Version() {
+async function Version(): Promise<Response> {
   return new Response(Space.API.Version(), Space.Helpers.Headers.text);
 }
 export default Version;

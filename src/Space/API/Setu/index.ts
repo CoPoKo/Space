@@ -21,11 +21,11 @@
 */
 import Space from "../../Space"
 
-async function HappypicSex() {
+async function HappypicSex(): Promise<string> {
   return "https://cdn.jsdelivr.net/npm/chenyfan-happypic-sex@0.0." + Space.Helpers.RandomNum(1, 19) + "/" + Space.Helpers.RandomNum(1, 99) + ".jpg"
 }
 
-async function SJMM(id?: string | number) {
+async function SJMM(id?: string | number): Promise<Response> {
   if (!id) {
     id = Space.Helpers.RandomNum(1, 35)
   }
@@ -38,7 +38,7 @@ async function SJMM(id?: string | number) {
     }
   })
 }
-async function Tui(id?: string | number) {
+async function Tui(id?: string | number): Promise<Response> {
   if (!id) {
     id = Space.Helpers.RandomNum(1, 557)
   }
@@ -51,15 +51,14 @@ async function Tui(id?: string | number) {
     }
   })
 }
-async function El() {
+async function El(): Promise<any> {
   const FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json"
   return await Space.Helpers.Fetch.JSON(FetchUrl).then((e: any) => e.image).then((e: any) => e[Space.Helpers.RandomNum(0, e.length - 1)].url)
 }
 
-const Setu = {
+export default {
   HappypicSex,
   SJMM,
   Tui,
   El,
 }
-export default Setu;

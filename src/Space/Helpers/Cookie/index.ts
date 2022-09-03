@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-async function get(request: Request, key: string) {
+async function get(request: Request, key: string): Promise<string> {
   const cookie = request.headers.get("Cookie");
   // No cookie found
   if (!cookie) return "";
@@ -33,12 +33,12 @@ async function get(request: Request, key: string) {
   const end = value.indexOf(";");
   return end === -1 ? value : value.substring(0, end);
 }
-async function set(response: Response, key: string, value: string, path = "/") {
+async function set(response: Response, key: string, value: string, path = "/"): Promise<Response> {
   response.headers.append("Set-Cookie", `${key}=${value}; path=${path};Max-Age=86400`);
   return response;
 }
-const Cookie = {
+
+export default {
   set,
   get,
 };
-export default Cookie;

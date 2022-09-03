@@ -34,7 +34,7 @@ import Space from "../../Space"
     tran	  是否进行翻译,为true则翻译,默认为true	                            true or false
     author	是否显示作者,为true则显示,默认为true	                            true or false
  */
-async function Poet(opt: any = {}) {
+async function Poet(opt: any = {}): Promise<string> {
   opt.type = opt.type == "song" ? "song" : "tang"
   opt.from = opt.from || (opt.type == "song" ? Math.floor(Math.random() * 254 + 1) : Math.floor(Math.random() * 57 + 1))
   opt.with = opt.with || Math.floor(Math.random() * 100)

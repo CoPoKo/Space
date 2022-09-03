@@ -9,12 +9,12 @@ const api = require('./Pages/api.html').default
 const TreeHollow = require('./Pages/TreeHollow.html').default
 const version = Version()
 
-function makeVersion(page: string) {
+function makeVersion(page: string): string {
   page = page.replace(/<\/body>/, `<script>console.log("CoPoKo Space v${version}")</script><\/body>`)
   return page
 }
 
-function cdn(page: string) {
+function cdn(page: string): string {
   page = makeVersion(page)
   page = page.replace(/::CDN_SPACE::/g, space_npm_cdn + "/@copoko/space-static@" + space_static_version)
   page = page.replace(/::CDN_NPM::/g, space_npm_cdn)
@@ -27,7 +27,7 @@ dash_nav.forEach(item => {
   dash_nav_html += require(`./Pages/dash/${item}/nav-item.html`).default
 })
 
-function DashPage(nav: string) {
+function DashPage(nav: string): any {
   let page = dash_father.replace(/::DASH_NAV::/g, dash_nav_html)
   page = page.replace(/::DASH_CONTENT::/g, require(`./Pages/dash/${nav}/content.html`).default)
   page = page.replace(/::DASH_BODYEND::/g, require(`./Pages/dash/${nav}/bodyend.html`).default)
@@ -40,7 +40,7 @@ dash_nav.forEach(item => {
   dash[item] = cdn(DashPage(item))
 })
 
-const Renderers = {
+export default {
   dash: dash,
   erorr: cdn(erorr),
   auth: cdn(auth),
@@ -48,4 +48,3 @@ const Renderers = {
   api: cdn(api),
   TreeHollow: cdn(TreeHollow),
 };
-export default Renderers;

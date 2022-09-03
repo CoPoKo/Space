@@ -36,7 +36,7 @@ const recaptcha: (secret: string, token: string, ip: string) => Promise<boolean>
       }
     });
 };
-const Captcha = {
+
+export default {
   recaptcha,
 };
-export default Captcha;

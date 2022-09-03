@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function IP(ctx: Router) {
+async function IP(ctx: Router): Promise<Response> {
   const request = ctx.request
   return new Response(JSON.stringify({
     "CF-Connecting-IP": request.headers.get("CF-Connecting-IP"),

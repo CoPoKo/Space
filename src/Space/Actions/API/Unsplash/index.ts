@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Unsplash(ctx: Router) {
+async function Unsplash(ctx: Router): Promise<Response> {
   const keywords = ctx.getParam("keywords")
   return Space.API.Unsplash(keywords).then(fetch)
 }

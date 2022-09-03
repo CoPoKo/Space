@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function Calendar(ctx: Router) {
+async function Calendar(ctx: Router): Promise<Response> {
   const path = ctx.pathname
   if (ctx.method == "GET") {
     if (path.startsWith("/space/api/calendar/EventSource")) {

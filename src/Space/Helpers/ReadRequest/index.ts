@@ -50,13 +50,11 @@ const getURLParameters: any = (url: string) =>
     {}
   );
 
-function URLParameters(request: Request) {
+function URLParameters(request: Request): any {
   return getURLParameters(request.url)
 }
 
-
-const ReadRequest = {
+export default {
   Body,
   URLParameters,
 };
-export default ReadRequest;

@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function thisanimedoesnotexist(ctx: Router) {
+async function thisanimedoesnotexist(ctx: Router): Promise<Response> {
   const creativity = ctx.getParam("creativity");
   const seed = ctx.getParam("seed");
   return Space.API.thisanimedoesnotexist(creativity, seed).then(fetch)

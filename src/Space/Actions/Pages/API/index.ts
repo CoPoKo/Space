@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function API(ctx: Router) {
+async function API(_ctx: Router): Promise<Response> {
   return new Response(Space.Renderers.api, Space.Helpers.Headers.html)
 }
 export default API;

@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-async function Nbnhhsh(key: string) {
+async function Nbnhhsh(key: string): Promise<string> {
   if (!key)
     key = "nb"
 

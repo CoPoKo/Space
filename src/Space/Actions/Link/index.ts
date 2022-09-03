@@ -21,7 +21,7 @@
 */
 import Router from "../../Helpers/Router";
 
-async function Link(ctx: Router) {
+async function Link(ctx: Router): Promise<Response> {
   const url = ctx.getParam("url")
   return Response.redirect(url, 302);
 }

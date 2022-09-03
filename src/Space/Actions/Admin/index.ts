@@ -22,7 +22,7 @@
 import Router from "../../Helpers/Router";
 import Space from "../../Space";
 
-async function Admin(ctx: Router) {
+async function Admin(ctx: Router): Promise<Response> {
   // Auth
   if (!doBasicAuth(ctx.request)) {
     return unauthorized();
@@ -57,7 +57,7 @@ export default Admin;
 /**
  * 简单鉴权
  */
-function doBasicAuth(request: any) {
+function doBasicAuth(request: Request): boolean {
   const auth = request.headers.get('Authorization');
   if (!auth || !/^Basic [A-Za-z0-9._~+/-]+=*$/i.test(auth)) {
     return false;
@@ -75,7 +75,7 @@ function parseBasicAuth(auth: string) {
 /**
  * 未鉴权 401
  */
-function unauthorized() {
+function unauthorized(): Promise<Response> {
   return Space.Helpers.ErrorResponse("您的权限不足，请不要再发送此请求", 401, {
     headers: {
       "content-type": "text/html; charset=utf-8",

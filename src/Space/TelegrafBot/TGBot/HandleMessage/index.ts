@@ -32,7 +32,7 @@ class Shell {
     this.args = shell.replace(/^>/, '').split(/\"([^\"]*?)\"|\s/);
     this.index = 0;
   }
-  public shift = () => {
+  public shift = (): any => {
     let arg = this.args[this.index];
     this.index++;
     if (arg) {
@@ -88,16 +88,16 @@ class HandleMessage {
       this.file_id = this.photo[this.photo.length - 1].file_id
     }
   }
-  public cleanStatus = function () {
+  public cleanStatus = function (): any {
     this.status = 0;
     return this;
   }
-  public cleanTrigger = function () {
+  public cleanTrigger = function (): any {
     this.triggerTotalNum = 0;
     this.triggerPassNum = 0;
     return this;
   }
-  public setRandom = function (probability = 40) {
+  public setRandom = function (probability = 40): any {
     if (this.status) return this;
     this.type = 'random';
     this.probability = probability
@@ -107,7 +107,7 @@ class HandleMessage {
     }
     return this;
   }
-  public newChatMembers = function () {
+  public newChatMembers = function (): any {
     if (this.status) return this;
     this.type = 'newChatMembers';
     this.triggerTotalNum++;
@@ -116,7 +116,7 @@ class HandleMessage {
     }
     return this;
   }
-  public admin = async function () {
+  public admin = async function (): Promise<boolean> {
     if (this.status) return this;
     this.type = 'admin';
     if (!this.adminUsername) {
@@ -129,7 +129,7 @@ class HandleMessage {
     }
     return false;
   };
-  public re = function (re: RegExp) {
+  public re = function (re: RegExp): any {
     if (this.status) return this;
     this.type = 're';
     this.textReg = re;
@@ -139,7 +139,7 @@ class HandleMessage {
     }
     return this;
   };
-  public includes = function (list: any) {
+  public includes = function (list: Array<string>): any {
     if (this.status) return this;
     this.type = 'includes';
     this.includesList = list;
@@ -157,7 +157,7 @@ class HandleMessage {
     }
     return this;
   };
-  public cmd = function (cmd: string) {
+  public cmd = function (cmd: string): any {
     if (this.status) return this;
     this.type = 'cmd';
     this.cmdReg = new RegExp(cmd);
@@ -196,17 +196,17 @@ class HandleMessage {
 
     return this;
   };
-  public setArg = function (arg: string | number, defaultValue: string | number = 0) {
+  public setArg = function (arg: string | number, defaultValue: string | number = 0): any {
     if (this.status) return this;
     this.args[arg] = defaultValue;
     return this;
   };
-  public reply = function (str: any) {
+  public reply = function (str: string): any {
     return this.action(() => {
       return this.ctx.reply(str);
     })
   }
-  public action = function (call: (arg0: any) => any) {
+  public action = function (call: (arg0: any) => any): any {
     if (this.triggerTotalNum && this.triggerTotalNum === this.triggerPassNum) {
       this.status = 1;
       this.fun.push(call(this));
@@ -216,7 +216,7 @@ class HandleMessage {
     }
     return this;
   };
-  public run = async function () {
+  public run = async function (): Promise<any> {
     if (this.status && !this.isBot) {
       this.fun.forEach(async (e: () => any) => {
         await e();

@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Niubi(ctx: Router) {
+async function Niubi(ctx: Router): Promise<Response> {
   const name = ctx.getParam("name")
   const ans = await Space.API.Niubi(name)
 

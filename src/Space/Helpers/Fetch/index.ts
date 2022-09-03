@@ -34,11 +34,11 @@ const ArrayBuffer: (req: string | Request) => Promise<ArrayBuffer> = async (req)
 const FormData: (req: string | Request) => Promise<FormData> = async (req) => {
   return fetch(req).then(e => e.formData())
 }
-const Fetch = {
+
+export default {
   Text,
   JSON,
   Blob,
   ArrayBuffer,
   FormData,
 };
-export default Fetch;

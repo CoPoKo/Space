@@ -24,7 +24,7 @@ import { Update } from "telegraf/typings/core/types/typegram";
 import ParseWorkflow from "../../TGBot/ParseWorkflow";
 const workflows = require("./workflows.yml").default;
 
-async function Text(ctx: Context<Update>) {
+async function Text(ctx: Context<Update>): Promise<void> {
   // return ctx.reply(String(JSON.stringify(ctx.message)))
   ParseWorkflow(ctx, workflows)
 }

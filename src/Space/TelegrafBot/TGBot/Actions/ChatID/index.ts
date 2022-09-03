@@ -21,9 +21,9 @@
 */
 import HandleMessage from "../../HandleMessage";
 
-const ChatID = async (that: HandleMessage) => {
-  const ctx = that.ctx
+async function ChatID(that: HandleMessage): Promise<void> {
+  const ctx = that.ctx;
   await ctx.reply(String(ctx.chat.id));
-};
+}
 
 export default ChatID;

@@ -20,7 +20,7 @@
  * ==========================================================================
 */
 import Space from "../../Space";
-function checkReferer(event: FetchEvent) {
+function checkReferer(event: FetchEvent): boolean {
   const referer = event.request.headers.get('referer');
   if (referer == null) {
     return true
@@ -31,7 +31,7 @@ function checkReferer(event: FetchEvent) {
   return false
 }
 
-async function securityCheckAnalytics(_event: FetchEvent) {
+async function securityCheckAnalytics(_event: FetchEvent): Promise<void> {
   // Workers KV 免费包含
   // 1 GB - 键值存储空间
   // 100,000 - 每日键值读取*
@@ -48,7 +48,7 @@ async function securityCheckAnalytics(_event: FetchEvent) {
   const workers = await Space.API.CF.getWorkersRequestAnalytics().then(e => e.json()).then((e: any) => e.data).then(e => e?.viewer?.accounts[0]?.workersInvocationsAdaptive[0]?.sum?.requests)
   await setUnderAttack(workers, 35000, 40000)
 }
-async function setUnderAttack(a: number, b: number, c: number) {
+async function setUnderAttack(a: number, b: number, c: number): Promise<void> {
   if (!a) {
     return
   }
@@ -66,8 +66,7 @@ async function setUnderAttack(a: number, b: number, c: number) {
   }
 }
 
-const Security = {
+export default {
   checkReferer,
   securityCheckAnalytics,
 };
-export default Security;

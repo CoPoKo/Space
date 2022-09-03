@@ -21,7 +21,7 @@
 */
 import Space from "../../Space"
 
-async function Niubi(name: string) {
+async function Niubi(name: string): Promise<any> {
   if (!name)
     name = "CoCo"
   const FetchUrl = "https://cdn.jsdelivr.net/gh/ElpsyCN/el-bot-api@master/data/niubi.json"

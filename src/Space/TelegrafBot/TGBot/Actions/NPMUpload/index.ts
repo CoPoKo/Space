@@ -22,7 +22,7 @@
 import Space from "../../../../Space";
 import HandleMessage from "../../HandleMessage";
 
-const NPMUpload = async (that: HandleMessage) => {
+const NPMUpload = async (that: HandleMessage): Promise<void> => {
   let NPMUploadStatus = "stop";
   const ctx = that.ctx
   const k = that?.args?.k

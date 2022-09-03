@@ -23,7 +23,7 @@ import HoleContext from "../../../../types/HoleContext";
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function Hole(ctx: Router) {
+async function Hole(ctx: Router): Promise<Response> {
   const path = ctx.pathname
   if (path.startsWith("/space/api/Hole")) {
     if (ctx.method === "GET") {

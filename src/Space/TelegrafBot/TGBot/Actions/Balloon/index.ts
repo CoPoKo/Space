@@ -21,7 +21,7 @@
 */
 import HandleMessage from "../../HandleMessage";
 
-const Balloon = async (that: HandleMessage) => {
+const Balloon = async (that: HandleMessage): Promise<void> => {
   const ctx = that.ctx
   const num = ctx.message["text"].split("。").length - 1
   if (num <= 5) {

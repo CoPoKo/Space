@@ -29,7 +29,7 @@ import Text from "./Text";
 import { Telegraf, Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
 
-function BotModel(bot: Telegraf<Context<Update>>) {
+function BotModel(bot: Telegraf<Context<Update>>): void {
   bot.start(Start);
   bot.help(Help);
   bot.on("sticker", Sticker);

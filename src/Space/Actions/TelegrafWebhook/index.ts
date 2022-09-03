@@ -27,7 +27,7 @@ import Router from "../../Helpers/Router";
 import { Middleware } from "@cfworker/web/dist/middleware";
 const resolved = Promise.resolve();
 
-async function TelegrafWebhook(ctx: Router) {
+async function TelegrafWebhook(ctx: Router): Promise<Response> {
   const context = new Context(ctx.event);
   return Promise.race([
     invokeMiddleware(context, createTelegrafMiddware(Bot)),
@@ -35,7 +35,7 @@ async function TelegrafWebhook(ctx: Router) {
   ])
 }
 
-async function invokeMiddleware(context: Context, middleware: Middleware) {
+async function invokeMiddleware(context: Context, middleware: Middleware): Promise<Response> {
   try {
     await middleware(context, () => resolved);
     return context.res.create();

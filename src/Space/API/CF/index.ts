@@ -25,47 +25,47 @@ const header_cf = {
   "X-Auth-Key": AUTHKEY,
   "Content-Type": "application/json",
 }
-const CF = {
-  setSecurityLevel: function (lev: string) {
+export default {
+  setSecurityLevel: function (lev: string): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/settings/security_level", {
       method: "PATCH",
       headers: header_cf,
       body: '{"value":"' + lev + '"}'
     }));
   },
-  setSchedule: function (cron: string) {
+  setSchedule: function (cron: string): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/workers/scripts/" + WORKERNAME + "/schedules", {
       method: "PUT",
       headers: header_cf,
       body: '[{"cron": "' + cron + '"}]'
     }));
   },
-  getRoutes: function () {
+  getRoutes: function (): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes", {
       method: "GET",
       headers: header_cf,
     }));
   },
-  deleteRouteById: function (id: string) {
+  deleteRouteById: function (id: string): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes/" + id, {
       method: "DELETE",
       headers: header_cf,
     }));
   },
-  createRoute: function () {
+  createRoute: function (): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/workers/routes", {
       method: "POST",
       headers: header_cf,
       body: '{"pattern":"' + WORKERROUTE + '","script":"' + WORKERNAME + '"}'
     }));
   },
-  getWorkersKVRequestAnalytics: function (type = "read") {
+  getWorkersKVRequestAnalytics: function (type = "read"): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNTID + "/storage/analytics?metrics=requests&filters=requestType==" + type, {
       method: "GET",
       headers: header_cf
     }));
   },
-  getWorkersRequestAnalytics: function () {
+  getWorkersRequestAnalytics: function (): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/graphql/", {
       method: "POST",
       headers: header_cf,
@@ -85,27 +85,27 @@ const CF = {
       })
     }));
   },
-  getFilters: function () {
+  getFilters: function (): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/filters", {
       method: "GET",
       headers: header_cf,
     }));
   },
   // 规则集API https://developers.cloudflare.com/ruleset-engine/rulesets-api/
-  getHttpRequestLateTransform: function () {
+  getHttpRequestLateTransform: function (): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/phases/http_request_late_transform/entrypoint", {
       method: "GET",
       headers: header_cf,
     }));
   },
-  postRulesToRulesets: function (id: string, data: any) {
+  postRulesToRulesets: function (id: string, data: any): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/" + id + "/rules", {
       method: "POST",
       headers: header_cf,
       body: data,
     }));
   },
-  patchRulesToRulesets: function (set_id: string, rule_id: string, data: any) {
+  patchRulesToRulesets: function (set_id: string, rule_id: string, data: any): Promise<Response> {
     return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/rulesets/" + set_id + "/rules/" + rule_id, {
       method: "PATCH",
       headers: header_cf,
@@ -113,4 +113,4 @@ const CF = {
     }));
   },
 };
-export default CF;
+

@@ -21,24 +21,24 @@
 */
 import Space from "../../Space"
 
-async function GetCalendarEventSource() {
+async function GetCalendarEventSource(): Promise<any> {
   const data = await Space.API.KV.Get("CalendarEventSource");
   if (!data) {
     return [];
   }
   return JSON.parse(data);
 }
-async function PutCalendarEventSource(data: any) {
+async function PutCalendarEventSource(data: any): Promise<void> {
   await Space.API.KV.Put("CalendarEventSource", JSON.stringify(data));
 }
-async function GetCalendarDraggableEvent() {
+async function GetCalendarDraggableEvent(): Promise<any> {
   const data = await Space.API.KV.Get("CalendarDraggableEvent");
   if (!data) {
     return [];
   }
   return JSON.parse(data);
 }
-async function PutCalendarDraggableEvent(data: any) {
+async function PutCalendarDraggableEvent(data: any): Promise<void> {
   await Space.API.KV.Put("CalendarDraggableEvent", JSON.stringify(data));
 }
 export default {

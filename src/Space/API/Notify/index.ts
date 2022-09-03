@@ -35,7 +35,7 @@ class SpaceNotify {
     this.id = Space.Helpers.UUID();
     this.time = new Date().toISOString();
   }
-  toJSON() {
+  toJSON(): { type: string; title: string; content: string; time: string; id: string; } {
     return {
       type: this.type,
       title: this.title,
@@ -44,7 +44,7 @@ class SpaceNotify {
       id: this.id
     }
   }
-  fromJSON(json: any) {
+  fromJSON(json: any): void {
     this.type = json.type;
     this.title = json.title;
     this.content = json.content;
@@ -52,20 +52,20 @@ class SpaceNotify {
     this.id = json.id;
   }
 }
-async function Get() {
+async function Get(): Promise<any> {
   let data = await Space.API.KV.Get("SpaceNotify").then(JSON.parse);
   if (!data) {
     data = []
   }
   return data
 }
-async function Put(Notify: SpaceNotify) {
+async function Put(Notify: SpaceNotify): Promise<any> {
   const data = await Get()
   data.push(Notify.toJSON())
   await Space.API.KV.Put("SpaceNotify", JSON.stringify(data))
   return data
 }
-async function Delete(id: string) {
+async function Delete(id: string): Promise<any> {
   const data = await Get()
   const index = data.findIndex((item: SpaceNotifyContext) => item.id === id)
   if (index !== -1) {
@@ -74,7 +74,7 @@ async function Delete(id: string) {
   }
   return data
 }
-async function Update(id: string, Notify: SpaceNotify) {
+async function Update(id: string, Notify: SpaceNotify): Promise<any> {
   const data = await Get()
   const index = data.findIndex((item: SpaceNotifyContext) => item.id === id)
   if (index !== -1) {

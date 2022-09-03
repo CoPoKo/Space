@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function RSSSUB(ctx: Router) {
+async function RSSSUB(ctx: Router): Promise<Response> {
   const path = ctx.pathname;
   if (path.startsWith("/space/api/RSSSUB/update")) {
     await Space.Helpers.RSS.update();

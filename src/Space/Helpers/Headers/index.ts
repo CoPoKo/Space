@@ -56,7 +56,7 @@ const text: any = {
   },
 };
 
-const Headers = {
+export default {
   js,
   html,
   json,
@@ -64,4 +64,3 @@ const Headers = {
   xml,
   text,
 };
-export default Headers;

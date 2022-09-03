@@ -21,7 +21,7 @@
 */
 import Space from "../../Space";
 
-async function Setting(key: string) {
+async function Setting(key: string): Promise<any> {
   let set = await Space.API.KV.Get("setting");
   if (set) {
     set = JSON.parse(set);

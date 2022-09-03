@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function WolframAlpha(ctx: Router) {
+async function WolframAlpha(ctx: Router): Promise<Response> {
   const s = ctx.getParam("s")
   const ans = await Space.API.WolframAlpha(s)
   return new Response(JSON.stringify(ans), Space.Helpers.Headers.json);

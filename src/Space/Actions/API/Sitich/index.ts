@@ -21,7 +21,7 @@
 */
 import Space from "../../../Space"
 
-async function Sitich() {
+async function Sitich(): Promise<Response> {
   return Space.API.Sitich().then(fetch)
 }
 export default Sitich;

@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function thiswaifudoesnotexist(ctx: Router) {
+async function thiswaifudoesnotexist(ctx: Router): Promise<Response> {
   const id = ctx.getParam("id");
   return Space.API.thiswaifudoesnotexist(id).then(fetch)
 }

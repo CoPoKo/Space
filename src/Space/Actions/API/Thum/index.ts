@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Thum(ctx: Router) {
+async function Thum(ctx: Router): Promise<Response> {
   const opt: any = {}
   opt.url = ctx.getParam("url")
   opt.width = ctx.getParam("width")

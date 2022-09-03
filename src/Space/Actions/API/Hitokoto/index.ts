@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function Hitokoto(ctx: Router) {
+async function Hitokoto(ctx: Router): Promise<Response> {
   const path = ctx.pathname
   const ans = await Space.API.Hitokoto()
   if (path.startsWith('/hitokoto/w')) {

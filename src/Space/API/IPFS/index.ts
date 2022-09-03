@@ -20,7 +20,7 @@
  * ==========================================================================
 */
 const IPFS = {
-  Put: async (s: string, type?: string) => {
+  Put: async (s: string, type?: string): Promise<any> => {
     // if (!s) {
     //   s = "Hello World!"
     // }

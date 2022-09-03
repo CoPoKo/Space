@@ -21,45 +21,45 @@
 */
 import HandleMessage from "../../HandleMessage";
 
-const BracketMatch = async (that: HandleMessage) => {
-  const ctx = that.ctx
-  const message = ctx.message["text"]
-  const left = ["(", "（", "【", "《", "＜", "﹝", "<", "[", "«", "‹", "〔", "〈", "{", "［", "「", "｛", "〖", "『"]
-  const right = [")", "）", "】", "》", "＞", "﹞", ">", "]", "»", "›", "〕", "〉", "}", "］", "」", "｝", "〗", "』"]
-  const stack = []
-  const result = []
-  const stackMatch = []
+async function BracketMatch(that: HandleMessage): Promise<void> {
+  const ctx = that.ctx;
+  const message = ctx.message["text"];
+  const left = ["(", "（", "【", "《", "＜", "﹝", "<", "[", "«", "‹", "〔", "〈", "{", "［", "「", "｛", "〖", "『"];
+  const right = [")", "）", "】", "》", "＞", "﹞", ">", "]", "»", "›", "〕", "〉", "}", "］", "」", "｝", "〗", "』"];
+  const stack = [];
+  const result = [];
+  const stackMatch = [];
   for (let i = 0; i < message.length; i++) {
     if (left.includes(message[i]) || right.includes(message[i])) {
-      stack.push(message[i])
+      stack.push(message[i]);
     }
   }
   if (stack.length) {
-    let port = stack.pop()
+    let port = stack.pop();
     while (port) {
       if (left.includes(port)) {
         if (stackMatch.length) {
-          const temp = stackMatch.pop()
+          const temp = stackMatch.pop();
           if (temp != right[left.indexOf(port)]) {
-            result.push(right[left.indexOf(port)])
+            result.push(right[left.indexOf(port)]);
           }
         } else {
-          result.push(right[left.indexOf(port)])
+          result.push(right[left.indexOf(port)]);
         }
       }
       if (right.includes(port)) {
-        stackMatch.push(port)
+        stackMatch.push(port);
       }
-      port = stack.pop()
+      port = stack.pop();
     }
-    let resultStr = ""
+    let resultStr = "";
     result.forEach(e => {
       if (e) {
-        resultStr += e
+        resultStr += e;
       }
-    })
-    await ctx.reply(resultStr)
+    });
+    await ctx.reply(resultStr);
   }
-};
+}
 
 export default BracketMatch;

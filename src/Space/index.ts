@@ -21,7 +21,7 @@
 */
 import Space from "./Space";
 const IPTimes = {}
-async function handleSpace(event: FetchEvent) {
+async function handleSpace(event: FetchEvent): Promise<any> {
   try {
     /////////////////////////////////////////////////////////////////////
     // 安全检查

@@ -21,7 +21,7 @@
 */
 import Space from "../../../Space"
 
-async function PDF() {
+async function PDF(): Promise<Response> {
   const FetchURL = "https://cdn.jsdelivr.net/npm/imbox@0.0.11/pdf.js/web/static.html"
   const ans = await Space.Helpers.Fetch.Text(FetchURL)
   return new Response(ans, Space.Helpers.Headers.html)

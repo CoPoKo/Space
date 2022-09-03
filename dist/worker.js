@@ -62946,11 +62946,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * ==========================================================================
 */
 const CryptoJS = __webpack_require__(81354);
-// 加密方法
 function Encrypt(word) {
     return CryptoJS.AES.encrypt(word, AES_KEY).toString();
 }
-// 解密方法
 function Decrypt(word) {
     return CryptoJS.AES.decrypt(word, AES_KEY).toString(CryptoJS.enc.Utf8);
 }
@@ -63038,7 +63036,7 @@ const header_cf = {
     "X-Auth-Key": AUTHKEY,
     "Content-Type": "application/json",
 };
-const CF = {
+exports["default"] = {
     setSecurityLevel: function (lev) {
         return fetch(new Request("https://api.cloudflare.com/client/v4/zones/" + ZONEID + "/settings/security_level", {
             method: "PATCH",
@@ -63126,7 +63124,6 @@ const CF = {
         }));
     },
 };
-exports["default"] = CF;
 
 
 /***/ }),
@@ -64330,13 +64327,12 @@ async function El() {
     const FetchUrl = "https://raw.githubusercontent.com/ElpsyCN/el-bot-api/8aa3c64fe7cb715349c14b363ef4c43996c5ef8a/data/setu.json";
     return await Space_1.default.Helpers.Fetch.JSON(FetchUrl).then((e) => e.image).then((e) => e[Space_1.default.Helpers.RandomNum(0, e.length - 1)].url);
 }
-const Setu = {
+exports["default"] = {
     HappypicSex,
     SJMM,
     Tui,
     El,
 };
-exports["default"] = Setu;
 
 
 /***/ }),
@@ -64719,11 +64715,10 @@ async function Simplized(cc) {
     }
     return str;
 }
-const ZH = {
+exports["default"] = {
     Simplized,
     Traditionalized,
 };
-exports["default"] = ZH;
 
 
 /***/ }),
@@ -65312,11 +65307,10 @@ async function Put(ctx) {
     const sc = await ans.text();
     return new Response(sc, Space_1.default.Helpers.Headers.js);
 }
-const IPFS = {
+exports["default"] = {
     Get,
     Put,
 };
-exports["default"] = IPFS;
 
 
 /***/ }),
@@ -65399,12 +65393,11 @@ async function Delete(ctx) {
         key: key,
     }), Space_1.default.Helpers.Headers.json);
 }
-const KV = {
+exports["default"] = {
     Get,
     Put,
     Delete,
 };
-exports["default"] = KV;
 
 
 /***/ }),
@@ -66071,12 +66064,11 @@ async function CheckCookieAuth(event) {
         return await Space_1.default.Helpers.ErrorResponse("NO PERMISSION TO ACCESS THE SERVICE", 403);
     });
 }
-const Auth = {
+exports["default"] = {
     CheckAuth,
     CheckCookieAuth,
     AuthPage,
 };
-exports["default"] = Auth;
 
 
 /***/ }),
@@ -66322,7 +66314,7 @@ exports["default"] = Link;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Space_1 = __webpack_require__(7619);
-async function API(ctx) {
+async function API(_ctx) {
     return new Response(Space_1.default.Renderers.api, Space_1.default.Helpers.Headers.html);
 }
 exports["default"] = API;
@@ -66824,10 +66816,9 @@ const recaptcha = async (secret, token, ip) => {
         }
     });
 };
-const Captcha = {
+exports["default"] = {
     recaptcha,
 };
-exports["default"] = Captcha;
 
 
 /***/ }),
@@ -66879,11 +66870,10 @@ async function set(response, key, value, path = "/") {
     response.headers.append("Set-Cookie", `${key}=${value}; path=${path};Max-Age=86400`);
     return response;
 }
-const Cookie = {
+exports["default"] = {
     set,
     get,
 };
-exports["default"] = Cookie;
 
 
 /***/ }),
@@ -66972,14 +66962,13 @@ const ArrayBuffer = async (req) => {
 const FormData = async (req) => {
     return fetch(req).then(e => e.formData());
 };
-const Fetch = {
+exports["default"] = {
     Text,
     JSON,
     Blob,
     ArrayBuffer,
     FormData,
 };
-exports["default"] = Fetch;
 
 
 /***/ }),
@@ -67047,7 +67036,7 @@ const text = {
         "Access-Control-Allow-Origin": "*",
     },
 };
-const Headers = {
+exports["default"] = {
     js,
     html,
     json,
@@ -67055,7 +67044,6 @@ const Headers = {
     xml,
     text,
 };
-exports["default"] = Headers;
 
 
 /***/ }),
@@ -67435,11 +67423,10 @@ const getURLParameters = (url) => (url.match(/([^?=&]+)(=([^&]*))/g) || []).redu
 function URLParameters(request) {
     return getURLParameters(request.url);
 }
-const ReadRequest = {
+exports["default"] = {
     Body,
     URLParameters,
 };
-exports["default"] = ReadRequest;
 
 
 /***/ }),
@@ -67627,11 +67614,10 @@ async function setUnderAttack(a, b, c) {
         }
     }
 }
-const Security = {
+exports["default"] = {
     checkReferer,
     securityCheckAnalytics,
 };
-exports["default"] = Security;
 
 
 /***/ }),
@@ -67831,7 +67817,7 @@ const dash = {};
 dash_nav_1.dash_nav.forEach(item => {
     dash[item] = cdn(DashPage(item));
 });
-const Renderers = {
+exports["default"] = {
     dash: dash,
     erorr: cdn(erorr),
     auth: cdn(auth),
@@ -67839,7 +67825,6 @@ const Renderers = {
     api: cdn(api),
     TreeHollow: cdn(TreeHollow),
 };
-exports["default"] = Renderers;
 
 
 /***/ }),
@@ -67934,13 +67919,12 @@ const API_1 = __webpack_require__(99117);
 const Helpers_1 = __webpack_require__(81378);
 const Renderers_1 = __webpack_require__(39239);
 const Actions_1 = __webpack_require__(23355);
-const Space = {
+exports["default"] = {
     API: API_1.default,
     Helpers: Helpers_1.default,
     Renderers: Renderers_1.default,
     Actions: Actions_1.default,
 };
-exports["default"] = Space;
 
 
 /***/ }),
@@ -68180,7 +68164,7 @@ exports["default"] = Bing;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const BracketMatch = async (that) => {
+async function BracketMatch(that) {
     const ctx = that.ctx;
     const message = ctx.message["text"];
     const left = ["(", "（", "【", "《", "＜", "﹝", "<", "[", "«", "‹", "〔", "〈", "{", "［", "「", "｛", "〖", "『"];
@@ -68220,7 +68204,7 @@ const BracketMatch = async (that) => {
         });
         await ctx.reply(resultStr);
     }
-};
+}
 exports["default"] = BracketMatch;
 
 
@@ -68232,10 +68216,10 @@ exports["default"] = BracketMatch;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const ChatID = async (that) => {
+async function ChatID(that) {
     const ctx = that.ctx;
     await ctx.reply(String(ctx.chat.id));
-};
+}
 exports["default"] = ChatID;
 
 
@@ -68247,7 +68231,7 @@ exports["default"] = ChatID;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const CoCoShell = async (that) => {
+async function CoCoShell(that) {
     const ctx = that.ctx;
     let q = [];
     if (that.args.q && that.args.q != "null") {
@@ -68256,7 +68240,7 @@ const CoCoShell = async (that) => {
     return ctx.telegram[that.args.p](...q).then((data) => {
         return ctx.reply(JSON.stringify(data));
     });
-};
+}
 exports["default"] = CoCoShell;
 
 
@@ -69652,12 +69636,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const HandleMessage_1 = __webpack_require__(82903);
 const Actions_1 = __webpack_require__(64062);
 const StickerSet_1 = __webpack_require__(71146);
-const TGBot = {
+exports["default"] = {
     HandleMessage: HandleMessage_1.default,
     Actions: Actions_1.default,
     StickerSet: StickerSet_1.default,
 };
-exports["default"] = TGBot;
 
 
 /***/ }),

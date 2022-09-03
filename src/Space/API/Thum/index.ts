@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-async function Thum(opt: any = {}) {
+async function Thum(opt: any = {}): Promise<string> {
   if (!opt.url) {
     opt.url = "https://www.google.com"
   }

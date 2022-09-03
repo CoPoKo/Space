@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function BingImgInfo(ctx: Router) {
+async function BingImgInfo(ctx: Router): Promise<Response> {
   const path = ctx.pathname
   const day = ctx.getParam("day")
   const ans = await Space.API.BingImgInfo(day)

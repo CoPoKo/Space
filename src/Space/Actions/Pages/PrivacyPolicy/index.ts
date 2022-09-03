@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space"
 
-async function PrivacyPolicy(ctx: Router) {
+async function PrivacyPolicy(ctx: Router): Promise<Response> {
   const path = ctx.pathname
   if (path.startsWith('/apisource')) {
     return Response.redirect(`https://github.com/CoPoKo/Space`, 301)

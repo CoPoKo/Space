@@ -21,7 +21,7 @@
 */
 import Space from "../../Space"
 
-async function GoogleSearch(question: string) {
+async function GoogleSearch(question: string): Promise<any> {
   const set = await Space.Helpers.Setting("GoogleSearch");
   const KEY = set.KEY;
   const CX = set.CX;

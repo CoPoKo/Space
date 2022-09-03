@@ -21,15 +21,14 @@
 */
 import CryptoJS = require('crypto-js');
 
-// 加密方法
 function Encrypt(word: string): string {
   return CryptoJS.AES.encrypt(word, AES_KEY).toString();
 }
 
-// 解密方法
 function Decrypt(word: string): string {
   return CryptoJS.AES.decrypt(word, AES_KEY).toString(CryptoJS.enc.Utf8);
 }
+
 export default {
   Encrypt,
   Decrypt

@@ -21,18 +21,18 @@
 */
 import Space from "../../Space"
 
-async function GetJTPYStr() {
+async function GetJTPYStr(): Promise<string> {
   const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/JTPY.txt";
   const str = await Space.Helpers.Fetch.Text(FetchURL)
   return str;
 }
-async function GetFTPYStr() {
+async function GetFTPYStr(): Promise<string> {
   const FetchURL = "https://cdn.jsdelivr.net/gh/MHG-LAB/ChineseUtils@main/FTPY.txt";
   const str = await Space.Helpers.Fetch.Text(FetchURL)
   return str;
 }
 // 简=>繁
-async function Traditionalized(cc: string) {
+async function Traditionalized(cc: string): Promise<string> {
   let str = '';
   const JTPYStr = await GetJTPYStr()
   const FTPYStr = await GetFTPYStr()
@@ -45,7 +45,7 @@ async function Traditionalized(cc: string) {
   return str;
 }
 // 繁=>简
-async function Simplized(cc: string) {
+async function Simplized(cc: string): Promise<string> {
   let str = '';
   const JTPYStr = await GetJTPYStr()
   const FTPYStr = await GetFTPYStr()
@@ -57,8 +57,7 @@ async function Simplized(cc: string) {
   }
   return str;
 }
-const ZH = {
+export default {
   Simplized,
   Traditionalized,
 }
-export default ZH;

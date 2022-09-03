@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-function IsInArray(arr: string[], value: string) {
+function IsInArray(arr: string[], value: string): boolean {
   for (let i = 0; i < arr.length; i++) {
     if (value === arr[i]) {
       return true;

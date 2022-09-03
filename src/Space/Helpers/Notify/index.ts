@@ -21,19 +21,19 @@
 */
 import Space from "../../Space";
 
-async function Success(title: string, content: string) {
+async function Success(title: string, content: string): Promise<void> {
   const notify = new Space.API.Notify.SpaceNotify("success", title, content);
   await Space.API.Notify.Put(notify)
 }
-async function Warning(title: string, content: string) {
+async function Warning(title: string, content: string): Promise<void> {
   const notify = new Space.API.Notify.SpaceNotify("warning", title, content);
   await Space.API.Notify.Put(notify)
 }
-async function Danger(title: string, content: string) {
+async function Danger(title: string, content: string): Promise<void> {
   const notify = new Space.API.Notify.SpaceNotify("danger", title, content);
   await Space.API.Notify.Put(notify)
 }
-async function Primary(title: string, content: string) {
+async function Primary(title: string, content: string): Promise<void> {
   const notify = new Space.API.Notify.SpaceNotify("primary", title, content);
   await Space.API.Notify.Put(notify)
 }

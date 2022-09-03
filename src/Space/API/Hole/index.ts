@@ -40,7 +40,7 @@ class Hole {
     this.like = hole.like;
   }
 
-  async init() {
+  async init(): Promise<{ id: string; avatar: string; content: string; name: string; time: string; visible: boolean; like: number; }> {
     const set = await Space.Helpers.Setting("Hole");
     this.name = set.name;
     this.avatar = set.avatar;
@@ -48,7 +48,7 @@ class Hole {
     return this.toJSON();
   }
 
-  toJSON() {
+  toJSON(): { id: string; avatar: string; content: string; name: string; time: string; visible: boolean; like: number; } {
     return {
       id: this.id,
       avatar: this.avatar,
@@ -59,7 +59,7 @@ class Hole {
       like: this.like
     }
   }
-  fromJSON(json: HoleContext) {
+  fromJSON(json: HoleContext): void {
     if (json.id)
       this.id = json.id;
     if (json.avatar)
@@ -77,7 +77,7 @@ class Hole {
   }
 }
 
-async function GetHole() {
+async function GetHole(): Promise<any> {
   const data = await Space.API.KV.Get("Hole");
   if (data) {
     return JSON.parse(data);
@@ -85,14 +85,14 @@ async function GetHole() {
     return [];
   }
 }
-async function PutHole(hole: any) {
+async function PutHole(hole: any): Promise<any> {
   const data = await GetHole()
   const item = await new Hole(hole).init();
   data.push(item)
   await Space.API.KV.Put("Hole", JSON.stringify(data));
   return data;
 }
-async function DeleteHole(id: string) {
+async function DeleteHole(id: string): Promise<any> {
   const data = await GetHole()
   const item = data.find((item: { id: string; }) => item.id === id)
   if (item) {
@@ -101,7 +101,7 @@ async function DeleteHole(id: string) {
   }
   return data;
 }
-async function EditHole(id: string, hole: any) {
+async function EditHole(id: string, hole: any): Promise<any> {
   const data = await GetHole()
   const item = data.find((item: { id: string; }) => item.id === id)
   if (item) {
@@ -112,7 +112,7 @@ async function EditHole(id: string, hole: any) {
   }
   return data;
 }
-async function VisibleHole(id: string) {
+async function VisibleHole(id: string): Promise<any> {
   const data = await GetHole()
   const item = data.find((item: { id: string; }) => item.id === id)
   if (item) {

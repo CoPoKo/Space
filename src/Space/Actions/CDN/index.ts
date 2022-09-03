@@ -21,7 +21,7 @@
 */
 import Router from "../../Helpers/Router";
 
-async function CDN(ctx: Router) {
+async function CDN(ctx: Router): Promise<Response> {
   const request = ctx.event.request;
   const url = new URL(request.url);
   const path = url.href.substr(url.origin.length);
@@ -138,7 +138,7 @@ async function CDN(ctx: Router) {
 
 export default CDN;
 
-async function NewResponse(original_response: Response) {
+async function NewResponse(original_response: Response): Promise<Response> {
   let bd = await original_response.arrayBuffer()
   let response_headers = original_response.headers;
   let status = original_response.status;

@@ -20,7 +20,7 @@
  * ==========================================================================
 */
 const { version } = require("../../../../package.json");
-function Version() {
+function Version(): string {
   return version
 }
 export default Version;

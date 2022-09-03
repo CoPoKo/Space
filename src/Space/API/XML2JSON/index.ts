@@ -22,7 +22,7 @@
 
 import Space from "../../Space";
 
-async function XML2JSON(url: string) {
+async function XML2JSON(url: string): Promise<any> {
   const res = await fetch(`${COPOKO_API}/api/xml2json`, {
     method: "POST",
     headers: {

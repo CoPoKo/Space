@@ -22,7 +22,7 @@
 import { Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
 
-async function Start(ctx: Context<Update>) {
+async function Start(ctx: Context<Update>): Promise<void> {
   ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA')
 }
 

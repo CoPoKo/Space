@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function GoogleTranslate(ctx: Router) {
+async function GoogleTranslate(ctx: Router): Promise<Response> {
   const s = ctx.getParam("s")
   const to = ctx.getParam("to") || "zh-cn"
   const domain = ctx.getParam("domain") || "com"

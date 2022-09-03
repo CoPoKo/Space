@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-async function thiswaifudoesnotexist(id: string | number) {
+async function thiswaifudoesnotexist(id: string | number): Promise<string> {
   return `https://www.thiswaifudoesnotexist.net/example-${id != undefined ? id : Math.floor(Math.random() * (100000) + 1)}.jpg`;
 }
 export default thiswaifudoesnotexist;

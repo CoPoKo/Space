@@ -24,7 +24,7 @@ import { Update } from "telegraf/typings/core/types/typegram";
 import Setting from "../../../Helpers/Setting"
 import Space from "../../../Space";
 
-async function Catch(err: string, ctx: Context<Update>) {
+async function Catch(err: string, ctx: Context<Update>): Promise<void> {
   await ctx.reply(`Ooops...`);
   const set = await Setting("TelegrafBot")
   const ADMIN_GROUP_ID = set.ADMIN_GROUP_ID

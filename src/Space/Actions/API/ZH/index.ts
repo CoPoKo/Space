@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router"
 import Space from "../../../Space"
 
-async function ZH(ctx: Router) {
+async function ZH(ctx: Router): Promise<Response> {
   const s = ctx.getParam("s")
   const path = ctx.pathname
   if (s) {

@@ -20,7 +20,7 @@
  * ==========================================================================
 */
 import Space from "../../Space";
-async function ErrorResponse(msg: string, status: number = 500, headers = Space.Helpers.Headers.html) {
+async function ErrorResponse(msg: string, status: number = 500, headers = Space.Helpers.Headers.html): Promise<Response> {
   msg = msg.replace(/\n/g, "<br>")
   if (status == 500) {
     await Space.Helpers.Notify.Danger(`Error ${status}`, msg)
