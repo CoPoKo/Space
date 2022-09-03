@@ -50,6 +50,7 @@ class HandleMessage {
   public message: string;
   public chatid: number;
   public username: string;
+  public userid: number;
   public status: number;
   public triggerTotalNum: number;
   public triggerPassNum: number;
@@ -60,6 +61,7 @@ class HandleMessage {
     this.ctx = ctx;
     this.message = ctx.message["text"];
     this.username = ctx.message.from.username;
+    this.userid = ctx.message.from.id;
     this.isBot = ctx.message.from.is_bot;
     this.args = {};
     this.status = 0;
@@ -119,10 +121,10 @@ class HandleMessage {
     this.type = 'admin';
     if (!this.adminUsername) {
       const set = await Setting("TelegrafBot")
-      const ADMIN_NAME = set.ADMIN_NAME
-      this.adminUsername = ADMIN_NAME
+      const ADMIN_ID = set.ADMIN_ID
+      this.adminUserId = ADMIN_ID
     }
-    if (this.username == this.adminUsername) {
+    if (this.userid == this.adminUserId) {
       return true
     }
     return false;

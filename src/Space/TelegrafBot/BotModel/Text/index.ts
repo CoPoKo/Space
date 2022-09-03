@@ -25,7 +25,7 @@ import ParseWorkflow from "../../TGBot/ParseWorkflow";
 const workflows = require("./workflows.yml").default;
 
 async function Text(ctx: Context<Update>) {
-  // return ctx.reply(String(ctx.message))
+  // return ctx.reply(String(JSON.stringify(ctx.message)))
   ParseWorkflow(ctx, workflows)
 }
 

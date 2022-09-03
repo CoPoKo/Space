@@ -62156,7 +62156,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const ParseWorkflow_1 = __webpack_require__(77025);
 const workflows = (__webpack_require__(77732)/* ["default"] */ .Z);
 async function Text(ctx) {
-    // return ctx.reply(String(ctx.message))
+    // return ctx.reply(String(JSON.stringify(ctx.message)))
     (0, ParseWorkflow_1.default)(ctx, workflows);
 }
 exports["default"] = Text;
@@ -63467,10 +63467,10 @@ class HandleMessage {
             this.type = 'admin';
             if (!this.adminUsername) {
                 const set = await (0, Setting_1.default)("TelegrafBot");
-                const ADMIN_NAME = set.ADMIN_NAME;
-                this.adminUsername = ADMIN_NAME;
+                const ADMIN_ID = set.ADMIN_ID;
+                this.adminUserId = ADMIN_ID;
             }
-            if (this.username == this.adminUsername) {
+            if (this.userid == this.adminUserId) {
                 return true;
             }
             return false;
@@ -63580,6 +63580,7 @@ class HandleMessage {
         this.ctx = ctx;
         this.message = ctx.message["text"];
         this.username = ctx.message.from.username;
+        this.userid = ctx.message.from.id;
         this.isBot = ctx.message.from.is_bot;
         this.args = {};
         this.status = 0;

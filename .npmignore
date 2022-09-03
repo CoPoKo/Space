@@ -18,3 +18,5 @@ SECURITY.md
 *.toml
 src
 wrangler.toml.template
+tsconfig.json
+webpack.config.js
