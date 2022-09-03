@@ -63908,6 +63908,7 @@ async function handleSpace(event) {
             .get("/twemoji/").action(Space_1.default.Actions.CDN)
             .get("/gitraw/").action(Space_1.default.Actions.CDN)
             .get("/gist/").action(Space_1.default.Actions.CDN)
+            .get("/ajax/libs/").action(Space_1.default.Actions.CDN)
             // OPEN API
             .get("/bing").action(Space_1.default.Actions.API.BingImgInfo)
             .get("/sitich").action(Space_1.default.Actions.API.Sitich)

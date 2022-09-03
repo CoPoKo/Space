@@ -82,6 +82,7 @@ async function handleSpace(event: FetchEvent) {
       .get("/twemoji/").action(Space.Actions.CDN)
       .get("/gitraw/").action(Space.Actions.CDN)
       .get("/gist/").action(Space.Actions.CDN)
+      .get("/ajax/libs/").action(Space.Actions.CDN)
       // OPEN API
       .get("/bing").action(Space.Actions.API.BingImgInfo)
       .get("/sitich").action(Space.Actions.API.Sitich)
