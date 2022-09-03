@@ -19,27 +19,25 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-const IPFS = {
-  Put: async (s: string, type?: string) => {
-    // if (!s) {
-    //   s = "Hello World!"
-    // }
-    // if (!type) {
-    //   type = "text/plain"
-    // }
-    // const formdata = new FormData();
-    // formdata.append("file", new Blob([Buffer.from(s)], { type: type }));
-    // return await fetch(new Request(COPOKO_API + "/api/v0/add", {
-    //   method: "POST",
-    //   headers: {
-    //     "accept": "application/json",
-    //   },
-    //   body: formdata,
-    // }));
-    return null; // todo
-  },
-  Get: async (hash: string): Promise<Response> => {
-    return await fetch("https://ipfs.io/ipfs/" + hash);
+import Space from "../../Space"
+
+const Get = async (key: string): Promise<string> => {
+  const set = await Space.Helpers.Setting("NPMUpload");
+  const NPM_PKG = set.NPM_PKG;
+  const r = await fetch(`https://unpkg.com/${NPM_PKG}@0.0.${key}/data.js`);
+  if (r.status !== 200) {
+    return null;
   }
+  const s = await r.text();
+  return Space.API.AES.Decrypt(s);
+}
+const Put = async (s: string): Promise<string> => {
+  const info = await Space.API.NPMUpload(Space.API.AES.Encrypt(s))
+  if (info.success)
+    return info.key;
+  return null;
+}
+export default {
+  Get,
+  Put,
 };
-export default IPFS;

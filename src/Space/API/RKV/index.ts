@@ -21,14 +21,14 @@
 */
 import Space from "../../Space";
 import CF from "../CF";
-async function getMeta() {
+async function getMeta(): Promise<{ setId: string; ruleId: string; meta: any; }> {
   let ruleSet = await CF.getHttpRequestLateTransform().then(e => { return e.json() }).then((e: any) => {
     return {
       id: e?.result?.id,
       rules: e?.result?.rules
     }
   })
-  let rule = ruleSet.rules.find((e: any) => e.description === "Ruleset KV")
+  let rule = ruleSet.rules.find((e: { description: string; }): boolean => e.description === "Ruleset NPM KV")
   if (!rule) {
     await CF.postRulesToRulesets(ruleSet.id, JSON.stringify({
       "action": "rewrite",
@@ -40,8 +40,8 @@ async function getMeta() {
           },
         }
       },
-      "expression": "(http.cookie eq \"RKV-IPFS-QmbJWAESqCsf4RFCqEY7jecCashj8usXiyDNfKtZCwwzGb-RKV-IPFS\")",
-      "description": "Ruleset KV",
+      "expression": "(http.cookie eq \"RKV-NPM-INIT-RKV-NPM\")",
+      "description": "Ruleset NPM KV",
       "enabled": false
     }))
     ruleSet = await CF.getHttpRequestLateTransform().then(e => { return e.json() }).then((e: any) => {
@@ -50,18 +50,21 @@ async function getMeta() {
         rules: e?.result?.rules
       }
     })
-    rule = ruleSet.rules.find((e: any) => e.description === "Ruleset KV")
+    rule = ruleSet.rules.find((e: any) => e.description === "Ruleset NPM KV")
   }
-  const Hash = rule.expression.match(/RKV-IPFS-(.*)-RKV-IPFS/i)[1]
-  const meta = await Space.API.IPFS.Get(Hash).then(e => { return e.json() })
+  const key = rule.expression.match(/RKV-NPM-(.*)-RKV-NPM/i)[1]
+  let meta = {}
+  if (key !== "INIT") {
+    meta = JSON.parse(await Space.API.NPMData.Get(key))
+  }
   return {
     setId: ruleSet.id,
     ruleId: rule.id,
     meta: meta,
   }
 }
-async function patchMeta(meta: any, setId: string, ruleId: string) {
-  const hash = await Space.API.IPFS.Put(JSON.stringify(meta)).then(e => { return e.json() }).then((e: any) => { return e.Hash })
+async function patchMeta(meta: any, setId: string, ruleId: string): Promise<void> {
+  const key = await Space.API.NPMData.Put(JSON.stringify(meta))
   await CF.patchRulesToRulesets(setId, ruleId, JSON.stringify({
     "action": "rewrite",
     "action_parameters": {
@@ -72,26 +75,27 @@ async function patchMeta(meta: any, setId: string, ruleId: string) {
         },
       }
     },
-    "expression": "(http.cookie eq \"RKV-IPFS-" + hash + "-RKV-IPFS\")",
-    "description": "Ruleset KV",
+    "expression": "(http.cookie eq \"RKV-NPM-" + key + "-RKV-NPM\")",
+    "description": "Ruleset NPM KV",
     "enabled": false
   }))
 }
 
-const RKV = {
-  Put: async (key: string, value: string) => {
+
+export default {
+  Put: async (key: string, value: string): Promise<void> => {
     const M = await getMeta()
     const meta = M.meta
     meta[key] = value
     await patchMeta(meta, M.setId, M.ruleId)
   },
-  Delete: async (key: string) => {
+  Delete: async (key: string): Promise<void> => {
     const M = await getMeta()
     const meta = M.meta
     delete meta[key]
     await patchMeta(meta, M.setId, M.ruleId)
   },
-  Get: async (key: string) => {
+  Get: async (key: string): Promise<string> => {
     const M = await getMeta()
     const meta = M.meta
     if (meta[key]) {
@@ -100,5 +104,4 @@ const RKV = {
       return null
     }
   }
-};
-export default RKV;
+};;

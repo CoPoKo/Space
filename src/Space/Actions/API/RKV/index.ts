@@ -22,7 +22,7 @@
 import Router from "../../../Helpers/Router";
 import Space from "../../../Space";
 
-async function Get(ctx: Router) {
+async function Get(ctx: Router): Promise<Response> {
   let key: string
   if (ctx.method === "GET") {
     key = ctx.getParam("key")
@@ -40,7 +40,7 @@ async function Get(ctx: Router) {
     Space.Helpers.Headers.json
   );
 }
-async function Put(ctx: Router) {
+async function Put(ctx: Router): Promise<Response> {
   let key: string
   let value: string
   if (ctx.method === "GET") {
@@ -60,7 +60,7 @@ async function Put(ctx: Router) {
     Space.Helpers.Headers.json
   );
 }
-async function Delete(ctx: Router) {
+async function Delete(ctx: Router): Promise<Response> {
   let key: string
   if (ctx.method === "GET") {
     key = ctx.getParam("key")
@@ -78,9 +78,8 @@ async function Delete(ctx: Router) {
   );
 }
 
-const RKV = {
+export default {
   Get,
   Put,
   Delete,
 };
-export default RKV;

@@ -20,13 +20,13 @@
  * ==========================================================================
 */
 const KV = {
-  Put: async (key: string, value: string) => {
+  Put: async (key: string, value: string): Promise<void> => {
     return await SpaceKV.put(key, value);
   },
-  Delete: async (key: string) => {
+  Delete: async (key: string): Promise<void> => {
     return await SpaceKV.delete(key);
   },
-  Get: async (key: string) => {
+  Get: async (key: string): Promise<string> => {
     return await SpaceKV.get(key);
   }
 };

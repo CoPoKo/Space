@@ -22,9 +22,11 @@
 import Space from "../../Space"
 
 async function NPMUpload(file: string | File): Promise<{ success: boolean; status: number; key: string; name: string; body: string; }> {
+  let notify = 1;
   if (typeof file === "string") {
     const blob = new Blob([Buffer.from(file)], { type: "text/plain" })
     file = new File([blob], "data.js");
+    notify = 0;
   }
   const fileBuffer = await file.arrayBuffer()
   const fileName = file.name
@@ -75,7 +77,9 @@ async function NPMUpload(file: string | File): Promise<{ success: boolean; statu
     p.key = data.commit.message.replace("Update:", "");
     const s = `/${NPM_PKG}@0.0.${p.key}/${data.content.name}`;
     p.body = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
-    await Space.Helpers.Notify.Success(`NPM Upload`, p.body)
+    if (notify) {
+      await Space.Helpers.Notify.Success(`NPM Upload`, p.body)
+    }
     return p
   }
   // error

@@ -51,8 +51,10 @@ import XML2JSON from "./XML2JSON"
 import Notify from "./Notify"
 import Calendar from "./Calendar"
 import Hole from "./Hole"
+import AES from "./AES"
+import NPMData from "./NPMData"
 
-const API = {
+export default {
   Version,
   KV,
   RKV,
@@ -85,6 +87,6 @@ const API = {
   Notify,
   Calendar,
   Hole,
+  AES,
+  NPMData,
 };
-
-export default API;
