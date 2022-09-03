@@ -21,21 +21,22 @@
 */
 const IPFS = {
   Put: async (s: string, type?: string) => {
-    if (!s) {
-      s = "Hello World!"
-    }
-    if (!type) {
-      type = "text/plain"
-    }
-    const formdata = new FormData();
-    formdata.append("file", new Blob([Buffer.from(s)], { type: type }));
-    return await fetch(new Request(COPOKO_API + "/api/v0/add", {
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-      },
-      body: formdata,
-    }));
+    // if (!s) {
+    //   s = "Hello World!"
+    // }
+    // if (!type) {
+    //   type = "text/plain"
+    // }
+    // const formdata = new FormData();
+    // formdata.append("file", new Blob([Buffer.from(s)], { type: type }));
+    // return await fetch(new Request(COPOKO_API + "/api/v0/add", {
+    //   method: "POST",
+    //   headers: {
+    //     "accept": "application/json",
+    //   },
+    //   body: formdata,
+    // }));
+    return null; // todo
   },
   Get: async (hash: string) => {
     return await fetch("https://ipfs.io/ipfs/" + hash);

@@ -100,9 +100,9 @@ async function handleSpace(event: FetchEvent) {
       .get("/happypic").action(Space.Actions.API.Happypic)
       .get("/dns").action(Space.Actions.API.DNSQuery)
       .get("/thum").action(Space.Actions.API.Thum)
-      .get("/ipfs/api/add").action(Space.Actions.API.IPFS.Put)
+      // .get("/ipfs/api/add").action(Space.Actions.API.IPFS.Put)
       .get("/ipfs").action(Space.Actions.API.IPFS.Get)
-      .post("/api/v0/").action(Space.Actions.API.IPFS.Put)
+      // .post("/api/v0/").action(Space.Actions.API.IPFS.Put)
       .post("/hole").action(Space.Actions.API.Hole)
       /////////////////////////////////////////////////////////////////////
       // Header Auth

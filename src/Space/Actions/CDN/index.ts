@@ -67,6 +67,19 @@ async function CDN(ctx: Router) {
         headers: new_request_headers
       });
       response = await NewResponse(a);
+    } else if (path.startsWith('/ajax/libs/')) {
+      url.hostname = 'cdnjs.cloudflare.com'
+      let method = request.method;
+      let request_headers = request.headers;
+      let new_request_headers = new Headers(request_headers);
+      new_request_headers.set('Host', url.hostname);
+      new_request_headers.set('Referer', url.href);
+      let fetchUrl = url.toString()
+      let a = await fetch(fetchUrl, {
+        method: method,
+        headers: new_request_headers
+      });
+      response = await NewResponse(a);
     } else if (path.startsWith('/gitraw/')) {
       url.hostname = 'raw.githubusercontent.com'
       let method = request.method;
