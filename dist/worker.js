@@ -57951,6 +57951,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 */
 const Space_1 = __webpack_require__(7619);
 async function NPMUpload(file) {
+    if (typeof file === "string") {
+        const blob = new Blob([Buffer.from(file)], { type: "text/plain" });
+        file = new File([blob], "data.js");
+    }
     const fileBuffer = await file.arrayBuffer();
     const fileName = file.name;
     const fileBase64 = Buffer.from(fileBuffer).toString('base64');
@@ -57968,7 +57972,7 @@ async function NPMUpload(file) {
             "user-agent": "copoko.npm.git/0.0.1",
             "Authorization": "token " + GITHUB_TOKEN
         },
-    }).then(e => {
+    }).then((e) => {
         return e.json();
     }).then((e) => {
         return e.sha;
@@ -57984,19 +57988,22 @@ async function NPMUpload(file) {
             "Authorization": "token " + GITHUB_TOKEN
         }
     });
+    const success = r.status.toString().startsWith("20"); // success 200 201
+    const body = await r.text();
     const p = {
+        success: success,
         status: r.status,
-        body: await r.text()
+        key: body,
+        name: fileName,
+        body: body,
     };
-    if (p.status.toString().startsWith("20")) { // success 200 201
-        const data = JSON.parse(p.body);
-        const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
-        const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`;
-        await Space_1.default.Helpers.Notify.Success(`NPM Upload`, ss);
-        return {
-            status: p.status,
-            body: ss
-        };
+    if (success) {
+        const data = JSON.parse(p.key);
+        p.key = data.commit.message.replace("Update:", "");
+        const s = `/${NPM_PKG}@0.0.${p.key}/${data.content.name}`;
+        p.body = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`;
+        await Space_1.default.Helpers.Notify.Success(`NPM Upload`, p.body);
+        return p;
     }
     // error
     return p;
@@ -75661,7 +75668,7 @@ module.exports = JSON.parse('{"100":"Continue","101":"Switching Protocols","102"
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.3","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.8.3"},"devDependencies":{"@cloudflare/workers-types":"^3.11.0","html-loader":"^3.1.0","node-polyfill-webpack-plugin":"^1.1.4","ts-loader":"^9.3.0","typescript":"^4.7.2","webpack":"^5.72.1","webpack-cli":"^4.9.2","yaml-loader":"^0.8.0"}}');
+module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.3","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.8.3"},"devDependencies":{"@cloudflare/workers-types":"^3.11.0","@types/crypto-js":"^4.1.1","html-loader":"^3.1.0","node-polyfill-webpack-plugin":"^1.1.4","ts-loader":"^9.3.0","typescript":"^4.7.2","webpack":"^5.72.1","webpack-cli":"^4.9.2","yaml-loader":"^0.8.0"}}');
 
 /***/ })
 

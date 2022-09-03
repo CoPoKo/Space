@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^3.11.0",
+    "@types/crypto-js": "^4.1.1",
     "html-loader": "^3.1.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "ts-loader": "^9.3.0",

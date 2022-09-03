@@ -21,7 +21,11 @@
 */
 import Space from "../../Space"
 
-async function NPMUpload(file: any) {
+async function NPMUpload(file: string | File): Promise<{ success: boolean; status: number; key: string; name: string; body: string; }> {
+  if (typeof file === "string") {
+    const blob = new Blob([Buffer.from(file)], { type: "text/plain" })
+    file = new File([blob], "data.js");
+  }
   const fileBuffer = await file.arrayBuffer()
   const fileName = file.name
   const fileBase64 = Buffer.from(fileBuffer).toString('base64')
@@ -40,9 +44,9 @@ async function NPMUpload(file: any) {
       "user-agent": "copoko.npm.git/0.0.1",
       "Authorization": "token " + GITHUB_TOKEN
     },
-  }).then(e => {
+  }).then((e): Promise<any> => {
     return e.json()
-  }).then((e: any) => {
+  }).then((e): string => {
     return e.sha
   })
 
@@ -57,21 +61,25 @@ async function NPMUpload(file: any) {
       "Authorization": "token " + GITHUB_TOKEN
     }
   })
+  const success = r.status.toString().startsWith("20"); // success 200 201
+  const body = await r.text();
   const p = {
+    success: success,
     status: r.status,
-    body: await r.text()
+    key: body,
+    name: fileName,
+    body: body,
   }
-  if (p.status.toString().startsWith("20")) { // success 200 201
-    const data = JSON.parse(p.body);
-    const s = `/${NPM_PKG}@0.0.${data.commit.message.replace("Update:", "")}/${data.content.name}`;
-    const ss = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
-    await Space.Helpers.Notify.Success(`NPM Upload`, ss)
-    return {
-      status: p.status,
-      body: ss
-    }
+  if (success) {
+    const data = JSON.parse(p.key);
+    p.key = data.commit.message.replace("Update:", "");
+    const s = `/${NPM_PKG}@0.0.${p.key}/${data.content.name}`;
+    p.body = `https://fastly.jsdelivr.net/npm${s}<br/>https://unpkg.com${s}`
+    await Space.Helpers.Notify.Success(`NPM Upload`, p.body)
+    return p
   }
   // error
   return p
 }
+
 export default NPMUpload;
