@@ -19,15 +19,18 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import handleSpace from "./Space";
-import handleScheduled from "./Space/Scheduled";
 
-addEventListener("fetch", (event: FetchEvent): void => {
-  event.respondWith(
-    handleSpace(event).catch((err: { stack: BodyInit; }) => new Response(err.stack, { status: 500 }))
-  );
-});
+import bot from '../../../TelegrafBot'
+import Space from './../../../Space'
+import Setting from '../../../Helpers/Setting';
 
-addEventListener('scheduled', (event: ScheduledEvent): void => {
-  event.waitUntil(handleScheduled(event))
-})
+export default async function (): Promise<void> {
+  const set = await Setting("TelegrafBot");
+  const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
+  console.log(PUBLIC_GROUP_ID);
+  
+  const ans = await Space.API.BingImgInfo();
+  await bot.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
+}
+
+

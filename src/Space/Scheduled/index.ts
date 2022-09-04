@@ -19,15 +19,31 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import handleSpace from "./Space";
-import handleScheduled from "./Space/Scheduled";
 
-addEventListener("fetch", (event: FetchEvent): void => {
-  event.respondWith(
-    handleSpace(event).catch((err: { stack: BodyInit; }) => new Response(err.stack, { status: 500 }))
-  );
-});
+import Actions from './Actions';
 
-addEventListener('scheduled', (event: ScheduledEvent): void => {
-  event.waitUntil(handleScheduled(event))
-})
+const schedules = require("./schedule.yml").default;
+
+function UTC8Hours(Hours: number): number {
+  let UTC8Hours = Hours + 8
+  if (UTC8Hours > 24) {
+    UTC8Hours = UTC8Hours - 24
+  }
+  return UTC8Hours
+}
+
+export default async function (event: ScheduledEvent): Promise<void> {
+  const Hours = UTC8Hours(new Date(event.scheduledTime).getHours())
+  const Minutes = new Date(event.scheduledTime).getMinutes()
+
+  for await (const schedule of schedules) {
+    const time = schedule.time;
+    const action = schedule.action;
+    const scheduleHour = parseInt(time.split(":")[0]);
+    const scheduleMinute = parseInt(time.split(":")[1]);
+
+    if (Hours == scheduleHour && Minutes == scheduleMinute) {
+      await Actions[action]();
+    }
+  }
+}

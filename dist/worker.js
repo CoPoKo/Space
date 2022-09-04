@@ -67829,12 +67829,12 @@ exports["default"] = {
 
 /***/ }),
 
-/***/ 95468:
+/***/ 5462:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
+/* provided dependency */ var console = __webpack_require__(25108);
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 /*!
  * ==========================================================================
  * "CoPoKo Space" License
@@ -67856,26 +67856,163 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TelegrafBot_1 = __webpack_require__(71535);
 const Space_1 = __webpack_require__(7619);
 const Setting_1 = __webpack_require__(77425);
-async function handleScheduled(event) {
-    const Hours = UTC8Hours(new Date(event.scheduledTime).getHours());
-    const Minutes = new Date(event.scheduledTime).getMinutes();
-    if (Hours == 2 && Minutes == 0) {
-        await Space_1.default.API.CF.createRoute();
-        await Space_1.default.API.CF.setSecurityLevel("essentially_off");
-    }
-    if (Hours == 6 && Minutes == 0) {
-        const set = await (0, Setting_1.default)("TelegrafBot");
-        const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
-        const ans = await Space_1.default.API.BingImgInfo();
-        await TelegrafBot_1.default.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
-    }
-    if (Hours == 7 && Minutes == 0) {
-        await Space_1.default.Helpers.RSS.update();
-    }
+async function default_1() {
+    const set = await (0, Setting_1.default)("TelegrafBot");
+    const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
+    console.log(PUBLIC_GROUP_ID);
+    const ans = await Space_1.default.API.BingImgInfo();
+    await TelegrafBot_1.default.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
 }
+exports["default"] = default_1;
+
+
+/***/ }),
+
+/***/ 7369:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function default_1() {
+    await Space_1.default.Helpers.RSS.update();
+}
+exports["default"] = default_1;
+
+
+/***/ }),
+
+/***/ 14770:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Space_1 = __webpack_require__(7619);
+async function default_1() {
+    await Space_1.default.API.CF.createRoute();
+    await Space_1.default.API.CF.setSecurityLevel("essentially_off");
+}
+exports["default"] = default_1;
+
+
+/***/ }),
+
+/***/ 32837:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Bing_1 = __webpack_require__(5462);
+const RSSUpdate_1 = __webpack_require__(7369);
+const SecurityReset_1 = __webpack_require__(14770);
+exports["default"] = {
+    Bing: Bing_1.default,
+    RSSUpdate: RSSUpdate_1.default,
+    SecurityReset: SecurityReset_1.default
+};
+
+
+/***/ }),
+
+/***/ 34864:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Actions_1 = __webpack_require__(32837);
+const schedules = (__webpack_require__(15229)/* ["default"] */ .Z);
 function UTC8Hours(Hours) {
     let UTC8Hours = Hours + 8;
     if (UTC8Hours > 24) {
@@ -67883,7 +68020,20 @@ function UTC8Hours(Hours) {
     }
     return UTC8Hours;
 }
-exports["default"] = handleScheduled;
+async function default_1(event) {
+    const Hours = UTC8Hours(new Date(event.scheduledTime).getHours());
+    const Minutes = new Date(event.scheduledTime).getMinutes();
+    for await (const schedule of schedules) {
+        const time = schedule.time;
+        const action = schedule.action;
+        const scheduleHour = parseInt(time.split(":")[0]);
+        const scheduleMinute = parseInt(time.split(":")[1]);
+        if (Hours == scheduleHour && Minutes == scheduleMinute) {
+            await Actions_1.default[action]();
+        }
+    }
+}
+exports["default"] = default_1;
 
 
 /***/ }),
@@ -77422,6 +77572,17 @@ function extend() {
 
 /***/ }),
 
+/***/ 15229:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{time:'2:00',action:'SecurityReset'},{time:'5:00',action:'Bing'},{time:'5:30',action:'RSSUpdate'}]);
+
+/***/ }),
+
 /***/ 77732:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -81661,11 +81822,11 @@ __webpack_unused_export__ = ({ value: true });
  * ==========================================================================
 */
 const Space_1 = __webpack_require__(20638);
-const Scheduled_1 = __webpack_require__(95468);
+const Scheduled_1 = __webpack_require__(34864);
 addEventListener("fetch", (event) => {
     event.respondWith((0, Space_1.default)(event).catch((err) => new Response(err.stack, { status: 500 })));
 });
-addEventListener('scheduled', async (event) => {
+addEventListener('scheduled', (event) => {
     event.waitUntil((0, Scheduled_1.default)(event));
 });
 
