@@ -68108,6 +68108,10 @@ exports["default"] = Catch;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 async function Help(ctx) {
+    if (ctx.chat.id == -1001480715278) {
+        ctx.reply("主题文档搜索 + 关键词\n eg: 主题文档搜索 timeline");
+        return;
+    }
     await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA');
     // ctx.reply("HelpInfo6666");
 }
@@ -69275,6 +69279,73 @@ exports["default"] = Unsplash;
 
 /***/ }),
 
+/***/ 94076:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = async (that) => {
+    const ctx = that.ctx;
+    const keyword = that.args.k;
+    const msg = that.ctx.message["text"];
+    if (msg.match(/^>vlts/)) {
+        // 不支持多个空格
+        if (!keyword)
+            return;
+        if (keyword === "主题文档") {
+            ctx.reply("https://volantis.js.org/");
+            return;
+        }
+        return search(keyword, ctx);
+    }
+    else {
+        // 支持多个空格
+        const keyword = msg.replace(/^主题文档搜索/, "").trim();
+        if (!keyword)
+            return;
+        return search(keyword, ctx);
+    }
+};
+async function search(keyword, ctx) {
+    const res = await fetch("https://volantis.js.org/content.json");
+    const text = await res.text();
+    const data = JSON.parse(text);
+    parseData(data).forEach(post => {
+        if (contentSearch(post, keyword)) {
+            ctx.reply(encodeURI(post.permalink + "?keyword=" + keyword));
+        }
+    });
+}
+function parseData(data) {
+    return [...data.pages, ...data.posts];
+}
+function contentSearch(post, keyword) {
+    const post_content = post.text.trim().toLowerCase();
+    const keywords = keyword
+        .trim()
+        .toLowerCase()
+        .split(/[-\s]+/);
+    let foundMatch = false;
+    let index_content = -1;
+    if (post_content) {
+        keywords.forEach(word => {
+            index_content = post_content.indexOf(word);
+            if (index_content < 0) {
+                foundMatch = false;
+            }
+            else {
+                foundMatch = true;
+            }
+        });
+    }
+    return foundMatch;
+}
+;
+
+
+/***/ }),
+
 /***/ 260:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -69385,7 +69456,8 @@ const CoCoShell_1 = __webpack_require__(98767);
 const RSS_1 = __webpack_require__(93891);
 const BracketMatch_1 = __webpack_require__(55911);
 const NPMUpload_1 = __webpack_require__(26401);
-const Actions = {
+const VltsDoc_1 = __webpack_require__(94076);
+exports["default"] = {
     Niubi: Niubi_1.default,
     Unsplash: Unsplash_1.default,
     Bing: Bing_1.default,
@@ -69412,8 +69484,8 @@ const Actions = {
     RSS: RSS_1.default,
     BracketMatch: BracketMatch_1.default,
     NPMUpload: NPMUpload_1.default,
+    VltsDoc: VltsDoc_1.default,
 };
-exports["default"] = Actions;
 
 
 /***/ }),
@@ -77590,7 +77662,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'},{cmd:'rss',arg:{k:'list',q:null},action:'RSS'},{cmd:'npm',arg:{k:'start'},action:'NPMUpload'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{random:100,action:'BracketMatch'}]},{workflow:[{admin:[{random:100,action:'NPMUpload'}]}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'^https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'}]}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'},{cmd:'rss',arg:{k:'list',q:null},action:'RSS'},{cmd:'npm',arg:{k:'start'},action:'NPMUpload'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{random:100,action:'BracketMatch'}]},{workflow:[{admin:[{random:100,action:'NPMUpload'}]}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'^https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{cmd:'vlts',arg:{k:'主题文档'},action:'VltsDoc'},{re:'^主题文档搜索',action:'VltsDoc'}]}]);
 
 /***/ }),
 

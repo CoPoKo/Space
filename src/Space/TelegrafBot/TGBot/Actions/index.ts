@@ -45,8 +45,9 @@ import CoCoShell from "./CoCoShell";
 import RSS from "./RSS";
 import BracketMatch from "./BracketMatch";
 import NPMUpload from "./NPMUpload";
+import VltsDoc from "./VltsDoc";
 
-const Actions = {
+export default {
   Niubi,
   Unsplash,
   Bing,
@@ -73,6 +74,5 @@ const Actions = {
   RSS,
   BracketMatch,
   NPMUpload,
+  VltsDoc,
 };
-
-export default Actions;

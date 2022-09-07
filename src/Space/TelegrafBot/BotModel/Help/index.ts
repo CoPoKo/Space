@@ -23,6 +23,10 @@ import { Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
 
 async function Help(ctx: Context<Update>): Promise<void> {
+  if (ctx.chat.id == -1001480715278) {
+    ctx.reply("主题文档搜索 + 关键词\n eg: 主题文档搜索 timeline");
+    return;
+  }
   await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA')
   // ctx.reply("HelpInfo6666");
 }

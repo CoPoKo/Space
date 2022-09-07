@@ -244,3 +244,9 @@
         - 来
         - 诗
       action: Poet
+    - cmd: vlts
+      arg:
+        k: 主题文档
+      action: VltsDoc
+    - re: ^主题文档搜索
+      action: VltsDoc
