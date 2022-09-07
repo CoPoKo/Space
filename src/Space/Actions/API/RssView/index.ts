@@ -24,8 +24,8 @@ import Space from "../../../Space"
 
 async function RssView(ctx: Router): Promise<Response> {
   const path = ctx.pathname;
-  const key = path.replace("/rss-view/","")
-  const html = await Space.API.NPMData.Get(key)
-  return new Response(html,Space.Helpers.Headers.html)
+  const key = path.replace("/rss-view/", "")
+  const html = await Space.API.NPMData.Get(key, "RssView")
+  return new Response(html, Space.Helpers.Headers.html)
 }
 export default RssView;

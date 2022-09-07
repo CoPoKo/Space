@@ -55,7 +55,7 @@ async function getMeta(): Promise<{ setId: string; ruleId: string; meta: any; }>
   const key = rule.expression.match(/RKV-NPM-(.*)-RKV-NPM/i)[1]
   let meta = {}
   if (key !== "INIT") {
-    meta = JSON.parse(await Space.API.NPMData.Get(key))
+    meta = JSON.parse(await Space.API.NPMData.Get(key, "RKKV"))
   }
   return {
     setId: ruleSet.id,
@@ -64,7 +64,7 @@ async function getMeta(): Promise<{ setId: string; ruleId: string; meta: any; }>
   }
 }
 async function patchMeta(meta: any, setId: string, ruleId: string): Promise<void> {
-  const key = await Space.API.NPMData.Put(JSON.stringify(meta))
+  const key = await Space.API.NPMData.Put(JSON.stringify(meta), "RKKV")
   await CF.patchRulesToRulesets(setId, ruleId, JSON.stringify({
     "action": "rewrite",
     "action_parameters": {

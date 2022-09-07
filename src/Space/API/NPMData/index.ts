@@ -21,7 +21,7 @@
 */
 import Space from "../../Space"
 
-const Get = async (key: string): Promise<string> => {
+const Get = async (key: string, pass: string): Promise<string> => {
   const set = await Space.Helpers.Setting("NPMUpload");
   const NPM_PKG = set.NPM_PKG;
   const r = await fetch(`https://unpkg.com/${NPM_PKG}@0.0.${key}/data.js`);
@@ -29,10 +29,10 @@ const Get = async (key: string): Promise<string> => {
     return null;
   }
   const s = await r.text();
-  return Space.API.AES.Decrypt(s);
+  return Space.API.AES.Decrypt(s, pass);
 }
-const Put = async (s: string): Promise<string> => {
-  const info = await Space.API.NPMUpload(Space.API.AES.Encrypt(s))
+const Put = async (s: string, pass: string): Promise<string> => {
+  const info = await Space.API.NPMUpload(Space.API.AES.Encrypt(s, pass))
   if (info.success)
     return info.key;
   return null;

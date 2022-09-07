@@ -145,7 +145,7 @@ async function page(tittle: string, content: string): Promise<string> {
     </article>
     </body>
   </html>`;
-  const key = await Space.API.NPMData.Put(html)
+  const key = await Space.API.NPMData.Put(html, "RssView")
   return "https://" + WORKERROUTE.replace("/*", '') + "/rss-view/" + key;
 }
 async function last(that?: HandleMessage): Promise<void> {

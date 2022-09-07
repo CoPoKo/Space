@@ -43076,7 +43076,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<link href=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.css\" rel=\"stylesheet\">\r\n<script src=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.js\"></script>\r\n<script>\r\n  $(function () {\r\n    summernoteInit('#compose-textarea')\r\n  })\r\n  // $('#compose-textarea').summernote('code')\r\n  // $('#compose-textarea').summernote('insertText', 'Hello, world');\r\n  function summernoteInit(id) {\r\n    $(id).summernote({\r\n      tabsize: 2,\r\n      toolbar: [\r\n        ['style', ['style']],\r\n        ['font', ['bold', 'underline', 'clear']],\r\n        ['color', ['color']],\r\n        ['para', ['ul', 'ol', 'paragraph']],\r\n        ['table', ['table']],\r\n        ['insert', ['link', 'picture', 'video']],\r\n        ['view', ['fullscreen', 'codeview']]\r\n      ]\r\n    })\r\n  }\r\n  function SubmitHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/','-') + \" \"+new Date().toLocaleString().split(\" \")[1].slice(0,5),\r\n      visible: true,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function DraftHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/','-') + \" \"+new Date().toLocaleString().split(\" \")[1].slice(0,5),\r\n      visible: false,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function getHoleItem(e) {\r\n    return `\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <img src=\"${e.avatar}\" class=\"avatar\">\r\n          <p class=\"card-title float-right\"> · <strong>${e.like}</strong> like</p>\r\n          <p class=\"card-title float-right\"><strong>${e.name}</strong> · ${e.time} </p>\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <div id=\"hole-${e.id}\">\r\n            ${e.content}\r\n          </div>\r\n          <textarea id=\"compose-textarea-${e.id}\" class=\"form-control\" style=\"display: none;\"></textarea>\r\n        </div>\r\n        <div id=\"card-footer-${e.id}\" class=\"card-footer\" style=\"display: none;\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" type=\"button\" onclick=\"SubmitHoleItem(this)\" class=\"btn btn-primary\">Submit</button>\r\n          </div>\r\n          <button type=\"button\" onclick=\"$('#compose-textarea-${e.id}').summernote('code','')\"\r\n            class=\"btn btn-default\">Discard</button>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" onclick=\"EditHole(this)\" type=\"button\" class=\"btn btn-default\">Edit</button>\r\n            <button it=\"${e.id}\" onclick=\"VisibleHole(this)\" type=\"button\" class=\"btn btn-default\">${e.visible ? \"Hide\" : \"Show\"}</button>\r\n            <button it=\"${e.id}\" onclick=\"DeleteHole(this)\" type=\"button\" class=\"btn btn-default\">Delete</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      `\r\n  }\r\n  function DeleteHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Delete', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({ id: id })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function VisibleHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Visible', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function renderList(data) {\r\n    $('#hole-list').html(\"\")\r\n    data.reverse()\r\n    data.forEach(e => {\r\n      $('#hole-list').append(getHoleItem(e))\r\n    })\r\n  }\r\n  fetch(\"/space/api/Hole\").then(e => {\r\n    return e.json()\r\n  }).then(data => {\r\n    console.log(data)\r\n    renderList(data)\r\n  })\r\n  function EditHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const hole = document.querySelector(\"#hole-\" + id)\r\n    const text = hole.innerHTML\r\n    hole.innerHTML = \"\"\r\n    summernoteInit('#compose-textarea-' + id)\r\n    $('#compose-textarea-' + id).summernote('code', text)\r\n    document.querySelector('#card-footer-' + id).style.display = \"block\"\r\n  }\r\n  function SubmitHoleItem(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const content = $('#compose-textarea-' + id).summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n    }\r\n    fetch('/space/api/Hole/Edit', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        hole: data\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n</script>";
+var code = "<link href=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.css\" rel=\"stylesheet\">\r\n<script src=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.js\"></script>\r\n<script>\r\n  $(function () {\r\n    summernoteInit('#compose-textarea')\r\n  })\r\n  // $('#compose-textarea').summernote('code')\r\n  // $('#compose-textarea').summernote('insertText', 'Hello, world');\r\n  function summernoteInit(id) {\r\n    $(id).summernote({\r\n      tabsize: 2,\r\n      toolbar: [\r\n        ['style', ['style']],\r\n        ['font', ['bold', 'underline', 'clear']],\r\n        ['color', ['color']],\r\n        ['para', ['ul', 'ol', 'paragraph']],\r\n        ['table', ['table']],\r\n        ['insert', ['link', 'picture', 'video']],\r\n        ['view', ['fullscreen', 'codeview']]\r\n      ]\r\n    })\r\n  }\r\n  function SubmitHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/', '-') + \" \" + new Date().toLocaleString().split(\" \")[1].slice(0, 5),\r\n      visible: true,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function DraftHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/', '-') + \" \" + new Date().toLocaleString().split(\" \")[1].slice(0, 5),\r\n      visible: false,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function getHoleItem(e) {\r\n    return `\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <img src=\"${e.avatar}\" class=\"avatar\">\r\n          <p class=\"card-title float-right\"> · <strong>${e.like}</strong> like</p>\r\n          <p class=\"card-title float-right\"><strong>${e.name}</strong> · ${e.time} </p>\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <div id=\"hole-${e.id}\">\r\n            ${e.content}\r\n          </div>\r\n          <textarea id=\"compose-textarea-${e.id}\" class=\"form-control\" style=\"display: none;\"></textarea>\r\n        </div>\r\n        <div id=\"card-footer-${e.id}\" class=\"card-footer\" style=\"display: none;\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" type=\"button\" onclick=\"SubmitHoleItem(this)\" class=\"btn btn-primary\">Submit</button>\r\n          </div>\r\n          <button type=\"button\" onclick=\"$('#compose-textarea-${e.id}').summernote('code','')\"\r\n            class=\"btn btn-default\">Discard</button>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" onclick=\"EditHole(this)\" type=\"button\" class=\"btn btn-default\">Edit</button>\r\n            <button it=\"${e.id}\" onclick=\"VisibleHole(this)\" type=\"button\" class=\"btn btn-default\">${e.visible ? \"Hide\" : \"Show\"}</button>\r\n            <button it=\"${e.id}\" onclick=\"DeleteHole(this)\" type=\"button\" class=\"btn btn-default\">Delete</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      `\r\n  }\r\n  function DeleteHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Delete', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({ id: id })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function VisibleHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Visible', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function renderList(data) {\r\n    $('#hole-list').html(\"\")\r\n    data.reverse()\r\n    data.forEach(e => {\r\n      $('#hole-list').append(getHoleItem(e))\r\n    })\r\n  }\r\n  fetch(\"/space/api/Hole\").then(e => {\r\n    return e.json()\r\n  }).then(data => {\r\n    console.log(data)\r\n    renderList(data)\r\n  })\r\n  function EditHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const hole = document.querySelector(\"#hole-\" + id)\r\n    const text = hole.innerHTML\r\n    hole.innerHTML = \"\"\r\n    summernoteInit('#compose-textarea-' + id)\r\n    $('#compose-textarea-' + id).summernote('code', text)\r\n    document.querySelector('#card-footer-' + id).style.display = \"block\"\r\n  }\r\n  function SubmitHoleItem(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const content = $('#compose-textarea-' + id).summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n    }\r\n    fetch('/space/api/Hole/Edit', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        hole: data\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n</script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -62946,11 +62946,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * ==========================================================================
 */
 const CryptoJS = __webpack_require__(81354);
-function Encrypt(word) {
-    return CryptoJS.AES.encrypt(word, AES_KEY).toString();
+function Encrypt(word, pass) {
+    return CryptoJS.AES.encrypt(word, AES_KEY + pass).toString();
 }
-function Decrypt(word) {
-    return CryptoJS.AES.decrypt(word, AES_KEY).toString(CryptoJS.enc.Utf8);
+function Decrypt(word, pass) {
+    return CryptoJS.AES.decrypt(word, AES_KEY + pass).toString(CryptoJS.enc.Utf8);
 }
 exports["default"] = {
     Encrypt,
@@ -63750,7 +63750,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * ==========================================================================
 */
 const Space_1 = __webpack_require__(7619);
-const Get = async (key) => {
+const Get = async (key, pass) => {
     const set = await Space_1.default.Helpers.Setting("NPMUpload");
     const NPM_PKG = set.NPM_PKG;
     const r = await fetch(`https://unpkg.com/${NPM_PKG}@0.0.${key}/data.js`);
@@ -63758,10 +63758,10 @@ const Get = async (key) => {
         return null;
     }
     const s = await r.text();
-    return Space_1.default.API.AES.Decrypt(s);
+    return Space_1.default.API.AES.Decrypt(s, pass);
 };
-const Put = async (s) => {
-    const info = await Space_1.default.API.NPMUpload(Space_1.default.API.AES.Encrypt(s));
+const Put = async (s, pass) => {
+    const info = await Space_1.default.API.NPMUpload(Space_1.default.API.AES.Encrypt(s, pass));
     if (info.success)
         return info.key;
     return null;
@@ -64212,7 +64212,7 @@ async function getMeta() {
     const key = rule.expression.match(/RKV-NPM-(.*)-RKV-NPM/i)[1];
     let meta = {};
     if (key !== "INIT") {
-        meta = JSON.parse(await Space_1.default.API.NPMData.Get(key));
+        meta = JSON.parse(await Space_1.default.API.NPMData.Get(key, "RKKV"));
     }
     return {
         setId: ruleSet.id,
@@ -64221,7 +64221,7 @@ async function getMeta() {
     };
 }
 async function patchMeta(meta, setId, ruleId) {
-    const key = await Space_1.default.API.NPMData.Put(JSON.stringify(meta));
+    const key = await Space_1.default.API.NPMData.Put(JSON.stringify(meta), "RKKV");
     await CF_1.default.patchRulesToRulesets(setId, ruleId, JSON.stringify({
         "action": "rewrite",
         "action_parameters": {
@@ -65639,7 +65639,7 @@ const Space_1 = __webpack_require__(7619);
 async function RssView(ctx) {
     const path = ctx.pathname;
     const key = path.replace("/rss-view/", "");
-    const html = await Space_1.default.API.NPMData.Get(key);
+    const html = await Space_1.default.API.NPMData.Get(key, "RssView");
     return new Response(html, Space_1.default.Helpers.Headers.html);
 }
 exports["default"] = RssView;
@@ -67293,7 +67293,7 @@ async function page(tittle, content) {
     </article>
     </body>
   </html>`;
-    const key = await Space_1.default.API.NPMData.Put(html);
+    const key = await Space_1.default.API.NPMData.Put(html, "RssView");
     return "https://" + WORKERROUTE.replace("/*", '') + "/rss-view/" + key;
 }
 async function last(that) {

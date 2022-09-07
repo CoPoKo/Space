@@ -21,12 +21,12 @@
 */
 import CryptoJS = require('crypto-js');
 
-function Encrypt(word: string): string {
-  return CryptoJS.AES.encrypt(word, AES_KEY).toString();
+function Encrypt(word: string, pass: string): string {
+  return CryptoJS.AES.encrypt(word, AES_KEY + pass).toString();
 }
 
-function Decrypt(word: string): string {
-  return CryptoJS.AES.decrypt(word, AES_KEY).toString(CryptoJS.enc.Utf8);
+function Decrypt(word: string, pass: string): string {
+  return CryptoJS.AES.decrypt(word, AES_KEY + pass).toString(CryptoJS.enc.Utf8);
 }
 
 export default {
