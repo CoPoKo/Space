@@ -51,7 +51,9 @@ const RSS = async (that: HandleMessage): Promise<void> => {
     }
   }
   if (that.args.k == "update") {
+    await ctx.reply("Trying to update...")
     await Space.Helpers.RSS.update();
+    await ctx.reply("Update Done.")
   }
   if (that.args.k == "last") {
     await Space.Helpers.RSS.last(that);

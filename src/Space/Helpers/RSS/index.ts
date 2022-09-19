@@ -74,6 +74,7 @@ async function update(that?: HandleMessage): Promise<RSSContext[]> {
     if (item.errorTime > 0) {
       return;
     }
+    const index = sub.indexOf(item);
     const feed: any = await Space.API.XML2JSON(item.url);
     try {
       if (feed.items[0]?.pubDate != item.lastUpdateTime) {
@@ -86,7 +87,7 @@ async function update(that?: HandleMessage): Promise<RSSContext[]> {
           lastPost: feed.items[0]?.title,
           lastLink: feed.items[0]?.link,
           lastUpdateTime: feed.items[0]?.pubDate,
-          lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
+          lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content, index)
         };
         sub = sub.filter((it: any) => it.url !== item.url);
         sub.push(rss);
@@ -123,14 +124,14 @@ async function update(that?: HandleMessage): Promise<RSSContext[]> {
   }
   return sub;
 }
-async function page(tittle: string, content: string): Promise<string> {
+async function page(title: string, content: string, index = 0): Promise<string> {
   content = content.replace(/<img.*?>/g, "");
   const html = `<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${tittle}</title>
+    <title>${title}</title>
     <style>
       article{
         margin: 0 auto;
@@ -140,12 +141,15 @@ async function page(tittle: string, content: string): Promise<string> {
   </head>
   <body>
     <article>
-      <h1>${tittle}</h1>
+      <h1>${title}</h1>
       ${content}
     </article>
     </body>
   </html>`;
-  const key = await Space.API.NPMData.Put(html, "RssView")
+  const key = Date.now();
+  setTimeout(async () => {
+    await Space.API.NPMData.Put(html, "RssView", key)
+  }, 30000 * index);
   return "https://" + WORKERROUTE.replace("/*", '') + "/rss-view/" + key;
 }
 async function last(that?: HandleMessage): Promise<void> {

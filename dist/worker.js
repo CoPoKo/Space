@@ -63760,8 +63760,8 @@ const Get = async (key, pass) => {
     const s = await r.text();
     return Space_1.default.API.AES.Decrypt(s, pass);
 };
-const Put = async (s, pass) => {
-    const info = await Space_1.default.API.NPMUpload(Space_1.default.API.AES.Encrypt(s, pass));
+const Put = async (s, pass, time) => {
+    const info = await Space_1.default.API.NPMUpload(Space_1.default.API.AES.Encrypt(s, pass), time);
     if (info.success)
         return info.key;
     return null;
@@ -63803,7 +63803,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * ==========================================================================
 */
 const Space_1 = __webpack_require__(7619);
-async function NPMUpload(file) {
+async function NPMUpload(file, time) {
     let notify = 1;
     if (typeof file === "string") {
         const blob = new Blob([Buffer.from(file)], { type: "text/plain" });
@@ -63818,7 +63818,7 @@ async function NPMUpload(file) {
     const GITHUB_REPO = set.GITHUB_REPO;
     const GITHUB_BRANCH = set.GITHUB_BRANCH;
     const NPM_PKG = set.NPM_PKG;
-    const message = Date.now();
+    const message = time || Date.now();
     const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${fileName}?ref=${GITHUB_BRANCH}`;
     const fileSha = await fetch(url, {
         method: "GET",
@@ -67221,6 +67221,7 @@ async function update(that) {
         if (item.errorTime > 0) {
             return;
         }
+        const index = sub.indexOf(item);
         const feed = await Space_1.default.API.XML2JSON(item.url);
         try {
             if (feed.items[0]?.pubDate != item.lastUpdateTime) {
@@ -67233,7 +67234,7 @@ async function update(that) {
                     lastPost: feed.items[0]?.title,
                     lastLink: feed.items[0]?.link,
                     lastUpdateTime: feed.items[0]?.pubDate,
-                    lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content)
+                    lastPostView: await page(feed.items[0]?.title, feed.items[0]?.content, index)
                 };
                 sub = sub.filter((it) => it.url !== item.url);
                 sub.push(rss);
@@ -67271,14 +67272,14 @@ async function update(that) {
     }
     return sub;
 }
-async function page(tittle, content) {
+async function page(title, content, index = 0) {
     content = content.replace(/<img.*?>/g, "");
     const html = `<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${tittle}</title>
+    <title>${title}</title>
     <style>
       article{
         margin: 0 auto;
@@ -67288,12 +67289,15 @@ async function page(tittle, content) {
   </head>
   <body>
     <article>
-      <h1>${tittle}</h1>
+      <h1>${title}</h1>
       ${content}
     </article>
     </body>
   </html>`;
-    const key = await Space_1.default.API.NPMData.Put(html, "RssView");
+    const key = Date.now();
+    setTimeout(async () => {
+        await Space_1.default.API.NPMData.Put(html, "RssView", key);
+    }, 30000 * index);
     return "https://" + WORKERROUTE.replace("/*", '') + "/rss-view/" + key;
 }
 async function last(that) {
@@ -68940,7 +68944,9 @@ const RSS = async (that) => {
         }
     }
     if (that.args.k == "update") {
+        await ctx.reply("Trying to update...");
         await Space_1.default.Helpers.RSS.update();
+        await ctx.reply("Update Done.");
     }
     if (that.args.k == "last") {
         await Space_1.default.Helpers.RSS.last(that);

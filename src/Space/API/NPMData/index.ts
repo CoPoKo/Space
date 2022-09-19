@@ -31,8 +31,8 @@ const Get = async (key: string, pass: string): Promise<string> => {
   const s = await r.text();
   return Space.API.AES.Decrypt(s, pass);
 }
-const Put = async (s: string, pass: string): Promise<string> => {
-  const info = await Space.API.NPMUpload(Space.API.AES.Encrypt(s, pass))
+const Put = async (s: string, pass: string, time?: number): Promise<string> => {
+  const info = await Space.API.NPMUpload(Space.API.AES.Encrypt(s, pass), time)
   if (info.success)
     return info.key;
   return null;

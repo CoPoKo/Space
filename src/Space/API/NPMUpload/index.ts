@@ -21,7 +21,7 @@
 */
 import Space from "../../Space"
 
-async function NPMUpload(file: string | File): Promise<{ success: boolean; status: number; key: string; name: string; body: string; }> {
+async function NPMUpload(file: string | File, time?: number): Promise<{ success: boolean; status: number; key: string; name: string; body: string; }> {
   let notify = 1;
   if (typeof file === "string") {
     const blob = new Blob([Buffer.from(file)], { type: "text/plain" })
@@ -37,7 +37,7 @@ async function NPMUpload(file: string | File): Promise<{ success: boolean; statu
   const GITHUB_REPO = set.GITHUB_REPO;
   const GITHUB_BRANCH = set.GITHUB_BRANCH;
   const NPM_PKG = set.NPM_PKG;
-  const message = Date.now()
+  const message = time || Date.now()
   const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${fileName}?ref=${GITHUB_BRANCH}`
   const fileSha = await fetch(url, {
     method: "GET",
