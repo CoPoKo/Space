@@ -22,10 +22,13 @@
 import { Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
 import ParseWorkflow from "../../TGBot/ParseWorkflow";
+import TGBot from "../../TGBot"
 const workflows = require("./workflows.yml").default;
 
 async function Text(ctx: Context<Update>): Promise<void> {
   // return ctx.reply(String(JSON.stringify(ctx.message)))
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanMessage).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanChanelMessage).run()
   ParseWorkflow(ctx, workflows)
 }
 

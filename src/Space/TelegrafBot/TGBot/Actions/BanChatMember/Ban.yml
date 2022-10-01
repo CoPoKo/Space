@@ -1,0 +1,27 @@
+# 检查违规用户名
+BanUserName:
+  chatID:
+    - -1001480715278 # vlts
+  include:
+    - 免费
+    - 翻墙
+    - 梯子
+    - vpn
+    - 中文电报
+    - 中文telegram
+
+# 检查违规Message
+BanMessage:
+  chatID:
+    - -1001480715278 # vlts
+  include:
+    - 资金漂白
+    - 加密货币先驱
+    - 区块链专业出售
+
+# 禁止使用频道身份发言
+BanChanelMessage:
+  chatID:
+    - -1001480715278 # vlts
+
+

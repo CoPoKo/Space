@@ -68150,6 +68150,7 @@ const TGBot_1 = __webpack_require__(46379);
 async function Message(ctx) {
     // return ctx.reply(String(ctx.message))
     await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.Niubi).run();
+    await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.BanChatMember.BanNewChatMemberByUserName).run();
 }
 exports["default"] = Message;
 
@@ -68200,9 +68201,12 @@ exports["default"] = Sticker;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const ParseWorkflow_1 = __webpack_require__(77025);
+const TGBot_1 = __webpack_require__(46379);
 const workflows = (__webpack_require__(77732)/* ["default"] */ .Z);
 async function Text(ctx) {
     // return ctx.reply(String(JSON.stringify(ctx.message)))
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanMessage).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanChanelMessage).run();
     (0, ParseWorkflow_1.default)(ctx, workflows);
 }
 exports["default"] = Text;
@@ -68275,6 +68279,64 @@ const Balloon = async (that) => {
     }
 };
 exports["default"] = Balloon;
+
+
+/***/ }),
+
+/***/ 47890:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Ban = (__webpack_require__(99864)/* ["default"] */ .Z);
+async function BanNewChatMemberByUserName(that) {
+    if (that.ctx.message["new_chat_members"] && that.ctx.message["new_chat_members"].length) {
+        that.ctx.message["new_chat_members"].forEach((it) => {
+            if (Ban.BanUserName.chatID.includes(that.chatid)) {
+                const name = it.first_name ? (it.last_name ? it.first_name + " " + it.last_name : it.first_name) : "";
+                for (const iterator of Ban.BanUserName.include) {
+                    if (name.includes(iterator)) {
+                        that.ctx.banChatMember(it.id);
+                        that.ctx.reply("检测到违规用户名：" + name);
+                        return;
+                    }
+                }
+            }
+            return;
+        });
+    }
+}
+;
+async function BanMessage(that) {
+    if (Ban.BanMessage.chatID.includes(that.chatid)) {
+        const msg = that.ctx.message["text"];
+        for (const iterator of Ban.BanMessage.include) {
+            if (msg.includes(iterator)) {
+                that.ctx.deleteMessage(that.ctx.message.message_id);
+                that.ctx.banChatMember(that.userid);
+                that.ctx.reply("检测到违规Message：" + iterator);
+                return;
+            }
+        }
+    }
+}
+;
+async function BanChanelMessage(that) {
+    if (Ban.BanChanelMessage.chatID.includes(that.chatid)) {
+        if (that.ctx.message.from.username == "Channel_Bot") {
+            that.ctx.deleteMessage(that.ctx.message.message_id);
+            that.ctx.banChatSenderChat(that.ctx.message.sender_chat["id"]);
+            that.ctx.reply("@" + that.ctx.message.sender_chat["username"] + " 禁止使用频道身份发言!");
+        }
+    }
+}
+;
+exports["default"] = {
+    BanNewChatMemberByUserName,
+    BanMessage,
+    BanChanelMessage,
+};
 
 
 /***/ }),
@@ -69463,6 +69525,7 @@ const RSS_1 = __webpack_require__(93891);
 const BracketMatch_1 = __webpack_require__(55911);
 const NPMUpload_1 = __webpack_require__(26401);
 const VltsDoc_1 = __webpack_require__(94076);
+const BanChatMember_1 = __webpack_require__(47890);
 exports["default"] = {
     Niubi: Niubi_1.default,
     Unsplash: Unsplash_1.default,
@@ -69491,6 +69554,7 @@ exports["default"] = {
     BracketMatch: BracketMatch_1.default,
     NPMUpload: NPMUpload_1.default,
     VltsDoc: VltsDoc_1.default,
+    BanChatMember: BanChatMember_1.default,
 };
 
 
@@ -77669,6 +77733,17 @@ function extend() {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{workflow:[{admin:[{re:'在吗',reply:'主人我在'},{cmd:'setu',arg:{k:0},action:'Setu'},{cmd:'ChatID',action:'ChatID'},{cmd:'WebhookInfo',action:'WebhookInfo'},{cmd:'coco',arg:{p:'getMe',q:null},action:'CoCoShell'},{cmd:'rss',arg:{k:'list',q:null},action:'RSS'},{cmd:'npm',arg:{k:'start'},action:'NPMUpload'}],'else':[{re:'在吗',reply:'爪巴'}]}]},{workflow:[{re:'百度|度娘|baidu|谷歌|google|Google|bing|必应',action:'SearchEngineLink'}]},{workflow:[{random:1,reply:'然后呢?'},{random:50,action:'ReplaceMa'},{random:100,action:'EmojiToSticker'}]},{workflow:[{random:100,action:'InterruptRepetition'}]},{workflow:[{random:100,action:'BracketMatch'}]},{workflow:[{admin:[{random:100,action:'NPMUpload'}]}]},{workflow:[{cmd:'help',reply:'no help'},{cmd:'unsplash',arg:{k:'nature,water,sky,blue,sea'},action:'Unsplash'},{cmd:'cat',arg:{k:'cat'},action:'Unsplash'},{cmd:'dog',arg:{k:'dog'},action:'Unsplash'},{cmd:'bing',arg:{d:0},action:'Bing'},{cmd:'soul',action:'Soul'},{cmd:'hitokoto',action:'Hitokoto'},{cmd:'acg',action:'Happypic'},{cmd:'nbnhhsh',arg:{k:'nb'},action:'Nbnhhsh'},{cmd:'thum',arg:{u:'https://www.google.com/',w:1024,h:1200,t:1},action:'Thum'},{cmd:'translate',arg:{k:'CoCo',t:'zh-cn'},action:'GoogleTranslate'},{cmd:'demd5',arg:{k:'eb62f6b9306db575c2d596b1279627a4'},action:'DecryptMd5'},{cmd:'dns',arg:{n:'github.com',t:'A',u:'cloudflare',e:'1.0.0.1'},action:'DNSQuery'},{cmd:'poet',action:'Poet'},{re:'^:',action:'WolframAlpha'},{re:'^。{1,}$',action:'Balloon'},{re:'来点(\\S*)笑话',action:'Niubi'},{re:'^https:\\/\\/|http:\\/\\/',arg:{w:1024,h:1200,t:1},action:'Thum'},{re:'(^hi$)|(hi[^\\w])|(^hello$)|(hello[^\\w])',reply:'Hey there'},{re:'^\\?$',reply:'???'},{re:'^？$',reply:'？？？'},{re:'你好',reply:'Hello!'},{re:'在？|在\\?',reply:'有事？'},{re:'你的主人|your master',action:'ReplyMaster'},{re:'早呀|早上|哦哈呦|起床啦',reply:'新的一天也要加油鸭'},{re:'^晚安|哦呀斯密|睡觉了|该睡了$',reply:'晚安'},{includes:['怎么','啊'],reply:'不告诉你'},{includes:['发','色图'],reply:'有色图？'},{includes:['看','色图'],reply:'色图在哪儿？'},{includes:['发','涩图'],reply:'有涩图？'},{includes:['看','涩图'],reply:'涩图在哪儿？'},{includes:['来点','色图'],reply:'让我找找',action:'Setu'},{includes:['来点','涩图'],reply:'让我找找',action:'Setu'},{includes:['来点','色色'],reply:'让我找找',action:'Setu'},{includes:['来点','涩涩'],reply:'让我找找',action:'Setu'},{re:'^不够(色)|(涩)$',reply:'让我找找',action:'Setu'},{includes:['我','应该'],reply:'确实'},{includes:['不舒服'],reply:'多喝热水'},{includes:['你','怎么'],reply:'你在教我做事？'},{includes:['你','去'],reply:'你在教我做事？'},{includes:['变成','了','光'],reply:'我也想要变成光'},{includes:['明明是我先来的'],reply:'为什么会变成这样呢……'},{includes:['明明是我先'],reply:'为什么会变成这样呢……'},{includes:['是','我先'],reply:'为什么会变成这样呢……'},{includes:['怎么样'],reply:'就这？'},{includes:['其实'],reply:'真的吗？我不信。'},{includes:['厉害'],reply:'腻害'},{includes:['恭喜'],reply:'恭喜'},{includes:['壁纸'],arg:{d:0},action:'Bing'},{includes:['来','诗'],action:'Poet'},{cmd:'vlts',arg:{k:'主题文档'},action:'VltsDoc'},{re:'^主题文档搜索',action:'VltsDoc'},{re:'^主题文档$',reply:'https://volantis.js.org/'}]}]);
+
+/***/ }),
+
+/***/ 99864:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({BanUserName:{chatID:[-1001480715278],include:['免费','翻墙','梯子','vpn','中文电报','中文telegram']},BanMessage:{chatID:[-1001480715278],include:['资金漂白','加密货币先驱','区块链专业出售']},BanChanelMessage:{chatID:[-1001480715278]}});
 
 /***/ }),
 

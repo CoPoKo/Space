@@ -46,6 +46,7 @@ import RSS from "./RSS";
 import BracketMatch from "./BracketMatch";
 import NPMUpload from "./NPMUpload";
 import VltsDoc from "./VltsDoc";
+import BanChatMember from "./BanChatMember";
 
 export default {
   Niubi,
@@ -75,4 +76,5 @@ export default {
   BracketMatch,
   NPMUpload,
   VltsDoc,
+  BanChatMember,
 };
