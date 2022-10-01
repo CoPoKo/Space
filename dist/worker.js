@@ -42960,7 +42960,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<html lang=\"en\">\r\n\r\n<head>\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta charset=\"UTF-8\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>树洞 - Tree Hollow</title>\r\n  <meta name=\"keywords\" content=\"树洞,Tree Hollow\">\r\n  <meta name=\"description\" content=\"树洞 - Tree Hollow\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/github-markdown-css@5/github-markdown-light.css\">\r\n  <link href=\"::CDN_NPM::/bootstrap@5/dist/css/bootstrap.min.css\" rel=\"stylesheet\" />\r\n  <script src=\"::CDN_NPM::/bootstrap@5/dist/js/bootstrap.min.js\"></script>\r\n</head>\r\n\r\n<body class=\"markdown-body\">\r\n  <div id=\"wrap\" class=\"container\">\r\n    <br /><br />\r\n    <textarea class=\"form-control\" id=\"TreeHollow\" rows=\"15\"></textarea>\r\n    <br />\r\n    <div class=\"d-grid gap-1\">\r\n      <button type=\"button\" onclick=\"post()\" class=\"btn btn-primary btn-lg btn-block\">Submit</button>\r\n    </div>\r\n    <br /><br />\r\n    <div id=\"TreeHollowBlock\"></div>\r\n    <div class=\"d-grid gap-1\">\r\n      <button id=\"more\" type=\"button\" onclick=\"get(window.TreeHollow.point)\"\r\n        class=\"btn btn-primary btn-lg btn-block\">MORE</button>\r\n    </div>\r\n    <br /><br />\r\n  </div>\r\n  <script src=\"::CDN_NPM::/marked@4/marked.min.js\"></script>\r\n  <script src=\"::CDN_GH::/leizongmin/js-xss@1/dist/xss.min.js\"></script>\r\n  <script type=\"text/javascript\">\r\n    function addBlock(s) {\r\n      let div = document.createElement(\"div\")\r\n      div.innerHTML = '<div class=\"card\">' +\r\n        '<div class=\"card-body\">' +\r\n        s +\r\n        '</div>' +\r\n        '</div>'\r\n      document.getElementById(\"TreeHollowBlock\").appendChild(div)\r\n    }\r\n    window.TreeHollow = {}\r\n    window.TreeHollow.point = \"top\"\r\n    const get = (i) => {\r\n      if (!i) {\r\n        addBlock(\"是的，有底洞\");\r\n        document.querySelector(\"#more\").style.display = \"none\"\r\n      } else {\r\n        fetch(\"/tree-hollow/next?id=\" + window.TreeHollow.point + \"&t=\" + new Date().getTime()).then(res => res.json()).then(res => {\r\n          addBlock(marked.parse(filterXSS(res[\"text\"])), \"success\", 0);\r\n          console.log(res[\"point\"]);\r\n          window.TreeHollow.point = res[\"point\"]\r\n        })\r\n      }\r\n    }\r\n    get(window.TreeHollow.point)\r\n    const post = () => {\r\n      if (document.getElementById(\"TreeHollow\").value) {\r\n        fetch(\"/tree-hollow\", {\r\n          method: \"POST\",\r\n          headers: {\r\n            \"Content-Type\": \"application/json\"\r\n          },\r\n          body: document.getElementById(\"TreeHollow\").value\r\n        }).then(res => res.json()).then(res => {\r\n          if (res.sucess) {\r\n            window.location.reload();\r\n          }\r\n        })\r\n      }\r\n    }\r\n  </script>\r\n</body>\r\n\r\n</html>";
+var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<html lang=\"en\">\r\n\r\n<head>\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta charset=\"UTF-8\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>树洞 - Tree Hollow</title>\r\n  <meta name=\"keywords\" content=\"树洞,Tree Hollow\">\r\n  <meta name=\"description\" content=\"树洞 - Tree Hollow\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/github-markdown-css@5/github-markdown-light.css\">\r\n  <link href=\"::CDN_NPM::/bootstrap@5/dist/css/bootstrap.min.css\" rel=\"stylesheet\" />\r\n  <" + "script src=\"::CDN_NPM::/bootstrap@5/dist/js/bootstrap.min.js\"><" + "/script>\r\n</head>\r\n\r\n<body class=\"markdown-body\">\r\n  <div id=\"wrap\" class=\"container\">\r\n    <br /><br />\r\n    <textarea class=\"form-control\" id=\"TreeHollow\" rows=\"15\"></textarea>\r\n    <br />\r\n    <div class=\"d-grid gap-1\">\r\n      <button type=\"button\" onclick=\"post()\" class=\"btn btn-primary btn-lg btn-block\">Submit</button>\r\n    </div>\r\n    <br /><br />\r\n    <div id=\"TreeHollowBlock\"></div>\r\n    <div class=\"d-grid gap-1\">\r\n      <button id=\"more\" type=\"button\" onclick=\"get(window.TreeHollow.point)\"\r\n        class=\"btn btn-primary btn-lg btn-block\">MORE</button>\r\n    </div>\r\n    <br /><br />\r\n  </div>\r\n  <" + "script src=\"::CDN_NPM::/marked@4/marked.min.js\"><" + "/script>\r\n  <" + "script src=\"::CDN_GH::/leizongmin/js-xss@1/dist/xss.min.js\"><" + "/script>\r\n  <" + "script type=\"text/javascript\">\r\n    function addBlock(s) {\r\n      let div = document.createElement(\"div\")\r\n      div.innerHTML = '<div class=\"card\">' +\r\n        '<div class=\"card-body\">' +\r\n        s +\r\n        '</div>' +\r\n        '</div>'\r\n      document.getElementById(\"TreeHollowBlock\").appendChild(div)\r\n    }\r\n    window.TreeHollow = {}\r\n    window.TreeHollow.point = \"top\"\r\n    const get = (i) => {\r\n      if (!i) {\r\n        addBlock(\"是的，有底洞\");\r\n        document.querySelector(\"#more\").style.display = \"none\"\r\n      } else {\r\n        fetch(\"/tree-hollow/next?id=\" + window.TreeHollow.point + \"&t=\" + new Date().getTime()).then(res => res.json()).then(res => {\r\n          addBlock(marked.parse(filterXSS(res[\"text\"])), \"success\", 0);\r\n          console.log(res[\"point\"]);\r\n          window.TreeHollow.point = res[\"point\"]\r\n        })\r\n      }\r\n    }\r\n    get(window.TreeHollow.point)\r\n    const post = () => {\r\n      if (document.getElementById(\"TreeHollow\").value) {\r\n        fetch(\"/tree-hollow\", {\r\n          method: \"POST\",\r\n          headers: {\r\n            \"Content-Type\": \"application/json\"\r\n          },\r\n          body: document.getElementById(\"TreeHollow\").value\r\n        }).then(res => res.json()).then(res => {\r\n          if (res.sucess) {\r\n            window.location.reload();\r\n          }\r\n        })\r\n      }\r\n    }\r\n  <" + "/script>\r\n</body>\r\n\r\n</html>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -42974,7 +42974,7 @@ var code = "<!--\r\n * =========================================================
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!doctype html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n  <title>API</title>\r\n  <meta name=\"keywords\" content=\"API\">\r\n  <meta name=\"description\" content=\"API\">\r\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN_NPM::/mhg@0.0.16/css/api.css\">\r\n</head>\r\n\r\n<body>\r\n  <div class=\"card\">\r\n    <div class=\"products\">\r\n      <div product-id=\"1\" product-color-a=\"#e64c10\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #F6B352, #e64c10)\"\r\n        product-color-c=\"linear-gradient(to right, #F6B352, #e64c10)\" class=\"product active\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613735399000.svg\" /></div>\r\n        <h1 class=\"title\">Public API</h1>\r\n        <p class=\"description\">对外公开的 API 工具箱</p>\r\n      </div>\r\n      <div product-id=\"2\" product-color-a=\"#00bfa5\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #a7ffeb, #00bfa5)\"\r\n        product-color-c=\"linear-gradient(to right, #a7ffeb, #00bfa5)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613736405000.svg\" /></div>\r\n        <h1 class=\"title\">Bing 壁纸 API</h1>\r\n        <p class=\"description\">\r\n          /bing<br><br>\r\n          可获取一张 Bing 壁纸\r\n        </p>\r\n      </div>\r\n      <div product-id=\"14\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff8a65, #f4511e)\"\r\n        product-color-c=\"linear-gradient(to right, #ff8a65, #f4511e)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1614067520000.svg\" /></div>\r\n        <h1 class=\"title\">ACG</h1>\r\n        <p class=\"description\">\r\n          /acg<br><br>\r\n          可获取随机一张 ACG 图片\r\n        </p>\r\n      </div>\r\n      <div product-id=\"3\" product-color-a=\"#2962ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #82b1ff, #2962ff)\"\r\n        product-color-c=\"linear-gradient(to right, #82b1ff, #2962ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613738304000.svg\" /></div>\r\n        <h1 class=\"title\">Sitich</h1>\r\n        <p class=\"description\">\r\n          /sitich<br><br>\r\n          实验品626\r\n        </p>\r\n      </div>\r\n      <div product-id=\"4\" product-color-a=\"#546e7a\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #90a4ae, #546e7a)\"\r\n        product-color-c=\"linear-gradient(to right, #90a4ae, #546e7a)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613738900000.svg\" /></div>\r\n        <h1 class=\"title\">Soul</h1>\r\n        <p class=\"description\">\r\n          /soul<br><br>\r\n          可获取随机一条 毒鸡汤\r\n        </p>\r\n      </div>\r\n      <div product-id=\"5\" product-color-a=\"#aa00ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ea80fc, #aa00ff)\"\r\n        product-color-c=\"linear-gradient(to right, #ea80fc, #aa00ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613739294000.svg\" /></div>\r\n        <h1 class=\"title\">Hitokoto</h1>\r\n        <p class=\"description\">\r\n          /hitokoto<br><br>\r\n          可获取随机一条 强大的一言\r\n        </p>\r\n      </div>\r\n      <div product-id=\"13\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff9e80, #dd2c00)\"\r\n        product-color-c=\"linear-gradient(to right, #ff9e80, #dd2c00)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613809194000.svg\" /></div>\r\n        <h1 class=\"title\">Unsplash</h1>\r\n        <p class=\"description\">\r\n          /unsplash<br><br>\r\n          可获取随机一张 Unsplash 图片\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#017923\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #59B373, #017923)\"\r\n        product-color-c=\"linear-gradient(to right, #59B373, #017923)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1614064417000.svg\" /></div>\r\n        <h1 class=\"title\">API Source</h1>\r\n        <p class=\"description\">\r\n          /apisource<br><br>\r\n          API 源代码\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1626252854000.svg\" /></div>\r\n        <h1 class=\"title\">Privacy Policy</h1>\r\n        <p class=\"description\">\r\n          /privacy-policy<br><br>\r\n          隐私政策\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613742624000.svg\" /></div>\r\n        <h1 class=\"title\">Contact</h1>\r\n        <p class=\"description\">\r\n          /contact<br><br>\r\n          联系我们\r\n        </p>\r\n      </div>\r\n    </div>\r\n    <div class=\"footer\"><a id=\"prev\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Prev</a><a\r\n        id=\"next\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Next</a></div>\r\n  </div>\r\n  <script src=\"::CDN_NPM::/jquery@2.2.4\"></script>\r\n  <script type=\"text/javascript\" src=\"::CDN_NPM::/mhg@0.0.16/js/api.js\"></script>\r\n</body>\r\n\r\n</html>";
+var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!doctype html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n  <title>API</title>\r\n  <meta name=\"keywords\" content=\"API\">\r\n  <meta name=\"description\" content=\"API\">\r\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN_NPM::/mhg@0.0.16/css/api.css\">\r\n</head>\r\n\r\n<body>\r\n  <div class=\"card\">\r\n    <div class=\"products\">\r\n      <div product-id=\"1\" product-color-a=\"#e64c10\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #F6B352, #e64c10)\"\r\n        product-color-c=\"linear-gradient(to right, #F6B352, #e64c10)\" class=\"product active\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613735399000.svg\" /></div>\r\n        <h1 class=\"title\">Public API</h1>\r\n        <p class=\"description\">对外公开的 API 工具箱</p>\r\n      </div>\r\n      <div product-id=\"2\" product-color-a=\"#00bfa5\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #a7ffeb, #00bfa5)\"\r\n        product-color-c=\"linear-gradient(to right, #a7ffeb, #00bfa5)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613736405000.svg\" /></div>\r\n        <h1 class=\"title\">Bing 壁纸 API</h1>\r\n        <p class=\"description\">\r\n          /bing<br><br>\r\n          可获取一张 Bing 壁纸\r\n        </p>\r\n      </div>\r\n      <div product-id=\"14\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff8a65, #f4511e)\"\r\n        product-color-c=\"linear-gradient(to right, #ff8a65, #f4511e)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1614067520000.svg\" /></div>\r\n        <h1 class=\"title\">ACG</h1>\r\n        <p class=\"description\">\r\n          /acg<br><br>\r\n          可获取随机一张 ACG 图片\r\n        </p>\r\n      </div>\r\n      <div product-id=\"3\" product-color-a=\"#2962ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #82b1ff, #2962ff)\"\r\n        product-color-c=\"linear-gradient(to right, #82b1ff, #2962ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613738304000.svg\" /></div>\r\n        <h1 class=\"title\">Sitich</h1>\r\n        <p class=\"description\">\r\n          /sitich<br><br>\r\n          实验品626\r\n        </p>\r\n      </div>\r\n      <div product-id=\"4\" product-color-a=\"#546e7a\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #90a4ae, #546e7a)\"\r\n        product-color-c=\"linear-gradient(to right, #90a4ae, #546e7a)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613738900000.svg\" /></div>\r\n        <h1 class=\"title\">Soul</h1>\r\n        <p class=\"description\">\r\n          /soul<br><br>\r\n          可获取随机一条 毒鸡汤\r\n        </p>\r\n      </div>\r\n      <div product-id=\"5\" product-color-a=\"#aa00ff\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ea80fc, #aa00ff)\"\r\n        product-color-c=\"linear-gradient(to right, #ea80fc, #aa00ff)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613739294000.svg\" /></div>\r\n        <h1 class=\"title\">Hitokoto</h1>\r\n        <p class=\"description\">\r\n          /hitokoto<br><br>\r\n          可获取随机一条 强大的一言\r\n        </p>\r\n      </div>\r\n      <div product-id=\"13\" product-color-a=\"#dd2c00\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #ff9e80, #dd2c00)\"\r\n        product-color-c=\"linear-gradient(to right, #ff9e80, #dd2c00)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613809194000.svg\" /></div>\r\n        <h1 class=\"title\">Unsplash</h1>\r\n        <p class=\"description\">\r\n          /unsplash<br><br>\r\n          可获取随机一张 Unsplash 图片\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#017923\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #59B373, #017923)\"\r\n        product-color-c=\"linear-gradient(to right, #59B373, #017923)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1614064417000.svg\" /></div>\r\n        <h1 class=\"title\">API Source</h1>\r\n        <p class=\"description\">\r\n          /apisource<br><br>\r\n          API 源代码\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1626252854000.svg\" /></div>\r\n        <h1 class=\"title\">Privacy Policy</h1>\r\n        <p class=\"description\">\r\n          /privacy-policy<br><br>\r\n          隐私政策\r\n        </p>\r\n      </div>\r\n      <div product-id=\"end\" product-color-a=\"#6C63FF\"\r\n        product-color-b=\"-webkit-linear-gradient(to right, #6C63FC, #6C63FF)\"\r\n        product-color-c=\"linear-gradient(to right, #6C63FC, #6C63FF)\" class=\"product\">\r\n        <div class=\"thumbnail\"><img src=\"::CDN_NPM::/imbox@0.0.3/data/1613742624000.svg\" /></div>\r\n        <h1 class=\"title\">Contact</h1>\r\n        <p class=\"description\">\r\n          /contact<br><br>\r\n          联系我们\r\n        </p>\r\n      </div>\r\n    </div>\r\n    <div class=\"footer\"><a id=\"prev\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Prev</a><a\r\n        id=\"next\" href=\"index.html#\" ripple=\"\" ripple-color=\"#666666\" class=\"btn\">Next</a></div>\r\n  </div>\r\n  <" + "script src=\"::CDN_NPM::/jquery@2.2.4\"><" + "/script>\r\n  <" + "script type=\"text/javascript\" src=\"::CDN_NPM::/mhg@0.0.16/js/api.js\"><" + "/script>\r\n</body>\r\n\r\n</html>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -42988,7 +42988,7 @@ var code = "<!--\r\n * =========================================================
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!DOCTYPE html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <title>Auth | CoPoKo Space</title>\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"::CDN_SPACE::/favicon/favicon-16x16.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"::CDN_SPACE::/favicon/favicon-32x32.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"96x96\" href=\"::CDN_SPACE::/favicon/favicon-96x96.png\" />\r\n  <link rel=\"stylesheet\" href=\"::CDN_SPACE::/css/auth.css\" />\r\n  <style>\r\n    .grecaptcha-badge {\r\n      display: none;\r\n    }\r\n\r\n    body {\r\n      background: black;\r\n    }\r\n  </style>\r\n</head>\r\n\r\n<body>\r\n  <main class=\"auth-main wrapper\">\r\n    <div id=\"auth-block\" class=\"auth-block\">\r\n      <h1>Welcome</h1>\r\n      <div id=\"form\" class=\"form-horizontal\" method=\"POST\" action=\"/space/auth\">\r\n        <div class=\"form-group\">\r\n          <label for=\"inputName\" class=\"col-sm-2 control-label\">Name</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"text\" name=\"name\" class=\"form-control\" id=\"inputName\" placeholder=\"Name\" required=\"required\"\r\n              autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"inputPassword\" class=\"col-sm-2 control-label\">Password</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"password\" name=\"password\" class=\"form-control\" id=\"inputPassword\" placeholder=\"Password\"\r\n              required=\"required\" autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <div class=\"col-sm-offset-5 col-sm-8\">\r\n            <button type=\"submit\" id=\"signin\" class=\"btn btn-default btn-auth\">\r\n              Sign in\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <ul class=\"bg-bubbles\">\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n    </ul>\r\n  </main>\r\n  <script src=\"https://recaptcha.net/recaptcha/api.js?render=::reCAPTCHA_CLIENT::\"></script>\r\n  <script>\r\n    document.getElementById(\"signin\").addEventListener(\"click\", async () => {\r\n      const name = document.getElementById(\"inputName\").value;\r\n      const password = document.getElementById(\"inputPassword\").value;\r\n      document.getElementById(\"auth-block\").innerHTML =\r\n        \"<h1>我们正在进行人机验证...</h1>\";\r\n      grecaptcha.ready(() => {\r\n        grecaptcha\r\n          .execute(\"::reCAPTCHA_CLIENT::\", { action: \"space\" })\r\n          .then(async (t) => {\r\n            document.getElementById(\"auth-block\").innerHTML =\r\n              \"<h1>我们正在验证您的登录凭据...</h1>\";\r\n            const res = await (\r\n              await fetch(\r\n                new Request(\"/space/auth::AUTH_PAGE::\", {\r\n                  method: \"POST\",\r\n                  headers: {\r\n                    \"Content-Type\": \"application/x-www-form-urlencoded\",\r\n                  },\r\n                  body: `name=${name}&password=${password}&token=${t}`,\r\n                })\r\n              )\r\n            ).json();\r\n            if (res.success) {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>登录成功，即将跳转！</h1>\";\r\n              document.location.href = `${document.location.origin}/space/dash`;\r\n            } else {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>无效的登录凭据 :(</h1>\";\r\n            }\r\n          });\r\n      });\r\n    });\r\n  </script>\r\n</body>\r\n\r\n</html>";
+var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!DOCTYPE html>\r\n<html lang=\"zh\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <title>Auth | CoPoKo Space</title>\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"::CDN_SPACE::/favicon/favicon-16x16.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"::CDN_SPACE::/favicon/favicon-32x32.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"96x96\" href=\"::CDN_SPACE::/favicon/favicon-96x96.png\" />\r\n  <link rel=\"stylesheet\" href=\"::CDN_SPACE::/css/auth.css\" />\r\n  <style>\r\n    .grecaptcha-badge {\r\n      display: none;\r\n    }\r\n\r\n    body {\r\n      background: black;\r\n    }\r\n  </style>\r\n</head>\r\n\r\n<body>\r\n  <main class=\"auth-main wrapper\">\r\n    <div id=\"auth-block\" class=\"auth-block\">\r\n      <h1>Welcome</h1>\r\n      <div id=\"form\" class=\"form-horizontal\" method=\"POST\" action=\"/space/auth\">\r\n        <div class=\"form-group\">\r\n          <label for=\"inputName\" class=\"col-sm-2 control-label\">Name</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"text\" name=\"name\" class=\"form-control\" id=\"inputName\" placeholder=\"Name\" required=\"required\"\r\n              autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"inputPassword\" class=\"col-sm-2 control-label\">Password</label>\r\n          <div class=\"col-sm-10\">\r\n            <input type=\"password\" name=\"password\" class=\"form-control\" id=\"inputPassword\" placeholder=\"Password\"\r\n              required=\"required\" autocomplete=\"off\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <div class=\"col-sm-offset-5 col-sm-8\">\r\n            <button type=\"submit\" id=\"signin\" class=\"btn btn-default btn-auth\">\r\n              Sign in\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <ul class=\"bg-bubbles\">\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n      <li></li>\r\n    </ul>\r\n  </main>\r\n  <" + "script src=\"https://recaptcha.net/recaptcha/api.js?render=::reCAPTCHA_CLIENT::\"><" + "/script>\r\n  <" + "script>\r\n    document.getElementById(\"signin\").addEventListener(\"click\", async () => {\r\n      const name = document.getElementById(\"inputName\").value;\r\n      const password = document.getElementById(\"inputPassword\").value;\r\n      document.getElementById(\"auth-block\").innerHTML =\r\n        \"<h1>我们正在进行人机验证...</h1>\";\r\n      grecaptcha.ready(() => {\r\n        grecaptcha\r\n          .execute(\"::reCAPTCHA_CLIENT::\", { action: \"space\" })\r\n          .then(async (t) => {\r\n            document.getElementById(\"auth-block\").innerHTML =\r\n              \"<h1>我们正在验证您的登录凭据...</h1>\";\r\n            const res = await (\r\n              await fetch(\r\n                new Request(\"/space/auth::AUTH_PAGE::\", {\r\n                  method: \"POST\",\r\n                  headers: {\r\n                    \"Content-Type\": \"application/x-www-form-urlencoded\",\r\n                  },\r\n                  body: `name=${name}&password=${password}&token=${t}`,\r\n                })\r\n              )\r\n            ).json();\r\n            if (res.success) {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>登录成功，即将跳转！</h1>\";\r\n              document.location.href = `${document.location.origin}/space/dash`;\r\n            } else {\r\n              document.getElementById(\"auth-block\").innerHTML =\r\n                \"<h1>无效的登录凭据 :(</h1>\";\r\n            }\r\n          });\r\n      });\r\n    });\r\n  <" + "/script>\r\n</body>\r\n\r\n</html>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43003,7 +43003,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script src=\"::CDN_NPM::/jquery-ui-dist@1.13.1/jquery-ui.min.js\"></script>\r\n<script src=\"::CDN_NPM::/fullcalendar@5.11.0/main.min.js\"></script>\r\n<script>\r\n  $(function () {\r\n    function ini_events(ele) {\r\n      ele.each(function () {\r\n        var eventObject = {\r\n          title: $.trim($(this).text())\r\n        }\r\n        $(this).data('eventObject', eventObject)\r\n        $(this).draggable({\r\n          zIndex: 1070,\r\n          revert: true,\r\n          revertDuration: 0\r\n        })\r\n\r\n      })\r\n    }\r\n    ini_events($('#external-events div.external-event'))\r\n    var date = new Date()\r\n    var d = date.getDate(),\r\n      m = date.getMonth(),\r\n      y = date.getFullYear()\r\n    var Calendar = FullCalendar.Calendar;\r\n    var Draggable = FullCalendar.Draggable;\r\n    var containerEl = document.getElementById('external-events');\r\n    var checkbox = document.getElementById('drop-remove');\r\n    var calendarEl = document.getElementById('calendar');\r\n    new Draggable(containerEl, {\r\n      itemSelector: '.external-event',\r\n      eventData: function (eventEl) {\r\n        return {\r\n          title: eventEl.innerText,\r\n          backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),\r\n          borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),\r\n          textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),\r\n        };\r\n      }\r\n    });\r\n    window.calendar = new Calendar(calendarEl, {\r\n      headerToolbar: {\r\n        left: 'prev,next today',\r\n        center: 'title',\r\n        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'\r\n      },\r\n      themeSystem: 'bootstrap',\r\n      events: [],\r\n      editable: true,\r\n      selectable: true,\r\n      droppable: true,\r\n      drop: function (info) {\r\n        console.log(\"drop\", info);\r\n        if (checkbox.checked) {\r\n          info.draggedEl.parentNode.removeChild(info.draggedEl);\r\n          saveDraggableEvent();\r\n        }\r\n      },\r\n      eventDragStop: function (info) {\r\n        console.log(\"eventDragStop\", info);\r\n        saveEventSource();\r\n      },\r\n      eventResizeStop: function (info) {\r\n        console.log(\"eventResizeStop\", info);\r\n        saveEventSource();\r\n      },\r\n      eventReceive: function (info) {\r\n        console.log(\"eventReceive\", info);\r\n        saveEventSource();\r\n      },\r\n      eventClick: function (info) {\r\n        console.log(\"eventClick\", info);\r\n        deleteEvent(info)\r\n      },\r\n      select: function (info) {\r\n        console.log(\"select\", info);\r\n        addSelectEvent(info)\r\n      },\r\n    });\r\n    calendar.render();\r\n    var currColor = '#3c8dbc'\r\n    $('#color-chooser > li > a').click(function (e) {\r\n      e.preventDefault()\r\n      currColor = $(this).css('color')\r\n      $('#add-new-event').css({\r\n        'background-color': currColor,\r\n        'border-color': currColor\r\n      })\r\n    })\r\n    $('#add-new-event').click(function (e) {\r\n      e.preventDefault()\r\n      var val = $('#new-event').val()\r\n      if (val.length == 0) {\r\n        return\r\n      }\r\n      var event = $('<div />')\r\n      event.css({\r\n        'background-color': currColor,\r\n        'border-color': currColor,\r\n        'color': '#fff'\r\n      }).addClass('external-event')\r\n      event.text(val)\r\n      $('#external-events').prepend(event)\r\n      ini_events(event)\r\n      $('#new-event').val('')\r\n      saveDraggableEvent();\r\n    })\r\n    $(\"#deleteallevents\").click(function (e) {\r\n      e.preventDefault()\r\n      Swal.fire({\r\n        title: 'Are you sure?',\r\n        text: \"You won't be able to revert this!\",\r\n        icon: 'warning',\r\n        showCancelButton: true,\r\n        confirmButtonColor: '#3085d6',\r\n        cancelButtonColor: '#d33',\r\n        confirmButtonText: 'Yes, delete it!'\r\n      }).then((result) => {\r\n        if (result.value) {\r\n          window.calendar.removeAllEvents()\r\n          saveDraggableEvent();\r\n          saveEventSource();\r\n        }\r\n      })\r\n    })\r\n    $(\"#deletealloldevents\").click(function (e) {\r\n      e.preventDefault()\r\n      Swal.fire({\r\n        title: 'Are you sure?',\r\n        text: \"You won't be able to revert this!\",\r\n        icon: 'warning',\r\n        showCancelButton: true,\r\n        confirmButtonColor: '#3085d6',\r\n        cancelButtonColor: '#d33',\r\n        confirmButtonText: 'Yes, delete it!'\r\n      }).then((result) => {\r\n        if (result.value) {\r\n          window.calendar.getEvents().forEach(function (e) {\r\n            let myday = new Date().getTime()\r\n            if (e.allDay) {\r\n              myday = new Date().getTime() - 60 * 60 * 24 * 1000\r\n            }\r\n            if (e.end) {\r\n              if (e.end.getTime() < myday) {\r\n                e.remove()\r\n              }\r\n            } else {\r\n              if (e.start.getTime() < myday) {\r\n                e.remove()\r\n              }\r\n            }\r\n          })\r\n          saveEventSource();\r\n        }\r\n      })\r\n    })\r\n  })\r\n  fetch(\"/space/api/calendar/EventSource\").then(function (response) {\r\n    return response.json();\r\n  }).then(function (json) {\r\n    console.log(json);\r\n    calendar.addEventSource(json)\r\n  });\r\n  function saveEventSource() {\r\n    setTimeout(function () {\r\n      const data = window.calendar.getEvents()\r\n      fetch(\"/space/api/calendar/EventSource\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(data),\r\n        headers: {\r\n          \"Content-Type\": \"application/json\"\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (json) {\r\n        console.log(json);\r\n      });\r\n    }, 1000);\r\n  }\r\n  function saveDraggableEvent() {\r\n    setTimeout(function () {\r\n      const ele = document.querySelectorAll(\"#external-events .external-event\")\r\n      const data = []\r\n      ele.forEach(function (e) {\r\n        data.push({\r\n          title: e.innerText,\r\n          backgroundColor: window.getComputedStyle(e, null).getPropertyValue('background-color'),\r\n          borderColor: window.getComputedStyle(e, null).getPropertyValue('background-color'),\r\n          textColor: window.getComputedStyle(e, null).getPropertyValue('color'),\r\n        })\r\n      })\r\n      fetch(\"/space/api/calendar/DraggableEvent\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(data),\r\n        headers: {\r\n          \"Content-Type\": \"application/json\"\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (json) {\r\n        console.log(json);\r\n      });\r\n    }, 1000);\r\n  }\r\n  function getDraggableEvent() {\r\n    fetch(\"/space/api/calendar/DraggableEvent\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      json.forEach(function (e) {\r\n        const event = $('<div />')\r\n        event.css({\r\n          'background-color': e.backgroundColor,\r\n          'border-color': e.borderColor,\r\n          'color': e.textColor,\r\n        }).addClass('external-event')\r\n        event.text(e.title)\r\n        $('#external-events').prepend(event)\r\n      })\r\n    });\r\n  }\r\n  getDraggableEvent()\r\n  function deleteEvent(info) {\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        window.calendar.getEvents().find(function (e) {\r\n          return e.title == info.event.title && e.start.getTime() == info.event.start.getTime()\r\n        }).remove()\r\n        saveEventSource()\r\n      }\r\n    })\r\n  }\r\n  function addSelectEvent(info) {\r\n    // input\r\n    Swal.fire({\r\n      title: 'Add Event',\r\n      html:\r\n        '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Title\">',\r\n      focusConfirm: false,\r\n      preConfirm: () => {\r\n        return [\r\n          $('#swal-input1').val(),\r\n        ]\r\n      }\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        const [title] = result.value\r\n        window.calendar.addEventSource([\r\n          {\r\n            title: title,\r\n            start: info.start,\r\n            end: info.end,\r\n            allDay: info.allDay,\r\n            backgroundColor: 'rgb(0, 86, 179)',\r\n            borderColor: 'rgb(0, 86, 179)',\r\n          }\r\n        ])\r\n        saveEventSource()\r\n      }\r\n    })\r\n  }\r\n</script>\r\n<style>\r\n  .fc .fc-list-sticky .fc-list-day>* {\r\n    background: unset !important;\r\n  }\r\n\r\n  .fc .fc-list-event:hover td {\r\n    background: unset !important;\r\n  }\r\n</style>";
+var code = "<" + "script src=\"::CDN_NPM::/jquery-ui-dist@1.13.1/jquery-ui.min.js\"><" + "/script>\r\n<" + "script src=\"::CDN_NPM::/fullcalendar@5.11.0/main.min.js\"><" + "/script>\r\n<" + "script>\r\n  $(function () {\r\n    function ini_events(ele) {\r\n      ele.each(function () {\r\n        var eventObject = {\r\n          title: $.trim($(this).text())\r\n        }\r\n        $(this).data('eventObject', eventObject)\r\n        $(this).draggable({\r\n          zIndex: 1070,\r\n          revert: true,\r\n          revertDuration: 0\r\n        })\r\n\r\n      })\r\n    }\r\n    ini_events($('#external-events div.external-event'))\r\n    var date = new Date()\r\n    var d = date.getDate(),\r\n      m = date.getMonth(),\r\n      y = date.getFullYear()\r\n    var Calendar = FullCalendar.Calendar;\r\n    var Draggable = FullCalendar.Draggable;\r\n    var containerEl = document.getElementById('external-events');\r\n    var checkbox = document.getElementById('drop-remove');\r\n    var calendarEl = document.getElementById('calendar');\r\n    new Draggable(containerEl, {\r\n      itemSelector: '.external-event',\r\n      eventData: function (eventEl) {\r\n        return {\r\n          title: eventEl.innerText,\r\n          backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),\r\n          borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),\r\n          textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),\r\n        };\r\n      }\r\n    });\r\n    window.calendar = new Calendar(calendarEl, {\r\n      headerToolbar: {\r\n        left: 'prev,next today',\r\n        center: 'title',\r\n        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'\r\n      },\r\n      themeSystem: 'bootstrap',\r\n      events: [],\r\n      editable: true,\r\n      selectable: true,\r\n      droppable: true,\r\n      drop: function (info) {\r\n        console.log(\"drop\", info);\r\n        if (checkbox.checked) {\r\n          info.draggedEl.parentNode.removeChild(info.draggedEl);\r\n          saveDraggableEvent();\r\n        }\r\n      },\r\n      eventDragStop: function (info) {\r\n        console.log(\"eventDragStop\", info);\r\n        saveEventSource();\r\n      },\r\n      eventResizeStop: function (info) {\r\n        console.log(\"eventResizeStop\", info);\r\n        saveEventSource();\r\n      },\r\n      eventReceive: function (info) {\r\n        console.log(\"eventReceive\", info);\r\n        saveEventSource();\r\n      },\r\n      eventClick: function (info) {\r\n        console.log(\"eventClick\", info);\r\n        deleteEvent(info)\r\n      },\r\n      select: function (info) {\r\n        console.log(\"select\", info);\r\n        addSelectEvent(info)\r\n      },\r\n    });\r\n    calendar.render();\r\n    var currColor = '#3c8dbc'\r\n    $('#color-chooser > li > a').click(function (e) {\r\n      e.preventDefault()\r\n      currColor = $(this).css('color')\r\n      $('#add-new-event').css({\r\n        'background-color': currColor,\r\n        'border-color': currColor\r\n      })\r\n    })\r\n    $('#add-new-event').click(function (e) {\r\n      e.preventDefault()\r\n      var val = $('#new-event').val()\r\n      if (val.length == 0) {\r\n        return\r\n      }\r\n      var event = $('<div />')\r\n      event.css({\r\n        'background-color': currColor,\r\n        'border-color': currColor,\r\n        'color': '#fff'\r\n      }).addClass('external-event')\r\n      event.text(val)\r\n      $('#external-events').prepend(event)\r\n      ini_events(event)\r\n      $('#new-event').val('')\r\n      saveDraggableEvent();\r\n    })\r\n    $(\"#deleteallevents\").click(function (e) {\r\n      e.preventDefault()\r\n      Swal.fire({\r\n        title: 'Are you sure?',\r\n        text: \"You won't be able to revert this!\",\r\n        icon: 'warning',\r\n        showCancelButton: true,\r\n        confirmButtonColor: '#3085d6',\r\n        cancelButtonColor: '#d33',\r\n        confirmButtonText: 'Yes, delete it!'\r\n      }).then((result) => {\r\n        if (result.value) {\r\n          window.calendar.removeAllEvents()\r\n          saveDraggableEvent();\r\n          saveEventSource();\r\n        }\r\n      })\r\n    })\r\n    $(\"#deletealloldevents\").click(function (e) {\r\n      e.preventDefault()\r\n      Swal.fire({\r\n        title: 'Are you sure?',\r\n        text: \"You won't be able to revert this!\",\r\n        icon: 'warning',\r\n        showCancelButton: true,\r\n        confirmButtonColor: '#3085d6',\r\n        cancelButtonColor: '#d33',\r\n        confirmButtonText: 'Yes, delete it!'\r\n      }).then((result) => {\r\n        if (result.value) {\r\n          window.calendar.getEvents().forEach(function (e) {\r\n            let myday = new Date().getTime()\r\n            if (e.allDay) {\r\n              myday = new Date().getTime() - 60 * 60 * 24 * 1000\r\n            }\r\n            if (e.end) {\r\n              if (e.end.getTime() < myday) {\r\n                e.remove()\r\n              }\r\n            } else {\r\n              if (e.start.getTime() < myday) {\r\n                e.remove()\r\n              }\r\n            }\r\n          })\r\n          saveEventSource();\r\n        }\r\n      })\r\n    })\r\n  })\r\n  fetch(\"/space/api/calendar/EventSource\").then(function (response) {\r\n    return response.json();\r\n  }).then(function (json) {\r\n    console.log(json);\r\n    calendar.addEventSource(json)\r\n  });\r\n  function saveEventSource() {\r\n    setTimeout(function () {\r\n      const data = window.calendar.getEvents()\r\n      fetch(\"/space/api/calendar/EventSource\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(data),\r\n        headers: {\r\n          \"Content-Type\": \"application/json\"\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (json) {\r\n        console.log(json);\r\n      });\r\n    }, 1000);\r\n  }\r\n  function saveDraggableEvent() {\r\n    setTimeout(function () {\r\n      const ele = document.querySelectorAll(\"#external-events .external-event\")\r\n      const data = []\r\n      ele.forEach(function (e) {\r\n        data.push({\r\n          title: e.innerText,\r\n          backgroundColor: window.getComputedStyle(e, null).getPropertyValue('background-color'),\r\n          borderColor: window.getComputedStyle(e, null).getPropertyValue('background-color'),\r\n          textColor: window.getComputedStyle(e, null).getPropertyValue('color'),\r\n        })\r\n      })\r\n      fetch(\"/space/api/calendar/DraggableEvent\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(data),\r\n        headers: {\r\n          \"Content-Type\": \"application/json\"\r\n        }\r\n      }).then(function (response) {\r\n        return response.json();\r\n      }).then(function (json) {\r\n        console.log(json);\r\n      });\r\n    }, 1000);\r\n  }\r\n  function getDraggableEvent() {\r\n    fetch(\"/space/api/calendar/DraggableEvent\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      json.forEach(function (e) {\r\n        const event = $('<div />')\r\n        event.css({\r\n          'background-color': e.backgroundColor,\r\n          'border-color': e.borderColor,\r\n          'color': e.textColor,\r\n        }).addClass('external-event')\r\n        event.text(e.title)\r\n        $('#external-events').prepend(event)\r\n      })\r\n    });\r\n  }\r\n  getDraggableEvent()\r\n  function deleteEvent(info) {\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        window.calendar.getEvents().find(function (e) {\r\n          return e.title == info.event.title && e.start.getTime() == info.event.start.getTime()\r\n        }).remove()\r\n        saveEventSource()\r\n      }\r\n    })\r\n  }\r\n  function addSelectEvent(info) {\r\n    // input\r\n    Swal.fire({\r\n      title: 'Add Event',\r\n      html:\r\n        '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Title\">',\r\n      focusConfirm: false,\r\n      preConfirm: () => {\r\n        return [\r\n          $('#swal-input1').val(),\r\n        ]\r\n      }\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        const [title] = result.value\r\n        window.calendar.addEventSource([\r\n          {\r\n            title: title,\r\n            start: info.start,\r\n            end: info.end,\r\n            allDay: info.allDay,\r\n            backgroundColor: 'rgb(0, 86, 179)',\r\n            borderColor: 'rgb(0, 86, 179)',\r\n          }\r\n        ])\r\n        saveEventSource()\r\n      }\r\n    })\r\n  }\r\n<" + "/script>\r\n<style>\r\n  .fc .fc-list-sticky .fc-list-day>* {\r\n    background: unset !important;\r\n  }\r\n\r\n  .fc .fc-list-event:hover td {\r\n    background: unset !important;\r\n  }\r\n</style>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43047,7 +43047,7 @@ var code = "<li class=\"nav-item\">\r\n  <a href=\"/space/dash/calendar\" class=
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <meta content=\"no-transform\" http-equiv=\"Cache-Control\" />\r\n  <meta content=\"no-siteapp\" http-equiv=\"Cache-Control\" />\r\n  <title>CoPoKo Space</title>\r\n  <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@fortawesome/fontawesome-free@6/css/all.min.css\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@sweetalert2/theme-bootstrap-4@5.0.11/bootstrap-4.min.css\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/admin-lte@3.1.0/dist/css/adminlte.min.css\">\r\n  <style>\r\n    ::-webkit-scrollbar-track-piece {\r\n      background-color: #f8f8f8;\r\n    }\r\n    ::-webkit-scrollbar {\r\n      width: 9px;\r\n      height: 9px;\r\n    }\r\n    ::-webkit-scrollbar-thumb {\r\n      background-color: #49b1f5;\r\n      background-image: -webkit--webkit-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--moz-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--o-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--ms-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      border-radius: 2em;\r\n    }\r\n    ::-webkit-scrollbar-thumb:hover {\r\n      background-color: #49b1f6;\r\n    }\r\n    .brand-text{\r\n      text-align: center !important;\r\n      display: block !important;\r\n    }\r\n    input{\r\n      color: inherit !important;\r\n    }\r\n    .content-wrapper{\r\n      min-height: unset !important;\r\n    }\r\n  </style>\r\n</head>\r\n<body class=\"hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed\">\r\n<div class=\"wrapper\">\r\n\r\n  <!-- Navbar -->\r\n  <nav class=\"main-header navbar navbar-expand navbar-dark\">\r\n    <!-- Left navbar links -->\r\n    <ul class=\"navbar-nav\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" data-widget=\"pushmenu\" href=\"#\" role=\"button\"><i class=\"fas fa-bars\"></i></a>\r\n      </li>\r\n    </ul>\r\n\r\n    <!-- Right navbar links -->\r\n    <ul class=\"navbar-nav ml-auto\">\r\n\r\n    </ul>\r\n  </nav>\r\n  <!-- /.navbar -->\r\n\r\n  <!-- Main Sidebar Container -->\r\n  <aside class=\"main-sidebar sidebar-dark-primary elevation-4\">\r\n    <!-- Brand Logo -->\r\n    <a href=\"/space/dash\" class=\"brand-link\">\r\n      <span class=\"brand-text font-weight-light\">CoPoKo Space</span>\r\n    </a>\r\n\r\n    <!-- Sidebar -->\r\n    <div class=\"sidebar\">\r\n\r\n      <!-- Sidebar Menu -->\r\n      <nav class=\"mt-2\">\r\n        <ul class=\"nav nav-pills nav-sidebar flex-column\" data-widget=\"treeview\" role=\"menu\" data-accordion=\"false\">\r\n          ::DASH_NAV::\r\n        </ul>\r\n      </nav>\r\n      <!-- /.sidebar-menu -->\r\n\r\n  \r\n    </div>\r\n    <!-- /.sidebar -->\r\n  </aside>\r\n\r\n  <!-- Content Wrapper. Contains page content -->\r\n  <div class=\"content-wrapper\">\r\n    <!-- Main content -->\r\n    ::DASH_CONTENT::\r\n    <!-- /.content -->\r\n  </div>\r\n  <!-- /.content-wrapper -->\r\n\r\n</div>\r\n<!-- ./wrapper -->\r\n\r\n<!-- REQUIRED SCRIPTS -->\r\n<script src=\"::CDN_NPM::/jquery@3.6.0/dist/jquery.min.js\"></script>\r\n<script src=\"::CDN_NPM::/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js\"></script>\r\n<script src=\"::CDN_NPM::/sweetalert2@11.4.14/dist/sweetalert2.min.js\"></script>\r\n<script src=\"::CDN_NPM::/admin-lte@3.1.0/dist/js/adminlte.min.js\"></script>\r\n\r\n\r\n::DASH_UTIL::\r\n\r\n::DASH_BODYEND::\r\n\r\n</body>\r\n</html>\r\n";
+var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <meta content=\"no-transform\" http-equiv=\"Cache-Control\" />\r\n  <meta content=\"no-siteapp\" http-equiv=\"Cache-Control\" />\r\n  <title>CoPoKo Space</title>\r\n  <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@fortawesome/fontawesome-free@6/css/all.min.css\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/@sweetalert2/theme-bootstrap-4@5.0.11/bootstrap-4.min.css\">\r\n  <link rel=\"stylesheet\" href=\"::CDN_NPM::/admin-lte@3.1.0/dist/css/adminlte.min.css\">\r\n  <style>\r\n    ::-webkit-scrollbar-track-piece {\r\n      background-color: #f8f8f8;\r\n    }\r\n    ::-webkit-scrollbar {\r\n      width: 9px;\r\n      height: 9px;\r\n    }\r\n    ::-webkit-scrollbar-thumb {\r\n      background-color: #49b1f5;\r\n      background-image: -webkit--webkit-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--moz-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--o-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit--ms-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      background-image: -webkit-linear-gradient(\r\n        45deg,\r\n        rgba(255, 255, 255, 0.4) 25%,\r\n        transparent 25%,\r\n        transparent 50%,\r\n        rgba(255, 255, 255, 0.4) 50%,\r\n        rgba(255, 255, 255, 0.4) 75%,\r\n        transparent 75%,\r\n        transparent\r\n      );\r\n      border-radius: 2em;\r\n    }\r\n    ::-webkit-scrollbar-thumb:hover {\r\n      background-color: #49b1f6;\r\n    }\r\n    .brand-text{\r\n      text-align: center !important;\r\n      display: block !important;\r\n    }\r\n    input{\r\n      color: inherit !important;\r\n    }\r\n    .content-wrapper{\r\n      min-height: unset !important;\r\n    }\r\n  </style>\r\n</head>\r\n<body class=\"hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed\">\r\n<div class=\"wrapper\">\r\n\r\n  <!-- Navbar -->\r\n  <nav class=\"main-header navbar navbar-expand navbar-dark\">\r\n    <!-- Left navbar links -->\r\n    <ul class=\"navbar-nav\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" data-widget=\"pushmenu\" href=\"#\" role=\"button\"><i class=\"fas fa-bars\"></i></a>\r\n      </li>\r\n    </ul>\r\n\r\n    <!-- Right navbar links -->\r\n    <ul class=\"navbar-nav ml-auto\">\r\n\r\n    </ul>\r\n  </nav>\r\n  <!-- /.navbar -->\r\n\r\n  <!-- Main Sidebar Container -->\r\n  <aside class=\"main-sidebar sidebar-dark-primary elevation-4\">\r\n    <!-- Brand Logo -->\r\n    <a href=\"/space/dash\" class=\"brand-link\">\r\n      <span class=\"brand-text font-weight-light\">CoPoKo Space</span>\r\n    </a>\r\n\r\n    <!-- Sidebar -->\r\n    <div class=\"sidebar\">\r\n\r\n      <!-- Sidebar Menu -->\r\n      <nav class=\"mt-2\">\r\n        <ul class=\"nav nav-pills nav-sidebar flex-column\" data-widget=\"treeview\" role=\"menu\" data-accordion=\"false\">\r\n          ::DASH_NAV::\r\n        </ul>\r\n      </nav>\r\n      <!-- /.sidebar-menu -->\r\n\r\n  \r\n    </div>\r\n    <!-- /.sidebar -->\r\n  </aside>\r\n\r\n  <!-- Content Wrapper. Contains page content -->\r\n  <div class=\"content-wrapper\">\r\n    <!-- Main content -->\r\n    ::DASH_CONTENT::\r\n    <!-- /.content -->\r\n  </div>\r\n  <!-- /.content-wrapper -->\r\n\r\n</div>\r\n<!-- ./wrapper -->\r\n\r\n<!-- REQUIRED SCRIPTS -->\r\n<" + "script src=\"::CDN_NPM::/jquery@3.6.0/dist/jquery.min.js\"><" + "/script>\r\n<" + "script src=\"::CDN_NPM::/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js\"><" + "/script>\r\n<" + "script src=\"::CDN_NPM::/sweetalert2@11.4.14/dist/sweetalert2.min.js\"><" + "/script>\r\n<" + "script src=\"::CDN_NPM::/admin-lte@3.1.0/dist/js/adminlte.min.js\"><" + "/script>\r\n\r\n\r\n::DASH_UTIL::\r\n\r\n::DASH_BODYEND::\r\n\r\n</body>\r\n</html>\r\n";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43061,7 +43061,7 @@ var code = "<!--\r\n * =========================================================
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  Space = {}\r\n  Space.helper = {\r\n    headers_json: {\r\n      \"content-type\": \"application/json\",\r\n      \"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36\",\r\n    }\r\n  }\r\n  Space.KV = {}\r\n  Space.KV.Get = (key) => {\r\n    return fetch(\"/space/api/kv/get\", {\r\n      method: \"POST\",\r\n      headers: Space.helper.headers_json,\r\n      body: JSON.stringify({\r\n        \"key\": key,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.KV.Delete = (key) => {\r\n    return fetch(\"/space/api/kv/delete\", {\r\n      method: \"POST\",\r\n      headers: Space.helper.headers_json,\r\n      body: JSON.stringify({\r\n        \"key\": key,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.KV.Put = (key, value) => {\r\n    return fetch(\"/space/api/kv/put\", {\r\n      method: \"POST\",\r\n      headers: Space.helper.headers_json,\r\n      body: JSON.stringify({\r\n        \"key\": key,\r\n        \"value\": value,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  var Toast = Swal.mixin({\r\n    toast: true,\r\n    position: 'top-end',\r\n    showConfirmButton: false,\r\n    timer: 3000\r\n  });\r\n  Space.GoogleSearch = (question) => {\r\n    return fetch(\"/space/api/GoogleSearch?s=\" + question, {\r\n      method: \"Get\",\r\n      headers: Space.helper.headers_json,\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.WolframAlpha = (question) => {\r\n    return fetch(\"/space/api/WolframAlpha?s=\" + question, {\r\n      method: \"Get\",\r\n      headers: Space.helper.headers_json,\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.friendlyFeatureTime = (dateTimeStamp) => {\r\n    const minute = 1e3 * 60, hour = minute * 60, day = hour * 24, week = day * 7, month = day * 30;\r\n    const now = new Date().getTime();\r\n    const diffValue = dateTimeStamp - now;\r\n    const minC = Math.round(diffValue / minute),\r\n      hourC = Math.round(diffValue / hour),\r\n      dayC = Math.round(diffValue / day),\r\n      weekC = Math.round(diffValue / week),\r\n      monthC = Math.round(diffValue / month);\r\n    if (diffValue <= 0) {\r\n      result = \"\"\r\n    } else if (weekC >= 1 && weekC <= 4) {\r\n      result = \" \" + weekC + \" week\"\r\n      if (weekC > 1) result += \"s\"\r\n    } else if (dayC >= 1 && dayC < 7) {\r\n      result = \" \" + dayC + \" day\"\r\n      if (dayC > 1) result += \"s\"\r\n    } else if (hourC >= 1 && hourC < 24) {\r\n      result = \" \" + hourC + \" hour\"\r\n      if (hourC > 1) result += \"s\"\r\n    } else if (minC >= 1 && minC < 60) {\r\n      result = \" \" + minC + \" min\"\r\n      if (minC > 1) result += \"s\"\r\n    } else {\r\n      result = \" \" + monthC + \" month\"\r\n      if (monthC > 1) result += \"s\"\r\n    }\r\n    return result;\r\n  }\r\n  Space.UUID = () => {\r\n    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {\r\n      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\r\n      return v.toString(16);\r\n    });\r\n  }\r\n</script>";
+var code = "<" + "script>\r\n  Space = {}\r\n  Space.helper = {\r\n    headers_json: {\r\n      \"content-type\": \"application/json\",\r\n      \"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36\",\r\n    }\r\n  }\r\n  Space.KV = {}\r\n  Space.KV.Get = (key) => {\r\n    return fetch(\"/space/api/kv/get\", {\r\n      method: \"POST\",\r\n      headers: Space.helper.headers_json,\r\n      body: JSON.stringify({\r\n        \"key\": key,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.KV.Delete = (key) => {\r\n    return fetch(\"/space/api/kv/delete\", {\r\n      method: \"POST\",\r\n      headers: Space.helper.headers_json,\r\n      body: JSON.stringify({\r\n        \"key\": key,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.KV.Put = (key, value) => {\r\n    return fetch(\"/space/api/kv/put\", {\r\n      method: \"POST\",\r\n      headers: Space.helper.headers_json,\r\n      body: JSON.stringify({\r\n        \"key\": key,\r\n        \"value\": value,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  var Toast = Swal.mixin({\r\n    toast: true,\r\n    position: 'top-end',\r\n    showConfirmButton: false,\r\n    timer: 3000\r\n  });\r\n  Space.GoogleSearch = (question) => {\r\n    return fetch(\"/space/api/GoogleSearch?s=\" + question, {\r\n      method: \"Get\",\r\n      headers: Space.helper.headers_json,\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.WolframAlpha = (question) => {\r\n    return fetch(\"/space/api/WolframAlpha?s=\" + question, {\r\n      method: \"Get\",\r\n      headers: Space.helper.headers_json,\r\n    }).then(function (response) {\r\n      return response.json();\r\n    })\r\n  }\r\n  Space.friendlyFeatureTime = (dateTimeStamp) => {\r\n    const minute = 1e3 * 60, hour = minute * 60, day = hour * 24, week = day * 7, month = day * 30;\r\n    const now = new Date().getTime();\r\n    const diffValue = dateTimeStamp - now;\r\n    const minC = Math.round(diffValue / minute),\r\n      hourC = Math.round(diffValue / hour),\r\n      dayC = Math.round(diffValue / day),\r\n      weekC = Math.round(diffValue / week),\r\n      monthC = Math.round(diffValue / month);\r\n    if (diffValue <= 0) {\r\n      result = \"\"\r\n    } else if (weekC >= 1 && weekC <= 4) {\r\n      result = \" \" + weekC + \" week\"\r\n      if (weekC > 1) result += \"s\"\r\n    } else if (dayC >= 1 && dayC < 7) {\r\n      result = \" \" + dayC + \" day\"\r\n      if (dayC > 1) result += \"s\"\r\n    } else if (hourC >= 1 && hourC < 24) {\r\n      result = \" \" + hourC + \" hour\"\r\n      if (hourC > 1) result += \"s\"\r\n    } else if (minC >= 1 && minC < 60) {\r\n      result = \" \" + minC + \" min\"\r\n      if (minC > 1) result += \"s\"\r\n    } else {\r\n      result = \" \" + monthC + \" month\"\r\n      if (monthC > 1) result += \"s\"\r\n    }\r\n    return result;\r\n  }\r\n  Space.UUID = () => {\r\n    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {\r\n      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\r\n      return v.toString(16);\r\n    });\r\n  }\r\n<" + "/script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43076,7 +43076,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<link href=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.css\" rel=\"stylesheet\">\r\n<script src=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.js\"></script>\r\n<script>\r\n  $(function () {\r\n    summernoteInit('#compose-textarea')\r\n  })\r\n  // $('#compose-textarea').summernote('code')\r\n  // $('#compose-textarea').summernote('insertText', 'Hello, world');\r\n  function summernoteInit(id) {\r\n    $(id).summernote({\r\n      tabsize: 2,\r\n      toolbar: [\r\n        ['style', ['style']],\r\n        ['font', ['bold', 'underline', 'clear']],\r\n        ['color', ['color']],\r\n        ['para', ['ul', 'ol', 'paragraph']],\r\n        ['table', ['table']],\r\n        ['insert', ['link', 'picture', 'video']],\r\n        ['view', ['fullscreen', 'codeview']]\r\n      ]\r\n    })\r\n  }\r\n  function SubmitHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/', '-') + \" \" + new Date().toLocaleString().split(\" \")[1].slice(0, 5),\r\n      visible: true,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function DraftHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/', '-') + \" \" + new Date().toLocaleString().split(\" \")[1].slice(0, 5),\r\n      visible: false,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function getHoleItem(e) {\r\n    return `\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <img src=\"${e.avatar}\" class=\"avatar\">\r\n          <p class=\"card-title float-right\"> · <strong>${e.like}</strong> like</p>\r\n          <p class=\"card-title float-right\"><strong>${e.name}</strong> · ${e.time} </p>\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <div id=\"hole-${e.id}\">\r\n            ${e.content}\r\n          </div>\r\n          <textarea id=\"compose-textarea-${e.id}\" class=\"form-control\" style=\"display: none;\"></textarea>\r\n        </div>\r\n        <div id=\"card-footer-${e.id}\" class=\"card-footer\" style=\"display: none;\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" type=\"button\" onclick=\"SubmitHoleItem(this)\" class=\"btn btn-primary\">Submit</button>\r\n          </div>\r\n          <button type=\"button\" onclick=\"$('#compose-textarea-${e.id}').summernote('code','')\"\r\n            class=\"btn btn-default\">Discard</button>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" onclick=\"EditHole(this)\" type=\"button\" class=\"btn btn-default\">Edit</button>\r\n            <button it=\"${e.id}\" onclick=\"VisibleHole(this)\" type=\"button\" class=\"btn btn-default\">${e.visible ? \"Hide\" : \"Show\"}</button>\r\n            <button it=\"${e.id}\" onclick=\"DeleteHole(this)\" type=\"button\" class=\"btn btn-default\">Delete</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      `\r\n  }\r\n  function DeleteHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Delete', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({ id: id })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function VisibleHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Visible', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function renderList(data) {\r\n    $('#hole-list').html(\"\")\r\n    data.reverse()\r\n    data.forEach(e => {\r\n      $('#hole-list').append(getHoleItem(e))\r\n    })\r\n  }\r\n  fetch(\"/space/api/Hole\").then(e => {\r\n    return e.json()\r\n  }).then(data => {\r\n    console.log(data)\r\n    renderList(data)\r\n  })\r\n  function EditHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const hole = document.querySelector(\"#hole-\" + id)\r\n    const text = hole.innerHTML\r\n    hole.innerHTML = \"\"\r\n    summernoteInit('#compose-textarea-' + id)\r\n    $('#compose-textarea-' + id).summernote('code', text)\r\n    document.querySelector('#card-footer-' + id).style.display = \"block\"\r\n  }\r\n  function SubmitHoleItem(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const content = $('#compose-textarea-' + id).summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n    }\r\n    fetch('/space/api/Hole/Edit', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        hole: data\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n</script>";
+var code = "<link href=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.css\" rel=\"stylesheet\">\r\n<" + "script src=\"::CDN_NPM::/summernote@0.8.20/dist/summernote-bs4.js\"><" + "/script>\r\n<" + "script>\r\n  $(function () {\r\n    summernoteInit('#compose-textarea')\r\n  })\r\n  // $('#compose-textarea').summernote('code')\r\n  // $('#compose-textarea').summernote('insertText', 'Hello, world');\r\n  function summernoteInit(id) {\r\n    $(id).summernote({\r\n      tabsize: 2,\r\n      toolbar: [\r\n        ['style', ['style']],\r\n        ['font', ['bold', 'underline', 'clear']],\r\n        ['color', ['color']],\r\n        ['para', ['ul', 'ol', 'paragraph']],\r\n        ['table', ['table']],\r\n        ['insert', ['link', 'picture', 'video']],\r\n        ['view', ['fullscreen', 'codeview']]\r\n      ]\r\n    })\r\n  }\r\n  function SubmitHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/', '-') + \" \" + new Date().toLocaleString().split(\" \")[1].slice(0, 5),\r\n      visible: true,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function DraftHole() {\r\n    const content = $('#compose-textarea').summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n      time: new Date().toLocaleString().split(\" \")[0].replaceAll('/', '-') + \" \" + new Date().toLocaleString().split(\" \")[1].slice(0, 5),\r\n      visible: false,\r\n      like: 0,\r\n    }\r\n    fetch('/space/api/Hole/Put', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify(data)\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n        $('#compose-textarea').summernote('code', \"\")\r\n      }\r\n    })\r\n  }\r\n  function getHoleItem(e) {\r\n    return `\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <img src=\"${e.avatar}\" class=\"avatar\">\r\n          <p class=\"card-title float-right\"> · <strong>${e.like}</strong> like</p>\r\n          <p class=\"card-title float-right\"><strong>${e.name}</strong> · ${e.time} </p>\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <div id=\"hole-${e.id}\">\r\n            ${e.content}\r\n          </div>\r\n          <textarea id=\"compose-textarea-${e.id}\" class=\"form-control\" style=\"display: none;\"></textarea>\r\n        </div>\r\n        <div id=\"card-footer-${e.id}\" class=\"card-footer\" style=\"display: none;\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" type=\"button\" onclick=\"SubmitHoleItem(this)\" class=\"btn btn-primary\">Submit</button>\r\n          </div>\r\n          <button type=\"button\" onclick=\"$('#compose-textarea-${e.id}').summernote('code','')\"\r\n            class=\"btn btn-default\">Discard</button>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"float-right\">\r\n            <button it=\"${e.id}\" onclick=\"EditHole(this)\" type=\"button\" class=\"btn btn-default\">Edit</button>\r\n            <button it=\"${e.id}\" onclick=\"VisibleHole(this)\" type=\"button\" class=\"btn btn-default\">${e.visible ? \"Hide\" : \"Show\"}</button>\r\n            <button it=\"${e.id}\" onclick=\"DeleteHole(this)\" type=\"button\" class=\"btn btn-default\">Delete</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      `\r\n  }\r\n  function DeleteHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Delete', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({ id: id })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function VisibleHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    fetch('/space/api/Hole/Visible', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n  function renderList(data) {\r\n    $('#hole-list').html(\"\")\r\n    data.reverse()\r\n    data.forEach(e => {\r\n      $('#hole-list').append(getHoleItem(e))\r\n    })\r\n  }\r\n  fetch(\"/space/api/Hole\").then(e => {\r\n    return e.json()\r\n  }).then(data => {\r\n    console.log(data)\r\n    renderList(data)\r\n  })\r\n  function EditHole(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const hole = document.querySelector(\"#hole-\" + id)\r\n    const text = hole.innerHTML\r\n    hole.innerHTML = \"\"\r\n    summernoteInit('#compose-textarea-' + id)\r\n    $('#compose-textarea-' + id).summernote('code', text)\r\n    document.querySelector('#card-footer-' + id).style.display = \"block\"\r\n  }\r\n  function SubmitHoleItem(it) {\r\n    const id = it.getAttribute(\"it\")\r\n    const content = $('#compose-textarea-' + id).summernote('code')\r\n    if (!content) return\r\n    const data = {\r\n      content: content,\r\n    }\r\n    fetch('/space/api/Hole/Edit', {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        hole: data\r\n      })\r\n    }).then(function (response) {\r\n      return response.json()\r\n    }).then(function (data) {\r\n      console.log(data)\r\n      if (data.success) {\r\n        renderList(data.hole)\r\n      }\r\n    })\r\n  }\r\n<" + "/script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43121,7 +43121,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  function NotifyCard(it) {\r\n    return `<div id=\"${it.id}\" class=\"card collapsed-card card-${it.type}\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it.title}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"maximize\">\r\n        <i class=\"fas fa-expand\"></i>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button action=\"${it.id}\" onclick=\"removeNotifyCard(this)\" type=\"button\" class=\"btn btn-tool\" data-card-widget=\"remove\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body\">\r\n    ${it.content}\r\n  </div>\r\n</div>`\r\n  }\r\n  fetch(\"/space/api/notify\").then(function (response) {\r\n    return response.json();\r\n  }).then(function (data) {\r\n    console.log(data);\r\n    if (data.length > 0) {\r\n      data.reverse()\r\n      var notify = document.getElementById(\"notify\");\r\n      notify.innerHTML = \"\";\r\n      for (var i = 0; i < data.length; i++) {\r\n        var div = document.createElement(\"div\");\r\n        div.innerHTML = NotifyCard(data[i]);\r\n        notify.appendChild(div);\r\n      }\r\n    }\r\n  });\r\n  function removeNotifyCard(it) {\r\n    const id = it.getAttribute(\"action\");\r\n    fetch(\"/space/api/notify\", {\r\n      method: \"POST\",\r\n      headers: {\r\n        \"Content-Type\": \"application/json\"\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        action: \"delete\"\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (data) {\r\n      console.log(data);\r\n      if (data.length > 0) {\r\n        data.reverse()\r\n        var notify = document.getElementById(\"notify\");\r\n        notify.innerHTML = \"\";\r\n        for (var i = 0; i < data.length; i++) {\r\n          var div = document.createElement(\"div\");\r\n          div.innerHTML = NotifyCard(data[i]);\r\n          notify.appendChild(div);\r\n        }\r\n      }\r\n    });\r\n  }\r\n</script>\r\n<script>\r\n  Space.KV.Get(\"CalendarEventSource\").then(e => {\r\n    if (e.sucess) {\r\n      const data = JSON.parse(e.value)\r\n      window.toDoEvents = []\r\n      let HTML = \"\"\r\n      document.getElementById(\"todo-list\").innerHTML = \"\"\r\n      data.forEach(item => {\r\n        let date;\r\n        if (item.end) {\r\n          date = new Date(item.end).getTime()\r\n        } else {\r\n          date = new Date(item.start).getTime()\r\n        }\r\n        toDoEvents.push({\r\n          title: item.title,\r\n          id: btoa(encodeURIComponent(item.title + date)),\r\n          date: date,\r\n          checked: false,\r\n        })\r\n      })\r\n      if (toDoEvents.length) {\r\n        toDoEvents.sort((a, b) => {\r\n          return a.date - b.date\r\n        })\r\n        Space.KV.Get(\"CalendarToDoEvent\").then(e => {\r\n          if (e.sucess) {\r\n            const data = JSON.parse(e.value)\r\n            toDoEvents.forEach(item => {\r\n              data.forEach(item2 => {\r\n                if (item.id === item2.id) {\r\n                  item.checked = item2.checked\r\n                }\r\n              })\r\n            })\r\n            toDoEvents = toDoEvents.filter(item => {\r\n              return item.date > new Date().getTime()\r\n            })\r\n            toDoEvents.forEach(item => {\r\n              HTML += getToDoItem(item)\r\n            })\r\n            if (toDoEvents.length) {\r\n              document.getElementById(\"todo-list\").innerHTML = HTML\r\n              document.getElementById(\"todo\").style.display = \"block\"\r\n              saveToDoEvents()\r\n            }\r\n          }\r\n        })\r\n      }\r\n    }\r\n  })\r\n  function saveToDoEvents() {\r\n    toDoEvents = toDoEvents.filter(item => {\r\n      return item.date > new Date().getTime()\r\n    })\r\n    Space.KV.Put(\"CalendarToDoEvent\", JSON.stringify(toDoEvents))\r\n  }\r\n  function getToDoItem(it) {\r\n    const time = Space.friendlyFeatureTime(it.date)\r\n    let type;\r\n    if (time) {\r\n      if (time.includes(\"month\")) {\r\n        type = \"secondary\"\r\n      }\r\n      if (time.includes(\"week\")) {\r\n        type = \"info\"\r\n      }\r\n      if (time.includes(\"day\")) {\r\n        type = \"primary\"\r\n      }\r\n      if (time.includes(\"days\")) {\r\n        type = \"success\"\r\n      }\r\n      if (time.includes(\"hour\")) {\r\n        type = \"warning\"\r\n      }\r\n      if (time.includes(\"min\")) {\r\n        type = \"danger\"\r\n      }\r\n      return `<li ${it.checked ? 'class=\"done\"' : ''}>\r\n        <div class=\"icheck-primary d-inline ml-2\" id=\"${it.id}\">\r\n          <input type=\"checkbox\" value=\"\" name=\"todo\" onclick=\"onClickToDo(this)\" id=\"todoCheck-${it.id}\" ${it.checked ? \"checked\" : \"\"}>\r\n          <label for=\"todoCheck-${it.id}\"></label>\r\n        </div>\r\n        <span class=\"text\">${it.title}</span>\r\n        <small class=\"badge badge-${type}\"><i class=\"far fa-clock\"></i>${time}</small>\r\n      </li>`\r\n    }\r\n    return \"\"\r\n  }\r\n  function onClickToDo(it) {\r\n    const id = it.id.split(\"todoCheck-\")[1]\r\n    console.log(id);\r\n    toDoEvents.forEach(item => {\r\n      if (item.id == id) {\r\n        item.checked = !item.checked\r\n      }\r\n    })\r\n    saveToDoEvents()\r\n  }\r\n</script>";
+var code = "<" + "script>\r\n  function NotifyCard(it) {\r\n    return `<div id=\"${it.id}\" class=\"card collapsed-card card-${it.type}\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it.title}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"maximize\">\r\n        <i class=\"fas fa-expand\"></i>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button action=\"${it.id}\" onclick=\"removeNotifyCard(this)\" type=\"button\" class=\"btn btn-tool\" data-card-widget=\"remove\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body\">\r\n    ${it.content}\r\n  </div>\r\n</div>`\r\n  }\r\n  fetch(\"/space/api/notify\").then(function (response) {\r\n    return response.json();\r\n  }).then(function (data) {\r\n    console.log(data);\r\n    if (data.length > 0) {\r\n      data.reverse()\r\n      var notify = document.getElementById(\"notify\");\r\n      notify.innerHTML = \"\";\r\n      for (var i = 0; i < data.length; i++) {\r\n        var div = document.createElement(\"div\");\r\n        div.innerHTML = NotifyCard(data[i]);\r\n        notify.appendChild(div);\r\n      }\r\n    }\r\n  });\r\n  function removeNotifyCard(it) {\r\n    const id = it.getAttribute(\"action\");\r\n    fetch(\"/space/api/notify\", {\r\n      method: \"POST\",\r\n      headers: {\r\n        \"Content-Type\": \"application/json\"\r\n      },\r\n      body: JSON.stringify({\r\n        id: id,\r\n        action: \"delete\"\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (data) {\r\n      console.log(data);\r\n      if (data.length > 0) {\r\n        data.reverse()\r\n        var notify = document.getElementById(\"notify\");\r\n        notify.innerHTML = \"\";\r\n        for (var i = 0; i < data.length; i++) {\r\n          var div = document.createElement(\"div\");\r\n          div.innerHTML = NotifyCard(data[i]);\r\n          notify.appendChild(div);\r\n        }\r\n      }\r\n    });\r\n  }\r\n<" + "/script>\r\n<" + "script>\r\n  Space.KV.Get(\"CalendarEventSource\").then(e => {\r\n    if (e.sucess) {\r\n      const data = JSON.parse(e.value)\r\n      window.toDoEvents = []\r\n      let HTML = \"\"\r\n      document.getElementById(\"todo-list\").innerHTML = \"\"\r\n      data.forEach(item => {\r\n        let date;\r\n        if (item.end) {\r\n          date = new Date(item.end).getTime()\r\n        } else {\r\n          date = new Date(item.start).getTime()\r\n        }\r\n        toDoEvents.push({\r\n          title: item.title,\r\n          id: btoa(encodeURIComponent(item.title + date)),\r\n          date: date,\r\n          checked: false,\r\n        })\r\n      })\r\n      if (toDoEvents.length) {\r\n        toDoEvents.sort((a, b) => {\r\n          return a.date - b.date\r\n        })\r\n        Space.KV.Get(\"CalendarToDoEvent\").then(e => {\r\n          if (e.sucess) {\r\n            const data = JSON.parse(e.value)\r\n            toDoEvents.forEach(item => {\r\n              data.forEach(item2 => {\r\n                if (item.id === item2.id) {\r\n                  item.checked = item2.checked\r\n                }\r\n              })\r\n            })\r\n            toDoEvents = toDoEvents.filter(item => {\r\n              return item.date > new Date().getTime()\r\n            })\r\n            toDoEvents.forEach(item => {\r\n              HTML += getToDoItem(item)\r\n            })\r\n            if (toDoEvents.length) {\r\n              document.getElementById(\"todo-list\").innerHTML = HTML\r\n              document.getElementById(\"todo\").style.display = \"block\"\r\n              saveToDoEvents()\r\n            }\r\n          }\r\n        })\r\n      }\r\n    }\r\n  })\r\n  function saveToDoEvents() {\r\n    toDoEvents = toDoEvents.filter(item => {\r\n      return item.date > new Date().getTime()\r\n    })\r\n    Space.KV.Put(\"CalendarToDoEvent\", JSON.stringify(toDoEvents))\r\n  }\r\n  function getToDoItem(it) {\r\n    const time = Space.friendlyFeatureTime(it.date)\r\n    let type;\r\n    if (time) {\r\n      if (time.includes(\"month\")) {\r\n        type = \"secondary\"\r\n      }\r\n      if (time.includes(\"week\")) {\r\n        type = \"info\"\r\n      }\r\n      if (time.includes(\"day\")) {\r\n        type = \"primary\"\r\n      }\r\n      if (time.includes(\"days\")) {\r\n        type = \"success\"\r\n      }\r\n      if (time.includes(\"hour\")) {\r\n        type = \"warning\"\r\n      }\r\n      if (time.includes(\"min\")) {\r\n        type = \"danger\"\r\n      }\r\n      return `<li ${it.checked ? 'class=\"done\"' : ''}>\r\n        <div class=\"icheck-primary d-inline ml-2\" id=\"${it.id}\">\r\n          <input type=\"checkbox\" value=\"\" name=\"todo\" onclick=\"onClickToDo(this)\" id=\"todoCheck-${it.id}\" ${it.checked ? \"checked\" : \"\"}>\r\n          <label for=\"todoCheck-${it.id}\"></label>\r\n        </div>\r\n        <span class=\"text\">${it.title}</span>\r\n        <small class=\"badge badge-${type}\"><i class=\"far fa-clock\"></i>${time}</small>\r\n      </li>`\r\n    }\r\n    return \"\"\r\n  }\r\n  function onClickToDo(it) {\r\n    const id = it.id.split(\"todoCheck-\")[1]\r\n    console.log(id);\r\n    toDoEvents.forEach(item => {\r\n      if (item.id == id) {\r\n        item.checked = !item.checked\r\n      }\r\n    })\r\n    saveToDoEvents()\r\n  }\r\n<" + "/script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43166,7 +43166,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script src=\"::CDN_NPM::/bs-custom-file-input/dist/bs-custom-file-input.js\"></script>\r\n<script>\r\n  bsCustomFileInput.init();\r\n\r\n  function mySubmit(form) {\r\n    let formData = new FormData(form);\r\n    fetch(\"/space/api/NPMUpload/\", {\r\n      method: \"POST\",\r\n      body: formData,\r\n      headers: {\r\n        \"accept\": \"application/json\",\r\n      }\r\n    }).then(function (response) {\r\n      return response.text();\r\n    }).then(function (data) {\r\n      console.log(data);\r\n      document.querySelector(\"#message\").innerHTML = data;\r\n    }).catch(function (err) {\r\n      document.querySelector(\"#message\").innerHTML = err;\r\n      console.error(err);\r\n    });\r\n    return false;\r\n  }\r\n</script>";
+var code = "<" + "script src=\"::CDN_NPM::/bs-custom-file-input/dist/bs-custom-file-input.js\"><" + "/script>\r\n<" + "script>\r\n  bsCustomFileInput.init();\r\n\r\n  function mySubmit(form) {\r\n    let formData = new FormData(form);\r\n    fetch(\"/space/api/NPMUpload/\", {\r\n      method: \"POST\",\r\n      body: formData,\r\n      headers: {\r\n        \"accept\": \"application/json\",\r\n      }\r\n    }).then(function (response) {\r\n      return response.text();\r\n    }).then(function (data) {\r\n      console.log(data);\r\n      document.querySelector(\"#message\").innerHTML = data;\r\n    }).catch(function (err) {\r\n      document.querySelector(\"#message\").innerHTML = err;\r\n      console.error(err);\r\n    });\r\n    return false;\r\n  }\r\n<" + "/script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43211,7 +43211,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  function Subscribe(it) {\r\n    const rss_input = document.getElementById(\"rss-input\").value;\r\n    if (!rss_input) {\r\n      return;\r\n    }\r\n    fetch(`/space/api/RSSSUB/add`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: rss_input\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add RSS Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Add RSS Failed`\r\n      })\r\n    });\r\n  }\r\n  function getRSSCtrlItem(it) {\r\n    const on = `<span class=\"badge badge-success\">ON</span>`;\r\n    const off = `<span class=\"badge badge-danger\">OFF</span></a>`;\r\n    return `<tr>\r\n      <td><a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\">${it.title}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeStatus(this)\" href=\"#\">${it.status ? on : off}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeNotify(this)\" href=\"#\">${it.notify ? on : off}</a></td>\r\n      <td class=\"project-actions text-right\">\r\n        <a url=\"${it.url}\" onclick=\"DeleteCtrlItem(this)\" class=\"btn btn-danger btn-sm\">\r\n          <i class=\"fas fa-trash\"> </i>\r\n          Delete\r\n        </a>\r\n      </td>\r\n    </tr>`\r\n  }\r\n  function rendererRSSCtrlList() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-ctrl-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSCtrlItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n      rendererRSSResult();\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  rendererRSSCtrlList()\r\n  function DeleteCtrlItem(it) {\r\n    const url = it.getAttribute(\"url\");\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        fetch(`/space/api/RSSSUB/delete`, {\r\n          method: 'POST',\r\n          headers: {\r\n            'Content-Type': 'application/json'\r\n          },\r\n          body: JSON.stringify({\r\n            url: url\r\n          })\r\n        }).then(function (response) {\r\n          return response.json();\r\n        }).then(function (json) {\r\n          console.log(json);\r\n          if (json.success) {\r\n            rendererRSSCtrlList()\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Delete RSS Successfully`\r\n            })\r\n          }\r\n        }).catch(function (error) {\r\n          console.log(error);\r\n          Toast.fire({\r\n            icon: 'error',\r\n            title: `Delete RSS Failed`\r\n          })\r\n        });\r\n      }\r\n    })\r\n  }\r\n  function changeStatus(it) {\r\n    fetch(`/space/api/RSSSUB/status`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Status Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Status Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function changeNotify(it) {\r\n    fetch(`/space/api/RSSSUB/notify`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Notify Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Notify Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function rendererRSSResult() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-result-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSResultItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  function getRSSResultItem(it) {\r\n    return `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${it.title}</h3></a>\r\n                  <a href=\"${it.lastLink}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <span class=\"text-muted\">${it.lastLink}</span>\r\n                  </a>\r\n                  <a href=\"${it.lastPostView}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <p class=\"mb-0\">${it.lastPost}</p>\r\n                  </a>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n  }\r\n  fetch(\"/space/api/RSSSUB/update\").catch(e => { })\r\n</script>";
+var code = "<" + "script>\r\n  function Subscribe(it) {\r\n    const rss_input = document.getElementById(\"rss-input\").value;\r\n    if (!rss_input) {\r\n      return;\r\n    }\r\n    fetch(`/space/api/RSSSUB/add`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: rss_input\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Add RSS Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Add RSS Failed`\r\n      })\r\n    });\r\n  }\r\n  function getRSSCtrlItem(it) {\r\n    const on = `<span class=\"badge badge-success\">ON</span>`;\r\n    const off = `<span class=\"badge badge-danger\">OFF</span></a>`;\r\n    return `<tr>\r\n      <td><a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\">${it.title}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeStatus(this)\" href=\"#\">${it.status ? on : off}</a></td>\r\n      <td><a url=\"${it.url}\" onclick=\"changeNotify(this)\" href=\"#\">${it.notify ? on : off}</a></td>\r\n      <td class=\"project-actions text-right\">\r\n        <a url=\"${it.url}\" onclick=\"DeleteCtrlItem(this)\" class=\"btn btn-danger btn-sm\">\r\n          <i class=\"fas fa-trash\"> </i>\r\n          Delete\r\n        </a>\r\n      </td>\r\n    </tr>`\r\n  }\r\n  function rendererRSSCtrlList() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-ctrl-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSCtrlItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n      rendererRSSResult();\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  rendererRSSCtrlList()\r\n  function DeleteCtrlItem(it) {\r\n    const url = it.getAttribute(\"url\");\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        fetch(`/space/api/RSSSUB/delete`, {\r\n          method: 'POST',\r\n          headers: {\r\n            'Content-Type': 'application/json'\r\n          },\r\n          body: JSON.stringify({\r\n            url: url\r\n          })\r\n        }).then(function (response) {\r\n          return response.json();\r\n        }).then(function (json) {\r\n          console.log(json);\r\n          if (json.success) {\r\n            rendererRSSCtrlList()\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Delete RSS Successfully`\r\n            })\r\n          }\r\n        }).catch(function (error) {\r\n          console.log(error);\r\n          Toast.fire({\r\n            icon: 'error',\r\n            title: `Delete RSS Failed`\r\n          })\r\n        });\r\n      }\r\n    })\r\n  }\r\n  function changeStatus(it) {\r\n    fetch(`/space/api/RSSSUB/status`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Status Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Status Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function changeNotify(it) {\r\n    fetch(`/space/api/RSSSUB/notify`, {\r\n      method: 'POST',\r\n      headers: {\r\n        'Content-Type': 'application/json'\r\n      },\r\n      body: JSON.stringify({\r\n        url: it.getAttribute(\"url\")\r\n      })\r\n    }).then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      if (json.success) {\r\n        rendererRSSCtrlList()\r\n        Toast.fire({\r\n          icon: 'success',\r\n          title: `Change Notify Successfully`\r\n        })\r\n      }\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n      Toast.fire({\r\n        icon: 'error',\r\n        title: `Change Notify Failed`\r\n      })\r\n    });\r\n    return false;\r\n  }\r\n  function rendererRSSResult() {\r\n    fetch(\"/space/api/RSSSUB/\").then(function (response) {\r\n      return response.json();\r\n    }).then(function (json) {\r\n      console.log(json);\r\n      let rss_list = document.getElementById(\"rss-result-list\");\r\n      rss_list.innerHTML = \"\";\r\n      json.forEach(function (it) {\r\n        let rss_item = getRSSResultItem(it)\r\n        rss_list.innerHTML += rss_item;\r\n      });\r\n    }).catch(function (error) {\r\n      console.log(error);\r\n    });\r\n  }\r\n  function getRSSResultItem(it) {\r\n    return `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${it.url}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${it.title}</h3></a>\r\n                  <a href=\"${it.lastLink}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <span class=\"text-muted\">${it.lastLink}</span>\r\n                  </a>\r\n                  <a href=\"${it.lastPostView}\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n                    <p class=\"mb-0\">${it.lastPost}</p>\r\n                  </a>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n  }\r\n  fetch(\"/space/api/RSSSUB/update\").catch(e => { })\r\n<" + "/script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43256,7 +43256,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  function SpaceSearch(){\r\n    let search_input = document.getElementById(\"search-input\").value;\r\n    if(search_input.length>0){\r\n      Space.WolframAlpha(search_input).then(function(result){\r\n        if(result){\r\n          let wolframalpha_search_result = document.getElementById(\"wolframalpha-search-result\");\r\n          wolframalpha_search_result.innerHTML = \"\";\r\n          let html = `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <h3>Answer from WolframAlpha</h3>\r\n                  <p class=\"mb-0\">${result.cn}</p>\r\n                  <p class=\"mb-0\">${result.en}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n          wolframalpha_search_result.innerHTML = html;\r\n        }\r\n      })\r\n      Space.GoogleSearch(search_input).then(function(response){\r\n        let result = response.ans;\r\n        let html = \"\";\r\n        document.getElementById(\"google-search-result\").innerHTML = \"\";\r\n        for(let i=0;i<result.length;i++){\r\n          html += `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${result[i].link}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${result[i].htmlTitle}</h3></a>\r\n                  <span class=\"text-muted\">${result[i].htmlFormattedUrl}</span>\r\n                  <p class=\"mb-0\">${result[i].htmlSnippet}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n        }\r\n        document.getElementById(\"google-search-result\").innerHTML = html;\r\n      });\r\n    }\r\n  }\r\n  document.querySelector(\"#search-input\").onkeydown = function() {\r\n  if (13 == window.event.keyCode){\r\n    console.log(\"Enter\");\r\n    SpaceSearch();\r\n  }\r\n};\r\n</script>";
+var code = "<" + "script>\r\n  function SpaceSearch(){\r\n    let search_input = document.getElementById(\"search-input\").value;\r\n    if(search_input.length>0){\r\n      Space.WolframAlpha(search_input).then(function(result){\r\n        if(result){\r\n          let wolframalpha_search_result = document.getElementById(\"wolframalpha-search-result\");\r\n          wolframalpha_search_result.innerHTML = \"\";\r\n          let html = `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <h3>Answer from WolframAlpha</h3>\r\n                  <p class=\"mb-0\">${result.cn}</p>\r\n                  <p class=\"mb-0\">${result.en}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n          wolframalpha_search_result.innerHTML = html;\r\n        }\r\n      })\r\n      Space.GoogleSearch(search_input).then(function(response){\r\n        let result = response.ans;\r\n        let html = \"\";\r\n        document.getElementById(\"google-search-result\").innerHTML = \"\";\r\n        for(let i=0;i<result.length;i++){\r\n          html += `<div class=\"list-group-item\">\r\n            <div class=\"row\">\r\n              <div class=\"col px-4\">\r\n                <div>\r\n                  <a href=\"${result[i].link}\" target=\"_blank\" rel=\"noopener noreferrer\"><h3>${result[i].htmlTitle}</h3></a>\r\n                  <span class=\"text-muted\">${result[i].htmlFormattedUrl}</span>\r\n                  <p class=\"mb-0\">${result[i].htmlSnippet}</p>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>`;\r\n        }\r\n        document.getElementById(\"google-search-result\").innerHTML = html;\r\n      });\r\n    }\r\n  }\r\n  document.querySelector(\"#search-input\").onkeydown = function() {\r\n  if (13 == window.event.keyCode){\r\n    console.log(\"Enter\");\r\n    SpaceSearch();\r\n  }\r\n};\r\n<" + "/script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43301,7 +43301,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<script>\r\n  function rendererProjects() {\r\n    Space.KV.Get(\"setting\").then(function (response) {\r\n      console.log(response);\r\n      Space.Setting = JSON.parse(response.value);\r\n      if (response.sucess && !response.value) {\r\n        Space.KV.Put(\"setting\", \"{}\")\r\n        Space.Setting = {};\r\n      }\r\n      CARD_HTML = \"\";\r\n      Object.keys(Space.Setting).forEach(e => {\r\n        CARD_HTML += getCard(e);\r\n      });\r\n      document.getElementById(\"card-set\").innerHTML = CARD_HTML;\r\n    });\r\n  }\r\n  rendererProjects();\r\n\r\n  function getKVItem(it, key, value) {\r\n    return `<tr>\r\n    <td>\r\n      <p>${key}</p>\r\n    </td>\r\n    <td>\r\n      <p>${value}</p>\r\n    </td>\r\n    <td class=\"project-actions text-right\">\r\n      <a id=\"edit-${it}-${key}\" onclick=\"EditKVItem(this)\" class=\"btn btn-info btn-sm\">\r\n        <i class=\"fas fa-pencil-alt\"> </i>\r\n        Edit\r\n      </a>\r\n      <a id=\"delete-${it}-${key}\" onclick=\"DeleteKVItem(this)\" class=\"btn btn-danger btn-sm\">\r\n        <i class=\"fas fa-trash\"> </i>\r\n        Delete\r\n      </a>\r\n    </td>\r\n  </tr>`;\r\n  }\r\n  function getCard(it) {\r\n    KVItem_HTML = \"\"\r\n    Object.keys(Space.Setting[it]).forEach(e => {\r\n      KVItem_HTML += getKVItem(it, e, Space.Setting[it][e]);\r\n    });\r\n    return `<div class=\"card collapsed-card\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\" title=\"Collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button id=\"delete-project-${it}\" type=\"button\" class=\"btn btn-tool\" title=\"Remove\" onclick=\"ProjectDelete(this)\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body p-0\" style=\"display: none;\">\r\n    <table class=\"table table-striped projects\">\r\n      <thead>\r\n        <tr>\r\n          <th>Key</th>\r\n          <th>Value</th>\r\n          <th style=\"width: 20%\"></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        ${KVItem_HTML}\r\n      </tbody>\r\n    </table>\r\n    <button id=\"add-kv-${it}\" type=\"button\" class=\"btn btn-block btn-primary btn-lg\" onclick=\"ProjectAddKV(this)\">Add KV</button>\r\n  </div>\r\n</div>`\r\n  }\r\n\r\n  $(\"#add-project\").click((e) => {\r\n    Swal.fire({\r\n      title: 'Type your project name',\r\n      input: 'text',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: (key) => {\r\n        Space.Setting[key] = {}\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add Project Successfully`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  })\r\n  function ProjectAddKV(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add KV Successfully`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function ProjectDelete(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted Project ${project}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n  function EditKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    let value = Space.Setting[project][key];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\" value=\"' + key + '\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\" value=\"' + value + '\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Edit',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        delete Space.Setting[project][it.id.split(\"-\")[2]];\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Editd KV ${key}`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function DeleteKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project][key];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted KV ${key}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n\r\n</script>";
+var code = "<" + "script>\r\n  function rendererProjects() {\r\n    Space.KV.Get(\"setting\").then(function (response) {\r\n      console.log(response);\r\n      Space.Setting = JSON.parse(response.value);\r\n      if (response.sucess && !response.value) {\r\n        Space.KV.Put(\"setting\", \"{}\")\r\n        Space.Setting = {};\r\n      }\r\n      CARD_HTML = \"\";\r\n      Object.keys(Space.Setting).forEach(e => {\r\n        CARD_HTML += getCard(e);\r\n      });\r\n      document.getElementById(\"card-set\").innerHTML = CARD_HTML;\r\n    });\r\n  }\r\n  rendererProjects();\r\n\r\n  function getKVItem(it, key, value) {\r\n    return `<tr>\r\n    <td>\r\n      <p>${key}</p>\r\n    </td>\r\n    <td>\r\n      <p>${value}</p>\r\n    </td>\r\n    <td class=\"project-actions text-right\">\r\n      <a id=\"edit-${it}-${key}\" onclick=\"EditKVItem(this)\" class=\"btn btn-info btn-sm\">\r\n        <i class=\"fas fa-pencil-alt\"> </i>\r\n        Edit\r\n      </a>\r\n      <a id=\"delete-${it}-${key}\" onclick=\"DeleteKVItem(this)\" class=\"btn btn-danger btn-sm\">\r\n        <i class=\"fas fa-trash\"> </i>\r\n        Delete\r\n      </a>\r\n    </td>\r\n  </tr>`;\r\n  }\r\n  function getCard(it) {\r\n    KVItem_HTML = \"\"\r\n    Object.keys(Space.Setting[it]).forEach(e => {\r\n      KVItem_HTML += getKVItem(it, e, Space.Setting[it][e]);\r\n    });\r\n    return `<div class=\"card collapsed-card\">\r\n  <div class=\"card-header\">\r\n    <h3 class=\"card-title\">${it}</h3>\r\n    <div class=\"card-tools\">\r\n      <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\" title=\"Collapse\">\r\n        <i class=\"fas fa-plus\"></i>\r\n      </button>\r\n      <button id=\"delete-project-${it}\" type=\"button\" class=\"btn btn-tool\" title=\"Remove\" onclick=\"ProjectDelete(this)\">\r\n        <i class=\"fas fa-times\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body p-0\" style=\"display: none;\">\r\n    <table class=\"table table-striped projects\">\r\n      <thead>\r\n        <tr>\r\n          <th>Key</th>\r\n          <th>Value</th>\r\n          <th style=\"width: 20%\"></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        ${KVItem_HTML}\r\n      </tbody>\r\n    </table>\r\n    <button id=\"add-kv-${it}\" type=\"button\" class=\"btn btn-block btn-primary btn-lg\" onclick=\"ProjectAddKV(this)\">Add KV</button>\r\n  </div>\r\n</div>`\r\n  }\r\n\r\n  $(\"#add-project\").click((e) => {\r\n    Swal.fire({\r\n      title: 'Type your project name',\r\n      input: 'text',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: (key) => {\r\n        Space.Setting[key] = {}\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add Project Successfully`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  })\r\n  function ProjectAddKV(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Add',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Add KV Successfully`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function ProjectDelete(it) {\r\n    let project = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted Project ${project}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n  function EditKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    let value = Space.Setting[project][key];\r\n    Swal.fire({\r\n      title: 'Type your key Value',\r\n      html: '<input id=\"swal-input1\" class=\"swal2-input\" placeholder=\"Key\" value=\"' + key + '\"><br/>' +\r\n        '<input id=\"swal-input2\" class=\"swal2-input\" placeholder=\"Value\" value=\"' + value + '\">',\r\n      inputAttributes: {\r\n        autocapitalize: 'off'\r\n      },\r\n      showCancelButton: true,\r\n      confirmButtonText: 'Edit',\r\n      showLoaderOnConfirm: true,\r\n      preConfirm: () => {\r\n        delete Space.Setting[project][it.id.split(\"-\")[2]];\r\n        let key = document.getElementById('swal-input1').value;\r\n        let value = document.getElementById('swal-input2').value;\r\n        Space.Setting[project][key] = value;\r\n        console.log(Space.Setting);\r\n        return Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          return response;\r\n        })\r\n          .catch(error => {\r\n            Swal.showValidationMessage(\r\n              `Request failed: ${error}`\r\n            )\r\n          })\r\n      },\r\n      allowOutsideClick: () => !Swal.isLoading()\r\n    }).then((result) => {\r\n      console.log(result);\r\n      if (result.isConfirmed) {\r\n        if (result.value.sucess) {\r\n          rendererProjects();\r\n          Toast.fire({\r\n            icon: 'success',\r\n            title: `Editd KV ${key}`\r\n          })\r\n        }\r\n      }\r\n    })\r\n  }\r\n  function DeleteKVItem(it) {\r\n    let project = it.id.split(\"-\")[1];\r\n    let key = it.id.split(\"-\")[2];\r\n    Swal.fire({\r\n      title: 'Are you sure?',\r\n      text: \"You won't be able to revert this!\",\r\n      icon: 'warning',\r\n      showCancelButton: true,\r\n      confirmButtonColor: '#3085d6',\r\n      cancelButtonColor: '#d33',\r\n      confirmButtonText: 'Yes, delete it!'\r\n    }).then((result) => {\r\n      if (result.value) {\r\n        delete Space.Setting[project][key];\r\n        Space.KV.Put(\"setting\", JSON.stringify(Space.Setting)).then(function (response) {\r\n          console.log(response);\r\n          if (response.sucess) {\r\n            rendererProjects();\r\n            Toast.fire({\r\n              icon: 'success',\r\n              title: `Deleted KV ${key}`\r\n            })\r\n          }\r\n        })\r\n      }\r\n    })\r\n  }\r\n\r\n<" + "/script>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -43345,7 +43345,7 @@ var code = "<li class=\"nav-item\">\r\n  <a href=\"/space/dash/setting\" class=\
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!DOCTYPE html>\r\n<html lang=\"en\" class=\"no-js\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <meta content=\"no-transform\" http-equiv=\"Cache-Control\" />\r\n  <meta content=\"no-siteapp\" http-equiv=\"Cache-Control\" />\r\n  <title>Error</title>\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"::CDN_SPACE::/favicon/favicon-16x16.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"::CDN_SPACE::/favicon/favicon-32x32.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"96x96\" href=\"::CDN_SPACE::/favicon/favicon-96x96.png\" />\r\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN_SPACE::/css/error.css\" />\r\n</head>\r\n\r\n<body>\r\n  <div class=\"container\">\r\n    <div class=\"content\">\r\n      <div id=\"large-header\" class=\"large-header\">\r\n        <div id=\"parallax-window\"></div>\r\n        <canvas id=\"header-canvas\"></canvas>\r\n      </div>\r\n      <div class=\"codrops-header\">\r\n        <h1>Error<span>::ErrorInfo::</span></h1>\r\n      </div>\r\n    </div>\r\n    <div>\r\n      <svg class=\"waves\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"\r\n        viewBox=\"0 24 150 28\" preserveAspectRatio=\"none\" shape-rendering=\"auto\">\r\n        <defs>\r\n          <path id=\"gentle-wave\" d=\"M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z\" />\r\n        </defs>\r\n        <g class=\"parallax\">\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"0\" fill=\"rgba(135,206,235,0.7)\" />\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"3\" fill=\"rgba(135,206,235,0.5)\" />\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"5\" fill=\"rgba(135,206,235,0.3)\" />\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"7\" fill=\"rgba(135,206,235,1)\" />\r\n        </g>\r\n      </svg>\r\n    </div>\r\n  </div>\r\n  <script src=\"::CDN_SPACE::/js/error.js\"></script>\r\n</body>\r\n\r\n</html>";
+var code = "<!--\r\n * ==========================================================================\r\n * \"CoPoKo Space\" License\r\n * GNU General Public License version 3.0 (GPLv3)\r\n * ==========================================================================\r\n * This file is part of \"CoPoKo Space\"\r\n *\r\n * \"CoPoKo Space\" is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * \"CoPoKo Space\" is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU General Public License\r\n * along with \"CoPoKo Space\". If not, see <http://www.gnu.org/licenses/>.\r\n * ==========================================================================\r\n-->\r\n<!DOCTYPE html>\r\n<html lang=\"en\" class=\"no-js\">\r\n\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta robots=\"noindex, nofollow\" />\r\n  <meta name=\"renderer\" content=\"webkit\" />\r\n  <meta name=\"force-rendering\" content=\"webkit\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge,chrome=1\" />\r\n  <meta name=\"HandheldFriendly\" content=\"True\" />\r\n  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\r\n  <meta content=\"no-transform\" http-equiv=\"Cache-Control\" />\r\n  <meta content=\"no-siteapp\" http-equiv=\"Cache-Control\" />\r\n  <title>Error</title>\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"::CDN_SPACE::/favicon/favicon-16x16.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"::CDN_SPACE::/favicon/favicon-32x32.png\" />\r\n  <link rel=\"icon\" type=\"image/png\" sizes=\"96x96\" href=\"::CDN_SPACE::/favicon/favicon-96x96.png\" />\r\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"::CDN_SPACE::/css/error.css\" />\r\n</head>\r\n\r\n<body>\r\n  <div class=\"container\">\r\n    <div class=\"content\">\r\n      <div id=\"large-header\" class=\"large-header\">\r\n        <div id=\"parallax-window\"></div>\r\n        <canvas id=\"header-canvas\"></canvas>\r\n      </div>\r\n      <div class=\"codrops-header\">\r\n        <h1>Error<span>::ErrorInfo::</span></h1>\r\n      </div>\r\n    </div>\r\n    <div>\r\n      <svg class=\"waves\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"\r\n        viewBox=\"0 24 150 28\" preserveAspectRatio=\"none\" shape-rendering=\"auto\">\r\n        <defs>\r\n          <path id=\"gentle-wave\" d=\"M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z\" />\r\n        </defs>\r\n        <g class=\"parallax\">\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"0\" fill=\"rgba(135,206,235,0.7)\" />\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"3\" fill=\"rgba(135,206,235,0.5)\" />\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"5\" fill=\"rgba(135,206,235,0.3)\" />\r\n          <use xlink:href=\"#gentle-wave\" x=\"48\" y=\"7\" fill=\"rgba(135,206,235,1)\" />\r\n        </g>\r\n      </svg>\r\n    </div>\r\n  </div>\r\n  <" + "script src=\"::CDN_SPACE::/js/error.js\"><" + "/script>\r\n</body>\r\n\r\n</html>";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -77998,15 +77998,18 @@ exports.webApp = webApp;
 /***/ }),
 
 /***/ 42969:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 /* provided dependency */ var console = __webpack_require__(25108);
 
 /** @format */
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Composer = void 0;
-const context_1 = __webpack_require__(63152);
+const context_1 = __importDefault(__webpack_require__(63152));
 function always(x) {
     return () => x;
 }
@@ -78538,12 +78541,13 @@ exports["default"] = Composer;
 /***/ }),
 
 /***/ 63152:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Context = void 0;
+const util_1 = __webpack_require__(39142);
 class Context {
     constructor(update, telegram, botInfo) {
         this.update = update;
@@ -78662,6 +78666,9 @@ class Context {
     set webhookReply(enable) {
         this.telegram.webhookReply = enable;
     }
+    /**
+     * @internal
+     */
     assert(value, method) {
         if (value === undefined) {
             throw new TypeError(`Telegraf: "${method}" isn't available for "${this.updateType}"`);
@@ -78753,9 +78760,16 @@ class Context {
     /**
      * @see https://core.telegram.org/bots/api#sendmessage
      */
-    reply(...args) {
-        this.assert(this.chat, 'reply');
+    sendMessage(...args) {
+        this.assert(this.chat, 'sendMessage');
         return this.telegram.sendMessage(this.chat.id, ...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendmessage
+     */
+    reply(...args) {
+        (0, util_1.deprecate)('ctx.reply', 'reply', 'sendMessage', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendMessage(...args);
     }
     /**
      * @see https://core.telegram.org/bots/api#getchat
@@ -78926,102 +78940,200 @@ class Context {
         return this.telegram.setPassportDataErrors(this.from.id, errors);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithphoto
+     * @see https://core.telegram.org/bots/api#sendphoto
      */
-    replyWithPhoto(...args) {
-        this.assert(this.chat, 'replyWithPhoto');
+    sendPhoto(...args) {
+        this.assert(this.chat, 'sendPhoto');
         return this.telegram.sendPhoto(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithmediagroup
+     * @see https://core.telegram.org/bots/api#sendphoto
      */
-    replyWithMediaGroup(...args) {
-        this.assert(this.chat, 'replyWithMediaGroup');
+    replyWithPhoto(...args) {
+        (0, util_1.deprecate)('ctx.replyWithPhoto', 'reply', 'sendPhoto', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendPhoto(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendmediagroup
+     */
+    sendMediaGroup(...args) {
+        this.assert(this.chat, 'sendMediaGroup');
         return this.telegram.sendMediaGroup(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithaudio
+     * @see https://core.telegram.org/bots/api#sendmediagroup
      */
-    replyWithAudio(...args) {
-        this.assert(this.chat, 'replyWithAudio');
+    replyWithMediaGroup(...args) {
+        (0, util_1.deprecate)('ctx.replyWithMediaGroup', 'reply', 'sendMediaGroup', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendMediaGroup(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendaudio
+     */
+    sendAudio(...args) {
+        this.assert(this.chat, 'sendAudio');
         return this.telegram.sendAudio(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithdice
+     * @see https://core.telegram.org/bots/api#sendaudio
      */
-    replyWithDice(...args) {
-        this.assert(this.chat, 'replyWithDice');
+    replyWithAudio(...args) {
+        (0, util_1.deprecate)('ctx.replyWithAudio', 'reply', 'sendAudio', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendAudio(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#senddice
+     */
+    sendDice(...args) {
+        this.assert(this.chat, 'sendDice');
         return this.telegram.sendDice(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithdocument
+     * @see https://core.telegram.org/bots/api#senddice
      */
-    replyWithDocument(...args) {
-        this.assert(this.chat, 'replyWithDocument');
+    replyWithDice(...args) {
+        (0, util_1.deprecate)('ctx.replyWithDice', 'reply', 'sendDice', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendDice(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#senddocument
+     */
+    sendDocument(...args) {
+        this.assert(this.chat, 'sendDocument');
         return this.telegram.sendDocument(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithsticker
+     * @see https://core.telegram.org/bots/api#senddocument
      */
-    replyWithSticker(...args) {
-        this.assert(this.chat, 'replyWithSticker');
+    replyWithDocument(...args) {
+        (0, util_1.deprecate)('ctx.replyWithDocument', 'reply', 'sendDocument', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendDocument(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendsticker
+     */
+    sendSticker(...args) {
+        this.assert(this.chat, 'sendSticker');
         return this.telegram.sendSticker(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithvideo
+     * @see https://core.telegram.org/bots/api#sendsticker
      */
-    replyWithVideo(...args) {
-        this.assert(this.chat, 'replyWithVideo');
+    replyWithSticker(...args) {
+        (0, util_1.deprecate)('ctx.replyWithSticker', 'reply', 'sendSticker', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendSticker(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendvideo
+     */
+    sendVideo(...args) {
+        this.assert(this.chat, 'sendVideo');
         return this.telegram.sendVideo(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithanimation
+     * @see https://core.telegram.org/bots/api#sendvideo
      */
-    replyWithAnimation(...args) {
-        this.assert(this.chat, 'replyWithAnimation');
+    replyWithVideo(...args) {
+        (0, util_1.deprecate)('ctx.replyWithVideo', 'reply', 'sendVideo', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendVideo(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendanimation
+     */
+    sendAnimation(...args) {
+        this.assert(this.chat, 'sendAnimation');
         return this.telegram.sendAnimation(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithvideonote
+     * @see https://core.telegram.org/bots/api#sendanimation
      */
-    replyWithVideoNote(...args) {
-        this.assert(this.chat, 'replyWithVideoNote');
+    replyWithAnimation(...args) {
+        (0, util_1.deprecate)('ctx.replyWithAnimation', 'reply', 'sendAnimation', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendAnimation(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendvideonote
+     */
+    sendVideoNote(...args) {
+        this.assert(this.chat, 'sendVideoNote');
         return this.telegram.sendVideoNote(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithinvoice
+     * @see https://core.telegram.org/bots/api#sendvideonote
      */
-    replyWithInvoice(...args) {
-        this.assert(this.chat, 'replyWithInvoice');
+    replyWithVideoNote(...args) {
+        (0, util_1.deprecate)('ctx.replyWithVideoNote', 'reply', 'sendVideoNote', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendVideoNote(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendinvoice
+     */
+    sendInvoice(...args) {
+        this.assert(this.chat, 'sendInvoice');
         return this.telegram.sendInvoice(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithgame
+     * @see https://core.telegram.org/bots/api#sendinvoice
      */
-    replyWithGame(...args) {
-        this.assert(this.chat, 'replyWithGame');
+    replyWithInvoice(...args) {
+        (0, util_1.deprecate)('ctx.replyWithInvoice', 'reply', 'sendInvoice', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendInvoice(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendgame
+     */
+    sendGame(...args) {
+        this.assert(this.chat, 'sendGame');
         return this.telegram.sendGame(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithvoice
+     * @see https://core.telegram.org/bots/api#sendgame
      */
-    replyWithVoice(...args) {
-        this.assert(this.chat, 'replyWithVoice');
+    replyWithGame(...args) {
+        (0, util_1.deprecate)('ctx.replyWithGame', 'reply', 'sendGame', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendGame(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendvoice
+     */
+    sendVoice(...args) {
+        this.assert(this.chat, 'sendVoice');
         return this.telegram.sendVoice(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithpoll
+     * @see https://core.telegram.org/bots/api#sendvoice
      */
-    replyWithPoll(...args) {
-        this.assert(this.chat, 'replyWithPoll');
+    replyWithVoice(...args) {
+        (0, util_1.deprecate)('ctx.replyWithVoice', 'reply', 'sendVoice', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendVoice(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendpoll
+     */
+    sendPoll(...args) {
+        this.assert(this.chat, 'sendPoll');
         return this.telegram.sendPoll(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithquiz
+     * @see https://core.telegram.org/bots/api#sendpoll
+     */
+    replyWithPoll(...args) {
+        (0, util_1.deprecate)('ctx.replyWithPoll', 'reply', 'sendPoll', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendPoll(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendquiz
+     */
+    sendQuiz(...args) {
+        this.assert(this.chat, 'sendQuiz');
+        return this.telegram.sendQuiz(this.chat.id, ...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendquiz
      */
     replyWithQuiz(...args) {
-        this.assert(this.chat, 'replyWithQuiz');
-        return this.telegram.sendQuiz(this.chat.id, ...args);
+        (0, util_1.deprecate)('ctx.replyWithQuiz', 'reply', 'sendQuiz', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendQuiz(...args);
     }
     /**
      * @see https://core.telegram.org/bots/api#stoppoll
@@ -79031,32 +79143,60 @@ class Context {
         return this.telegram.stopPoll(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithchataction
+     * @see https://core.telegram.org/bots/api#sendchataction
      */
-    replyWithChatAction(...args) {
-        this.assert(this.chat, 'replyWithChatAction');
+    sendChatAction(...args) {
+        this.assert(this.chat, 'sendChatAction');
         return this.telegram.sendChatAction(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithlocation
+     * @see https://core.telegram.org/bots/api#sendchataction
      */
-    replyWithLocation(...args) {
-        this.assert(this.chat, 'replyWithLocation');
+    replyWithChatAction(...args) {
+        (0, util_1.deprecate)('ctx.replyWithChatAction', 'reply', 'sendChatAction');
+        return this.sendChatAction(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendlocation
+     */
+    sendLocation(...args) {
+        this.assert(this.chat, 'sendLocation');
         return this.telegram.sendLocation(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithvenue
+     * @see https://core.telegram.org/bots/api#sendlocation
      */
-    replyWithVenue(...args) {
-        this.assert(this.chat, 'replyWithVenue');
+    replyWithLocation(...args) {
+        (0, util_1.deprecate)('ctx.replyWithLocation', 'reply', 'sendLocation', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendLocation(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendvenue
+     */
+    sendVenue(...args) {
+        this.assert(this.chat, 'sendVenue');
         return this.telegram.sendVenue(this.chat.id, ...args);
     }
     /**
-     * @see https://core.telegram.org/bots/api#replywithcontact
+     * @see https://core.telegram.org/bots/api#sendvenue
+     */
+    replyWithVenue(...args) {
+        (0, util_1.deprecate)('ctx.replyWithVenue', 'reply', 'sendVenue', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendVenue(...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendcontact
+     */
+    sendContact(...args) {
+        this.assert(this.chat, 'sendContact');
+        return this.telegram.sendContact(this.chat.id, ...args);
+    }
+    /**
+     * @see https://core.telegram.org/bots/api#sendcontact
      */
     replyWithContact(...args) {
-        this.assert(this.chat, 'replyWithContact');
-        return this.telegram.sendContact(this.chat.id, ...args);
+        (0, util_1.deprecate)('ctx.replyWithContact', 'reply', 'sendContact', 'https://telegraf.js.org/experimental#new-reply');
+        return this.sendContact(...args);
     }
     /**
      * @deprecated use {@link Telegram.getStickerSet}
@@ -79334,22 +79474,48 @@ exports.compactOptions = compactOptions;
 /***/ }),
 
 /***/ 90067:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 /* provided dependency */ var Buffer = __webpack_require__(48764)["Buffer"];
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 /* eslint @typescript-eslint/restrict-template-expressions: [ "error", { "allowNumber": true, "allowBoolean": true } ] */
-const crypto = __webpack_require__(55835);
-const fs = __webpack_require__(95437);
-const https = __webpack_require__(79267);
-const path = __webpack_require__(26470);
-const node_fetch_1 = __webpack_require__(83300);
+const crypto = __importStar(__webpack_require__(55835));
+const fs = __importStar(__webpack_require__(95437));
+const https = __importStar(__webpack_require__(79267));
+const path = __importStar(__webpack_require__(26470));
+const node_fetch_1 = __importDefault(__webpack_require__(83300));
 const check_1 = __webpack_require__(47893);
 const compact_1 = __webpack_require__(63377);
-const multipart_stream_1 = __webpack_require__(38149);
-const error_1 = __webpack_require__(18166);
+const multipart_stream_1 = __importDefault(__webpack_require__(38149));
+const error_1 = __importDefault(__webpack_require__(18166));
 const url_1 = __webpack_require__(8575);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const debug = __webpack_require__(11227)('telegraf:client');
@@ -79642,14 +79808,40 @@ exports["default"] = TelegramError;
 /***/ }),
 
 /***/ 38149:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const stream = __webpack_require__(42830);
+const stream = __importStar(__webpack_require__(42830));
 const check_1 = __webpack_require__(47893);
-const sandwich_stream_1 = __webpack_require__(81063);
+const sandwich_stream_1 = __importDefault(__webpack_require__(81063));
 const CRNL = '\r\n';
 class MultipartStream extends sandwich_stream_1.default {
     constructor(boundary) {
@@ -79685,14 +79877,17 @@ exports["default"] = MultipartStream;
 /***/ }),
 
 /***/ 31758:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Polling = void 0;
-const abort_controller_1 = __webpack_require__(28599);
-const debug_1 = __webpack_require__(11227);
+const abort_controller_1 = __importDefault(__webpack_require__(28599));
+const debug_1 = __importDefault(__webpack_require__(11227));
 const util_1 = __webpack_require__(89539);
 const error_1 = __webpack_require__(18166);
 const debug = (0, debug_1.default)('telegraf:polling');
@@ -79753,13 +79948,13 @@ class Polling {
         debug('Syncing update offset...');
         await this.telegram.callApi('getUpdates', { offset: this.offset, limit: 1 });
     }
-    async loop(handleUpdates) {
+    async loop(handleUpdate) {
         if (this.abortController.signal.aborted) {
             throw new Error('Polling instances must not be reused!');
         }
         try {
             for await (const updates of this) {
-                await handleUpdates(updates);
+                await Promise.all(updates.map(handleUpdate));
             }
         }
         finally {
@@ -79779,48 +79974,64 @@ exports.Polling = Polling;
 /***/ }),
 
 /***/ 9859:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
+/* provided dependency */ var Buffer = __webpack_require__(48764)["Buffer"];
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const debug_1 = __webpack_require__(11227);
-const safeCompare = __webpack_require__(44439);
+const debug_1 = __importDefault(__webpack_require__(11227));
 const debug = (0, debug_1.default)('telegraf:webhook');
-function default_1(hookPath, updateHandler) {
+function generateWebhook(filter, updateHandler) {
     return async (req, res, next = () => {
         res.statusCode = 403;
         debug('Replying with status code', res.statusCode);
         res.end();
     }) => {
         debug('Incoming request', req.method, req.url);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        if (req.method !== 'POST' || !safeCompare(hookPath, req.url)) {
+        if (!filter(req)) {
+            debug('Webhook filter failed', req.method, req.url);
             return next();
         }
-        let update;
-        if (req.body != null) {
-            update = req.body;
-            await updateHandler(update, res);
-            return;
-        }
-        let body = '';
-        for await (const chunk of req) {
-            body += String(chunk);
-        }
         try {
-            update = JSON.parse(body);
+            let update;
+            if (req.body != null) {
+                /* If req.body is already set, we expect it to be the parsed
+                 request body (update object) received from Telegram
+                 However, some libraries such as `serverless-http` set req.body to the
+                 raw buffer, so we'll handle that additionally */
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                let body = req.body;
+                // if body is Buffer, parse it into string
+                if (body instanceof Buffer)
+                    body = String(req.body);
+                // if body is string, parse it into object
+                if (typeof body === 'string')
+                    body = JSON.parse(body);
+                update = body;
+            }
+            else {
+                let body = '';
+                // parse each buffer to string and append to body
+                for await (const chunk of req)
+                    body += String(chunk);
+                // parse body to object
+                update = JSON.parse(body);
+            }
+            return await updateHandler(update, res);
         }
         catch (error) {
-            res.writeHead(415);
-            res.end();
+            // if any of the parsing steps fails, give up and respond with error
+            res.writeHead(415).end();
             debug('Failed to parse request body:', error);
             return;
         }
-        await updateHandler(update, res);
     };
 }
-exports["default"] = default_1;
+exports["default"] = generateWebhook;
 
 
 /***/ }),
@@ -79846,10 +80057,33 @@ exports.deunionize = deunionize;
 /***/ }),
 
 /***/ 59061:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Scenes = exports.MemorySessionStore = exports.session = exports.deunionize = exports.Markup = exports.Types = exports.Telegram = exports.TelegramError = exports.Router = exports.Composer = exports.Context = exports.Telegraf = void 0;
 var telegraf_1 = __webpack_require__(17870);
@@ -79864,23 +80098,46 @@ var error_1 = __webpack_require__(18166);
 Object.defineProperty(exports, "TelegramError", ({ enumerable: true, get: function () { return error_1.TelegramError; } }));
 var telegram_1 = __webpack_require__(20778);
 Object.defineProperty(exports, "Telegram", ({ enumerable: true, get: function () { return telegram_1.Telegram; } }));
-exports.Types = __webpack_require__(80996);
-exports.Markup = __webpack_require__(18898);
+exports.Types = __importStar(__webpack_require__(80996));
+exports.Markup = __importStar(__webpack_require__(18898));
 var deunionize_1 = __webpack_require__(54071);
 Object.defineProperty(exports, "deunionize", ({ enumerable: true, get: function () { return deunionize_1.deunionize; } }));
 var session_1 = __webpack_require__(39414);
 Object.defineProperty(exports, "session", ({ enumerable: true, get: function () { return session_1.session; } }));
 Object.defineProperty(exports, "MemorySessionStore", ({ enumerable: true, get: function () { return session_1.MemorySessionStore; } }));
-exports.Scenes = __webpack_require__(30034);
+exports.Scenes = __importStar(__webpack_require__(30034));
 
 
 /***/ }),
 
 /***/ 18898:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.inlineKeyboard = exports.keyboard = exports.forceReply = exports.removeKeyboard = exports.button = exports.Markup = void 0;
 const check_1 = __webpack_require__(47893);
@@ -79911,7 +80168,7 @@ class Markup {
     }
 }
 exports.Markup = Markup;
-exports.button = __webpack_require__(71835);
+exports.button = __importStar(__webpack_require__(71835));
 function removeKeyboard() {
     return new Markup({ remove_keyboard: true });
 }
@@ -79967,14 +80224,17 @@ function buildKeyboard(buttons, options) {
 /***/ }),
 
 /***/ 43811:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @format */
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Router = void 0;
-const composer_1 = __webpack_require__(42969);
+const composer_1 = __importDefault(__webpack_require__(42969));
 class Router {
     constructor(routeFn, handlers = new Map()) {
         this.routeFn = routeFn;
@@ -80017,13 +80277,16 @@ exports.Router = Router;
 /***/ }),
 
 /***/ 20924:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BaseScene = void 0;
-const composer_1 = __webpack_require__(42969);
+const composer_1 = __importDefault(__webpack_require__(42969));
 const { compose } = composer_1.default;
 class BaseScene extends composer_1.default {
     constructor(id, options) {
@@ -80061,13 +80324,16 @@ exports["default"] = BaseScene;
 /***/ }),
 
 /***/ 80040:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const composer_1 = __webpack_require__(42969);
-const debug_1 = __webpack_require__(11227);
+const composer_1 = __importDefault(__webpack_require__(42969));
+const debug_1 = __importDefault(__webpack_require__(11227));
 const debug = (0, debug_1.default)('telegraf:scenes:context');
 const noop = () => Promise.resolve();
 const now = () => Math.floor(Date.now() / 1000);
@@ -80170,7 +80436,7 @@ exports["default"] = SceneContextScene;
 /***/ }),
 
 /***/ 30034:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -80179,31 +80445,37 @@ exports["default"] = SceneContextScene;
  * @see https://www.npmjs.com/package/telegraf-stateless-question
  * @packageDocumentation
  */
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WizardContextWizard = exports.WizardScene = exports.BaseScene = exports.SceneContextScene = exports.Stage = void 0;
 var stage_1 = __webpack_require__(5838);
 Object.defineProperty(exports, "Stage", ({ enumerable: true, get: function () { return stage_1.Stage; } }));
 var context_1 = __webpack_require__(80040);
-Object.defineProperty(exports, "SceneContextScene", ({ enumerable: true, get: function () { return context_1.default; } }));
+Object.defineProperty(exports, "SceneContextScene", ({ enumerable: true, get: function () { return __importDefault(context_1).default; } }));
 var base_1 = __webpack_require__(20924);
 Object.defineProperty(exports, "BaseScene", ({ enumerable: true, get: function () { return base_1.BaseScene; } }));
 var wizard_1 = __webpack_require__(32858);
 Object.defineProperty(exports, "WizardScene", ({ enumerable: true, get: function () { return wizard_1.WizardScene; } }));
 var context_2 = __webpack_require__(82439);
-Object.defineProperty(exports, "WizardContextWizard", ({ enumerable: true, get: function () { return context_2.default; } }));
+Object.defineProperty(exports, "WizardContextWizard", ({ enumerable: true, get: function () { return __importDefault(context_2).default; } }));
 
 
 /***/ }),
 
 /***/ 5838:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Stage = void 0;
 const session_1 = __webpack_require__(39414);
-const context_1 = __webpack_require__(80040);
+const context_1 = __importDefault(__webpack_require__(80040));
 const composer_1 = __webpack_require__(42969);
 class Stage extends composer_1.Composer {
     constructor(scenes = [], options) {
@@ -80289,15 +80561,18 @@ exports["default"] = WizardContextWizard;
 /***/ }),
 
 /***/ 32858:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WizardScene = void 0;
-const base_1 = __webpack_require__(20924);
-const context_1 = __webpack_require__(82439);
-const composer_1 = __webpack_require__(42969);
+const base_1 = __importDefault(__webpack_require__(20924));
+const context_1 = __importDefault(__webpack_require__(82439));
+const composer_1 = __importDefault(__webpack_require__(42969));
 class WizardScene extends base_1.default {
     constructor(id, options, ...steps) {
         let opts;
@@ -80424,27 +80699,53 @@ exports.isSessionContext = isSessionContext;
 /***/ }),
 
 /***/ 17870:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 /* provided dependency */ var process = __webpack_require__(34155);
 /* provided dependency */ var console = __webpack_require__(25108);
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Telegraf = void 0;
-const crypto = __webpack_require__(55835);
-const http = __webpack_require__(8501);
-const https = __webpack_require__(79267);
-const util = __webpack_require__(89539);
+const crypto = __importStar(__webpack_require__(55835));
+const http = __importStar(__webpack_require__(8501));
+const https = __importStar(__webpack_require__(79267));
 const composer_1 = __webpack_require__(42969);
 const compact_1 = __webpack_require__(63377);
-const context_1 = __webpack_require__(63152);
-const debug_1 = __webpack_require__(11227);
-const webhook_1 = __webpack_require__(9859);
+const context_1 = __importDefault(__webpack_require__(63152));
+const debug_1 = __importDefault(__webpack_require__(11227));
+const webhook_1 = __importDefault(__webpack_require__(9859));
 const polling_1 = __webpack_require__(31758);
-const p_timeout_1 = __webpack_require__(58147);
-const telegram_1 = __webpack_require__(20778);
+const p_timeout_1 = __importDefault(__webpack_require__(58147));
+const telegram_1 = __importDefault(__webpack_require__(20778));
 const url_1 = __webpack_require__(8575);
+const safeCompare = __webpack_require__(44439);
 const debug = (0, debug_1.default)('telegraf:main');
 const DEFAULT_OPTIONS = {
     telegram: {},
@@ -80455,10 +80756,37 @@ function always(x) {
     return () => x;
 }
 const anoop = always(Promise.resolve());
+const TOKEN_HEADER = 'x-telegram-bot-api-secret-token';
 class Telegraf extends composer_1.Composer {
     constructor(token, options) {
         super();
         this.context = {};
+        /** Assign to this to customise the webhook filter middleware.
+         * `{ hookPath, secretToken }` will be bound to this rather than the Telegraf instance.
+         * Remember to assign a regular function and not an arrow function so it's bindable.
+         */
+        this.webhookFilter = function (req) {
+            const debug = (0, debug_1.default)('telegraf:webhook');
+            if (req.method === 'POST') {
+                if (safeCompare(this.hookPath, req.url)) {
+                    // no need to check if secret_token was not set
+                    if (!this.secretToken)
+                        return true;
+                    else {
+                        const token = req.headers[TOKEN_HEADER];
+                        if (safeCompare(token, this.secretToken))
+                            return true;
+                        else
+                            debug('Secret token does not match:', token, this.secretToken);
+                    }
+                }
+                else
+                    debug('Path does not match:', req.url, this.hookPath);
+            }
+            else
+                debug('Unexpected request method, not POST. Received:', req.method);
+            return false;
+        };
         this.handleError = (err, ctx) => {
             // set exit code to emulate `warn-with-error-code` behavior of
             // https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode
@@ -80482,6 +80810,7 @@ class Telegraf extends composer_1.Composer {
     set webhookReply(webhookReply) {
         this.telegram.webhookReply = webhookReply;
     }
+    /** @deprecated use `ctx.telegram.webhookReply` */
     get webhookReply() {
         return this.telegram.webhookReply;
     }
@@ -80492,17 +80821,46 @@ class Telegraf extends composer_1.Composer {
         this.handleError = handler;
         return this;
     }
-    webhookCallback(path = '/') {
-        return (0, webhook_1.default)(path, (update, res) => this.handleUpdate(update, res));
+    /**
+     * You must call `bot.telegram.setWebhook` for this to work.
+     * You should probably use {@link Telegraf.createWebhook} instead.
+     */
+    webhookCallback(hookPath = '/', opts = {}) {
+        const { secretToken } = opts;
+        return (0, webhook_1.default)(this.webhookFilter.bind({ hookPath, secretToken }), (update, res) => this.handleUpdate(update, res));
+    }
+    getDomainOpts(opts) {
+        var _a;
+        const protocol = opts.domain.startsWith('https://') || opts.domain.startsWith('http://');
+        if (protocol)
+            debug('Unexpected protocol in domain, telegraf will use https:', opts.domain);
+        const domain = protocol ? new url_1.URL(opts.domain).host : opts.domain;
+        const path = (_a = opts.path) !== null && _a !== void 0 ? _a : `/telegraf/${this.secretPathComponent()}`;
+        const url = `https://${domain}${path}`;
+        return { domain, path, url };
+    }
+    /**
+     * Specify a url to receive incoming updates via webhook.
+     * Returns an Express-style middleware you can pass to app.use()
+     */
+    async createWebhook(opts) {
+        const { domain, path, ...extra } = opts;
+        const domainOpts = this.getDomainOpts({ domain, path });
+        await this.telegram.setWebhook(domainOpts.url, extra);
+        debug(`Webhook set to ${domainOpts.url}`);
+        return this.webhookCallback(domainOpts.path, {
+            secretToken: extra.secret_token,
+        });
     }
     startPolling(allowedUpdates = []) {
         this.polling = new polling_1.Polling(this.telegram, allowedUpdates);
-        this.polling.loop(async (updates) => {
-            await this.handleUpdates(updates);
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.polling.loop(async (update) => {
+            await this.handleUpdate(update);
         });
     }
-    startWebhook(hookPath, tlsOptions, port, host, cb) {
-        const webhookCb = this.webhookCallback(hookPath);
+    startWebhook(hookPath, tlsOptions, port, host, cb, secretToken) {
+        const webhookCb = this.webhookCallback(hookPath, { secretToken });
         const callback = typeof cb === 'function'
             ? (req, res) => webhookCb(req, res, () => cb(req, res))
             : webhookCb;
@@ -80526,7 +80884,7 @@ class Telegraf extends composer_1.Composer {
      * @see https://github.com/telegraf/telegraf/discussions/1344#discussioncomment-335700
      */
     async launch(config = {}) {
-        var _a, _b, _c;
+        var _a;
         debug('Connecting to Telegram');
         (_a = this.botInfo) !== null && _a !== void 0 ? _a : (this.botInfo = await this.telegram.getMe());
         debug(`Launching @${this.botInfo.username}`);
@@ -80538,28 +80896,20 @@ class Telegraf extends composer_1.Composer {
             debug('Bot started with long polling');
             return;
         }
-        if (typeof config.webhook.domain !== 'string' &&
-            typeof config.webhook.hookPath !== 'string') {
-            throw new Error('Webhook domain or webhook path is required');
-        }
-        let domain = (_b = config.webhook.domain) !== null && _b !== void 0 ? _b : '';
-        if (domain.startsWith('https://') || domain.startsWith('http://')) {
-            domain = new url_1.URL(domain).host;
-        }
-        const hookPath = (_c = config.webhook.hookPath) !== null && _c !== void 0 ? _c : `/telegraf/${this.secretPathComponent()}`;
-        const { port, host, tlsOptions, cb } = config.webhook;
-        this.startWebhook(hookPath, tlsOptions, port, host, cb);
-        if (!domain) {
-            debug('Bot started with webhook');
-            return;
-        }
-        await this.telegram.setWebhook(`https://${domain}${hookPath}`, {
+        const domainOpts = this.getDomainOpts({
+            domain: config.webhook.domain,
+            path: config.webhook.hookPath,
+        });
+        const { tlsOptions, port, host, cb, secretToken } = config.webhook;
+        this.startWebhook(domainOpts.path, tlsOptions, port, host, cb, secretToken);
+        await this.telegram.setWebhook(domainOpts.url, {
             drop_pending_updates: config.dropPendingUpdates,
             allowed_updates: config.allowedUpdates,
             ip_address: config.webhook.ipAddress,
             max_connections: config.webhook.maxConnections,
+            secret_token: config.webhook.secretToken,
         });
-        debug(`Bot started with webhook @ https://${domain}`);
+        debug(`Bot started with webhook @ ${domainOpts.url}`);
     }
     stop(reason = 'unspecified') {
         var _a, _b;
@@ -80570,12 +80920,6 @@ class Telegraf extends composer_1.Composer {
         }
         (_a = this.webhookServer) === null || _a === void 0 ? void 0 : _a.close();
         (_b = this.polling) === null || _b === void 0 ? void 0 : _b.stop();
-    }
-    handleUpdates(updates) {
-        if (!Array.isArray(updates)) {
-            throw new TypeError(util.format('Updates must be an array, got', updates));
-        }
-        return Promise.all(updates.map((update) => this.handleUpdate(update)));
     }
     async handleUpdate(update, webhookResponse) {
         var _a, _b;
@@ -80620,13 +80964,16 @@ Object.defineProperty(exports, "Markup", ({ enumerable: true, get: function () {
 /***/ }),
 
 /***/ 20778:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Telegram = void 0;
-const client_1 = __webpack_require__(90067);
+const client_1 = __importDefault(__webpack_require__(90067));
 const path_1 = __webpack_require__(26470);
 const url_1 = __webpack_require__(8575);
 class Telegram extends client_1.default {
@@ -81033,6 +81380,11 @@ class Telegram extends client_1.default {
             ...extra,
         });
     }
+    createInvoiceLink(invoice) {
+        return this.callApi('createInvoiceLink', {
+            ...invoice,
+        });
+    }
     editChatInviteLink(chatId, inviteLink, extra) {
         return this.callApi('editChatInviteLink', {
             chat_id: chatId,
@@ -81335,6 +81687,9 @@ class Telegram extends client_1.default {
     deleteStickerFromSet(sticker) {
         return this.callApi('deleteStickerFromSet', { sticker });
     }
+    getCustomEmojiStickers(custom_emoji_ids) {
+        return this.callApi('getCustomEmojiStickers', { custom_emoji_ids });
+    }
     /**
      * Get the current list of the bot's commands.
      */
@@ -81483,6 +81838,39 @@ class Telegram extends client_1.default {
 }
 exports.Telegram = Telegram;
 exports["default"] = Telegram;
+
+
+/***/ }),
+
+/***/ 39142:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+/* provided dependency */ var process = __webpack_require__(34155);
+/* provided dependency */ var console = __webpack_require__(25108);
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.deprecate = exports.env = void 0;
+exports.env = process.env;
+function deprecate(method, ignorable, use, see) {
+    // don't use deprecate() yet
+    // wait for a couple minor releases of telegraf so the news reaches more people
+    return;
+    const ignorer = `IGNORE_DEPRECATED_${ignorable}`;
+    if (exports.env[ignorer])
+        return;
+    const stack = { stack: '' };
+    Error.captureStackTrace(stack);
+    const line = (stack.stack.split('\n')[3] || '').trim();
+    const useOther = use ? `; use ${use} instead` : '';
+    const pad = ' '.repeat('[WARN]'.length);
+    console.warn(`[WARN] ${method} is deprecated${useOther}`);
+    if (line)
+        console.warn(pad, line);
+    if (see)
+        console.warn(pad, `SEE ${see}`);
+}
+exports.deprecate = deprecate;
 
 
 /***/ }),
@@ -81774,7 +82162,7 @@ module.exports = JSON.parse('{"100":"Continue","101":"Switching Protocols","102"
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.3","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.8.3"},"devDependencies":{"@cloudflare/workers-types":"^3.11.0","@types/crypto-js":"^4.1.1","html-loader":"^3.1.0","node-polyfill-webpack-plugin":"^1.1.4","ts-loader":"^9.3.0","typescript":"^4.7.2","webpack":"^5.72.1","webpack-cli":"^4.9.2","yaml-loader":"^0.8.0"}}');
+module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.4","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.9.2"},"devDependencies":{"@cloudflare/workers-types":"^3.16.0","@types/crypto-js":"^4.1.1","html-loader":"^4.2.0","node-polyfill-webpack-plugin":"^2.0.1","ts-loader":"^9.4.1","typescript":"^4.8.4","webpack":"^5.74.0","webpack-cli":"^4.10.0","yaml-loader":"^0.8.0"}}');
 
 /***/ })
 
