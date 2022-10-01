@@ -68836,7 +68836,7 @@ const Niubi = async (that) => {
     }
     if (that.ctx.message["new_chat_members"] && that.ctx.message["new_chat_members"].length) {
         that.ctx.message["new_chat_members"].forEach((it) => {
-            name = it.username;
+            name = it.username || (it.first_name ? (it.last_name ? it.first_name + " " + it.last_name : it.first_name) : null);
             return;
         });
     }
