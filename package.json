@@ -24,7 +24,7 @@
   "homepage": "https://github.com/CoPoKo/Space#readme",
   "dependencies": {
     "@cfworker/web": "^1.12.4",
-    "cfworker-middware-telegraf": "^2.0.0",
+    "cfworker-middleware-telegraf": "^2.0.2",
     "crypto-js": "^4.1.1",
     "md5": "^2.3.0",
     "rss-parser": "^3.12.0",

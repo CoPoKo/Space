@@ -16164,12 +16164,12 @@ if ($defineProperty) {
 
 /***/ }),
 
-/***/ 43732:
+/***/ 23757:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 __webpack_require__(63367);
-__webpack_require__(99695);
-const telegrafResponseBuilder = __webpack_require__(91699);
+__webpack_require__(1419);
+const telegrafResponseBuilder = __webpack_require__(60701);
 
 /**
  * @param {import('telegraf').Telegraf} bot
@@ -16184,7 +16184,7 @@ module.exports = bot => {
 
 /***/ }),
 
-/***/ 91699:
+/***/ 60701:
 /***/ ((module) => {
 
 /**
@@ -16210,7 +16210,7 @@ module.exports = res => {
 
 /***/ }),
 
-/***/ 99695:
+/***/ 1419:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 (__webpack_require__(8575).URL) = URL;
@@ -66617,12 +66617,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TelegrafBot_1 = __webpack_require__(71535);
 const context_js_1 = __webpack_require__(32112);
 const http_error_js_1 = __webpack_require__(13515);
-const createTelegrafMiddware = __webpack_require__(43732);
+const createTelegrafMiddleware = __webpack_require__(23757);
 const resolved = Promise.resolve();
 async function TelegrafWebhook(ctx) {
     const context = new context_js_1.Context(ctx.event);
     return Promise.race([
-        invokeMiddleware(context, createTelegrafMiddware(TelegrafBot_1.default)),
+        invokeMiddleware(context, createTelegrafMiddleware(TelegrafBot_1.default)),
         context.responded
     ]);
 }
@@ -82482,7 +82482,7 @@ module.exports = JSON.parse('{"100":"Continue","101":"Switching Protocols","102"
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.4","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.10.0"},"devDependencies":{"@cloudflare/workers-types":"^3.16.0","@types/crypto-js":"^4.1.1","html-loader":"^4.2.0","node-polyfill-webpack-plugin":"^2.0.1","ts-loader":"^9.4.1","typescript":"^4.8.4","webpack":"^5.74.0","webpack-cli":"^4.10.0","yaml-loader":"^0.8.0"}}');
+module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.4","cfworker-middleware-telegraf":"^2.0.2","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.10.0"},"devDependencies":{"@cloudflare/workers-types":"^3.16.0","@types/crypto-js":"^4.1.1","html-loader":"^4.2.0","node-polyfill-webpack-plugin":"^2.0.1","ts-loader":"^9.4.1","typescript":"^4.8.4","webpack":"^5.74.0","webpack-cli":"^4.10.0","yaml-loader":"^0.8.0"}}');
 
 /***/ })
 
