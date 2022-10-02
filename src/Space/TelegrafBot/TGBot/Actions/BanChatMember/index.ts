@@ -19,7 +19,7 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import Space from "../../../../Space";
+
 import HandleMessage from "../../HandleMessage";
 const Ban = require("./Ban.yml").default;
 
