@@ -30,6 +30,7 @@ async function Text(ctx: Context<Update>): Promise<void> {
   await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanMessage).run()
   await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanChanelMessage).run()
   ParseWorkflow(ctx, workflows)
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
 }
 
 export default Text;

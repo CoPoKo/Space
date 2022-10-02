@@ -26,6 +26,7 @@ async function Message(ctx: Context<Update>): Promise<void> {
   // return ctx.reply(String(ctx.message))
   await new TGBot.HandleMessage(ctx).newChatMembers().action(TGBot.Actions.Niubi).run()
   await new TGBot.HandleMessage(ctx).newChatMembers().action(TGBot.Actions.BanChatMember.BanNewChatMemberByUserName).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
 }
 
 export default Message;

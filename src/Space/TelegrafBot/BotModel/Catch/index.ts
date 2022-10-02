@@ -23,6 +23,7 @@ import { Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
 import Setting from "../../../Helpers/Setting"
 import Space from "../../../Space";
+import TGBot from "../../TGBot";
 
 async function Catch(err: string, ctx: Context<Update>): Promise<void> {
   await ctx.reply(`Ooops...`);
@@ -32,6 +33,7 @@ async function Catch(err: string, ctx: Context<Update>): Promise<void> {
   await ctx.telegram.sendMessage(ADMIN_GROUP_ID, msg)
   // ctx.reply(msg);
   await Space.Helpers.Notify.Danger(`Error TelegrafBot`, msg.replace(/\n/g, "<br>"))
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
 }
 
 export default Catch;

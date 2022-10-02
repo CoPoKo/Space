@@ -19,19 +19,12 @@
  * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
  * ==========================================================================
 */
-import { Context } from "telegraf";
-import { Update } from "telegraf/typings/core/types/typegram";
-import Space from "../../../Space"
-import TGBot from "../../TGBot"
-async function Sticker(ctx: Context<Update>) {
-  if (Space.Helpers.RandomNum(1, 100) <= 10) {
-    if (ctx.message["sticker"].emoji in TGBot.StickerSet.My) {
-      return ctx.replyWithSticker(TGBot.StickerSet.My[ctx.message["sticker"].emoji]);
-    } else if (ctx.message["sticker"].emoji in TGBot.StickerSet.Cat) {
-      return ctx.replyWithSticker(TGBot.StickerSet.Cat[ctx.message["sticker"].emoji]);
-    }
-  }
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
-}
+import Space from "../../../../Space";
+import HandleMessage from "../../HandleMessage";
+const Log = require("./Log.yml").default;
 
-export default Sticker;
+export default async function (that: HandleMessage) {
+  if (Log.enable) {
+    await that.ctx.telegram.sendMessage(Log.chatID, JSON.stringify(that.ctx))
+  }
+};

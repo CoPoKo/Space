@@ -68091,6 +68091,7 @@ exports["default"] = {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Setting_1 = __webpack_require__(77425);
 const Space_1 = __webpack_require__(7619);
+const TGBot_1 = __webpack_require__(46379);
 async function Catch(err, ctx) {
     await ctx.reply(`Ooops...`);
     const set = await (0, Setting_1.default)("TelegrafBot");
@@ -68099,6 +68100,7 @@ async function Catch(err, ctx) {
     await ctx.telegram.sendMessage(ADMIN_GROUP_ID, msg);
     // ctx.reply(msg);
     await Space_1.default.Helpers.Notify.Danger(`Error TelegrafBot`, msg.replace(/\n/g, "<br>"));
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
 }
 exports["default"] = Catch;
 
@@ -68106,18 +68108,19 @@ exports["default"] = Catch;
 /***/ }),
 
 /***/ 52735:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TGBot_1 = __webpack_require__(46379);
 async function Help(ctx) {
     if (ctx.chat.id == -1001480715278) {
         ctx.reply("主题文档搜索 + 关键词\n eg: 主题文档搜索 timeline");
         return;
     }
     await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA');
-    // ctx.reply("HelpInfo6666");
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
 }
 exports["default"] = Help;
 
@@ -68132,8 +68135,10 @@ exports["default"] = Help;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TGBot_1 = __webpack_require__(46379);
 async function Mention(ctx) {
-    // return ctx.reply(String(ctx.message))
+    // ctx.reply(JSON.stringify(ctx))
+    // return
     await new TGBot_1.default.HandleMessage(ctx).re(/nb/).action(TGBot_1.default.Actions.Niubi).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
 }
 exports["default"] = Mention;
 
@@ -68151,6 +68156,7 @@ async function Message(ctx) {
     // return ctx.reply(String(ctx.message))
     await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.Niubi).run();
     await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.BanChatMember.BanNewChatMemberByUserName).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
 }
 exports["default"] = Message;
 
@@ -68158,13 +68164,15 @@ exports["default"] = Message;
 /***/ }),
 
 /***/ 9170:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TGBot_1 = __webpack_require__(46379);
 async function Start(ctx) {
     ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA');
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
 }
 exports["default"] = Start;
 
@@ -68188,6 +68196,7 @@ async function Sticker(ctx) {
             return ctx.replyWithSticker(TGBot_1.default.StickerSet.Cat[ctx.message["sticker"].emoji]);
         }
     }
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
 }
 exports["default"] = Sticker;
 
@@ -68208,6 +68217,7 @@ async function Text(ctx) {
     await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanMessage).run();
     await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanChanelMessage).run();
     (0, ParseWorkflow_1.default)(ctx, workflows);
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
 }
 exports["default"] = Text;
 
@@ -68374,6 +68384,24 @@ const Bing = async (that) => {
     return that.ctx.replyWithPhoto(ans.url, { "caption": ans.copyright });
 };
 exports["default"] = Bing;
+
+
+/***/ }),
+
+/***/ 60038:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Log = (__webpack_require__(5936)/* ["default"] */ .Z);
+async function default_1(that) {
+    if (Log.enable) {
+        await that.ctx.telegram.sendMessage(Log.chatID, JSON.stringify(that.ctx));
+    }
+}
+exports["default"] = default_1;
+;
 
 
 /***/ }),
@@ -69526,6 +69554,7 @@ const BracketMatch_1 = __webpack_require__(55911);
 const NPMUpload_1 = __webpack_require__(26401);
 const VltsDoc_1 = __webpack_require__(94076);
 const BanChatMember_1 = __webpack_require__(47890);
+const BotLog_1 = __webpack_require__(60038);
 exports["default"] = {
     Niubi: Niubi_1.default,
     Unsplash: Unsplash_1.default,
@@ -69555,6 +69584,7 @@ exports["default"] = {
     NPMUpload: NPMUpload_1.default,
     VltsDoc: VltsDoc_1.default,
     BanChatMember: BanChatMember_1.default,
+    BotLog: BotLog_1.default,
 };
 
 
@@ -77747,6 +77777,17 @@ function extend() {
 
 /***/ }),
 
+/***/ 5936:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({enable:true,chatID:-862346849});
+
+/***/ }),
+
 /***/ 60818:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -79225,6 +79266,7 @@ class Context {
         return this.telegram.sendChatAction(this.chat.id, ...args);
     }
     /**
+     * @deprecated use {@link Context.sendChatAction} instead
      * @see https://core.telegram.org/bots/api#sendchataction
      */
     replyWithChatAction(...args) {
@@ -79351,6 +79393,7 @@ class Context {
         return this.telegram.setMyCommands(commands);
     }
     /**
+     * @deprecated use {@link Context.replyWithMarkdownV2}
      * @see https://core.telegram.org/bots/api#sendmessage
      */
     replyWithMarkdown(markdown, extra) {
@@ -79544,6 +79587,64 @@ function compactOptions(options) {
     return Object.fromEntries(compactEntries);
 }
 exports.compactOptions = compactOptions;
+
+
+/***/ }),
+
+/***/ 26613:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.linkOrMention = exports._fmt = exports.FmtString = void 0;
+class FmtString {
+    constructor(text, entities) {
+        this.text = text;
+        if (entities) {
+            this.entities = entities;
+            // force parse_mode to undefined if entities are present
+            this.parse_mode = undefined;
+        }
+    }
+    static normalise(content) {
+        if (typeof content === 'string')
+            return new FmtString(content);
+        return content;
+    }
+}
+exports.FmtString = FmtString;
+function _fmt(kind, opts) {
+    return function fmt(parts, ...items) {
+        let text = '';
+        const entities = [];
+        parts = typeof parts === 'string' ? [parts] : parts;
+        for (let i = 0; i < parts.length; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            text += parts[i];
+            const item = items[i];
+            if (!item)
+                continue;
+            if (typeof item === 'string') {
+                text += item;
+                continue;
+            }
+            for (const child of item.entities || [])
+                entities.push({ ...child, offset: text.length + child.offset });
+            text += item.text;
+        }
+        if (kind !== 'very-plain')
+            entities.unshift({ type: kind, offset: 0, length: text.length, ...opts });
+        return new FmtString(text, entities.length ? entities : undefined);
+    };
+}
+exports._fmt = _fmt;
+const linkOrMention = (content, data) => {
+    const { text, entities = [] } = FmtString.normalise(content);
+    entities.unshift(Object.assign(data, { offset: 0, length: text.length }));
+    return new FmtString(text, entities);
+};
+exports.linkOrMention = linkOrMention;
 
 
 /***/ }),
@@ -80071,8 +80172,8 @@ function generateWebhook(filter, updateHandler) {
             debug('Webhook filter failed', req.method, req.url);
             return next();
         }
+        let update;
         try {
-            let update;
             if (req.body != null) {
                 /* If req.body is already set, we expect it to be the parsed
                  request body (update object) received from Telegram
@@ -80096,7 +80197,6 @@ function generateWebhook(filter, updateHandler) {
                 // parse body to object
                 update = JSON.parse(body);
             }
-            return await updateHandler(update, res);
         }
         catch (error) {
             // if any of the parsing steps fails, give up and respond with error
@@ -80104,6 +80204,7 @@ function generateWebhook(filter, updateHandler) {
             debug('Failed to parse request body:', error);
             return;
         }
+        return await updateHandler(update, res);
     };
 }
 exports["default"] = generateWebhook;
@@ -80127,6 +80228,34 @@ function deunionize(t) {
     return t;
 }
 exports.deunionize = deunionize;
+
+
+/***/ }),
+
+/***/ 28361:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.mention = exports.link = exports.pre = exports.code = exports.underline = exports.strikethrough = exports.spoiler = exports.italic = exports.bold = exports.fmt = exports.FmtString = void 0;
+const formatting_1 = __webpack_require__(26613);
+Object.defineProperty(exports, "FmtString", ({ enumerable: true, get: function () { return formatting_1.FmtString; } }));
+exports.fmt = (0, formatting_1._fmt)('very-plain');
+exports.bold = (0, formatting_1._fmt)('bold');
+exports.italic = (0, formatting_1._fmt)('italic');
+exports.spoiler = (0, formatting_1._fmt)('spoiler');
+exports.strikethrough = (0, formatting_1._fmt)('strikethrough');
+exports.underline = (0, formatting_1._fmt)('underline');
+exports.code = (0, formatting_1._fmt)('code');
+const pre = (language) => (0, formatting_1._fmt)('pre', { language });
+exports.pre = pre;
+const link = (content, url) => (0, formatting_1.linkOrMention)(content, { type: 'text_link', url });
+exports.link = link;
+const mention = (name, user) => typeof user === 'number'
+    ? (0, exports.link)(name, 'tg://user?id=' + user)
+    : (0, formatting_1.linkOrMention)(name, { type: 'text_mention', user });
+exports.mention = mention;
 
 
 /***/ }),
@@ -80160,7 +80289,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Scenes = exports.MemorySessionStore = exports.session = exports.deunionize = exports.Markup = exports.Types = exports.Telegram = exports.TelegramError = exports.Router = exports.Composer = exports.Context = exports.Telegraf = void 0;
+exports.Scenes = exports.MemorySessionStore = exports.session = exports.deunionize = exports.Format = exports.Input = exports.Markup = exports.Types = exports.Telegram = exports.TelegramError = exports.Router = exports.Composer = exports.Context = exports.Telegraf = void 0;
 var telegraf_1 = __webpack_require__(17870);
 Object.defineProperty(exports, "Telegraf", ({ enumerable: true, get: function () { return telegraf_1.Telegraf; } }));
 var context_1 = __webpack_require__(63152);
@@ -80175,12 +80304,83 @@ var telegram_1 = __webpack_require__(20778);
 Object.defineProperty(exports, "Telegram", ({ enumerable: true, get: function () { return telegram_1.Telegram; } }));
 exports.Types = __importStar(__webpack_require__(80996));
 exports.Markup = __importStar(__webpack_require__(18898));
+exports.Input = __importStar(__webpack_require__(89975));
+exports.Format = __importStar(__webpack_require__(28361));
 var deunionize_1 = __webpack_require__(54071);
 Object.defineProperty(exports, "deunionize", ({ enumerable: true, get: function () { return deunionize_1.deunionize; } }));
 var session_1 = __webpack_require__(39414);
 Object.defineProperty(exports, "session", ({ enumerable: true, get: function () { return session_1.session; } }));
 Object.defineProperty(exports, "MemorySessionStore", ({ enumerable: true, get: function () { return session_1.MemorySessionStore; } }));
 exports.Scenes = __importStar(__webpack_require__(30034));
+
+
+/***/ }),
+
+/***/ 89975:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.fromFileId = exports.fromURL = exports.fromURLStream = exports.fromReadableStream = exports.fromBuffer = exports.fromLocalFile = void 0;
+/**
+ * The local file specified by path will be uploaded to Telegram using multipart/form-data.
+ *
+ * 10 MB max size for photos, 50 MB for other files.
+ */
+// prettier-ignore
+const fromLocalFile = (path, filename) => ({ source: path, filename });
+exports.fromLocalFile = fromLocalFile;
+/**
+ * The buffer will be uploaded as file to Telegram using multipart/form-data.
+ *
+ * 10 MB max size for photos, 50 MB for other files.
+ */
+// prettier-ignore
+const fromBuffer = (buffer, filename) => ({ source: buffer, filename });
+exports.fromBuffer = fromBuffer;
+/**
+ * Contents of the stream will be uploaded as file to Telegram using multipart/form-data.
+ *
+ * 10 MB max size for photos, 50 MB for other files.
+ */
+// prettier-ignore
+const fromReadableStream = (stream, filename) => ({ source: stream, filename });
+exports.fromReadableStream = fromReadableStream;
+/**
+ * Contents of the URL will be streamed to Telegram.
+ *
+ * 10 MB max size for photos, 50 MB for other files.
+ */
+// prettier-ignore
+const fromURLStream = (url, filename) => ({ url: url.toString(), filename });
+exports.fromURLStream = fromURLStream;
+/**
+ * Provide Telegram with an HTTP URL for the file to be sent.
+ * Telegram will download and send the file.
+ *
+ * * The target file must have the correct MIME type (e.g., audio/mpeg for `sendAudio`, etc.).
+ * * `sendDocument` with URL will currently only work for GIF, PDF and ZIP files.
+ * * To use `sendVoice`, the file must have the type audio/ogg and be no more than 1MB in size.
+ * 1-20MB voice notes will be sent as files.
+ *
+ * 5 MB max size for photos and 20 MB max for other types of content.
+ */
+const fromURL = (url) => url.toString();
+exports.fromURL = fromURL;
+/**
+ * If the file is already stored somewhere on the Telegram servers, you don't need to reupload it:
+ * each file object has a file_id field, simply pass this file_id as a parameter instead of uploading.
+ *
+ * It is not possible to change the file type when resending by file_id.
+ *
+ * It is not possible to resend thumbnails using file_id.
+ * They have to be uploaded using one of the other Input methods.
+ *
+ * There are no limits for files sent this way.
+ */
+const fromFileId = (fileId) => fileId;
+exports.fromFileId = fromFileId;
 
 
 /***/ }),
@@ -80310,6 +80510,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Router = void 0;
 const composer_1 = __importDefault(__webpack_require__(42969));
+/** @deprecated in favor of {@link Composer.dispatch} */
 class Router {
     constructor(routeFn, handlers = new Map()) {
         this.routeFn = routeFn;
@@ -80849,7 +81050,7 @@ class Telegraf extends composer_1.Composer {
                         return true;
                     else {
                         const token = req.headers[TOKEN_HEADER];
-                        if (safeCompare(token, this.secretToken))
+                        if (safeCompare(this.secretToken, token))
                             return true;
                         else
                             debug('Secret token does not match:', token, this.secretToken);
@@ -80929,7 +81130,6 @@ class Telegraf extends composer_1.Composer {
     }
     startPolling(allowedUpdates = []) {
         this.polling = new polling_1.Polling(this.telegram, allowedUpdates);
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.polling.loop(async (update) => {
             await this.handleUpdate(update);
         });
@@ -80983,6 +81183,7 @@ class Telegraf extends composer_1.Composer {
             ip_address: config.webhook.ipAddress,
             max_connections: config.webhook.maxConnections,
             secret_token: config.webhook.secretToken,
+            certificate: config.webhook.certificate,
         });
         debug(`Bot started with webhook @ ${domainOpts.url}`);
     }
@@ -81051,6 +81252,8 @@ exports.Telegram = void 0;
 const client_1 = __importDefault(__webpack_require__(90067));
 const path_1 = __webpack_require__(26470);
 const url_1 = __webpack_require__(8575);
+const format_1 = __webpack_require__(28361);
+const util_1 = __webpack_require__(39142);
 class Telegram extends client_1.default {
     /**
      * Get basic information about the bot
@@ -81145,7 +81348,8 @@ class Telegram extends client_1.default {
      * @param text Text of the message to be sent
      */
     sendMessage(chatId, text, extra) {
-        return this.callApi('sendMessage', { chat_id: chatId, text, ...extra });
+        const t = format_1.FmtString.normalise(text);
+        return this.callApi('sendMessage', { chat_id: chatId, ...extra, ...t });
     }
     /**
      * Forward existing message.
@@ -81220,7 +81424,11 @@ class Telegram extends client_1.default {
      * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
     sendPhoto(chatId, photo, extra) {
-        return this.callApi('sendPhoto', { chat_id: chatId, photo, ...extra });
+        return this.callApi('sendPhoto', {
+            chat_id: chatId,
+            photo,
+            ...(0, util_1.fmtCaption)(extra),
+        });
     }
     /**
      * Send a dice, which will have a random value from 1 to 6.
@@ -81234,7 +81442,11 @@ class Telegram extends client_1.default {
      * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
     sendDocument(chatId, document, extra) {
-        return this.callApi('sendDocument', { chat_id: chatId, document, ...extra });
+        return this.callApi('sendDocument', {
+            chat_id: chatId,
+            document,
+            ...(0, util_1.fmtCaption)(extra),
+        });
     }
     /**
      * Send audio files, if you want Telegram clients to display them in the music player.
@@ -81243,7 +81455,11 @@ class Telegram extends client_1.default {
      * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
     sendAudio(chatId, audio, extra) {
-        return this.callApi('sendAudio', { chat_id: chatId, audio, ...extra });
+        return this.callApi('sendAudio', {
+            chat_id: chatId,
+            audio,
+            ...(0, util_1.fmtCaption)(extra),
+        });
     }
     /**
      * Send .webp, animated .tgs, or video .webm stickers
@@ -81258,7 +81474,11 @@ class Telegram extends client_1.default {
      * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
     sendVideo(chatId, video, extra) {
-        return this.callApi('sendVideo', { chat_id: chatId, video, ...extra });
+        return this.callApi('sendVideo', {
+            chat_id: chatId,
+            video,
+            ...(0, util_1.fmtCaption)(extra),
+        });
     }
     /**
      * Send .gif animations.
@@ -81268,7 +81488,7 @@ class Telegram extends client_1.default {
         return this.callApi('sendAnimation', {
             chat_id: chatId,
             animation,
-            ...extra,
+            ...(0, util_1.fmtCaption)(extra),
         });
     }
     /**
@@ -81287,7 +81507,11 @@ class Telegram extends client_1.default {
      * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
     sendVoice(chatId, voice, extra) {
-        return this.callApi('sendVoice', { chat_id: chatId, voice, ...extra });
+        return this.callApi('sendVoice', {
+            chat_id: chatId,
+            voice,
+            ...(0, util_1.fmtCaption)(extra),
+        });
     }
     /**
      * @param chatId Unique identifier for the target chat
@@ -81595,12 +81819,13 @@ class Telegram extends client_1.default {
      * @param text New text of the message
      */
     editMessageText(chatId, messageId, inlineMessageId, text, extra) {
+        const t = format_1.FmtString.normalise(text);
         return this.callApi('editMessageText', {
-            text,
             chat_id: chatId,
             message_id: messageId,
             inline_message_id: inlineMessageId,
             ...extra,
+            ...t,
         });
     }
     /**
@@ -81613,12 +81838,17 @@ class Telegram extends client_1.default {
      * @param markup A JSON-serialized object for an inline keyboard.
      */
     editMessageCaption(chatId, messageId, inlineMessageId, caption, extra) {
+        // fmt may have entities (and parse_mode: undefined if entities are present)
+        const { text, ...fmt } = caption
+            ? format_1.FmtString.normalise(caption)
+            : { text: undefined };
         return this.callApi('editMessageCaption', {
-            caption,
+            caption: text,
             chat_id: chatId,
             message_id: messageId,
             inline_message_id: inlineMessageId,
             ...extra,
+            ...fmt,
         });
     }
     /**
@@ -81807,7 +82037,7 @@ class Telegram extends client_1.default {
             chat_id: chatId,
             from_chat_id: fromChatId,
             message_id: messageId,
-            ...extra,
+            ...(0, util_1.fmtCaption)(extra),
         });
     }
     /**
@@ -81925,8 +82155,23 @@ exports["default"] = Telegram;
 /* provided dependency */ var console = __webpack_require__(25108);
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.deprecate = exports.env = void 0;
+exports.deprecate = exports.fmtCaption = exports.env = void 0;
 exports.env = process.env;
+function fmtCaption(extra) {
+    const caption = extra === null || extra === void 0 ? void 0 : extra.caption;
+    if (!caption || typeof caption === 'string')
+        return extra;
+    const { text, entities } = caption;
+    return {
+        ...extra,
+        caption: text,
+        ...(entities && {
+            caption_entities: entities,
+            parse_mode: undefined,
+        }),
+    };
+}
+exports.fmtCaption = fmtCaption;
 function deprecate(method, ignorable, use, see) {
     // don't use deprecate() yet
     // wait for a couple minor releases of telegraf so the news reaches more people
@@ -82237,7 +82482,7 @@ module.exports = JSON.parse('{"100":"Continue","101":"Switching Protocols","102"
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.4","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.9.2"},"devDependencies":{"@cloudflare/workers-types":"^3.16.0","@types/crypto-js":"^4.1.1","html-loader":"^4.2.0","node-polyfill-webpack-plugin":"^2.0.1","ts-loader":"^9.4.1","typescript":"^4.8.4","webpack":"^5.74.0","webpack-cli":"^4.10.0","yaml-loader":"^0.8.0"}}');
+module.exports = JSON.parse('{"name":"@copoko/space","version":"1.0.1","description":"CoPoKo Space","main":"src/index.ts","scripts":{"pub":"wrangler publish","l":"wrangler publish --dry-run --outdir=dist","build":"webpack -c webpack.config.js"},"repository":{"type":"git","url":"git+https://github.com/CoPoKo/Space.git"},"author":"CoPoKo Team","keywords":["CoPoKo","Space"],"license":"GPL-3.0","bugs":{"url":"https://github.com/CoPoKo/Space/issues"},"homepage":"https://github.com/CoPoKo/Space#readme","dependencies":{"@cfworker/web":"^1.12.4","cfworker-middware-telegraf":"^2.0.0","crypto-js":"^4.1.1","md5":"^2.3.0","rss-parser":"^3.12.0","telegraf":"^4.10.0"},"devDependencies":{"@cloudflare/workers-types":"^3.16.0","@types/crypto-js":"^4.1.1","html-loader":"^4.2.0","node-polyfill-webpack-plugin":"^2.0.1","ts-loader":"^9.4.1","typescript":"^4.8.4","webpack":"^5.74.0","webpack-cli":"^4.10.0","yaml-loader":"^0.8.0"}}');
 
 /***/ })
 

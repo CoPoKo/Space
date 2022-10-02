@@ -21,6 +21,7 @@
 */
 import { Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
+import TGBot from "../../TGBot";
 
 async function Help(ctx: Context<Update>): Promise<void> {
   if (ctx.chat.id == -1001480715278) {
@@ -28,7 +29,7 @@ async function Help(ctx: Context<Update>): Promise<void> {
     return;
   }
   await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA')
-  // ctx.reply("HelpInfo6666");
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
 }
 
 export default Help;

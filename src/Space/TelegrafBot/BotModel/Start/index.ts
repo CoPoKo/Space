@@ -21,9 +21,11 @@
 */
 import { Context } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
+import TGBot from "../../TGBot";
 
 async function Start(ctx: Context<Update>): Promise<void> {
   ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA')
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
 }
 
 export default Start;

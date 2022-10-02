@@ -47,6 +47,7 @@ import BracketMatch from "./BracketMatch";
 import NPMUpload from "./NPMUpload";
 import VltsDoc from "./VltsDoc";
 import BanChatMember from "./BanChatMember";
+import BotLog from "./BotLog";
 
 export default {
   Niubi,
@@ -77,4 +78,5 @@ export default {
   NPMUpload,
   VltsDoc,
   BanChatMember,
+  BotLog,
 };
