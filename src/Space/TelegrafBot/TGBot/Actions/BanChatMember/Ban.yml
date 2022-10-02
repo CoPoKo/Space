@@ -9,6 +9,8 @@ BanUserName:
     - vpn
     - 中文电报
     - 中文telegram
+    - 社工库
+    - shegongku
 
 # 检查违规Message
 BanMessage:
@@ -18,6 +20,10 @@ BanMessage:
     - 资金漂白
     - 加密货币先驱
     - 区块链专业出售
+    - 社工库
+    - shegongku
+    - Shegongku
+    - SGKBOT
 
 # 禁止使用频道身份发言
 BanChanelMessage:

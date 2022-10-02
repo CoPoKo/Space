@@ -31,7 +31,8 @@ async function BanNewChatMemberByUserName(that: HandleMessage) {
         for (const iterator of Ban.BanUserName.include) {
           if (name.includes(iterator)) {
             that.ctx.banChatMember(it.id)
-            that.ctx.reply("检测到违规用户名：" + name);
+            that.ctx.unbanChatMember(it.id)
+            that.ctx.reply((that.username ? "@" + that.username + " " : "") + "检测到违规用户名：" + iterator);
             return
           }
         }
@@ -48,7 +49,8 @@ async function BanMessage(that: HandleMessage) {
       if (msg.includes(iterator)) {
         that.ctx.deleteMessage(that.ctx.message.message_id)
         that.ctx.banChatMember(that.userid)
-        that.ctx.reply("检测到违规Message：" + iterator);
+        that.ctx.unbanChatMember(that.userid)
+        that.ctx.reply((that.username ? "@" + that.username + " " : "") + "检测到违禁词：" + iterator);
         return
       }
     }

@@ -68308,7 +68308,8 @@ async function BanNewChatMemberByUserName(that) {
                 for (const iterator of Ban.BanUserName.include) {
                     if (name.includes(iterator)) {
                         that.ctx.banChatMember(it.id);
-                        that.ctx.reply("检测到违规用户名：" + name);
+                        that.ctx.unbanChatMember(it.id);
+                        that.ctx.reply((that.username ? "@" + that.username + " " : "") + "检测到违规用户名：" + iterator);
                         return;
                     }
                 }
@@ -68325,7 +68326,8 @@ async function BanMessage(that) {
             if (msg.includes(iterator)) {
                 that.ctx.deleteMessage(that.ctx.message.message_id);
                 that.ctx.banChatMember(that.userid);
-                that.ctx.reply("检测到违规Message：" + iterator);
+                that.ctx.unbanChatMember(that.userid);
+                that.ctx.reply((that.username ? "@" + that.username + " " : "") + "检测到违禁词：" + iterator);
                 return;
             }
         }
@@ -77773,7 +77775,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({BanUserName:{chatID:[-1001480715278],include:['免费','翻墙','梯子','vpn','中文电报','中文telegram']},BanMessage:{chatID:[-1001480715278],include:['资金漂白','加密货币先驱','区块链专业出售']},BanChanelMessage:{chatID:[-1001480715278]}});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({BanUserName:{chatID:[-1001480715278],include:['免费','翻墙','梯子','vpn','中文电报','中文telegram','社工库','shegongku']},BanMessage:{chatID:[-1001480715278],include:['资金漂白','加密货币先驱','区块链专业出售','社工库','shegongku','Shegongku','SGKBOT']},BanChanelMessage:{chatID:[-1001480715278]}});
 
 /***/ }),
 
