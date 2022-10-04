@@ -29,7 +29,7 @@ async function Help(ctx: Context<Update>): Promise<void> {
     return;
   }
   await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA')
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run(1)
 }
 
 export default Help;

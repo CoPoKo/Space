@@ -25,7 +25,7 @@ import TGBot from "../../TGBot";
 
 async function Start(ctx: Context<Update>): Promise<void> {
   ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA')
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run(1)
 }
 
 export default Start;

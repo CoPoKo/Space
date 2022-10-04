@@ -26,7 +26,7 @@ async function Mention(ctx: Context<Update>): Promise<void> {
   // ctx.reply(JSON.stringify(ctx))
   // return
   await new TGBot.HandleMessage(ctx).re(/nb/).action(TGBot.Actions.Niubi).run()
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run(1)
 }
 
 export default Mention;

@@ -33,7 +33,7 @@ async function Catch(err: string, ctx: Context<Update>): Promise<void> {
   await ctx.telegram.sendMessage(ADMIN_GROUP_ID, msg)
   // ctx.reply(msg);
   await Space.Helpers.Notify.Danger(`Error TelegrafBot`, msg.replace(/\n/g, "<br>"))
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run(1)
 }
 
 export default Catch;

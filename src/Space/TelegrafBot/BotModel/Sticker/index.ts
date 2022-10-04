@@ -31,7 +31,7 @@ async function Sticker(ctx: Context<Update>) {
       return ctx.replyWithSticker(TGBot.StickerSet.Cat[ctx.message["sticker"].emoji]);
     }
   }
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run(1)
 }
 
 export default Sticker;

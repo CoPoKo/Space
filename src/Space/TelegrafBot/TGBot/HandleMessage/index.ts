@@ -216,8 +216,8 @@ class HandleMessage {
     }
     return this;
   };
-  public run = async function (): Promise<any> {
-    if (this.status && !this.isBot) {
+  public run = async function (pass = false): Promise<any> {
+    if (this.status && (!this.isBot || pass)) {
       this.fun.forEach(async (e: () => any) => {
         await e();
       })

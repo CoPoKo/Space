@@ -25,6 +25,6 @@ const Log = require("./Log.yml").default;
 
 export default async function (that: HandleMessage) {
   if (Log.enable) {
-    await that.ctx.telegram.sendMessage(Log.chatID, JSON.stringify(that.ctx))
+    await that.ctx.telegram.sendMessage(Log.chatID, JSON.stringify(that.ctx).replace(new RegExp(Telegraf_BOT_TOKEN, "g"), "***TOKEN***"))
   }
 };

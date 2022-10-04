@@ -27,10 +27,10 @@ const workflows = require("./workflows.yml").default;
 
 async function Text(ctx: Context<Update>): Promise<void> {
   // return ctx.reply(String(JSON.stringify(ctx.message)))
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanMessage).run()
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanChanelMessage).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanMessage).run(1)
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BanChatMember.BanChanelMessage).run(1)
   ParseWorkflow(ctx, workflows)
-  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run()
+  await new TGBot.HandleMessage(ctx).setRandom(100).action(TGBot.Actions.BotLog).run(1)
 }
 
 export default Text;

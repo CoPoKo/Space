@@ -68100,7 +68100,7 @@ async function Catch(err, ctx) {
     await ctx.telegram.sendMessage(ADMIN_GROUP_ID, msg);
     // ctx.reply(msg);
     await Space_1.default.Helpers.Notify.Danger(`Error TelegrafBot`, msg.replace(/\n/g, "<br>"));
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run(1);
 }
 exports["default"] = Catch;
 
@@ -68120,7 +68120,7 @@ async function Help(ctx) {
         return;
     }
     await ctx.replyWithSticker('CAACAgIAAxkBAAOYYQEqGYOuRBG2Xy4spVtmJkjeu3oAAv0NAAI2rBFKnRza3aJTPyQgBA');
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run(1);
 }
 exports["default"] = Help;
 
@@ -68138,7 +68138,7 @@ async function Mention(ctx) {
     // ctx.reply(JSON.stringify(ctx))
     // return
     await new TGBot_1.default.HandleMessage(ctx).re(/nb/).action(TGBot_1.default.Actions.Niubi).run();
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run(1);
 }
 exports["default"] = Mention;
 
@@ -68155,8 +68155,8 @@ const TGBot_1 = __webpack_require__(46379);
 async function Message(ctx) {
     // return ctx.reply(String(ctx.message))
     await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.Niubi).run();
-    await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.BanChatMember.BanNewChatMemberByUserName).run();
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
+    await new TGBot_1.default.HandleMessage(ctx).newChatMembers().action(TGBot_1.default.Actions.BanChatMember.BanNewChatMemberByUserName).run(1);
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run(1);
 }
 exports["default"] = Message;
 
@@ -68172,7 +68172,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TGBot_1 = __webpack_require__(46379);
 async function Start(ctx) {
     ctx.replyWithSticker('CAACAgIAAxkBAANTYQEkwBt3RLVALRhL4e6-qkWP7fQAApoOAAJzORBKVsUty3IbWNEgBA');
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run(1);
 }
 exports["default"] = Start;
 
@@ -68196,7 +68196,7 @@ async function Sticker(ctx) {
             return ctx.replyWithSticker(TGBot_1.default.StickerSet.Cat[ctx.message["sticker"].emoji]);
         }
     }
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run(1);
 }
 exports["default"] = Sticker;
 
@@ -68214,10 +68214,10 @@ const TGBot_1 = __webpack_require__(46379);
 const workflows = (__webpack_require__(77732)/* ["default"] */ .Z);
 async function Text(ctx) {
     // return ctx.reply(String(JSON.stringify(ctx.message)))
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanMessage).run();
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanChanelMessage).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanMessage).run(1);
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BanChatMember.BanChanelMessage).run(1);
     (0, ParseWorkflow_1.default)(ctx, workflows);
-    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run();
+    await new TGBot_1.default.HandleMessage(ctx).setRandom(100).action(TGBot_1.default.Actions.BotLog).run(1);
 }
 exports["default"] = Text;
 
@@ -68298,6 +68298,27 @@ exports["default"] = Balloon;
 
 "use strict";
 
+/*!
+ * ==========================================================================
+ * "CoPoKo Space" License
+ * GNU General Public License version 3.0 (GPLv3)
+ * ==========================================================================
+ * This file is part of "CoPoKo Space"
+ *
+ * "CoPoKo Space" is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * "CoPoKo Space" is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with "CoPoKo Space". If not, see <http://www.gnu.org/licenses/>.
+ * ==========================================================================
+*/
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Ban = (__webpack_require__(99864)/* ["default"] */ .Z);
 async function BanNewChatMemberByUserName(that) {
@@ -68399,7 +68420,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Log = (__webpack_require__(5936)/* ["default"] */ .Z);
 async function default_1(that) {
     if (Log.enable) {
-        await that.ctx.telegram.sendMessage(Log.chatID, JSON.stringify(that.ctx));
+        await that.ctx.telegram.sendMessage(Log.chatID, JSON.stringify(that.ctx).replace(new RegExp(Telegraf_BOT_TOKEN, "g"), "***TOKEN***"));
     }
 }
 exports["default"] = default_1;
@@ -69781,8 +69802,8 @@ class HandleMessage {
             }
             return this;
         };
-        this.run = async function () {
-            if (this.status && !this.isBot) {
+        this.run = async function (pass = false) {
+            if (this.status && (!this.isBot || pass)) {
                 this.fun.forEach(async (e) => {
                     await e();
                 });
