@@ -67837,7 +67837,6 @@ exports["default"] = {
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
-/* provided dependency */ var console = __webpack_require__(25108);
 
 /*!
  * ==========================================================================
@@ -67863,13 +67862,18 @@ exports["default"] = {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TelegrafBot_1 = __webpack_require__(71535);
 const Space_1 = __webpack_require__(7619);
-const Setting_1 = __webpack_require__(77425);
 async function default_1() {
-    const set = await (0, Setting_1.default)("TelegrafBot");
-    const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
-    console.log(PUBLIC_GROUP_ID);
+    // const set = await Setting("TelegrafBot");
+    // const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
+    // console.log(PUBLIC_GROUP_ID);
+    const groups = [
+        -1001480715278,
+        -1001197660745, // vlts
+    ];
     const ans = await Space_1.default.API.BingImgInfo();
-    await TelegrafBot_1.default.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
+    groups.forEach(g => {
+        TelegrafBot_1.default.telegram.sendPhoto(g, ans.url, { "caption": ans.copyright });
+    });
 }
 exports["default"] = default_1;
 
@@ -68949,7 +68953,7 @@ const Niubi = async (that) => {
     }
     if (that.ctx.message["new_chat_members"] && that.ctx.message["new_chat_members"].length) {
         that.ctx.message["new_chat_members"].forEach((it) => {
-            name = it.username || (it.first_name ? (it.last_name ? it.first_name + " " + it.last_name : it.first_name) : null);
+            name = (it.first_name ? (it.last_name ? it.first_name + " " + it.last_name : it.first_name) : null) || it.username;
             return;
         });
     }

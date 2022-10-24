@@ -25,12 +25,19 @@ import Space from './../../../Space'
 import Setting from '../../../Helpers/Setting';
 
 export default async function (): Promise<void> {
-  const set = await Setting("TelegrafBot");
-  const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
-  console.log(PUBLIC_GROUP_ID);
-  
+  // const set = await Setting("TelegrafBot");
+  // const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
+  // console.log(PUBLIC_GROUP_ID);
+
+  const groups = [
+    -1001480715278, // mine
+    -1001197660745, // vlts
+  ]
+
   const ans = await Space.API.BingImgInfo();
-  await bot.telegram.sendPhoto(PUBLIC_GROUP_ID, ans.url, { "caption": ans.copyright });
+  groups.forEach(g => {
+    bot.telegram.sendPhoto(g, ans.url, { "caption": ans.copyright });
+  })
 }
 
 
