@@ -24,6 +24,12 @@
   action: SecurityReset
 - time: 5:00
   action: Bing
+  option:
+    group: -1001480715278 # mine
+- time: 8:00
+  action: Bing
+  option:
+    group: -1001197660745 # vlts
 - time: 5:30
   action: RSSUpdate
 

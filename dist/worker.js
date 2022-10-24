@@ -67862,18 +67862,9 @@ exports["default"] = {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const TelegrafBot_1 = __webpack_require__(71535);
 const Space_1 = __webpack_require__(7619);
-async function default_1() {
-    // const set = await Setting("TelegrafBot");
-    // const PUBLIC_GROUP_ID = set.PUBLIC_GROUP_ID;
-    // console.log(PUBLIC_GROUP_ID);
-    const groups = [
-        -1001480715278,
-        -1001197660745, // vlts
-    ];
+async function default_1(option) {
     const ans = await Space_1.default.API.BingImgInfo();
-    groups.forEach(g => {
-        TelegrafBot_1.default.telegram.sendPhoto(g, ans.url, { "caption": ans.copyright });
-    });
+    await TelegrafBot_1.default.telegram.sendPhoto(option.group, ans.url, { "caption": ans.copyright });
 }
 exports["default"] = default_1;
 
@@ -68037,7 +68028,7 @@ async function default_1(event) {
         const scheduleHour = parseInt(time.split(":")[0]);
         const scheduleMinute = parseInt(time.split(":")[1]);
         if (Hours == scheduleHour && Minutes == scheduleMinute) {
-            await Actions_1.default[action]();
+            await Actions_1.default[action](schedule.option);
         }
     }
 }
@@ -77778,7 +77769,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{time:'2:00',action:'SecurityReset'},{time:'5:00',action:'Bing'},{time:'5:30',action:'RSSUpdate'}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{time:'2:00',action:'SecurityReset'},{time:'5:00',action:'Bing',option:{group:-1001480715278}},{time:'8:00',action:'Bing',option:{group:-1001197660745}},{time:'5:30',action:'RSSUpdate'}]);
 
 /***/ }),
 

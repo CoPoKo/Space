@@ -43,7 +43,7 @@ export default async function (event: ScheduledEvent): Promise<void> {
     const scheduleMinute = parseInt(time.split(":")[1]);
 
     if (Hours == scheduleHour && Minutes == scheduleMinute) {
-      await Actions[action]();
+      await Actions[action](schedule.option);
     }
   }
 }
