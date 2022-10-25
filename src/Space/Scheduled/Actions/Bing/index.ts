@@ -24,9 +24,9 @@ import bot from '../../../TelegrafBot'
 import Space from './../../../Space'
 import Setting from '../../../Helpers/Setting';
 
-export default async function (option: { group: string | number; }): Promise<void> {
+export default async function (option: { chatId: string | number; }): Promise<void> {
   const ans = await Space.API.BingImgInfo();
-  await bot.telegram.sendPhoto(option.group, ans.url, { "caption": ans.copyright });
+  await bot.telegram.sendPhoto(option.chatId, ans.url, { "caption": ans.copyright });
 }
 
 

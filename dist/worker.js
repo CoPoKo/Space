@@ -67864,7 +67864,7 @@ const TelegrafBot_1 = __webpack_require__(71535);
 const Space_1 = __webpack_require__(7619);
 async function default_1(option) {
     const ans = await Space_1.default.API.BingImgInfo();
-    await TelegrafBot_1.default.telegram.sendPhoto(option.group, ans.url, { "caption": ans.copyright });
+    await TelegrafBot_1.default.telegram.sendPhoto(option.chatId, ans.url, { "caption": ans.copyright });
 }
 exports["default"] = default_1;
 
@@ -77769,7 +77769,7 @@ function extend() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{time:'2:00',action:'SecurityReset'},{time:'5:00',action:'Bing',option:{group:-1001480715278}},{time:'8:00',action:'Bing',option:{group:-1001197660745}},{time:'5:30',action:'RSSUpdate'}]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{time:'2:00',action:'SecurityReset'},{time:'5:00',action:'Bing',option:{chatId:-1001197660745}},{time:'5:00',action:'Bing',option:{chatId:-1001480715278}},{time:'5:30',action:'RSSUpdate'}]);
 
 /***/ }),
 
